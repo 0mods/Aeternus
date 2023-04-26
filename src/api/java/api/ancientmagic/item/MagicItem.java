@@ -1,6 +1,7 @@
-package api.ancientmagic;
+package api.ancientmagic.item;
 
-import com.algorithmlx.ancientmagic.AncientMagic;
+import api.ancientmagic.magic.MagicState;
+import api.ancientmagic.mod.Constant;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
@@ -15,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public abstract class MagicItem extends Item implements MagicState {
+public abstract class MagicItem extends GroupedItem implements MagicState {
     private int manaStorage = this.maxMana();
 
     public MagicItem(Properties p_41383_) {
@@ -51,14 +52,19 @@ public abstract class MagicItem extends Item implements MagicState {
             return InteractionResultHolder.success(stack);
         } else {
             this.setDamage(stack, 0);
-            p_41433_.sendSystemMessage(Component.translatable("item." + AncientMagic.ModId + ".magic.nomana", this.getName(stack)));
+            p_41433_.sendSystemMessage(Component.translatable("item." + Constant.Key + ".magic.nomana", this.getName(stack)));
             return InteractionResultHolder.fail(stack);
         }
     }
 
     @Override
-    public void appendHoverText(ItemStack p_41421_, @Nullable Level p_41422_, List<Component> p_41423_, TooltipFlag p_41424_) {
-        p_41423_.add(Component.translatable("item." + AncientMagic.ModId + ".magic.storage", this.manaStorage));
-        p_41423_.add(Component.translatable("item." + AncientMagic.ModId + "magic.type", this.getMagicType().getId()));
+    public List<Item> toGroup() {
+        return Constant.LIST_OF_ITEMS_TO_MAGIC;
+    }
+
+    @Override
+    public void appendHoverText(@NotNull ItemStack p_41421_, @Nullable Level p_41422_, List<Component> p_41423_, @NotNull TooltipFlag p_41424_) {
+        p_41423_.add(Component.translatable("item." + Constant.Key + ".magic.storage", this.manaStorage));
+        p_41423_.add(Component.translatable("item." + Constant.Key + "magic.type", this.getMagicType().getId()));
     }
 }

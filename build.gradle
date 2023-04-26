@@ -1,11 +1,29 @@
 
 plugins {
+    id 'java'
+    id 'eclipse'
+    id 'idea'
+    id "maven-publish"
     id 'net.minecraftforge.gradle' version '5.1.+'
 }
 
-
 group = 'com.algorithmlx'
 version = '1.0-SNAPSHOT'
+
+sourceSets {
+    api {
+        resources.srcDirs = []
+    }
+    main {
+        compileClasspath += sourceSets.api.output
+        runtimeClasspath += sourceSets.api.output
+    }
+}
+
+configurations {
+    apiImplementation.extendsFrom(implementation)
+    apiRuntimeOnly.extendsFrom(runtimeOnly)
+}
 
 java {
     archivesBaseName = 'AncientMagic'
@@ -29,7 +47,7 @@ minecraft {
             
             mods {
                 ancientmagic {
-                    source sourceSets.main
+                    sources((SourceSet[]) [sourceSets.main, sourceSets.api])
                 }
             }
         }
@@ -45,7 +63,7 @@ minecraft {
             
             mods {
                 ancientmagic {
-                    source sourceSets.main
+                    sources((SourceSet[]) [sourceSets.main, sourceSets.api])
                 }
             }
         }
@@ -61,7 +79,7 @@ minecraft {
 
             mods {
                 ancientmagic {
-                    source sourceSets.main
+                    sources((SourceSet[]) [sourceSets.main, sourceSets.api])
                 }
             }
         }
@@ -77,7 +95,7 @@ minecraft {
 
             mods {
                 ancientmagic {
-                    source sourceSets.main
+                    sources((SourceSet[]) [sourceSets.main, sourceSets.api])
                 }
             }
         }
@@ -99,6 +117,8 @@ dependencies {
 }
 
 jar {
+    from sourceSets.main.output
+    from sourceSets.api.output
     manifest {
         attributes([
                 "Specification-Title":      "ancientmagic",
@@ -109,6 +129,45 @@ jar {
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
+}
+
+task sourcesJar(type: Jar) {
+    duplicatesStrategy(DuplicatesStrategy.FAIL)
+    archiveClassifier.set('sources')
+    from sourceSets.main.allJava
+    from sourceSets.api.allJava
+}
+
+task apiJar(type: Jar) {
+    duplicatesStrategy(DuplicatesStrategy.FAIL)
+    archiveClassifier.set('api')
+    from sourceSets.api.output
+    afterEvaluate { finalizedBy reobfApiJar }
+
+    from sourceSets.api.allJava
+}
+
+task deobfJar(type: Jar) {
+    duplicatesStrategy(DuplicatesStrategy.FAIL)
+    archiveClassifier.set('deobf')
+    from sourceSets.main.output
+    from sourceSets.api.output
+}
+
+artifacts {
+    archives sourcesJar
+    archives apiJar
+    archives deobfJar
+}
+
+reobf {
+    apiJar { classpath.from(sourceSets.api.compileClasspath) }
+    jar { classpath.from(sourceSets.main.compileClasspath) }
+}
+
+task reobf {
+    dependsOn reobfJar
+    dependsOn reobfApiJar
 }
 
 jar.finalizedBy('reobfJar')

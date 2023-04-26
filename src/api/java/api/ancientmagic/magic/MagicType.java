@@ -1,4 +1,4 @@
-package api.ancientmagic;
+package api.ancientmagic.magic;
 
 import net.minecraft.network.chat.Component;
 

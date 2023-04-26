@@ -1,4 +1,4 @@
-package api.ancientmagic;
+package api.ancientmagic.magic;
 
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
