@@ -1,6 +1,6 @@
 package com.algorithmlx.ancientmagic;
 
-import api.ancientmagic.AncientMagicTabs;
+import api.ancientmagic.group.AncientMagicTabs;
 import api.ancientmagic.mod.Constant;
 import com.algorithmlx.ancientmagic.init.Register;
 import net.minecraftforge.common.MinecraftForge;
@@ -19,10 +19,13 @@ public class AncientMagic {
     }
 
     private void registerGroup(CreativeModeTabEvent.BuildContents e) {
-        if (e.getTab() == AncientMagicTabs.MAGIC_ITEMS) {
-            for (var item : Constant.LIST_OF_ITEMS_TO_MAGIC) {
-                e.accept(()-> item);
-            }
-        }
+        if (e.getTab() == AncientMagicTabs.MAGIC_ITEMS)
+            for (var item : Constant.LIST_OF_ITEMS_TO_MAGIC) e.accept(() -> item);
+
+        if (e.getTab() == AncientMagicTabs.MAGIC_BLOCKS)
+            for (var item : Constant.LIST_OF_BLOCK_TO_MAGIC) e.accept(() -> item);
+
+        if (e.getTab() == AncientMagicTabs.DECORATE_BLOCKS)
+            for (var item : Constant.LIST_OF_BLOCK_TO_DECORATE) e.accept(() -> item);
     }
 }
