@@ -1,3 +1,8 @@
+buildscript {
+    dependencies {
+        classpath 'org.spongepowered:mixingradle:0.7.32'
+    }
+}
 
 plugins {
     id 'java'
@@ -6,6 +11,8 @@ plugins {
     id "maven-publish"
     id 'net.minecraftforge.gradle' version '5.1.+'
 }
+
+apply plugin: 'org.spongepowered.mixin'
 
 group = 'com.algorithmlx'
 version = '1.0-SNAPSHOT'
@@ -40,10 +47,9 @@ minecraft {
             workingDirectory project.file('run')
 
             property 'forge.logging.markers', 'REGISTRIES'
-
             property 'forge.logging.console.level', 'debug'
-
             property 'forge.enabledGameTestNamespaces', 'AncientMagic'
+            arg "-mixin.config=ancient.mixins.json"
             
             mods {
                 ancientmagic {
@@ -56,10 +62,9 @@ minecraft {
             workingDirectory project.file('run')
 
             property 'forge.logging.markers', 'REGISTRIES'
-
             property 'forge.logging.console.level', 'debug'
-
-                        property 'forge.enabledGameTestNamespaces', 'AncientMagic'
+            property 'forge.enabledGameTestNamespaces', 'AncientMagic'
+            arg "-mixin.config=ancient.mixins.json"
             
             mods {
                 ancientmagic {
@@ -72,10 +77,9 @@ minecraft {
             workingDirectory project.file('run')
 
             property 'forge.logging.markers', 'REGISTRIES'
-
             property 'forge.logging.console.level', 'debug'
-
             property 'forge.enabledGameTestNamespaces', 'AncientMagic'
+            arg "-mixin.config=ancient.mixins.json"
 
             mods {
                 ancientmagic {
@@ -104,16 +108,23 @@ minecraft {
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
-repositories {}
+mixin {
+    add sourceSets.main, "ancient.refmap.json"
+}
+
+repositories {
+    maven { url "https://nexus.twelveiterations.com/repository/maven-public/" }
+}
 
 dependencies {
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+
     minecraft 'net.minecraftforge:forge:1.19.4-45.0.46'
 
-    // compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api")
-    // runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
-    // implementation fg.deobf("com.tterrag.registrate:Registrate:MC${mc_version}-${registrate_version}")
-
-    // implementation fg.deobf("blank:coolmod-${mc_version}:${coolmod_version}")
+    implementation fg.deobf("net.blay09.mods:waystones-forge:13.1.0+1.19.4")
+    implementation fg.deobf("net.blay09.mods:waystones-common:13.1.0+1.19.4")
+    implementation fg.deobf("net.blay09.mods:balm-forge:6.0.2+1.19.4")
+    implementation fg.deobf("net.blay09.mods:balm-common:6.0.2+1.19.4")
 }
 
 jar {
@@ -126,7 +137,8 @@ jar {
                 "Specification-Version":    "1",
                 "Implementation-Title":     project.name,
                 "Implementation-Version":   project.jar.archiveVersion,
-                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                "MixinConfigs"            : "ancient.mixins.json"
         ])
     }
 }

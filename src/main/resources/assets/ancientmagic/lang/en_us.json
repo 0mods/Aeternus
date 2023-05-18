@@ -1,4 +1,5 @@
 {
+  "compact.ancientmagic.waystones.no_essence": "The gods say they can't do anything because you don't have an offering for them.",
   "item.ancientmagic.magic.nomana": "Not enough mana! You can't use %s",
   "item.ancientmagic.magic.storage": "Mana storage: %s"
 }

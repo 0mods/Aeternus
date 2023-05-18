@@ -1,0 +1,13 @@
+{
+  "required": false,
+  "minVersion": "0.8",
+  "package": "com.algorithmlx.ancientmagic.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "ancient.refmap.json",
+  "mixins": [
+    "compact.WaystoneInject"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
