@@ -21,9 +21,7 @@ public enum MagicType implements IMagicType {
     }
 
     public String getName() {
-        if (this.name.isEmpty()) return String.format("unnamed.%s", this.id);
-
-        return this.name;
+        return !this.name.isEmpty() ? this.name() : String.format("unnamed.%s", this.id);
     }
 
     @Override
@@ -31,13 +29,11 @@ public enum MagicType implements IMagicType {
         return this.id;
     }
 
-    @Override
-    public IMagicType getTypeByName() {
-        return null;
+    public static IMagicType getTypeByName(String name) {
+        return !name.isEmpty() ? MagicType.valueOf(name) : MagicType.LOW_MAGIC;
     }
 
-    @Override
-    public IMagicType getById() {
-        return null;
+    public static IMagicType getById(int id) {
+        return id > 0 && id < MagicType.values().length ? MagicType.values()[id] : MagicType.LOW_MAGIC;
     }
 }

@@ -9,11 +9,9 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -36,6 +34,10 @@ public abstract class MagicItem extends Item implements MagicState, GroupInitial
 //        _tag.putString("MagicTypeId", this.getMagicType().getId());
 //        _tag.putInt("CountOfMana", this.manaStorage);
 //    }
+
+    public int getStoragedMana() {
+        return this.manaStorage;
+    }
 
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player,
@@ -63,13 +65,5 @@ public abstract class MagicItem extends Item implements MagicState, GroupInitial
     @Override
     public List<ItemLike> toGroup() {
         return Constant.LIST_OF_ITEMS_TO_MAGIC;
-    }
-
-    @Override
-    public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip,
-                                @NotNull TooltipFlag flag) {
-        if (this.maxMana() != 0)
-            tooltip.add(Component.translatable("item." + Constant.Key + ".magic.storage", this.manaStorage));
-        tooltip.add(Component.translatable("item." + Constant.Key + "magic.type", this.getMagicType().getId()));
     }
 }
