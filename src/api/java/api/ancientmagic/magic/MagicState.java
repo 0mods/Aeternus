@@ -6,6 +6,14 @@ import net.minecraft.world.level.Level;
 
 public interface MagicState {
     IMagicType getMagicType();
+
     int maxMana();
+
+    void consumeMana(int numberOfConsume);
+
+    default int getStoragedMana() {
+        return this.maxMana();
+    }
+
     void stateFunction(Level level, Player player, InteractionHand hand);
 }

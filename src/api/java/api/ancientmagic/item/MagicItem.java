@@ -3,6 +3,7 @@ package api.ancientmagic.item;
 import api.ancientmagic.group.GroupInitializer;
 import api.ancientmagic.magic.MagicState;
 import api.ancientmagic.mod.Constant;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -25,16 +26,20 @@ public abstract class MagicItem extends Item implements MagicState, GroupInitial
     }
 
     public void consumeMana(int numberOfConsume) {
-        this.manaStorage = this.manaStorage - numberOfConsume;
+        CompoundTag tag = new CompoundTag();
+
+        this.manaStorage = manaStorage - numberOfConsume;
+
+        this.save(tag);
     }
 
-//    public void save(CompoundTag tag) {
-//        var _tag = new CompoundTag();
-//        _tag.put("TagOfItem", tag);
-//        _tag.putString("MagicTypeId", this.getMagicType().getId());
-//        _tag.putInt("CountOfMana", this.manaStorage);
-//    }
+    public void save(CompoundTag tag) {
+        tag.put("TagOfItem", tag);
+        tag.putString("MagicTypeName", this.getMagicType().getName());
+        tag.putInt("CountOfMana", this.manaStorage);
+    }
 
+    @Override
     public int getStoragedMana() {
         return this.manaStorage;
     }
@@ -44,6 +49,7 @@ public abstract class MagicItem extends Item implements MagicState, GroupInitial
                                                            @NotNull InteractionHand hand) {
         var stack = player.getItemInHand(hand);
         var damageValue = stack.getDamageValue();
+        CompoundTag tag = new CompoundTag();
 
         if (!stack.is(this)) {
             return InteractionResultHolder.fail(stack);
@@ -53,6 +59,7 @@ public abstract class MagicItem extends Item implements MagicState, GroupInitial
             this.setDamage(stack, 1);
             this.consumeMana(1);
             this.stateFunction(level, player, hand);
+            this.save(tag);
             return InteractionResultHolder.success(stack);
         } else if (damageValue > 1 && this.maxMana() != 0) {
             this.setDamage(stack, 0);
