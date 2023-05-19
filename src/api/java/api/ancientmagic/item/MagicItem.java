@@ -38,25 +38,26 @@ public abstract class MagicItem extends Item implements MagicState, GroupInitial
 //    }
 
     @Override
-    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level p_41432_, Player p_41433_,
-                                                           @NotNull InteractionHand p_41434_) {
-        var stack = p_41433_.getItemInHand(p_41434_);
+    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player,
+                                                           @NotNull InteractionHand hand) {
+        var stack = player.getItemInHand(hand);
         var damageValue = stack.getDamageValue();
 
-        if (!stack.equals(new ItemStack(this))) {
+        if (!stack.is(this)) {
             return InteractionResultHolder.fail(stack);
         }
 
-        if (damageValue > 1) {
+        if (damageValue > 1 && this.maxMana() != 0) {
             this.setDamage(stack, 1);
             this.consumeMana(1);
-            this.stateFunction(p_41432_, p_41433_);
+            this.stateFunction(level, player, hand);
             return InteractionResultHolder.success(stack);
-        } else {
+        } else if (damageValue > 1 && this.maxMana() != 0) {
             this.setDamage(stack, 0);
-            p_41433_.sendSystemMessage(Component.translatable("item." + Constant.Key + ".magic.nomana", this.getName(stack)));
+            player.sendSystemMessage(Component.translatable(String.format("item.%s.magic.nomana", Constant.Key), this.getName(stack)));
             return InteractionResultHolder.fail(stack);
         }
+        return InteractionResultHolder.pass(stack);
     }
 
     @Override
@@ -65,8 +66,10 @@ public abstract class MagicItem extends Item implements MagicState, GroupInitial
     }
 
     @Override
-    public void appendHoverText(@NotNull ItemStack p_41421_, @Nullable Level p_41422_, List<Component> p_41423_, @NotNull TooltipFlag p_41424_) {
-        p_41423_.add(Component.translatable("item." + Constant.Key + ".magic.storage", this.manaStorage));
-        p_41423_.add(Component.translatable("item." + Constant.Key + "magic.type", this.getMagicType().getId()));
+    public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltip,
+                                @NotNull TooltipFlag flag) {
+        if (this.maxMana() != 0)
+            tooltip.add(Component.translatable("item." + Constant.Key + ".magic.storage", this.manaStorage));
+        tooltip.add(Component.translatable("item." + Constant.Key + "magic.type", this.getMagicType().getId()));
     }
 }

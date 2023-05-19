@@ -1,7 +1,7 @@
 package com.algorithmlx.ancientmagic.mixin.compact;
 
 import com.algorithmlx.ancientmagic.config.CommonConfiguration;
-import com.algorithmlx.ancientmagic.init.Register;
+import com.algorithmlx.ancientmagic.init.AMTags;
 import net.blay09.mods.balm.api.Balm;
 import net.blay09.mods.waystones.api.IWaystone;
 import net.blay09.mods.waystones.block.WaystoneBlock;
@@ -38,14 +38,14 @@ public abstract class WaystoneInject extends WaystoneBlockBase {
         if (mainHand.is(ModTags.BOUND_SCROLLS)) {
             cir.setReturnValue(InteractionResult.PASS);
         } else {
-            if (mainHand.is(Register.MAGIC_DUST.get())) {
+            if (mainHand.is(AMTags.CONSUMABLE_TELEPORTATION_CATALYST)) {
                 if (CommonConfiguration.COMPACT_WAYSTONES != null)
                     mainHand.shrink(CommonConfiguration.CONSUME_DUST_COUNT.get());
                 else mainHand.shrink(2);
 
                 start(world, pos, player, tileEntity, waystone);
                 cir.setReturnValue(InteractionResult.SUCCESS);
-            } else if (mainHand.is(Register.LARGE_BRANCH_CRYSTAL.get())) {
+            } else if (mainHand.is(AMTags.CONSUMABLE_TELEPORTATION_CATALYST)) {
                 start(world, pos, player, tileEntity, waystone);
                 cir.setReturnValue(InteractionResult.SUCCESS);
             } else {

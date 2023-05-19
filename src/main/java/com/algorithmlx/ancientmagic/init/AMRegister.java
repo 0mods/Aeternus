@@ -11,7 +11,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryObject;
 
-public class Register {
+public class AMRegister {
     public static final DeferredRegister<Item> ITEMS = deferredCreator(ForgeRegistries.ITEMS);
     public static final DeferredRegister<Block> BLOCKS = deferredCreator(ForgeRegistries.BLOCKS);
 

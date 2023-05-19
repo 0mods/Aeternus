@@ -1,33 +1,43 @@
 package api.ancientmagic.magic;
 
-import net.minecraft.network.chat.Component;
-
-public enum MagicType {
-    ATTACK("attacking_magic",0),
-    GENERATING("generation_magic", 1),
-    HIGH_MAGIC("high_magic", 2),
-    RITUAL("ritual_magic",3),
+public enum MagicType implements IMagicType {
+    LOW_MAGIC("low_magic",0),
+    MEDIUM_MAGIC("medium_magic", 1),
+    PRE_HIGH_MAGIC("pre_high", 2),
+    HIGH_MAGIC("high_magic", 3),
+    GENERATING("generation_magic", 4),
     ADMIN(4);
 
-    private final String id;
-    private final int typeId;
+    private final String name;
+    private final int id;
 
-    MagicType(Component id, int typeId) {
-        this.id = id.getString();
-        this.typeId = typeId;
+    MagicType(String stringId, int id) {
+        this.name = stringId;
+        this.id = id;
     }
 
-    MagicType(String id, int typeId) {
-        this(Component.translatable("magicType." + id), typeId);
+    MagicType(int id) {
+        this(null, id);
     }
 
-    MagicType(int typeId) {
-        this(Component.empty(), typeId);
+    public String getName() {
+        if (this.name.isEmpty()) return String.format("unnamed.%s", this.id);
+
+        return this.name;
     }
 
-    public String getId() {
-        if (this.id.equals("empty") || id == null) return "id_is_not_loaded_" + this.typeId;
-
+    @Override
+    public int getId() {
         return this.id;
+    }
+
+    @Override
+    public IMagicType getTypeByName() {
+        return null;
+    }
+
+    @Override
+    public IMagicType getById() {
+        return null;
     }
 }

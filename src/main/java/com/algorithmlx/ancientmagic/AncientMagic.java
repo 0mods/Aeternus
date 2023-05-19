@@ -4,7 +4,8 @@ import api.ancientmagic.group.AncientMagicTabs;
 import api.ancientmagic.mod.Constant;
 import com.algorithmlx.ancientmagic.compact.CompactInitalizer;
 import com.algorithmlx.ancientmagic.config.CommonConfiguration;
-import com.algorithmlx.ancientmagic.init.Register;
+import com.algorithmlx.ancientmagic.init.AMRegister;
+import com.algorithmlx.ancientmagic.init.AMTags;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -21,8 +22,9 @@ public class AncientMagic {
         MinecraftForge.EVENT_BUS.addListener(this::registerGroup);
         MinecraftForge.EVENT_BUS.addListener(AncientMagicTabs::registerTabs);
 
-        Register.init();
-        CompactInitalizer.start();
+        AMTags.init();
+        AMRegister.init();
+        CompactInitalizer.init();
     }
 
     private void registerGroup(CreativeModeTabEvent.BuildContents e) {

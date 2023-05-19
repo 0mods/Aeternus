@@ -1,7 +1,9 @@
 package com.algorithmlx.ancientmagic.item;
 
 import api.ancientmagic.item.MagicItem;
+import api.ancientmagic.magic.IMagicType;
 import api.ancientmagic.magic.MagicType;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 
@@ -11,8 +13,8 @@ public class MagicalStick extends MagicItem {
     }
 
     @Override
-    public MagicType getMagicType() {
-        return MagicType.ATTACK;
+    public IMagicType getMagicType() {
+        return MagicType.LOW_MAGIC;
     }
 
     @Override
@@ -21,7 +23,7 @@ public class MagicalStick extends MagicItem {
     }
 
     @Override
-    public void stateFunction(Level level, Player player) {
+    public void stateFunction(Level level, Player player, InteractionHand hand) {
 
     }
 }
