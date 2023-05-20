@@ -1,11 +1,11 @@
-package com.algorithmlx.ancientmagic;
+package team.zeromods.ancientmagic;
 
 import api.ancientmagic.group.AncientMagicTabs;
 import api.ancientmagic.mod.Constant;
-import com.algorithmlx.ancientmagic.compact.CompactInitalizer;
-import com.algorithmlx.ancientmagic.config.CommonConfiguration;
-import com.algorithmlx.ancientmagic.init.AMRegister;
-import com.algorithmlx.ancientmagic.init.AMTags;
+import team.zeromods.ancientmagic.compact.CompactInitializer;
+import team.zeromods.ancientmagic.config.CommonConfiguration;
+import team.zeromods.ancientmagic.init.AMRegister;
+import team.zeromods.ancientmagic.init.AMTags;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -24,7 +24,7 @@ public class AncientMagic {
 
         AMTags.init();
         AMRegister.init();
-        CompactInitalizer.init();
+        CompactInitializer.init();
     }
 
     private void registerGroup(CreativeModeTabEvent.BuildContents e) {

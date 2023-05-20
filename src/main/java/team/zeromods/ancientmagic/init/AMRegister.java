@@ -1,4 +1,4 @@
-package com.algorithmlx.ancientmagic.init;
+package team.zeromods.ancientmagic.init;
 
 import api.ancientmagic.mod.Constant;
 import net.minecraft.world.item.Item;

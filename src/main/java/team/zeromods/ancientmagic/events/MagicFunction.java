@@ -1,8 +1,8 @@
-package com.algorithmlx.ancientmagic.events;
+package team.zeromods.ancientmagic.events;
 
 import api.ancientmagic.item.MagicItem;
 import api.ancientmagic.mod.Constant;
-import com.algorithmlx.ancientmagic.init.AMTags;
+import team.zeromods.ancientmagic.init.AMTags;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

@@ -1,4 +1,4 @@
-package com.algorithmlx.ancientmagic.item;
+package team.zeromods.ancientmagic.item;
 
 import api.ancientmagic.item.MagicItem;
 import api.ancientmagic.magic.IMagicType;

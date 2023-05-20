@@ -14,7 +14,7 @@ plugins {
 
 apply plugin: 'org.spongepowered.mixin'
 
-group = 'com.algorithmlx'
+group = 'team.zeromods'
 version = '1.0-SNAPSHOT'
 
 sourceSets {
@@ -49,6 +49,8 @@ minecraft {
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
             property 'forge.enabledGameTestNamespaces', 'AncientMagic'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
             arg "-mixin.config=ancient.mixins.json"
             
             mods {
@@ -64,6 +66,8 @@ minecraft {
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
             property 'forge.enabledGameTestNamespaces', 'AncientMagic'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
             arg "-mixin.config=ancient.mixins.json"
             
             mods {
@@ -79,6 +83,8 @@ minecraft {
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
             property 'forge.enabledGameTestNamespaces', 'AncientMagic'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
             arg "-mixin.config=ancient.mixins.json"
 
             mods {
@@ -114,6 +120,8 @@ mixin {
 
 repositories {
     maven { url "https://nexus.twelveiterations.com/repository/maven-public/" }
+
+    maven { url = "https://maven.theillusivec4.top/" }
 }
 
 dependencies {
@@ -123,8 +131,12 @@ dependencies {
 
     implementation fg.deobf("net.blay09.mods:waystones-forge:13.1.0+1.19.4")
     implementation fg.deobf("net.blay09.mods:waystones-common:13.1.0+1.19.4")
+
     implementation fg.deobf("net.blay09.mods:balm-forge:6.0.2+1.19.4")
     implementation fg.deobf("net.blay09.mods:balm-common:6.0.2+1.19.4")
+
+    implementation fg.deobf("top.theillusivec4.curios:curios-forge:1.19.4-5.1.5.3")
+    implementation fg.deobf("top.theillusivec4.curios:curios-forge:1.19.4-5.1.5.3:api")
 }
 
 jar {

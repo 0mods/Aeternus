@@ -1,4 +1,4 @@
-package com.algorithmlx.ancientmagic.init;
+package team.zeromods.ancientmagic.init;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;

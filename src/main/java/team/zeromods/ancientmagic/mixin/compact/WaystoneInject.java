@@ -1,7 +1,7 @@
-package com.algorithmlx.ancientmagic.mixin.compact;
+package team.zeromods.ancientmagic.mixin.compact;
 
-import com.algorithmlx.ancientmagic.config.CommonConfiguration;
-import com.algorithmlx.ancientmagic.init.AMTags;
+import team.zeromods.ancientmagic.config.CommonConfiguration;
+import team.zeromods.ancientmagic.init.AMTags;
 import net.blay09.mods.balm.api.Balm;
 import net.blay09.mods.waystones.api.IWaystone;
 import net.blay09.mods.waystones.block.WaystoneBlock;

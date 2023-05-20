@@ -1,4 +1,4 @@
-package com.algorithmlx.ancientmagic.config;
+package team.zeromods.ancientmagic.config;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 
