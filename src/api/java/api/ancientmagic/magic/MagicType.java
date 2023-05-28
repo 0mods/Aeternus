@@ -1,5 +1,7 @@
 package api.ancientmagic.magic;
 
+import net.minecraft.network.chat.Component;
+
 public enum MagicType implements IMagicType {
     LOW_MAGIC("low_magic",0),
     MEDIUM_MAGIC("medium_magic", 1),
@@ -28,6 +30,12 @@ public enum MagicType implements IMagicType {
     @Override
     public int getId() {
         return this.id;
+    }
+
+    @Override
+    public Component getTranslation() {
+        return !this.name.isEmpty() ? Component.translatable(String.format("magicType.%s", this.name)) :
+                Component.translatable(String.format("magicType.%s", this.id));
     }
 
     public static IMagicType getTypeByName(String name) {

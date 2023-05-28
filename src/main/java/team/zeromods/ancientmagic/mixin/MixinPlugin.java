@@ -1,7 +1,6 @@
 package team.zeromods.ancientmagic.mixin;
 
 import api.ancientmagic.mod.Constant;
-import net.minecraftforge.fml.ModList;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
@@ -27,7 +26,7 @@ public class MixinPlugin implements IMixinConfigPlugin {
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
         boolean check = mixinClassName.startsWith(MIXIN_COMPACT_PACKAGE) && mixinClassName.contains("WaystoneInject");
 
-        return (CompactInitializer.getWaystonesLoaded() == check) || !check || (CompactInitializer.getWaystonesLoaded() == check && !check);
+        return (CompactInitializer.getWaystonesLoaded() == check) || !check;
     }
 
     @Override
