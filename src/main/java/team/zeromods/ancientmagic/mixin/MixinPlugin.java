@@ -27,7 +27,7 @@ public class MixinPlugin implements IMixinConfigPlugin {
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
         boolean check = mixinClassName.startsWith(MIXIN_COMPACT_PACKAGE) && mixinClassName.contains("WaystoneInject");
 
-        return (CompactInitializer.getWaystonesLoaded() == check) || !check;
+        return (CompactInitializer.getWaystonesLoaded() == check) || !check || (CompactInitializer.getWaystonesLoaded() == check && !check);
     }
 
     @Override

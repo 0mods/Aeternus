@@ -11,6 +11,7 @@ public class CompactInitializer {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
 
         if (CompactInitializer.getCuriosLoaded()) bus.addListener(CurioCapability::createCurioSlots);
+
     }
 
     public static boolean getWaystonesLoaded() {
