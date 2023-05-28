@@ -1,5 +1,6 @@
 package team.zeromods.ancientmagic.init;
 
+import api.ancientmagic.mod.Constant;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -15,6 +16,6 @@ public class AMTags {
     }
 
     protected static TagKey<Item> createTag(String tagName) {
-        return TagKey.create(Registries.ITEM, new ResourceLocation(tagName));
+        return TagKey.create(Registries.ITEM, new ResourceLocation(Constant.Key,tagName));
     }
 }

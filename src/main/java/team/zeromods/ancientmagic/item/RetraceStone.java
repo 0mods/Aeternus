@@ -12,7 +12,7 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import org.jetbrains.annotations.Nullable;
 import team.zeromods.ancientmagic.compact.CompactInitializer;
-import team.zeromods.ancientmagic.compact.curios.CurioCapability;
+import team.zeromods.ancientmagic.compact.curios.AMCurio;
 
 public class RetraceStone extends MagicItem {
     public RetraceStone() {
@@ -34,6 +34,6 @@ public class RetraceStone extends MagicItem {
 
     @Override
     public @Nullable ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
-        return CompactInitializer.getCuriosLoaded() ? CurioCapability.RetraceStoneEventProvider : super.initCapabilities(stack, nbt);
+        return CompactInitializer.getCuriosLoaded() ? AMCurio.RetraceStoneEventProvider : super.initCapabilities(stack, nbt);
     }
 }

@@ -2,17 +2,13 @@ package team.zeromods.ancientmagic.events;
 
 import api.ancientmagic.item.MagicItem;
 import api.ancientmagic.mod.Constant;
-import team.zeromods.ancientmagic.init.AMTags;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
+import team.zeromods.ancientmagic.init.AMTags;
 
-@Mod.EventBusSubscriber
 public class MagicFunction {
-    @SubscribeEvent
-    public void tooltipEvent(ItemTooltipEvent e) {
+    public static void tooltipEvent(ItemTooltipEvent e) {
         var stack = e.getItemStack();
         var tooltip = e.getToolTip();
 
@@ -23,8 +19,9 @@ public class MagicFunction {
 
         if (e.getItemStack().getItem() instanceof MagicItem item) {
             tooltip.add(Component.translatable("magicType.typeof", item.getMagicType().getTranslation()));
-            tooltip.add(Component.translatable(String.format("item.%s.magic.storage", Constant.Key), item.getStoragedMana()));
-
+            if (item.maxMana() != 0) {
+                tooltip.add(Component.translatable(String.format("item.%s.magic.storage", Constant.Key), item.getStoragedMana()));
+            }
             var resource = ForgeRegistries.ITEMS.getKey(item);
             var namespace = resource.getNamespace();
 

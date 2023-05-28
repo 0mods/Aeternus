@@ -9,7 +9,7 @@ plugins {
     id 'eclipse'
     id 'idea'
     id "maven-publish"
-    id 'net.minecraftforge.gradle' version '5.1.+'
+    id 'net.minecraftforge.gradle' version '6.+'
 }
 
 apply plugin: 'org.spongepowered.mixin'
@@ -34,7 +34,7 @@ configurations {
 
 java {
     archivesBaseName = 'AncientMagic'
-    toolchain.languageVersion = JavaLanguageVersion.of(20)
+    toolchain.languageVersion = JavaLanguageVersion.of(17)
 }
 
 minecraft {

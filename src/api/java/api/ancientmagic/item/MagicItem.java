@@ -1,6 +1,6 @@
 package api.ancientmagic.item;
 
-import api.ancientmagic.group.GroupInitializer;
+import api.ancientmagic.group.AncientMagicTabs;
 import api.ancientmagic.magic.MagicState;
 import api.ancientmagic.mod.Constant;
 import net.minecraft.nbt.CompoundTag;
@@ -8,21 +8,17 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-
-public abstract class MagicItem extends Item implements MagicState, GroupInitializer {
+public abstract class MagicItem extends HasGroupItem implements MagicState {
     private int manaStorage = this.maxMana();
 
     public MagicItem(Properties p_41383_) {
-        super(p_41383_);
+        super(p_41383_, AncientMagicTabs.MAGIC_ITEMS);
         p_41383_.durability(this.maxMana() + 1);
-        this.toGroup().add(this);
+
     }
 
     public void consumeMana(int numberOfConsume) {
@@ -67,10 +63,5 @@ public abstract class MagicItem extends Item implements MagicState, GroupInitial
             return InteractionResultHolder.fail(stack);
         }
         return InteractionResultHolder.pass(stack);
-    }
-
-    @Override
-    public List<ItemLike> toGroup() {
-        return Constant.LIST_OF_ITEMS_TO_MAGIC;
     }
 }

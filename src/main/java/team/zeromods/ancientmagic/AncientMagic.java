@@ -2,15 +2,17 @@ package team.zeromods.ancientmagic;
 
 import api.ancientmagic.group.AncientMagicTabs;
 import api.ancientmagic.mod.Constant;
-import team.zeromods.ancientmagic.compact.CompactInitializer;
-import team.zeromods.ancientmagic.config.CommonConfiguration;
-import team.zeromods.ancientmagic.init.AMRegister;
-import team.zeromods.ancientmagic.init.AMTags;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.CreativeModeTabEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import team.zeromods.ancientmagic.compact.CompactInitializer;
+import team.zeromods.ancientmagic.config.CommonConfiguration;
+import team.zeromods.ancientmagic.events.MagicFunction;
+import team.zeromods.ancientmagic.init.AMRegister;
+import team.zeromods.ancientmagic.init.AMTags;
 
 @Mod(Constant.Key)
 public class AncientMagic {
@@ -19,22 +21,14 @@ public class AncientMagic {
 
         Constant.LOGGER.debug("Starting Mod!");
 
-        MinecraftForge.EVENT_BUS.addListener(this::registerGroup);
-        MinecraftForge.EVENT_BUS.addListener(AncientMagicTabs::registerTabs);
+        IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
+        IEventBus forgeBus = MinecraftForge.EVENT_BUS;
+
+        modBus.addListener(AncientMagicTabs::registerTabs);
+        forgeBus.addListener(MagicFunction::tooltipEvent);
 
         AMTags.init();
         AMRegister.init();
         CompactInitializer.init();
-    }
-
-    private void registerGroup(CreativeModeTabEvent.BuildContents e) {
-        if (e.getTab() == AncientMagicTabs.MAGIC_ITEMS)
-            for (var item : Constant.LIST_OF_ITEMS_TO_MAGIC) e.accept(() -> item);
-
-        if (e.getTab() == AncientMagicTabs.MAGIC_BLOCKS)
-            for (var item : Constant.LIST_OF_BLOCK_TO_MAGIC) e.accept(() -> item);
-
-        if (e.getTab() == AncientMagicTabs.DECORATE_BLOCKS)
-            for (var item : Constant.LIST_OF_BLOCK_TO_DECORATE) e.accept(() -> item);
     }
 }

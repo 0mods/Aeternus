@@ -20,6 +20,7 @@ public enum MagicType implements IMagicType {
         this(null, id);
     }
 
+    @Override
     public String getName() {
         return !this.name.isEmpty() ? this.name() : String.format("unnamed.%s", this.id);
     }
@@ -34,6 +35,6 @@ public enum MagicType implements IMagicType {
     }
 
     public static IMagicType getById(int id) {
-        return id > 0 && id < MagicType.values().length ? MagicType.values()[id] : MagicType.LOW_MAGIC;
+        return id > 0 && id <= MagicType.values().length ? MagicType.values()[id] : MagicType.LOW_MAGIC;
     }
 }

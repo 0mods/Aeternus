@@ -2,7 +2,6 @@ package team.zeromods.ancientmagic.compact.curios;
 
 import api.ancientmagic.mod.Constant;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
@@ -16,12 +15,12 @@ import top.theillusivec4.curios.api.SlotTypeMessage;
 import top.theillusivec4.curios.api.SlotTypePreset;
 import top.theillusivec4.curios.api.type.capability.ICurio;
 
-public class CurioCapability {
-    public static final ICapabilityProvider RetraceStoneEventProvider = CurioCapability.curioCapabilityProvider(CurioCapability.lazyGen(RetraceStoneEvent::new));
+public class AMCurio {
+    public static final ICapabilityProvider RetraceStoneEventProvider = veryLazyCapProvider(RetraceStoneEvent::new);
 
     public static void createCurioSlots(final InterModEnqueueEvent event) {
         InterModComms.sendTo(Constant.CurioKey, SlotTypeMessage.REGISTER_TYPE, ()-> SlotTypePreset.BELT.getMessageBuilder()
-                .icon(new ResourceLocation(Constant.Key, "textures/curios/crystal_renderer.png")).build());
+                .build());
     }
 
     private static ICapabilityProvider curioCapabilityProvider(LazyOptional<ICurio> curioLazy) {
@@ -35,5 +34,9 @@ public class CurioCapability {
 
     private static <T extends ICurio> LazyOptional<T> lazyGen(NonNullSupplier<T> sup) {
         return LazyOptional.of(sup);
+    }
+
+    private static ICapabilityProvider veryLazyCapProvider(NonNullSupplier<ICurio> sup) {
+        return curioCapabilityProvider(lazyGen(sup));
     }
 }
