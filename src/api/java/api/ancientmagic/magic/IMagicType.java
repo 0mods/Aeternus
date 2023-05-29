@@ -3,8 +3,6 @@ package api.ancientmagic.magic;
 import api.ancientmagic.mod.Constant;
 import net.minecraft.network.chat.Component;
 
-import java.awt.*;
-
 public interface IMagicType {
     String getName();
     int getId();
