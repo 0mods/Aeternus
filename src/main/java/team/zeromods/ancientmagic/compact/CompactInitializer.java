@@ -7,9 +7,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import team.zeromods.ancientmagic.compact.curios.AMCurio;
 
 public class CompactInitializer {
-    public static void init() {
-        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-
+    public static void init(IEventBus bus) {
         if (CompactInitializer.getCuriosLoaded()) bus.addListener(AMCurio::createCurioSlots);
     }
 

@@ -15,5 +15,5 @@ public interface MagicState {
         return this.maxMana();
     }
 
-    void stateFunction(Level level, Player player, InteractionHand hand);
+    void magicState(Level level, Player player, InteractionHand hand);
 }

@@ -10,6 +10,7 @@ import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import team.zeromods.ancientmagic.compact.curios.events.RetraceStoneEvent;
 import top.theillusivec4.curios.api.CuriosCapability;
 import top.theillusivec4.curios.api.SlotTypeMessage;
 import top.theillusivec4.curios.api.SlotTypePreset;
@@ -19,8 +20,7 @@ public class AMCurio {
     public static final ICapabilityProvider RetraceStoneEventProvider = veryLazyCapProvider(RetraceStoneEvent::new);
 
     public static void createCurioSlots(final InterModEnqueueEvent event) {
-        InterModComms.sendTo(Constant.CurioKey, SlotTypeMessage.REGISTER_TYPE, ()-> SlotTypePreset.BELT.getMessageBuilder()
-                .build());
+        InterModComms.sendTo(Constant.CurioKey, SlotTypeMessage.REGISTER_TYPE, ()-> SlotTypePreset.BELT.getMessageBuilder().build());
     }
 
     private static ICapabilityProvider curioCapabilityProvider(LazyOptional<ICurio> curioLazy) {

@@ -30,10 +30,29 @@ public class RetraceStone extends MagicItem {
     }
 
     @Override
-    public void stateFunction(Level level, Player player, InteractionHand hand) {}
+    public void magicState(Level level, Player player, InteractionHand hand) {
+        var itemstack = player.getItemInHand(hand);
+        var active = getActive(itemstack);
+
+        if (player.isShiftKeyDown()) setActive(itemstack, !active);
+    }
+
+    @Override
+    public boolean isFoil(ItemStack p_41453_) {
+        return getActive(p_41453_);
+    }
 
     @Override
     public @Nullable ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
         return CompactInitializer.getCuriosLoaded() ? AMCurio.RetraceStoneEventProvider : super.initCapabilities(stack, nbt);
+    }
+
+    public static boolean getActive(ItemStack stack) {
+        var active = stack.getOrCreateTag().getBoolean("RetraceStoneIsActivated");
+        return !stack.hasTag() || active;
+    }
+
+    public static void setActive(ItemStack stack, boolean active) {
+        stack.getOrCreateTag().putBoolean("RetraceStoneIsActivated", active);
     }
 }

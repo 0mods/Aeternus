@@ -1,4 +1,4 @@
-package team.zeromods.ancientmagic.events;
+package team.zeromods.ancientmagic.event.forge;
 
 import api.ancientmagic.item.MagicItem;
 import api.ancientmagic.mod.Constant;

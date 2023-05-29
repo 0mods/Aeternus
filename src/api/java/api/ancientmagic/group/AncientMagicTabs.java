@@ -4,36 +4,21 @@ import api.ancientmagic.mod.Constant;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.event.CreativeModeTabEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import java.util.function.Supplier;
 
 public class AncientMagicTabs {
-    public static CreativeModeTab MAGIC_ITEMS;
-    public static CreativeModeTab MAGIC_BLOCKS;
-    public static CreativeModeTab DECORATE_BLOCKS;
+    public static CreativeModeTab ANCIENT_MAGIC_TAB;
 
-    @SubscribeEvent
     public static void registerTabs(CreativeModeTabEvent.Register e) {
-        MAGIC_ITEMS = e.registerCreativeModeTab(registerTabId("magic_items"),
+        ANCIENT_MAGIC_TAB = e.registerCreativeModeTab(registerTabId("ancientmagic"),
                 b ->
-                        b.icon(() -> new ItemStack(Items.AIR))
+                        b.icon(supConvert(Items.AIR))
                         .title(registerNames("magicItems"))
-        );
-
-        MAGIC_BLOCKS = e.registerCreativeModeTab(registerTabId("magic_blocks"),
-                b ->
-                        b.icon(supplierOfItemStack(new ItemStack(Items.AIR)))
-                        .title(registerNames("magicBlocks"))
-        );
-
-        DECORATE_BLOCKS= e.registerCreativeModeTab(registerTabId("decorate_blocks"),
-                b ->
-                        b.icon(supplierOfItemStack(new ItemStack(Items.AIR)))
-                        .title(registerNames("decorateBlocks"))
         );
     }
 
@@ -45,7 +30,7 @@ public class AncientMagicTabs {
         return new ResourceLocation(Constant.Key, tabId);
     }
 
-    private static Supplier<ItemStack> supplierOfItemStack(ItemStack stack) {
-        return () -> stack;
+    private static Supplier<ItemStack> supConvert(Item item) {
+        return () -> new ItemStack(item);
     }
 }

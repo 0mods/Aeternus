@@ -7,6 +7,7 @@ public class CommonConfiguration {
 
     static {
         SPEC.push("Mod Compact");
+        SPEC.push("Waystones");
     }
 
     public static final ForgeConfigSpec.BooleanValue COMPACT_WAYSTONES = SPEC.comment("Enable mod compact with mod Waystones")
