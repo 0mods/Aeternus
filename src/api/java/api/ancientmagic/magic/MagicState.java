@@ -11,9 +11,11 @@ public interface MagicState {
 
     void consumeMana(int numberOfConsume);
 
-    default int getStoragedMana() {
+    default int getStorageMana() {
         return this.maxMana();
     }
+
+    void addMana(int countOfAddition);
 
     void magicState(Level level, Player player, InteractionHand hand);
 }

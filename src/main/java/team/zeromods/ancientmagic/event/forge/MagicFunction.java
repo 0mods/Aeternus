@@ -1,6 +1,7 @@
 package team.zeromods.ancientmagic.event.forge;
 
 import api.ancientmagic.item.MagicItem;
+import api.ancientmagic.magic.IMagicType;
 import api.ancientmagic.mod.Constant;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
@@ -20,7 +21,7 @@ public class MagicFunction {
         if (e.getItemStack().getItem() instanceof MagicItem item) {
             tooltip.add(Component.translatable("magicType.typeof", item.getMagicType().getTranslation()));
             if (item.maxMana() != 0) {
-                tooltip.add(Component.translatable(String.format("item.%s.magic.storage", Constant.Key), item.getStoragedMana()));
+                tooltip.add(IMagicType.magicTooltip("storage", item.getStorageMana()));
             }
             var resource = ForgeRegistries.ITEMS.getKey(item);
             var namespace = resource.getNamespace();
