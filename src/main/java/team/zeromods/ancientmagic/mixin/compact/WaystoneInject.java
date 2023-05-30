@@ -68,6 +68,10 @@ public abstract class WaystoneInject extends WaystoneBlockBase {
             ){
                 player.sendSystemMessage(Component.translatable("compact.ancientmagic.waystones.no_essence"));
                 cir.setReturnValue(InteractionResult.FAIL);
+            } else if (((CommonConfiguration.COMPACT_WAYSTONES != null && !CommonConfiguration.COMPACT_WAYSTONES.get())
+                    && FMLEnvironment.production)) {
+                this.start(world,pos,player,tileEntity,waystone);
+                cir.setReturnValue(InteractionResult.SUCCESS);
             }
         }
 
