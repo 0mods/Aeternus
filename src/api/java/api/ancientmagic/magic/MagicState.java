@@ -2,20 +2,20 @@ package api.ancientmagic.magic;
 
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 public interface MagicState {
     IMagicType getMagicType();
 
-    int maxMana();
+    int maxMana(ItemStack stack);
 
-    void consumeMana(int numberOfConsume);
+    void consumeMana(int numberOfConsume, ItemStack stack);
 
-    default int getStorageMana() {
-        return this.maxMana();
-    }
+    int getStorageMana(ItemStack stack);
 
-    void addMana(int countOfAddition);
+    void addMana(int countOfAddition, ItemStack stack);
 
-    void magicState(Level level, Player player, InteractionHand hand);
+    void onActive(Level level, Player player, InteractionHand hand);
 }

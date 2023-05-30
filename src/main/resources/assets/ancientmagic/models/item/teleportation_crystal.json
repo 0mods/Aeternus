@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "ancientmagic:item/teleportation_crystal_pearl",
+    "layer1": "ancientmagic:item/retrace_stone_catalys"
+  }
+}

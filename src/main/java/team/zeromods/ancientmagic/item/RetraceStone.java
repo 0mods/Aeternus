@@ -16,21 +16,11 @@ import team.zeromods.ancientmagic.compact.curios.AMCurio;
 
 public class RetraceStone extends MagicItem {
     public RetraceStone() {
-        super(new Properties().stacksTo(1).fireResistant().rarity(Rarity.EPIC));
+        super(MagicBuilder.get().setMagicType(MagicType.PRE_HIGH_MAGIC).setUnFlammable());
     }
 
     @Override
-    public IMagicType getMagicType() {
-        return MagicType.PRE_HIGH_MAGIC;
-    }
-
-    @Override
-    public int maxMana() {
-        return 0;
-    }
-
-    @Override
-    public void magicState(Level level, Player player, InteractionHand hand) {
+    public void onActive(Level level, Player player, InteractionHand hand) {
         var itemstack = player.getItemInHand(hand);
         var active = getActive(itemstack);
 

@@ -10,8 +10,13 @@
   "compact.ancientmagic.waystones.no_essence": "The gods say they can't do anything because you don't have an offering for them.",
   "compact.ancientmagic.waystones.tpItem": "Is an offering for a gods. For teleportation",
 
-  "content.ancientmagic.added_by": "Added by addon: %s",
+  "content.ancientmagic.added_by": "Added by mod: %s",
 
-  "item.ancientmagic.magic.nomana": "Not enough mana! You can't use %s",
-  "item.ancientmagic.magic.storage": "Mana storage: %s"
+  "magic.ancientmagic.nomana": "Not enough mana! You can't use %s",
+  "magic.ancientmagic.storage": "Mana storage: %s",
+
+  "itemTab.ancientmagic.tab": "Ancient Magic",
+
+  "item.ancientmagic.retrace_stone": "Retrace Stone",
+  "item.ancientmagic.magic_dust": "Magic Dust"
 }

@@ -24,7 +24,7 @@ public enum MagicType implements IMagicType {
 
     @Override
     public String getName() {
-        return !this.name.isEmpty() ? this.name() : String.format("unnamed.%s", this.id);
+        return !this.name.isEmpty() ? this.name : String.format("unnamed.%s", this.getId());
     }
 
     @Override
@@ -34,8 +34,8 @@ public enum MagicType implements IMagicType {
 
     @Override
     public Component getTranslation() {
-        return !this.name.isEmpty() ? Component.translatable(String.format("magicType.%s", this.name)) :
-                Component.translatable(String.format("magicType.%s", this.id));
+        return !this.getName().isEmpty() ? Component.translatable(String.format("magicType.%s", this.getName())) :
+                Component.translatable(String.format("magicType.%s", this.getId()));
     }
 
     public static IMagicType getTypeByName(String name) {

@@ -1,13 +1,12 @@
 package team.zeromods.ancientmagic.compact.curios.events;
 
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import team.zeromods.ancientmagic.init.AMRegister;
-import team.zeromods.ancientmagic.item.RetraceStone;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurio;
 
 public class RetraceStoneEvent implements ICurio {
+    public static boolean isEquip = false;
     @Override
     public ItemStack getStack() {
         return new ItemStack(AMRegister.RETRACE_CRYSTAL.get());
@@ -15,28 +14,22 @@ public class RetraceStoneEvent implements ICurio {
 
     @Override
     public boolean canEquipFromUse(SlotContext slotContext) {
-        var player = (Player) slotContext.entity();
-        return !player.isShiftKeyDown();
+        isEquip = true;
+        return !slotContext.entity().isShiftKeyDown();
     }
 
     @Override
     public boolean canEquip(SlotContext slotContext) {
-        RetraceStone.setActive(this.getStack(), true);
-        return ICurio.super.canEquip(slotContext);
-    }
-
-    @Override
-    public void curioTick(SlotContext slotContext) {
-
+        isEquip = true;
+        return false;
     }
 
     @Override
     public boolean canUnequip(SlotContext slotContext) {
-        RetraceStone.setActive(this.getStack(), false);
-        return ICurio.super.canUnequip(slotContext);
+        isEquip = false;
+        return false;
     }
 
-    public static boolean getActivated() {
-        return true;
-    }
+    @Override
+    public void curioTick(SlotContext slotContext) {}
 }

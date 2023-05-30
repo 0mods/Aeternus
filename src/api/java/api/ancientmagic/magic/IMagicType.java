@@ -8,11 +8,11 @@ public interface IMagicType {
     int getId();
     Component getTranslation();
 
-    static Component magicTooltip(String message) {
-        return Component.translatable(String.format("magic.%s.%s", Constant.Key, message));
+    default Component getMagicTooltip(String message, Object... objects) {
+        return Component.translatable(String.format("magic.%s.%s", Constant.Key, message), objects);
     }
 
-    static Component magicTooltip(String message, Object... objects) {
-        return Component.translatable(String.format("magic.%s.%s", Constant.Key, message), objects);
+    default Component getMagicTypeTooltip(String message, Object... objects) {
+        return Component.translatable(String.format("magicType.%s", message), objects);
     }
 }
