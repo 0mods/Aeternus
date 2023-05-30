@@ -1,11 +1,12 @@
 {
-  "magicType.typeof": "Magic Type: %s",
+  "magicType.type": "Magic Type: %s",
+  "magicType.subtype": "Magic Subtype: %s",
 
-  "magicType.low_magic": "Low",
-  "magicType.medium_magic": "Medium",
-  "magicType.pre_high": "Pre High",
-  "magicType.high_magic": "High",
-  "magicType.unnamed.4": "The God",
+  "magicType.type.low_magic": "Low",
+  "magicType.type.medium_magic": "Medium",
+  "magicType.type.pre_high": "Pre High",
+  "magicType.type.high_magic": "High",
+  "magicType.type.superior": "Superior",
 
   "compact.ancientmagic.waystones.no_essence": "The gods say they can't do anything because you don't have an offering for them.",
   "compact.ancientmagic.waystones.tpItem": "Is an offering for a gods. For teleportation",

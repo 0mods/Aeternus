@@ -2,6 +2,7 @@ package api.ancientmagic.item;
 
 import api.ancientmagic.magic.IMagicType;
 import api.ancientmagic.magic.MagicState;
+import api.ancientmagic.mod.Constant;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -66,11 +67,30 @@ public class MagicItem extends Item implements MagicState {
 
     @Override
     public IMagicType getMagicType() {
+//        if (this.builder.getMagicType() != null) {
+//            return this.builder.getMagicType();
+//        } else {
+//            throw new RuntimeException("Magic type is not initialized!");
+//        }
+
         if (this.builder.getMagicType() != null) {
-            return this.builder.getMagicType();
-        } else {
-            throw new RuntimeException("Magic type is not initialized!");
-        }
+            if (this.builder.getMagicType().getClassifier() == IMagicType.MagicClassifier.MAIN_TYPE) return this.builder.getMagicType();
+            else {
+                Constant.LOGGER.error(String.format("Magic Type %s is not main type", this.builder.getMagicType().getName()));
+                throw new RuntimeException(String.format("Magic type %s is not main type!", this.builder.getMagicType().getName()));
+            }
+        } else return null;
+    }
+
+    @Override
+    public IMagicType getMagicSubtype() {
+        if (this.builder.getMagicSubtype() != null) {
+            if (this.builder.getMagicSubtype().getClassifier() == IMagicType.MagicClassifier.SUBTYPE) return this.builder.getMagicSubtype();
+            else {
+                Constant.LOGGER.error(String.format("Magic Type %s is not subtype", this.builder.getMagicSubtype().getName()));
+                throw new RuntimeException(String.format("Magic type %s is not subtype!", this.builder.getMagicSubtype().getName()));
+            }
+        } else return null;
     }
 
     @Override
@@ -103,6 +123,7 @@ public class MagicItem extends Item implements MagicState {
         private Properties properties = new Properties();
         private static MagicBuilder instance;
         private IMagicType magicType;
+        private IMagicType magicSubtype;
 
         private MagicBuilder() {
             instance = this;
@@ -157,6 +178,17 @@ public class MagicItem extends Item implements MagicState {
             return this.magicType;
         }
 
+        public MagicBuilder setMagicSubtype(IMagicType type) {
+            if (this.getMagicType() != null) {
+                this.magicSubtype = type;
+                return this;
+            } else throw new RuntimeException("Main magic type is null!");
+        }
+
+        public IMagicType getMagicSubtype() {
+            return this.magicSubtype;
+        }
+
         public MagicBuilder setRarity(Rarity rarity) {
             this.getProperties().rarity(rarity);
             return this;
@@ -164,6 +196,11 @@ public class MagicItem extends Item implements MagicState {
 
         public MagicBuilder setRemainder(Item itemToRemained) {
             this.getProperties().craftRemainder(itemToRemained);
+            return this;
+        }
+
+        public MagicBuilder setStacks(int stacksTo) {
+            this.getProperties().stacksTo(stacksTo);
             return this;
         }
     }

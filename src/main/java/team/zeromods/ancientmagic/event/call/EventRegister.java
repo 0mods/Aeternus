@@ -2,7 +2,7 @@ package team.zeromods.ancientmagic.event.call;
 
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig;
-import team.zeromods.ancientmagic.config.CommonConfiguration;
+import team.zeromods.ancientmagic.config.AMCommon;
 import team.zeromods.ancientmagic.event.forge.AncientMagicTabs;
 import api.ancientmagic.mod.Constant;
 import net.minecraftforge.api.distmarker.Dist;
@@ -26,7 +26,7 @@ public class EventRegister {
     private static final ProxyBase PROXY = DistExecutor.safeRunForDist(()-> ClientInit::new, ()-> ServerInit::new);
 
     public static void init() {
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, CommonConfiguration.SPEC.build());
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, AMCommon.SPEC.build());
 
         forgeEventsInitialize(FORGE_BUS);
         modEventsInitialize(MOD_BUS);

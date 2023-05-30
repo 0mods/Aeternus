@@ -24,7 +24,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryObject;
-import team.zeromods.ancientmagic.config.CommonConfiguration;
+import team.zeromods.ancientmagic.config.AMCommon;
 import team.zeromods.ancientmagic.item.RetraceStone;
 
 public final class AMRegister {
@@ -42,7 +42,7 @@ public final class AMRegister {
     public static final RegistryObject<Item> MAGIC_DUST = ITEMS.register("magic_dust",
             ()-> new MagicItem(MagicItem.MagicBuilder.get()));
     public static final RegistryObject<Item> RETRACE_CRYSTAL = (ModList.get().isLoaded("waystones")
-            && (FMLEnvironment.production && CommonConfiguration.COMPACT_WAYSTONES.get()))
+            && (FMLEnvironment.production && AMCommon.COMPACT_WAYSTONES.get()))
             ? ITEMS.register("teleportation_crystal", RetraceStone::new)
             : ITEMS.register("retrace_stone", RetraceStone::new);
 

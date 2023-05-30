@@ -2,7 +2,7 @@ package team.zeromods.ancientmagic.config;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 
-public class CommonConfiguration {
+public class AMCommon {
     public static final ForgeConfigSpec.Builder SPEC = new ForgeConfigSpec.Builder();
 
     static {

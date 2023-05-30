@@ -1,41 +1,51 @@
 package api.ancientmagic.magic;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 
 public enum MagicType implements IMagicType {
-    LOW_MAGIC("low_magic",0),
-    MEDIUM_MAGIC("medium_magic", 1),
-    PRE_HIGH_MAGIC("pre_high", 2),
-    HIGH_MAGIC("high_magic", 3),
-    GENERATING("generation_magic", 4),
-    ADMIN(4);
+    //Main magic types
+    LOW_MAGIC("low_magic", MagicClassifier.MAIN_TYPE),
+    MEDIUM_MAGIC("medium_magic", MagicClassifier.MAIN_TYPE, ChatFormatting.BLUE),
+    PRE_HIGH_MAGIC("pre_high", MagicClassifier.MAIN_TYPE, ChatFormatting.AQUA),
+    HIGH_MAGIC("high_magic", MagicClassifier.MAIN_TYPE, ChatFormatting.GOLD),
+    SUPERIOR("superior", MagicClassifier.MAIN_TYPE, ChatFormatting.RED),
+    //Magic subtypes
+    GENERATING("generation_magic", MagicClassifier.SUBTYPE),
+    CONSUMING("consuming_magic", MagicClassifier.SUBTYPE);
 
     private final String name;
-    private final int id;
+    private final MagicClassifier classifier;
+    private final ChatFormatting style;
 
-    MagicType(String stringId, int id) {
+    MagicType(String stringId, MagicClassifier classifier, ChatFormatting style) {
         this.name = stringId;
-        this.id = id;
+        this.classifier = classifier;
+        this.style = style;
     }
 
-    MagicType(int id) {
-        this(null, id);
+    MagicType(String stringId, MagicClassifier classifier) {
+        this(stringId, classifier, ChatFormatting.WHITE);
     }
 
     @Override
     public String getName() {
-        return !this.name.isEmpty() ? this.name : String.format("unnamed.%s", this.getId());
-    }
-
-    @Override
-    public int getId() {
-        return this.id;
+        return this.name;
     }
 
     @Override
     public Component getTranslation() {
-        return !this.getName().isEmpty() ? Component.translatable(String.format("magicType.%s", this.getName())) :
-                Component.translatable(String.format("magicType.%s", this.getId()));
+        return Component.translatable(String.format("magicType.type.%s", this.getName()));
+    }
+
+    @Override
+    public MagicClassifier getClassifier() {
+        return this.classifier;
+    }
+
+    @Override
+    public ChatFormatting getStyle() {
+        return this.style;
     }
 
     public static IMagicType getTypeByName(String name) {

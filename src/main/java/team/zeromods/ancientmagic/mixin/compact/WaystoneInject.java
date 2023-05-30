@@ -21,17 +21,19 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import team.zeromods.ancientmagic.compact.CompactInitializer;
 import team.zeromods.ancientmagic.compact.curios.events.RetraceStoneEvent;
-import team.zeromods.ancientmagic.config.CommonConfiguration;
+import team.zeromods.ancientmagic.config.AMCommon;
 import team.zeromods.ancientmagic.init.AMRegister;
 import team.zeromods.ancientmagic.init.AMTags;
 import team.zeromods.ancientmagic.item.RetraceStone;
 
+@SuppressWarnings("ALL")
 @Mixin(value = WaystoneBlock.class, remap = false)
 public abstract class WaystoneInject extends WaystoneBlockBase {
     public WaystoneInject(Properties properties) { super(properties); } // shit on this class
@@ -44,34 +46,62 @@ public abstract class WaystoneInject extends WaystoneBlockBase {
         if (mainHand.is(ModTags.BOUND_SCROLLS)) {
             cir.setReturnValue(InteractionResult.PASS);
         } else {
-            if (((CommonConfiguration.COMPACT_WAYSTONES != null && CommonConfiguration.COMPACT_WAYSTONES.get())
-                    && FMLEnvironment.production) && (mainHand.is(AMTags.CONSUMABLE_TELEPORTATION_CATALYST))) {
-                if (CommonConfiguration.CONSUME_DUST_COUNT != null)
-                    mainHand.shrink(CommonConfiguration.CONSUME_DUST_COUNT.get());
-                else mainHand.shrink(2);
-
-                start(world, pos, player, tileEntity, waystone);
-                cir.setReturnValue(InteractionResult.SUCCESS);
-            } else if (
-                    ((CommonConfiguration.COMPACT_WAYSTONES != null
-                            && CommonConfiguration.COMPACT_WAYSTONES.get()) && FMLEnvironment.production) &&
-                    (mainHand.is(AMTags.UNCONSUMABLE_TELEPORTATION_CATALYST) || (CompactInitializer.getCuriosLoaded()
-                    && RetraceStoneEvent.isEquip
-                    && RetraceStone.getActive(new ItemStack(AMRegister.RETRACE_CRYSTAL.get()))))
-            ) {
-                start(world, pos, player, tileEntity, waystone);
-                cir.setReturnValue(InteractionResult.SUCCESS);
-            } else if (((CommonConfiguration.COMPACT_WAYSTONES != null && CommonConfiguration.COMPACT_WAYSTONES.get())
-                    && FMLEnvironment.production)
-                    && (mainHand.isEmpty() || !(mainHand.is(AMTags.UNCONSUMABLE_TELEPORTATION_CATALYST)
-                    || mainHand.is(AMTags.CONSUMABLE_TELEPORTATION_CATALYST)))
-            ){
-                player.sendSystemMessage(Component.translatable("compact.ancientmagic.waystones.no_essence"));
-                cir.setReturnValue(InteractionResult.FAIL);
-            } else if (((CommonConfiguration.COMPACT_WAYSTONES != null && !CommonConfiguration.COMPACT_WAYSTONES.get())
+            if (((AMCommon.COMPACT_WAYSTONES != null && AMCommon.COMPACT_WAYSTONES.get())
                     && FMLEnvironment.production)) {
-                this.start(world,pos,player,tileEntity,waystone);
+                if ((mainHand.is(AMTags.CONSUMABLE_TELEPORTATION_CATALYST))) {
+                    if (AMCommon.CONSUME_DUST_COUNT != null)
+                        mainHand.shrink(AMCommon.CONSUME_DUST_COUNT.get());
+                    else mainHand.shrink(2);
+
+                    start(world, pos, player, tileEntity, waystone);
+                    cir.setReturnValue(InteractionResult.SUCCESS);
+                } else if (
+                        (mainHand.is(AMTags.UNCONSUMABLE_TELEPORTATION_CATALYST)
+                                || CompactInitializer.getCuriosLoaded() && RetraceStoneEvent.isEquip
+                                && RetraceStone.getActive(new ItemStack(AMRegister.RETRACE_CRYSTAL.get())))
+                ) {
+                    start(world, pos, player, tileEntity, waystone);
+                    cir.setReturnValue(InteractionResult.SUCCESS);
+                } else if ((mainHand.isEmpty() || !(mainHand.is(AMTags.UNCONSUMABLE_TELEPORTATION_CATALYST)
+                        || mainHand.is(AMTags.CONSUMABLE_TELEPORTATION_CATALYST)))
+                ) {
+                    player.displayClientMessage(Component.translatable("compact.ancientmagic.waystones.no_essence"), true);
+                    cir.setReturnValue(InteractionResult.FAIL);
+                }
+            } else if (((AMCommon.COMPACT_WAYSTONES != null && !AMCommon.COMPACT_WAYSTONES.get()) && FMLEnvironment.production)) {
+                start(world, pos, player, tileEntity, waystone);
                 cir.setReturnValue(InteractionResult.SUCCESS);
+            } else if (AMCommon.COMPACT_WAYSTONES == null) {
+                start(world, pos, player, tileEntity, waystone);
+                cir.setReturnValue(InteractionResult.SUCCESS);
+            } else if (!FMLEnvironment.production) {
+                var id = ForgeRegistries.ITEMS.getKey(AMRegister.RETRACE_CRYSTAL.get()).getPath();
+
+                if (!id.equals("retrace_stone")) {
+                    if ((mainHand.is(AMTags.CONSUMABLE_TELEPORTATION_CATALYST))) {
+                        if (AMCommon.CONSUME_DUST_COUNT != null)
+                            mainHand.shrink(AMCommon.CONSUME_DUST_COUNT.get());
+                        else mainHand.shrink(2);
+
+                        start(world, pos, player, tileEntity, waystone);
+                        cir.setReturnValue(InteractionResult.SUCCESS);
+                    } else if (
+                            (mainHand.is(AMTags.UNCONSUMABLE_TELEPORTATION_CATALYST)
+                                    || CompactInitializer.getCuriosLoaded() && RetraceStoneEvent.isEquip
+                                    && RetraceStone.getActive(new ItemStack(AMRegister.RETRACE_CRYSTAL.get())))
+                    ) {
+                        start(world, pos, player, tileEntity, waystone);
+                        cir.setReturnValue(InteractionResult.SUCCESS);
+                    } else if ((mainHand.isEmpty() || !(mainHand.is(AMTags.UNCONSUMABLE_TELEPORTATION_CATALYST)
+                            || mainHand.is(AMTags.CONSUMABLE_TELEPORTATION_CATALYST)))
+                    ) {
+                        player.displayClientMessage(Component.translatable("compact.ancientmagic.waystones.no_essence"), true);
+                        cir.setReturnValue(InteractionResult.FAIL);
+                    }
+                } else {
+                    start(world, pos, player, tileEntity, waystone);
+                    cir.setReturnValue(InteractionResult.SUCCESS);
+                }
             }
         }
 
