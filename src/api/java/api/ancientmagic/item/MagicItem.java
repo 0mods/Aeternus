@@ -3,6 +3,7 @@ package api.ancientmagic.item;
 import api.ancientmagic.block.MagicBlockEntity;
 import api.ancientmagic.magic.MagicType;
 import api.ancientmagic.magic.MagicState;
+import api.ancientmagic.magic.MagicTypes;
 import api.ancientmagic.mod.Constant;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -13,9 +14,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class MagicItem extends Item implements MagicState {
-    protected static int maxStorageMana;
     protected final MagicBuilder builder;
 
     public MagicItem(MagicBuilder builder) {
@@ -66,15 +67,16 @@ public class MagicItem extends Item implements MagicState {
     }
 
     @Override
+    @Nullable
     public MagicType getMagicType() {
         if (this.builder.getMagicType() != null) {
             if (this.builder.getMagicType().getClassifier() == MagicType.MagicClassifier.MAIN_TYPE)
                 return this.builder.getMagicType();
             else {
-                Constant.LOGGER.error(String.format("Magic Type %s is not main type", this.builder.getMagicType().getName()));
-                throw new RuntimeException(String.format("Magic type %s is not main type!", this.builder.getMagicType().getName()));
+                Constant.LOGGER.error(String.format("Magic Type %s is not main type", this.builder.getMagicType().getId()));
+                throw new RuntimeException(String.format("Magic type %s is not main type!", this.builder.getMagicType().getId()));
             }
-        } else return null;
+        } else throw new RuntimeException("Magic type is null");
     }
 
     @Override
@@ -82,8 +84,8 @@ public class MagicItem extends Item implements MagicState {
         if (this.builder.getMagicSubtype() != null) {
             if (this.builder.getMagicSubtype().getClassifier() == MagicType.MagicClassifier.SUBTYPE) return this.builder.getMagicSubtype();
             else {
-                Constant.LOGGER.error(String.format("Magic Type %s is not subtype", this.builder.getMagicSubtype().getName()));
-                throw new RuntimeException(String.format("Magic type %s is not subtype!", this.builder.getMagicSubtype().getName()));
+                Constant.LOGGER.error(String.format("Magic Type %s is not subtype", this.builder.getMagicSubtype().getId()));
+                throw new RuntimeException(String.format("Magic type %s is not subtype!", this.builder.getMagicSubtype().getId()));
             }
         } else return null;
     }
@@ -106,7 +108,7 @@ public class MagicItem extends Item implements MagicState {
             return InteractionResultHolder.success(stack);
         } else if (this.getMaxMana(stack, null) != 0 && this.getStorageMana(stack, null) == 0) {
             this.setDamage(stack, 0);
-            player.sendSystemMessage(this.getMagicType().getMagicTooltip("notMana", this.getName(stack)));
+            player.displayClientMessage(this.getMagicType().getMagicTooltip("notMana", this.getName(stack)), true);
             return InteractionResultHolder.fail(stack);
         } else if (this.getMaxMana(stack, null) == 0) {
             this.onActive(level, player, hand);
@@ -116,13 +118,11 @@ public class MagicItem extends Item implements MagicState {
 
     public static class MagicBuilder {
         private Properties properties = new Properties();
-        private static MagicBuilder instance;
-        private MagicType magicType;
+        private MagicType magicType = MagicTypes.LOW_MAGIC;
         private MagicType magicSubtype;
+        private int maxManaStorage = 0;
 
-        private MagicBuilder() {
-            instance = this;
-        }
+        private MagicBuilder() {}
 
         @Deprecated
         public Properties getProperties() {
@@ -136,24 +136,36 @@ public class MagicItem extends Item implements MagicState {
         }
 
         public static MagicBuilder get() {
-            return instance != null ? instance : new MagicBuilder();
+            return new MagicBuilder();
         }
 
-        public MagicBuilder setMaxMana(int maxMana, ItemStack stack) {
-            maxStorageMana = maxMana;
-            stack.getOrCreateTag().putInt("MaxManaStorage", maxMana);
+        public MagicBuilder setMaxMana(int maxMana) {
+            this.maxManaStorage = maxMana;
             return this;
         }
 
         public int getMaxMana(ItemStack stack) {
-            return stack.getOrCreateTag().getInt("MaxManaStorage");
+            var tag = stack.getOrCreateTag();
+
+            if (tag.get("MaxManaStorage") != null) {
+                return tag.getInt("MaxManaStorage");
+            } else {
+                tag.putInt("MaxManaStorage", this.maxManaStorage);
+                return tag.getInt("MaxManaStorage");
+            }
         }
 
         private int getManaCount(ItemStack stack) {
-            return stack.getOrCreateTag().getInt("ManaStorage");
+            var tag = stack.getOrCreateTag();
+            if (tag.get("ManaStorage") != null)
+                return tag.getInt("ManaStorage");
+            else {
+                tag.putInt("ManaStorage", 0);
+                return tag.getInt("ManaStorage");
+            }
         }
 
-        public MagicBuilder setUnFlammable() {
+        public MagicBuilder fireProof() {
             this.getProperties().fireResistant();
             return this;
         }

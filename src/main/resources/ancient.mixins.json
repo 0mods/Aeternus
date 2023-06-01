@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "ancient.refmap.json",
   "mixins": [
+    "PlayerMixin",
     "compact.WaystoneInject"
   ],
   "client": [

@@ -1,6 +1,7 @@
 package team.zeromods.ancientmagic.init;
 
 import api.ancientmagic.item.MagicItem;
+import api.ancientmagic.magic.MagicTypes;
 import api.ancientmagic.mod.Constant;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.Registry;
@@ -9,6 +10,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
@@ -25,6 +27,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryObject;
 import team.zeromods.ancientmagic.config.AMCommon;
+import team.zeromods.ancientmagic.item.ManaStorage;
 import team.zeromods.ancientmagic.item.RetraceStone;
 
 public final class AMRegister {
@@ -39,12 +42,14 @@ public final class AMRegister {
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE = deferredCreator(ForgeRegistries.RECIPE_SERIALIZERS);
     public static final DeferredRegister<Codec<? extends BiomeModifier>> MODIFIER_CODEC = deferredCreator(ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS);
 
-    public static final RegistryObject<Item> MAGIC_DUST = ITEMS.register("magic_dust",
-            ()-> new MagicItem(MagicItem.MagicBuilder.get()));
-    public static final RegistryObject<Item> RETRACE_CRYSTAL = (ModList.get().isLoaded("waystones")
+    public static final RegistryObject<MagicItem> MAGIC_DUST = ITEMS.register("magic_dust",
+            ()-> new MagicItem(MagicItem.MagicBuilder.get().setMagicType(MagicTypes.LOW_MAGIC)));
+    public static final RegistryObject<MagicItem> RETRACE_CRYSTAL = (ModList.get().isLoaded("waystones")
             && (FMLEnvironment.production && AMCommon.COMPACT_WAYSTONES.get()))
             ? ITEMS.register("teleportation_crystal", RetraceStone::new)
             : ITEMS.register("retrace_stone", RetraceStone::new);
+    public static final RegistryObject<MagicItem> START_MANA_STORAGE = ITEMS.register("start_mana_storage",
+            ()-> new ManaStorage(MagicItem.MagicBuilder.get(), 1000, false));
 
     static <Y, T extends IForgeRegistry<Y>> DeferredRegister<Y> deferredCreator(T forgeRegister) {
         return DeferredRegister.create(forgeRegister, Constant.Key);

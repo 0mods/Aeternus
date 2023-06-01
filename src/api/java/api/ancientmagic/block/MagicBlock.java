@@ -24,6 +24,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraft.world.phys.BlockHitResult;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Function;
@@ -41,7 +42,9 @@ public class MagicBlock extends Block implements EntityBlock, MagicState {
     }
 
     @Override
-    public InteractionResult use(BlockState p_60503_, Level p_60504_, BlockPos p_60505_, Player p_60506_, InteractionHand p_60507_, BlockHitResult p_60508_) {
+    public InteractionResult use(@NotNull BlockState p_60503_, @NotNull Level p_60504_, @NotNull BlockPos p_60505_,
+                                 @NotNull Player p_60506_, @NotNull InteractionHand p_60507_,
+                                 @NotNull BlockHitResult p_60508_) {
         return super.use(p_60503_, p_60504_, p_60505_, p_60506_, p_60507_, p_60508_);
     }
 
@@ -52,25 +55,27 @@ public class MagicBlock extends Block implements EntityBlock, MagicState {
     }
 
     @Override
+    @Nullable
     public MagicType getMagicType() {
         if (this.builder.getMagicType() != null) {
             if (this.builder.getMagicType().getClassifier() == MagicClassifier.MAIN_TYPE)
                 return this.builder.getMagicType();
             else {
-                Constant.LOGGER.error(String.format("Magic Type %s is not main type", this.builder.getMagicType().getName()));
-                throw new RuntimeException(String.format("Magic type %s is not main type!", this.builder.getMagicType().getName()));
+                Constant.LOGGER.error(String.format("Magic Type %s is not main type", this.builder.getMagicType().getId()));
+                throw new RuntimeException(String.format("Magic type %s is not main type!", this.builder.getMagicType().getId()));
             }
-        } else return null;
+        } else return MagicTypes.LOW_MAGIC;
     }
 
     @Override
+    @Nullable
     public MagicType getMagicSubtype() {
         if (this.builder.getMagicSubtype() != null) {
             if (this.builder.getMagicSubtype().getClassifier() == MagicClassifier.SUBTYPE)
                 return this.builder.getMagicSubtype();
             else {
-                Constant.LOGGER.error(String.format("Magic Type %s is not subtype", this.builder.getMagicSubtype().getName()));
-                throw new RuntimeException(String.format("Magic type %s is not subtype!", this.builder.getMagicSubtype().getName()));
+                Constant.LOGGER.error(String.format("Magic Type %s is not subtype", this.builder.getMagicSubtype().getId()));
+                throw new RuntimeException(String.format("Magic type %s is not subtype!", this.builder.getMagicSubtype().getId()));
             }
         } else return null;
     }
@@ -108,17 +113,14 @@ public class MagicBlock extends Block implements EntityBlock, MagicState {
 
     @SuppressWarnings({"unused", "DeprecatedIsStillUsed"})
     public static class MagicBuilder {
-        private static MagicBuilder instance;
         private Properties properties = Properties.of(Material.STONE);
         private MagicType magicType = MagicTypes.LOW_MAGIC;
         private MagicType magicSubtype;
 
-        private MagicBuilder() {
-            instance = this;
-        }
+        private MagicBuilder() {}
 
         public static MagicBuilder get() {
-            return instance != null ? instance : new MagicBuilder();
+            return new MagicBuilder();
         }
 
         @Deprecated

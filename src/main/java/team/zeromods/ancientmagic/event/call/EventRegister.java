@@ -36,12 +36,11 @@ public class EventRegister {
     }
 
     private static void forgeEventsInitialize(IEventBus bus) {
-
+        bus.addListener(EventRegister::modCommon);
     }
 
     private static void modEventsInitialize(IEventBus bus) {
         CompactInitializer.init(bus);
-        bus.addListener(EventRegister::modCommon);
         bus.addListener(AncientMagicTabs::registerTabs);
     }
 
@@ -69,5 +68,6 @@ public class EventRegister {
         public void init() {}
     }
 
+    @FunctionalInterface
     private interface ProxyBase { void init(); }
 }

@@ -6,6 +6,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import org.jetbrains.annotations.Nullable;
@@ -14,7 +15,12 @@ import team.zeromods.ancientmagic.compact.curios.AMCurio;
 
 public class RetraceStone extends MagicItem {
     public RetraceStone() {
-        super(MagicBuilder.get().setMagicType(MagicTypes.PRE_HIGH_MAGIC).setUnFlammable());
+        super(
+                MagicBuilder.get()
+                        .setMagicType(MagicTypes.PRE_HIGH_MAGIC)
+                        .fireProof()
+                        .setRarity(Rarity.RARE)
+        );
     }
 
     @Override

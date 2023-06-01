@@ -1,6 +1,6 @@
 {
-  "magicType.type": "Magic Type: %s",
-  "magicType.subtype": "Magic Subtype: %s",
+  "magicType.type": "§7Magic Type: %s",
+  "magicType.subtype": "§1Magic Subtype: %s",
 
   "magicType.type.low_magic": "Low",
   "magicType.type.medium_magic": "Medium",
@@ -14,7 +14,7 @@
   "content.ancientmagic.added_by": "Added by mod: %s",
 
   "magic.ancientmagic.nomana": "Not enough mana! You can't use %s",
-  "magic.ancientmagic.storage": "Mana storage: %s",
+  "magic.ancientmagic.storage": "Mana storage: %s/%s",
 
   "itemTab.ancientmagic.tab": "Ancient Magic",
 

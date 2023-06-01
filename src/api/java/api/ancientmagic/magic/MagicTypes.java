@@ -1,7 +1,7 @@
 package api.ancientmagic.magic;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 
 public enum MagicTypes implements MagicType {
     //Main magic types
@@ -11,8 +11,9 @@ public enum MagicTypes implements MagicType {
     HIGH_MAGIC("high_magic", MagicClassifier.MAIN_TYPE, ChatFormatting.GOLD),
     SUPERIOR("superior", MagicClassifier.MAIN_TYPE, ChatFormatting.RED),
     //Magic subtypes
-    GENERATING("generation_magic", MagicClassifier.SUBTYPE),
-    CONSUMING("consuming_magic", MagicClassifier.SUBTYPE);
+    GENERATING("generating", MagicClassifier.SUBTYPE),
+    CONSUMING("consuming", MagicClassifier.SUBTYPE),
+    STORAGE("storage", MagicClassifier.SUBTYPE);
 
     private final String name;
     private final MagicClassifier classifier;
@@ -29,13 +30,13 @@ public enum MagicTypes implements MagicType {
     }
 
     @Override
-    public String getName() {
+    public String getId() {
         return this.name;
     }
 
     @Override
-    public Component getTranslation() {
-        return this.getMagicTypeTooltip(String.format("type.%s", this.getName()));
+    public MutableComponent getTranslation() {
+        return (MutableComponent) this.getMagicTypeTooltip(String.format("type.%s", this.getId()));
     }
 
     @Override

@@ -3,21 +3,22 @@ package api.ancientmagic.magic;
 import api.ancientmagic.mod.Constant;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 
 public interface MagicType {
-    String getName();
+    String getId();
 
-    Component getTranslation();
+    MutableComponent getTranslation();
 
     MagicClassifier getClassifier();
 
     ChatFormatting getStyle();
 
-    default Component getMagicTooltip(String message, Object... objects) {
+    default MutableComponent getMagicTooltip(String message, Object... objects) {
         return Component.translatable(String.format("magic.%s.%s", Constant.Key, message), objects);
     }
 
-    default Component getMagicTypeTooltip(String message, Object... objects) {
+    default MutableComponent getMagicTypeTooltip(String message, Object... objects) {
         return Component.translatable(String.format("magicType.%s", message), objects);
     }
 
