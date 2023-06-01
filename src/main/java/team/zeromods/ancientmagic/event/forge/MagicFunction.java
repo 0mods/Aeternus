@@ -1,12 +1,10 @@
 package team.zeromods.ancientmagic.event.forge;
 
 import api.ancientmagic.item.MagicItem;
-import api.ancientmagic.magic.IMagicType;
 import api.ancientmagic.mod.Constant;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -27,8 +25,8 @@ public class MagicFunction {
                                 .getTranslation()).withStyle(ChatFormatting.DARK_BLUE)).withStyle(item.getMagicSubtype().getStyle())
                         .withStyle());
 
-            if (item.maxMana(stack) != 0)
-                tooltip.add(item.getMagicType().getMagicTooltip("storage", item.getStorageMana(stack)));
+            if (item.getMaxMana(stack, null) != 0)
+                tooltip.add(item.getMagicType().getMagicTooltip("storage", item.getStorageMana(stack, null)));
 
             var resource = ForgeRegistries.ITEMS.getKey(item);
             var namespace = resource.getNamespace();

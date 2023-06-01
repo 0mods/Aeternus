@@ -122,11 +122,11 @@ repositories {
     maven { url "https://nexus.twelveiterations.com/repository/maven-public/" }
 
     maven { url = "https://maven.theillusivec4.top/" }
+
+    mavenCentral()
 }
 
 dependencies {
-    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
-
     minecraft 'net.minecraftforge:forge:1.19.4-45.0.46'
 
     implementation fg.deobf("net.blay09.mods:waystones-forge:13.1.0+1.19.4")
@@ -137,6 +137,11 @@ dependencies {
 
     implementation fg.deobf("top.theillusivec4.curios:curios-forge:1.19.4-5.1.5.3")
     implementation fg.deobf("top.theillusivec4.curios:curios-forge:1.19.4-5.1.5.3:api")
+
+    implementation("org.projectlombok:lombok:1.18.+") // mutable api version
+
+    annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
+    annotationProcessor "org.projectlombok:lombok:1.18.28"
 }
 
 jar {

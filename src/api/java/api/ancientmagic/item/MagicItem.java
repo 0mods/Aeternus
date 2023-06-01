@@ -1,6 +1,7 @@
 package api.ancientmagic.item;
 
-import api.ancientmagic.magic.IMagicType;
+import api.ancientmagic.block.MagicBlockEntity;
+import api.ancientmagic.magic.MagicType;
 import api.ancientmagic.magic.MagicState;
 import api.ancientmagic.mod.Constant;
 import net.minecraft.world.InteractionHand;
@@ -24,10 +25,11 @@ public class MagicItem extends Item implements MagicState {
     }
 
     @Override
-    public void consumeMana(int numberOfConsume, ItemStack stack) {
-        var startMana = this.getStorageMana(stack);
-        var consumedMana = startMana - numberOfConsume;
+    public void consumeMana(int numberOfConsume, ItemStack stack, MagicBlockEntity entity) {
+        var startMana = this.getStorageMana(stack, null);
+
         if (startMana != 0) {
+            var consumedMana = startMana - numberOfConsume;
             stack.getOrCreateTag().putInt("ManaStorage", consumedMana);
             var dmg = stack.getDamageValue();
             if (dmg != 1) {
@@ -38,10 +40,10 @@ public class MagicItem extends Item implements MagicState {
     }
 
     @Override
-    public void addMana(int countOfAddition, ItemStack stack) {
-        var storageMana = this.getStorageMana(stack);
+    public void addMana(int countOfAddition, ItemStack stack, MagicBlockEntity entity) {
+        var storageMana = this.getStorageMana(stack, null);
         var additionMana = storageMana + countOfAddition;
-        if (storageMana < this.maxMana(stack)) {
+        if (storageMana < this.getMaxMana(stack, null)) {
             stack.getOrCreateTag().putInt("ManaStorage", additionMana);
             int damageValue = stack.getDamageValue();
             ++damageValue;
@@ -50,7 +52,7 @@ public class MagicItem extends Item implements MagicState {
     }
 
     @Override
-    public int getStorageMana(ItemStack stack) {
+    public int getStorageMana(ItemStack stack, MagicBlockEntity entity) {
         if (this.builder.getMaxMana(stack) != 0) {
             var dmg = this.builder.getManaCount(stack) + 1;
             stack.setDamageValue(dmg);
@@ -59,22 +61,15 @@ public class MagicItem extends Item implements MagicState {
     }
 
     @Override
-    public int maxMana(ItemStack stack) {
-        stack.getOrCreateTag().putInt("MaxManaStorage", maxStorageMana);
-        stack.getOrCreateTag().putInt("ManaStorage", 0);
-        return stack.getOrCreateTag().getInt("MaxManaStorage");
+    public int getMaxMana(ItemStack stack, MagicBlockEntity entity) {
+        return this.builder.getMaxMana(stack);
     }
 
     @Override
-    public IMagicType getMagicType() {
-//        if (this.builder.getMagicType() != null) {
-//            return this.builder.getMagicType();
-//        } else {
-//            throw new RuntimeException("Magic type is not initialized!");
-//        }
-
+    public MagicType getMagicType() {
         if (this.builder.getMagicType() != null) {
-            if (this.builder.getMagicType().getClassifier() == IMagicType.MagicClassifier.MAIN_TYPE) return this.builder.getMagicType();
+            if (this.builder.getMagicType().getClassifier() == MagicType.MagicClassifier.MAIN_TYPE)
+                return this.builder.getMagicType();
             else {
                 Constant.LOGGER.error(String.format("Magic Type %s is not main type", this.builder.getMagicType().getName()));
                 throw new RuntimeException(String.format("Magic type %s is not main type!", this.builder.getMagicType().getName()));
@@ -83,9 +78,9 @@ public class MagicItem extends Item implements MagicState {
     }
 
     @Override
-    public IMagicType getMagicSubtype() {
+    public MagicType getMagicSubtype() {
         if (this.builder.getMagicSubtype() != null) {
-            if (this.builder.getMagicSubtype().getClassifier() == IMagicType.MagicClassifier.SUBTYPE) return this.builder.getMagicSubtype();
+            if (this.builder.getMagicSubtype().getClassifier() == MagicType.MagicClassifier.SUBTYPE) return this.builder.getMagicSubtype();
             else {
                 Constant.LOGGER.error(String.format("Magic Type %s is not subtype", this.builder.getMagicSubtype().getName()));
                 throw new RuntimeException(String.format("Magic type %s is not subtype!", this.builder.getMagicSubtype().getName()));
@@ -105,15 +100,15 @@ public class MagicItem extends Item implements MagicState {
             return InteractionResultHolder.fail(stack);
         }
 
-        if (this.maxMana(stack) != 0 && this.getStorageMana(stack) != 0) {
-            this.consumeMana(1,stack);
+        if (this.getMaxMana(stack, null) != 0 && this.getStorageMana(stack, null) != 0) {
+            this.consumeMana(1, stack, null);
             this.onActive(level, player, hand);
             return InteractionResultHolder.success(stack);
-        } else if (this.maxMana(stack) != 0 && this.getStorageMana(stack) == 0) {
+        } else if (this.getMaxMana(stack, null) != 0 && this.getStorageMana(stack, null) == 0) {
             this.setDamage(stack, 0);
             player.sendSystemMessage(this.getMagicType().getMagicTooltip("notMana", this.getName(stack)));
             return InteractionResultHolder.fail(stack);
-        } else if (this.maxMana(stack) == 0) {
+        } else if (this.getMaxMana(stack, null) == 0) {
             this.onActive(level, player, hand);
         }
         return InteractionResultHolder.pass(stack);
@@ -122,8 +117,8 @@ public class MagicItem extends Item implements MagicState {
     public static class MagicBuilder {
         private Properties properties = new Properties();
         private static MagicBuilder instance;
-        private IMagicType magicType;
-        private IMagicType magicSubtype;
+        private MagicType magicType;
+        private MagicType magicSubtype;
 
         private MagicBuilder() {
             instance = this;
@@ -144,9 +139,8 @@ public class MagicItem extends Item implements MagicState {
             return instance != null ? instance : new MagicBuilder();
         }
 
-        public MagicBuilder setMaxMana(int maxMana, MagicItem item) {
+        public MagicBuilder setMaxMana(int maxMana, ItemStack stack) {
             maxStorageMana = maxMana;
-            ItemStack stack = new ItemStack(item);
             stack.getOrCreateTag().putInt("MaxManaStorage", maxMana);
             return this;
         }
@@ -169,23 +163,23 @@ public class MagicItem extends Item implements MagicState {
             return this;
         }
 
-        public MagicBuilder setMagicType(IMagicType type) {
+        public MagicBuilder setMagicType(MagicType type) {
             this.magicType = type;
             return this;
         }
 
-        public IMagicType getMagicType() {
+        public MagicType getMagicType() {
             return this.magicType;
         }
 
-        public MagicBuilder setMagicSubtype(IMagicType type) {
-            if (this.getMagicType() != null) {
+        public MagicBuilder setMagicSubtype(MagicType type) {
+            if (this.getMagicType() != null && type.getClassifier() == MagicType.MagicClassifier.SUBTYPE) {
                 this.magicSubtype = type;
                 return this;
-            } else throw new RuntimeException("Main magic type is null!");
+            } else throw new RuntimeException("Main magic type is null or chose subtype is not subtype!");
         }
 
-        public IMagicType getMagicSubtype() {
+        public MagicType getMagicSubtype() {
             return this.magicSubtype;
         }
 

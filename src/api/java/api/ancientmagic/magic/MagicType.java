@@ -1,58 +1,27 @@
 package api.ancientmagic.magic;
 
+import api.ancientmagic.mod.Constant;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 
-public enum MagicType implements IMagicType {
-    //Main magic types
-    LOW_MAGIC("low_magic", MagicClassifier.MAIN_TYPE),
-    MEDIUM_MAGIC("medium_magic", MagicClassifier.MAIN_TYPE, ChatFormatting.BLUE),
-    PRE_HIGH_MAGIC("pre_high", MagicClassifier.MAIN_TYPE, ChatFormatting.AQUA),
-    HIGH_MAGIC("high_magic", MagicClassifier.MAIN_TYPE, ChatFormatting.GOLD),
-    SUPERIOR("superior", MagicClassifier.MAIN_TYPE, ChatFormatting.RED),
-    //Magic subtypes
-    GENERATING("generation_magic", MagicClassifier.SUBTYPE),
-    CONSUMING("consuming_magic", MagicClassifier.SUBTYPE);
+public interface MagicType {
+    String getName();
 
-    private final String name;
-    private final MagicClassifier classifier;
-    private final ChatFormatting style;
+    Component getTranslation();
 
-    MagicType(String stringId, MagicClassifier classifier, ChatFormatting style) {
-        this.name = stringId;
-        this.classifier = classifier;
-        this.style = style;
+    MagicClassifier getClassifier();
+
+    ChatFormatting getStyle();
+
+    default Component getMagicTooltip(String message, Object... objects) {
+        return Component.translatable(String.format("magic.%s.%s", Constant.Key, message), objects);
     }
 
-    MagicType(String stringId, MagicClassifier classifier) {
-        this(stringId, classifier, ChatFormatting.WHITE);
+    default Component getMagicTypeTooltip(String message, Object... objects) {
+        return Component.translatable(String.format("magicType.%s", message), objects);
     }
 
-    @Override
-    public String getName() {
-        return this.name;
-    }
-
-    @Override
-    public Component getTranslation() {
-        return Component.translatable(String.format("magicType.type.%s", this.getName()));
-    }
-
-    @Override
-    public MagicClassifier getClassifier() {
-        return this.classifier;
-    }
-
-    @Override
-    public ChatFormatting getStyle() {
-        return this.style;
-    }
-
-    public static IMagicType getTypeByName(String name) {
-        return !name.isEmpty() ? MagicType.valueOf(name) : MagicType.LOW_MAGIC;
-    }
-
-    public static IMagicType getById(int id) {
-        return id > 0 && id <= MagicType.values().length ? MagicType.values()[id] : MagicType.LOW_MAGIC;
+    enum MagicClassifier {
+        MAIN_TYPE, SUBTYPE
     }
 }
