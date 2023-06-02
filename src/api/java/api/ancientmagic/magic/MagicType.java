@@ -8,17 +8,19 @@ import net.minecraft.network.chat.MutableComponent;
 public interface MagicType {
     String getId();
 
+    int numerate();
+
     MutableComponent getTranslation();
 
     MagicClassifier getClassifier();
 
-    ChatFormatting getStyle();
+    ChatFormatting[] getStyles();
 
-    default MutableComponent getMagicTooltip(String message, Object... objects) {
+    static MutableComponent getMagicMessage(String message, Object... objects) {
         return Component.translatable(String.format("magic.%s.%s", Constant.Key, message), objects);
     }
 
-    default MutableComponent getMagicTypeTooltip(String message, Object... objects) {
+    static MutableComponent getMagicTypeMessage(String message, Object... objects) {
         return Component.translatable(String.format("magicType.%s", message), objects);
     }
 

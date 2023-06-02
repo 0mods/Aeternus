@@ -21,7 +21,7 @@ public class AncientMagicTabs {
     public static void registerTabs(CreativeModeTabEvent.Register e) {
         ANCIENT_MAGIC_TAB = e.registerCreativeModeTab(registerTabId("ancientmagic"),
                 b ->
-                        b.icon(supConvert(Items.AIR))
+                        b.icon(supConvert(AMRegister.RETRACE_CRYSTAL.get()))
                         .title(registerNames("tab"))
                         .displayItems((flags, output) -> AMRegister.ITEMS.getEntries().stream()
                                 .map(RegistryObject::get).forEach(item -> output.accept(()-> item)))

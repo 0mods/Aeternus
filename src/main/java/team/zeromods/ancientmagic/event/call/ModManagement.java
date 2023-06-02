@@ -16,11 +16,12 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLDedicatedServerSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import team.zeromods.ancientmagic.compact.CompactInitializer;
-import team.zeromods.ancientmagic.event.forge.MagicFunction;
+import team.zeromods.ancientmagic.event.forge.MagicData;
+import team.zeromods.ancientmagic.init.AMCommands;
 import team.zeromods.ancientmagic.init.AMRegister;
 import team.zeromods.ancientmagic.init.AMTags;
 
-public class EventRegister {
+public class ModManagement {
     protected static IEventBus FORGE_BUS = MinecraftForge.EVENT_BUS;
     protected static IEventBus MOD_BUS = FMLJavaModLoadingContext.get().getModEventBus();
     private static final ProxyBase PROXY = DistExecutor.safeRunForDist(()-> ClientInit::new, ()-> ServerInit::new);
@@ -36,10 +37,14 @@ public class EventRegister {
     }
 
     private static void forgeEventsInitialize(IEventBus bus) {
-        bus.addListener(EventRegister::modCommon);
+        Constant.LOGGER.debug("Initializing forge events");
+        bus.addListener(ModManagement::modCommon);
+        bus.addListener(AMCommands::registerCommands);
+        bus.addListener(MagicData::playerEvent);
     }
 
     private static void modEventsInitialize(IEventBus bus) {
+        Constant.LOGGER.debug("Initializing mod events");
         CompactInitializer.init(bus);
         bus.addListener(AncientMagicTabs::registerTabs);
     }
@@ -52,11 +57,13 @@ public class EventRegister {
     public static class ClientInit implements ProxyBase {
         @SubscribeEvent
         public static void client(final FMLClientSetupEvent e) {
-            FORGE_BUS.addListener(MagicFunction::tooltipEvent);
+            FORGE_BUS.addListener(MagicData::tooltipEvent);
         }
 
         @Override
-        public void init() {}
+        public void init() {
+            Constant.LOGGER.debug("Initializing client dist");
+        }
     }
 
     @Mod.EventBusSubscriber(modid = Constant.Key, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.DEDICATED_SERVER)
@@ -65,7 +72,9 @@ public class EventRegister {
         public static void server(FMLDedicatedServerSetupEvent e) {}
 
         @Override
-        public void init() {}
+        public void init() {
+            Constant.LOGGER.debug("Initializing client dist");
+        }
     }
 
     @FunctionalInterface

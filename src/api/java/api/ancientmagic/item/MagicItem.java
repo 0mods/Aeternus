@@ -18,6 +18,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class MagicItem extends Item implements MagicState {
     protected final MagicBuilder builder;
+    public boolean canUseItem = true;
 
     public MagicItem(MagicBuilder builder) {
         super(builder.getProperties());
@@ -102,16 +103,18 @@ public class MagicItem extends Item implements MagicState {
             return InteractionResultHolder.fail(stack);
         }
 
-        if (this.getMaxMana(stack, null) != 0 && this.getStorageMana(stack, null) != 0) {
-            this.consumeMana(1, stack, null);
-            this.onActive(level, player, hand);
-            return InteractionResultHolder.success(stack);
-        } else if (this.getMaxMana(stack, null) != 0 && this.getStorageMana(stack, null) == 0) {
-            this.setDamage(stack, 0);
-            player.displayClientMessage(this.getMagicType().getMagicTooltip("notMana", this.getName(stack)), true);
-            return InteractionResultHolder.fail(stack);
-        } else if (this.getMaxMana(stack, null) == 0) {
-            this.onActive(level, player, hand);
+        if (this.canUseItem) {
+            if (this.getMaxMana(stack, null) != 0 && this.getStorageMana(stack, null) != 0) {
+                this.consumeMana(1, stack, null);
+                this.onActive(level, player, hand);
+                return InteractionResultHolder.success(stack);
+            } else if (this.getMaxMana(stack, null) != 0 && this.getStorageMana(stack, null) == 0) {
+                this.setDamage(stack, 0);
+                player.displayClientMessage(MagicType.getMagicMessage("notMana", this.getName(stack)), true);
+                return InteractionResultHolder.fail(stack);
+            } else if (this.getMaxMana(stack, null) == 0) {
+                this.onActive(level, player, hand);
+            }
         }
         return InteractionResultHolder.pass(stack);
     }
