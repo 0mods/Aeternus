@@ -4,18 +4,18 @@ import api.ancientmagic.item.MagicItem;
 import api.ancientmagic.magic.MagicType;
 import api.ancientmagic.magic.MagicTypes;
 import api.ancientmagic.mod.Constant;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
+import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.registries.ForgeRegistries;
+import team.zeromods.ancientmagic.capability.AMCapability;
+import team.zeromods.ancientmagic.capability.PlayerMagicCapability;
 import team.zeromods.ancientmagic.compact.CompactInitializer;
 import team.zeromods.ancientmagic.config.AMCommon;
 import team.zeromods.ancientmagic.init.AMTags;
@@ -24,7 +24,6 @@ import java.util.Objects;
 import java.util.ServiceLoader;
 
 public class MagicData {
-    public static final EntityDataAccessor<CompoundTag> MAGIC_DATA_TAG = SynchedEntityData.defineId(Player.class, EntityDataSerializers.COMPOUND_TAG);
 
     public static void tooltipEvent(ItemTooltipEvent e) {
         var stack = e.getItemStack();
@@ -63,33 +62,42 @@ public class MagicData {
             var stack = player.getItemInHand(InteractionHand.MAIN_HAND);
 
             if (stack.getItem() instanceof MagicItem item) {
-                var tag = MagicData.getMagicData(player);
-                var tagIfDataNull = new CompoundTag();
+                player.getCapability(AMCapability.PLAYER_MAGIC_HANDLER).ifPresent(cap -> {
+                    var tag = cap.getTag();
 
-                if (tag.get("MagicPlayerData") != null) {
-                    if (tag.getInt("MagicPlayerData") >= (Objects.requireNonNull(item.getMagicType()).numerate())) {
-                        item.canUseItem = true;
-                    } else {
-                        player.displayClientMessage(MagicType.getMagicMessage("notLevel",
-                                item.getMagicType().getTranslation(),
-                                MagicTypes.getByNumeration(tag.getInt("MagicPlayerData")).getTranslation()),
-                                true);
-                        item.canUseItem = false;
+                    if (tag.get("MagicPlayerData") != null) {
+                        if (tag.getInt("MagicPlayerData") >= (Objects.requireNonNull(item.getMagicType()).numerate())) {
+                            item.canUseItem = true;
+                        } else {
+                            player.displayClientMessage(MagicType.getMagicMessage("notLevel",
+                                            item.getMagicType().getTranslation(),
+                                            MagicTypes.getByNumeration(tag.getInt("MagicPlayerData")).getTranslation()),
+                                    true);
+                            item.canUseItem = false;
+                        }
                     }
-                } else {
-                    tagIfDataNull.putInt("MagicPlayerData", MagicTypes.LOW_MAGIC.numerate());
-                    MagicData.setMagicData(tagIfDataNull, player);
-                }
+                });
             }
         }
     }
 
-    public static CompoundTag getMagicData(Player player) {
-        return player.entityData.get(MAGIC_DATA_TAG);
+    public static void registerCapability(final RegisterCapabilitiesEvent e) {
+        e.register(PlayerMagicCapability.Wrapper.class);
     }
 
-    public static void setMagicData(CompoundTag tag, Player player) {
-        player.entityData.set(MAGIC_DATA_TAG, tag);
+    public static void playerClone(PlayerEvent.Clone event) {
+        if (event.isWasDeath())
+            event.getOriginal().getCapability(AMCapability.PLAYER_MAGIC_HANDLER).ifPresent(old ->
+                    event.getOriginal().getCapability(AMCapability.PLAYER_MAGIC_HANDLER)
+                            .ifPresent(New-> New.copyFrom(old)));
+
+    }
+
+    public static void attachCapability(final AttachCapabilitiesEvent<Entity> event) {
+        if (event.getObject() instanceof Player) {
+            if (!event.getObject().getCapability(AMCapability.PLAYER_MAGIC_HANDLER).isPresent())
+                event.addCapability(AMCapability.PLAYER_MAGIC_HANDLER_ID, new PlayerMagicCapability.Provider());
+        }
     }
 
     public static <T> T interfaceCallback(Class<T> convert) {
@@ -98,4 +106,6 @@ public class MagicData {
         Constant.LOGGER.debug("Callback {} interface from {}", callback, convert);
         return callback;
     }
+
+
 }

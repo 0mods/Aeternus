@@ -13,7 +13,8 @@ public enum MagicTypes implements MagicType {
     //Magic subtypes
     GENERATING("generating", MagicClassifier.SUBTYPE),
     CONSUMING("consuming", MagicClassifier.SUBTYPE),
-    STORAGE("storage", MagicClassifier.SUBTYPE);
+    STORAGE("storage", MagicClassifier.SUBTYPE),
+    ADMIN("admin", MagicClassifier.SUBTYPE);
 
     private final String name;
     private final int numerate;

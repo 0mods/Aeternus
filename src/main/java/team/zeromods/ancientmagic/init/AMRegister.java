@@ -27,6 +27,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryObject;
 import team.zeromods.ancientmagic.config.AMCommon;
+import team.zeromods.ancientmagic.item.CreativeBufItem;
 import team.zeromods.ancientmagic.item.ManaStorage;
 import team.zeromods.ancientmagic.item.RetraceStone;
 
@@ -50,6 +51,8 @@ public final class AMRegister {
             : ITEMS.register("retrace_stone", RetraceStone::new);
     public static final RegistryObject<MagicItem> START_MANA_STORAGE = ITEMS.register("start_mana_storage",
             ()-> new ManaStorage(MagicItem.MagicBuilder.get(), 1000, false));
+    public static final RegistryObject<MagicItem> CREATIVE_BUF_ITEM = !FMLEnvironment.production ?
+            ITEMS.register("creative_buf", CreativeBufItem::new) : null;
 
     static <Y, T extends IForgeRegistry<Y>> DeferredRegister<Y> deferredCreator(T forgeRegister) {
         return DeferredRegister.create(forgeRegister, Constant.Key);

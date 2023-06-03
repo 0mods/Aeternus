@@ -1,5 +1,10 @@
-package team.zeromods.ancientmagic.event.call;
+package team.zeromods.ancientmagic.init;
 
+import net.minecraft.world.entity.Entity;
+import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig;
 import team.zeromods.ancientmagic.config.AMCommon;
@@ -17,11 +22,8 @@ import net.minecraftforge.fml.event.lifecycle.FMLDedicatedServerSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import team.zeromods.ancientmagic.compact.CompactInitializer;
 import team.zeromods.ancientmagic.event.forge.MagicData;
-import team.zeromods.ancientmagic.init.AMCommands;
-import team.zeromods.ancientmagic.init.AMRegister;
-import team.zeromods.ancientmagic.init.AMTags;
 
-public class ModManagement {
+public class AMManage {
     protected static IEventBus FORGE_BUS = MinecraftForge.EVENT_BUS;
     protected static IEventBus MOD_BUS = FMLJavaModLoadingContext.get().getModEventBus();
     private static final ProxyBase PROXY = DistExecutor.safeRunForDist(()-> ClientInit::new, ()-> ServerInit::new);
@@ -38,9 +40,14 @@ public class ModManagement {
 
     private static void forgeEventsInitialize(IEventBus bus) {
         Constant.LOGGER.debug("Initializing forge events");
-        bus.addListener(ModManagement::modCommon);
+        bus.addListener(AMManage::modCommon);
         bus.addListener(AMCommands::registerCommands);
-        bus.addListener(MagicData::playerEvent);
+        bus.addListener(event -> {
+            MagicData.playerEvent(genericEvent(event));
+            MagicData.registerCapability(genericEvent(event));
+            MagicData.attachCapability(genericEvent(event));
+            MagicData.playerClone(genericEvent(event));
+        });
     }
 
     private static void modEventsInitialize(IEventBus bus) {
@@ -79,4 +86,8 @@ public class ModManagement {
 
     @FunctionalInterface
     private interface ProxyBase { void init(); }
+
+    private static <T extends Event, A extends Event> T genericEvent(A e) {
+        return (T) e;
+    }
 }
