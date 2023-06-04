@@ -4,7 +4,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig;
 import team.zeromods.ancientmagic.init.config.AMCommon;
-import team.zeromods.ancientmagic.event.forge.AncientMagicTabs;
+import team.zeromods.ancientmagic.event.mod.AncientMagicTabs;
 import api.ancientmagic.mod.Constant;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -32,7 +32,6 @@ public class AMManage {
 
         AMTags.init();
         AMRegister.init();
-        AMNetwork.init();
     }
 
     private static void forgeEventsInitialize(IEventBus bus) {
@@ -41,6 +40,7 @@ public class AMManage {
         bus.addListener(AMCommands::registerCommands);
         bus.addListener(MagicData::registerCapability);
         bus.addListener(MagicData::playerClone);
+        bus.addListener(MagicData::playerEvent);
         bus.addGenericListener(Entity.class, MagicData::attachCapability);
         bus.addListener(MagicData::playerTick);
         bus.addListener(MagicData::playerConnectToWorld);
@@ -54,6 +54,7 @@ public class AMManage {
 
     private static void modCommon(final FMLCommonSetupEvent e) {
         PROXY.init();
+        AMNetwork.init();
     }
 
     @Mod.EventBusSubscriber(modid = Constant.Key, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)

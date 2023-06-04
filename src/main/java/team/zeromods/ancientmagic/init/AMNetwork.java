@@ -39,14 +39,14 @@ public class AMNetwork {
                 .decoder(PlayerMagicDataSyncS2CPacket::new)
                 .encoder(PlayerMagicDataSyncS2CPacket::toBytes)
                 .consumerMainThread(PlayerMagicDataSyncS2CPacket::handle)
-                .add();//finalizing
+                .add(); //finalizing
     }
 
     public static <T> void sendToServer(T message) {
         INSTANCE.sendToServer(message);
     }
 
-    public static <T> void sendToClient(T message, ServerPlayer player) {
+    public static <T> void sendToPlayer(T message, ServerPlayer player) {
         INSTANCE.send(PacketDistributor.PLAYER.with(()-> player), message);
     }
 }

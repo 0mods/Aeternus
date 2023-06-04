@@ -1,4 +1,4 @@
-package team.zeromods.ancientmagic.event.forge;
+package team.zeromods.ancientmagic.event.mod;
 
 import api.ancientmagic.mod.Constant;
 import net.minecraft.network.chat.Component;
