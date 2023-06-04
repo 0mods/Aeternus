@@ -2,29 +2,32 @@ package team.zeromods.ancientmagic.event.forge;
 
 import api.ancientmagic.item.MagicItem;
 import api.ancientmagic.magic.MagicType;
-import api.ancientmagic.magic.MagicTypes;
 import api.ancientmagic.mod.Constant;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.InteractionHand;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.registries.ForgeRegistries;
-import team.zeromods.ancientmagic.capability.AMCapability;
+import team.zeromods.ancientmagic.init.AMCapability;
 import team.zeromods.ancientmagic.capability.PlayerMagicCapability;
 import team.zeromods.ancientmagic.compact.CompactInitializer;
-import team.zeromods.ancientmagic.config.AMCommon;
+import team.zeromods.ancientmagic.init.AMNetwork;
+import team.zeromods.ancientmagic.init.config.AMCommon;
 import team.zeromods.ancientmagic.init.AMTags;
+import team.zeromods.ancientmagic.network.PlayerMagicDataC2SPacket;
+import team.zeromods.ancientmagic.network.PlayerMagicDataSyncS2CPacket;
 
-import java.util.Objects;
 import java.util.ServiceLoader;
 
 public class MagicData {
-
     public static void tooltipEvent(ItemTooltipEvent e) {
         var stack = e.getItemStack();
         var tooltip = e.getToolTip();
@@ -55,32 +58,6 @@ public class MagicData {
         }
     }
 
-    public static void playerEvent(PlayerEvent event) {
-        var player = event.getEntity();
-
-        if (player != null) {
-            var stack = player.getItemInHand(InteractionHand.MAIN_HAND);
-
-            if (stack.getItem() instanceof MagicItem item) {
-                player.getCapability(AMCapability.PLAYER_MAGIC_HANDLER).ifPresent(cap -> {
-                    var tag = cap.getTag();
-
-                    if (tag.get("MagicPlayerData") != null) {
-                        if (tag.getInt("MagicPlayerData") >= (Objects.requireNonNull(item.getMagicType()).numerate())) {
-                            item.canUseItem = true;
-                        } else {
-                            player.displayClientMessage(MagicType.getMagicMessage("notLevel",
-                                            item.getMagicType().getTranslation(),
-                                            MagicTypes.getByNumeration(tag.getInt("MagicPlayerData")).getTranslation()),
-                                    true);
-                            item.canUseItem = false;
-                        }
-                    }
-                });
-            }
-        }
-    }
-
     public static void registerCapability(final RegisterCapabilitiesEvent e) {
         e.register(PlayerMagicCapability.Wrapper.class);
     }
@@ -89,7 +66,7 @@ public class MagicData {
         if (event.isWasDeath())
             event.getOriginal().getCapability(AMCapability.PLAYER_MAGIC_HANDLER).ifPresent(old ->
                     event.getOriginal().getCapability(AMCapability.PLAYER_MAGIC_HANDLER)
-                            .ifPresent(New-> New.copyFrom(old)));
+                            .ifPresent(newCap -> newCap.copyFrom(old)));
 
     }
 
@@ -100,12 +77,28 @@ public class MagicData {
         }
     }
 
+    public static void playerTick(final TickEvent.PlayerTickEvent e) {
+        if (e.side == LogicalSide.SERVER) {
+            e.player.getCapability(AMCapability.PLAYER_MAGIC_HANDLER).ifPresent(cap ->
+                AMNetwork.sendToClient(new PlayerMagicDataSyncS2CPacket(cap.getMagicLevel()), (ServerPlayer) e.player)
+            );
+        }
+    }
+
+    public static void playerConnectToWorld(EntityJoinLevelEvent event) {
+        if (!event.getLevel().isClientSide()) {
+            if (event.getEntity() instanceof ServerPlayer player) {
+                player.getCapability(AMCapability.PLAYER_MAGIC_HANDLER).ifPresent(cap ->
+                    AMNetwork.sendToClient(new PlayerMagicDataSyncS2CPacket(cap.getMagicLevel()), player)
+                );
+            }
+        }
+    }
+
     public static <T> T interfaceCallback(Class<T> convert) {
         final T callback = ServiceLoader.load(convert).findFirst()
                 .orElseThrow(()-> new NullPointerException(String.format("Failed to call interface for: %s", convert.getName())));
         Constant.LOGGER.debug("Callback {} interface from {}", callback, convert);
         return callback;
     }
-
-
 }

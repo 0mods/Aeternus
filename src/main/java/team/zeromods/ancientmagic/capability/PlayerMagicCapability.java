@@ -8,12 +8,12 @@ import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import team.zeromods.ancientmagic.init.AMCapability;
 
 public class PlayerMagicCapability {
 
     public static class Wrapper implements PlayerMagicTypeHandler {
         private int level;
-        private CompoundTag tag = new CompoundTag();
 
         @Override
         public int getMagicLevel() {
@@ -22,12 +22,12 @@ public class PlayerMagicCapability {
 
         @Override
         public void addMagicLevel(int add) {
-            this.level = Math.min(this.level + add, 0);
+            this.level = Math.min(this.level + add, 4);
         }
 
         @Override
         public void subLevel(int sub) {
-            this.level = Math.max(this.level - sub, 4);
+            this.level = Math.max(this.level - sub, 0);
         }
 
         @Override
@@ -37,24 +37,12 @@ public class PlayerMagicCapability {
 
         @Override
         public void saveTag(CompoundTag tag) {
-            ListTag tags = new ListTag();
-            CompoundTag compoundTag = new CompoundTag();
-            compoundTag.putInt("MagicPlayerLevel", this.level);
-            tags.add(compoundTag);
-
-            this.tag = tag;
-
-            tag.put("MagicPlayerData", tags);
+            tag.putInt("MagicPlayerLevel", this.level);
         }
 
         @Override
         public void loadTag(CompoundTag tagToLoad) {
             this.level = tagToLoad.getInt("MagicPlayerLevel");
-        }
-
-        @Override
-        public CompoundTag getTag() {
-            return this.tag;
         }
     }
 

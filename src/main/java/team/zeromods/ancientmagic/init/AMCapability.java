@@ -1,10 +1,11 @@
-package team.zeromods.ancientmagic.capability;
+package team.zeromods.ancientmagic.init;
 
 import api.ancientmagic.mod.Constant;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
+import team.zeromods.ancientmagic.capability.PlayerMagicTypeHandler;
 
 public class AMCapability {
     public static final Capability<PlayerMagicTypeHandler> PLAYER_MAGIC_HANDLER =

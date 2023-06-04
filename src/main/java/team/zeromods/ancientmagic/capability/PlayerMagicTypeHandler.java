@@ -15,6 +15,4 @@ public interface PlayerMagicTypeHandler {
     void saveTag(CompoundTag tag);
 
     void loadTag(CompoundTag tagToLoad);
-
-    CompoundTag getTag();
 }

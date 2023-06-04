@@ -28,7 +28,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import team.zeromods.ancientmagic.compact.CompactInitializer;
 import team.zeromods.ancientmagic.compact.curios.events.RetraceStoneEvent;
-import team.zeromods.ancientmagic.config.AMCommon;
+import team.zeromods.ancientmagic.init.config.AMCommon;
 import team.zeromods.ancientmagic.init.AMRegister;
 import team.zeromods.ancientmagic.init.AMTags;
 import team.zeromods.ancientmagic.item.RetraceStone;

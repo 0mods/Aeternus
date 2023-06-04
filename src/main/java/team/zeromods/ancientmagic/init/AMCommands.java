@@ -7,10 +7,10 @@ import com.mojang.brigadier.builder.ArgumentBuilder;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.event.RegisterCommandsEvent;
-import team.zeromods.ancientmagic.capability.AMCapability;
 
 import java.util.Collection;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -43,33 +43,21 @@ public class AMCommands {
 
         for (var player : players) {
             player.getCapability(AMCapability.PLAYER_MAGIC_HANDLER).ifPresent(cap -> {
-                        var playerData = cap.getTag();
-                        if (playerData.get("MagicPlayerData") != null) {
-                            var iValue = playerData.getInt("MagicPlayerData");
-                            if (iValue == countOfLevels && countOfLevels == 4) {
-                                sourceStack.sendFailure(command("max"));
+                var iValue = cap.getMagicLevel();
+                if (iValue == countOfLevels && countOfLevels == 4) {
+                    sourceStack.sendFailure(command("max"));
+                    returnValue.set(0);
+                } else if (iValue < countOfLevels) {
+                    var playerData = new CompoundTag();
+                    playerData.putInt("MagicPlayerData", countOfLevels);
 
-                                returnValue.set(0);
-                            } else if (iValue < countOfLevels) {
-                                playerData.putInt("MagicPlayerData", countOfLevels);
-                                sourceStack.sendSuccess(command("success", countOfLevels), false);
+                    cap.saveTag(playerData);
 
-                                returnValue.set(players.size());
-                            }
-                        } else {
-                            var tag = cap.getTag();
+                    sourceStack.sendSuccess(command("success", countOfLevels), false);
 
-                            if (countOfLevels <= 4) {
-                                tag.putInt("MagicPlayerData", countOfLevels);
-                                sourceStack.sendSuccess(command("success", countOfLevels), false);
-                            } else if (countOfLevels > 4) {
-                                sourceStack.sendFailure(command("numberIsLarge"));
-
-                                returnValue.set(0);
-                            }
-                        }
-                    }
-            );
+                    returnValue.set(players.size());
+                }
+            });
         }
         return returnValue.get();
     }

@@ -1,13 +1,9 @@
 package team.zeromods.ancientmagic.init;
 
 import net.minecraft.world.entity.Entity;
-import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
-import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig;
-import team.zeromods.ancientmagic.config.AMCommon;
+import team.zeromods.ancientmagic.init.config.AMCommon;
 import team.zeromods.ancientmagic.event.forge.AncientMagicTabs;
 import api.ancientmagic.mod.Constant;
 import net.minecraftforge.api.distmarker.Dist;
@@ -36,18 +32,18 @@ public class AMManage {
 
         AMTags.init();
         AMRegister.init();
+        AMNetwork.init();
     }
 
     private static void forgeEventsInitialize(IEventBus bus) {
         Constant.LOGGER.debug("Initializing forge events");
         bus.addListener(AMManage::modCommon);
         bus.addListener(AMCommands::registerCommands);
-        bus.addListener(event -> {
-            MagicData.playerEvent(genericEvent(event));
-            MagicData.registerCapability(genericEvent(event));
-            MagicData.attachCapability(genericEvent(event));
-            MagicData.playerClone(genericEvent(event));
-        });
+        bus.addListener(MagicData::registerCapability);
+        bus.addListener(MagicData::playerClone);
+        bus.addGenericListener(Entity.class, MagicData::attachCapability);
+        bus.addListener(MagicData::playerTick);
+        bus.addListener(MagicData::playerConnectToWorld);
     }
 
     private static void modEventsInitialize(IEventBus bus) {
@@ -86,8 +82,4 @@ public class AMManage {
 
     @FunctionalInterface
     private interface ProxyBase { void init(); }
-
-    private static <T extends Event, A extends Event> T genericEvent(A e) {
-        return (T) e;
-    }
 }

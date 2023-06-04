@@ -4,7 +4,9 @@ import api.ancientmagic.mod.Constant;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import org.jetbrains.annotations.NotNull;
 
+@NotNull
 public interface MagicType {
     String getId();
 
