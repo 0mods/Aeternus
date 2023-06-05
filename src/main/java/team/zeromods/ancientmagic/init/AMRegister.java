@@ -27,8 +27,11 @@ import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryObject;
 import team.zeromods.ancientmagic.init.config.AMCommon;
 import team.zeromods.ancientmagic.item.CreativeBufItem;
+import team.zeromods.ancientmagic.item.MagicBook;
 import team.zeromods.ancientmagic.item.ManaStorage;
 import team.zeromods.ancientmagic.item.RetraceStone;
+
+import java.util.function.Supplier;
 
 public final class AMRegister {
     public static final DeferredRegister<Item> ITEMS = deferredCreator(ForgeRegistries.ITEMS);
@@ -42,16 +45,29 @@ public final class AMRegister {
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE = deferredCreator(ForgeRegistries.RECIPE_SERIALIZERS);
     public static final DeferredRegister<Codec<? extends BiomeModifier>> MODIFIER_CODEC = deferredCreator(ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS);
 
-    public static final RegistryObject<MagicItem> MAGIC_DUST = ITEMS.register("magic_dust",
+    public static final RegistryObject<MagicItem> MAGIC_DUST = i("magic_dust",
             ()-> new MagicItem(MagicItem.MagicBuilder.get().setMagicType(MagicTypes.LOW_MAGIC)));
-    public static final RegistryObject<MagicItem> RETRACE_CRYSTAL = (ModList.get().isLoaded("waystones")
-            && (FMLEnvironment.production && AMCommon.COMPACT_WAYSTONES.get()))
-            ? ITEMS.register("teleportation_crystal", RetraceStone::new)
-            : ITEMS.register("retrace_stone", RetraceStone::new);
-    public static final RegistryObject<MagicItem> START_MANA_STORAGE = ITEMS.register("start_mana_storage",
+    public static final RegistryObject<MagicItem> RETRACE_CRYSTAL =
+        boolReg("teleportation_crystal", RetraceStone::new, ModList.get().isLoaded("waystones")
+            && (FMLEnvironment.production && AMCommon.COMPACT_WAYSTONES.get()), "retrace_stone", RetraceStone::new);
+    public static final RegistryObject<MagicItem> START_MANA_STORAGE = i("start_mana_storage",
             ()-> new ManaStorage(MagicItem.MagicBuilder.get(), 1000, false));
-    public static final RegistryObject<MagicItem> CREATIVE_BUF_ITEM = !FMLEnvironment.production ?
-            ITEMS.register("creative_buf", CreativeBufItem::new) : null;
+    public static final RegistryObject<MagicItem> CREATIVE_BUF_ITEM =
+            boolReg("creative_buf", CreativeBufItem::new, !FMLEnvironment.production);
+    public static final RegistryObject<Item> MAGIC_BOOK = i("magic_book", MagicBook::new);
+
+    static <T extends Item> RegistryObject<T> boolReg(String id, Supplier<T> sup, boolean boolIfReg) {
+        return boolIfReg ? i(id, sup) : null;
+    }
+
+    static <T extends Item> RegistryObject<T> boolReg(String id, Supplier<T> sup, boolean boolIfReg, String idIfBool,
+                                                      Supplier<T> supIfBool) {
+        return boolIfReg ? i(id, sup) : i(idIfBool, supIfBool);
+    }
+
+    static <T extends Item> RegistryObject<T> i(String id, Supplier<T> sup) {
+        return ITEMS.register(id, sup);
+    }
 
     static <Y, T extends IForgeRegistry<Y>> DeferredRegister<Y> deferredCreator(T forgeRegister) {
         return DeferredRegister.create(forgeRegister, Constant.Key);

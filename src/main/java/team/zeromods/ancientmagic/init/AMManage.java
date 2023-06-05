@@ -27,8 +27,8 @@ public class AMManage {
     public static void init() {
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, AMCommon.SPEC.build());
 
-        forgeEventsInitialize(FORGE_BUS);
         modEventsInitialize(MOD_BUS);
+        forgeEventsInitialize(FORGE_BUS);
 
         AMTags.init();
         AMRegister.init();
@@ -42,14 +42,15 @@ public class AMManage {
         bus.addListener(MagicData::playerClone);
         bus.addListener(MagicData::playerEvent);
         bus.addGenericListener(Entity.class, MagicData::attachCapability);
-        bus.addListener(MagicData::playerTick);
-        bus.addListener(MagicData::playerConnectToWorld);
+//        bus.addListener(MagicData::playerTick);
+//        bus.addListener(MagicData::playerConnectToWorld);
     }
 
     private static void modEventsInitialize(IEventBus bus) {
         Constant.LOGGER.debug("Initializing mod events");
         CompactInitializer.init(bus);
         bus.addListener(AncientMagicTabs::registerTabs);
+        bus.addListener(AMManage::modCommon);
     }
 
     private static void modCommon(final FMLCommonSetupEvent e) {

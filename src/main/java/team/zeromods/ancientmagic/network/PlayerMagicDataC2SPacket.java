@@ -6,30 +6,31 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.InteractionHand;
 import net.minecraftforge.network.NetworkEvent;
 import team.zeromods.ancientmagic.init.AMCapability;
-import team.zeromods.ancientmagic.network.base.BaseC2SPacket;
 
 import java.util.Objects;
 import java.util.function.Supplier;
 
-public class PlayerMagicDataC2SPacket extends BaseC2SPacket {
+public class PlayerMagicDataC2SPacket {
     public PlayerMagicDataC2SPacket(FriendlyByteBuf byteBuf) {
-        super(byteBuf);
     }
 
-    @Override
-    public void toBytes(FriendlyByteBuf byteBuf) {
+    public PlayerMagicDataC2SPacket() {
 
     }
 
-    @Override
-    public boolean handle(Supplier<NetworkEvent.Context> ctxSup) {
+    public void encode(FriendlyByteBuf byteBuf) {}
+
+    public static PlayerMagicDataC2SPacket decode(FriendlyByteBuf byteBuf) {
+        return new PlayerMagicDataC2SPacket(byteBuf);
+    }
+
+    public void handle(Supplier<NetworkEvent.Context> ctxSup) {
         var context = ctxSup.get();
 
         context.enqueueWork(()-> {
             var serverPlayer = context.getSender();
 
             if (serverPlayer != null) {
-                var serverLevel = serverPlayer.getLevel();
                 var stack = serverPlayer.getItemInHand(InteractionHand.MAIN_HAND);
 
                 if (stack.getItem() instanceof MagicItem item) {
@@ -50,7 +51,5 @@ public class PlayerMagicDataC2SPacket extends BaseC2SPacket {
                 }
             }
         });
-
-        return true;
     }
 }

@@ -18,8 +18,9 @@
   "magic.ancientmagic.nomana": "Not enough mana! You can't use %s",
   "magic.ancientmagic.storage": "Mana storage: %s/%s",
   "magic.ancientmagic.notLevel": "You can't use this item! Minimal level for use: %s§f. Your level is: %s§f.",
-  "magic.ancientmagic.admin.levelAdded": "Your level is upgraded! Current level: %s",
-  "magic.ancientmagic.admin.levelMax": "Your %s magic level is max!",
+  "magic.ancientmagic.admin.levelAdded": "Your level is updated! Current level: %s",
+  "magic.ancientmagic.admin.levelMax": "%s magic level is max!",
+  "magic.ancientmagic.admin.levelMin": "%s magic level is min!",
 
   "itemTab.ancientmagic.tab": "Ancient Magic",
 

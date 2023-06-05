@@ -9,6 +9,8 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import team.zeromods.ancientmagic.init.AMCapability;
+import team.zeromods.ancientmagic.init.AMNetwork;
+import team.zeromods.ancientmagic.network.PlayerMagicDataC2SPacket;
 
 public class CreativeBufItem extends MagicItem {
     public CreativeBufItem() {
@@ -20,13 +22,13 @@ public class CreativeBufItem extends MagicItem {
         if (player.hasPermissions(Commands.LEVEL_ADMINS) || player.isCreative()) {
 
             player.getCapability(AMCapability.PLAYER_MAGIC_HANDLER).ifPresent(cap -> {
-                var tag = new CompoundTag();
                 var currentLevel = cap.getMagicLevel();
 
                     if (!player.isShiftKeyDown()) {
                         if (currentLevel < 4) {
                             var addition = currentLevel + 1;
                             cap.addMagicLevel(1);
+                            AMNetwork.INSTANCE.sendToServer(new PlayerMagicDataC2SPacket());
                             player.displayClientMessage(MagicType.getMagicMessage("admin.levelAdded",
                                     MagicTypes.getByNumeration(addition).getTranslation()), false);
                         } else if (currentLevel == 4) {
@@ -34,12 +36,13 @@ public class CreativeBufItem extends MagicItem {
                                     MagicTypes.getByNumeration(currentLevel).getTranslation()), false);
                         }
                     } else {
-                        if (currentLevel <= 4 && currentLevel != 1) {
+                        if (currentLevel <= 4 && currentLevel != 0) {
                             var minus = currentLevel - 1;
                             cap.subLevel(1);
+                            AMNetwork.INSTANCE.sendToServer(new PlayerMagicDataC2SPacket());
                             player.displayClientMessage(MagicType.getMagicMessage("admin.levelAdded",
                                     MagicTypes.getByNumeration(minus).getTranslation()), false);
-                        } else if (currentLevel == 1) {
+                        } else if (currentLevel == 0) {
                             player.displayClientMessage(MagicType.getMagicMessage("admin.levelMin",
                                     MagicTypes.getByNumeration(currentLevel).getTranslation()), false);
                         }
