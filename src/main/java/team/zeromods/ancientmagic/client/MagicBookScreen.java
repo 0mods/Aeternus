@@ -56,10 +56,10 @@ public class MagicBookScreen extends Screen {
                 player
         );
 
-        player.getCapability(AMCapability.PLAYER_MAGIC_HANDLER).ifPresent(cap ->
-                this.minecraft.font.draw(pPoseStack, Component.translatable("magic.ancientmagic.level",
-                                MagicTypes.getByNumeration(cap.getMagicLevel()).getTranslation()),
-                j + 58, k + 122, ChatFormatting.BLACK.getId()));
+
+        this.minecraft.font.draw(pPoseStack, Component.translatable("magic.ancientmagic.level",
+                        MagicTypes.getByNumeration(ClientPlayerMagicData.getPlayerData()).getTranslation()),
+                j + 56, k + 122, ChatFormatting.BLACK.getId());
     }
 
     private static ResourceLocation textureGen(String name) {

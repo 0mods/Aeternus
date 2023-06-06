@@ -19,6 +19,7 @@ import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.registries.ForgeRegistries;
+import team.zeromods.ancientmagic.client.ClientPlayerMagicData;
 import team.zeromods.ancientmagic.init.AMCapability;
 import team.zeromods.ancientmagic.capability.PlayerMagicCapability;
 import team.zeromods.ancientmagic.compact.CompactInitializer;
@@ -60,28 +61,30 @@ public class MagicData {
         }
     }
 
+    public static void attachCapability(final AttachCapabilitiesEvent<Entity> event) {
+        if (event.getObject() instanceof Player) {
+            if (!event.getObject().getCapability(AMCapability.PLAYER_MAGIC_HANDLER).isPresent())
+                event.addCapability(AMCapability.PLAYER_MAGIC_HANDLER_ID, new PlayerMagicCapability.Provider());
+        }
+    }
+
     public static void playerEvent(PlayerEvent event) {
         var player = event.getEntity();
 
         if (player != null) {
             var stack = player.getItemInHand(InteractionHand.MAIN_HAND);
 
-
             if (stack.getItem() instanceof MagicItem item) {
-                player.getCapability(AMCapability.PLAYER_MAGIC_HANDLER).ifPresent(cap -> {
-                    var magicLevel = cap.getMagicLevel();
-
-                    if (magicLevel >= (Objects.requireNonNull(item.getMagicType()).numerate())) {
-                        item.canUseItem = true;
-                    } else {
-                        player.displayClientMessage(MagicType.getMagicMessage("notLevel",
-                                        item.getMagicType().getTranslation(),
-                                        MagicTypes.getByNumeration(magicLevel).getTranslation()),
-                                true);
-                        item.canUseItem = false;
-                    }
-
-                });
+                var magicLevel = ClientPlayerMagicData.getPlayerData();
+                if (magicLevel >= (Objects.requireNonNull(item.getMagicType()).numerate())) {
+                    item.canUseItem = true;
+                } else {
+                    player.displayClientMessage(MagicType.getMagicMessage("notLevel",
+                                    item.getMagicType().getTranslation(),
+                                    MagicTypes.getByNumeration(ClientPlayerMagicData.getPlayerData()).getTranslation()),
+                            true);
+                    item.canUseItem = false;
+                }
             }
 
         }
@@ -99,26 +102,11 @@ public class MagicData {
 
     }
 
-    public static void attachCapability(final AttachCapabilitiesEvent<Entity> event) {
-        if (event.getObject() instanceof Player) {
-            if (!event.getObject().getCapability(AMCapability.PLAYER_MAGIC_HANDLER).isPresent())
-                event.addCapability(AMCapability.PLAYER_MAGIC_HANDLER_ID, new PlayerMagicCapability.Provider());
-        }
-    }
-
-    public static void playerTick(final TickEvent.PlayerTickEvent e) {
-        if (e.side == LogicalSide.SERVER) {
-            e.player.getCapability(AMCapability.PLAYER_MAGIC_HANDLER).ifPresent(cap ->
-                AMNetwork.INSTANCE.send(PacketDistributor.PLAYER.with(()-> (ServerPlayer) e.player), new PlayerMagicDataSyncS2CPacket(cap.getMagicLevel()))
-            );
-        }
-    }
-
     public static void playerConnectToWorld(EntityJoinLevelEvent event) {
         if (!event.getLevel().isClientSide()) {
             if (event.getEntity() instanceof ServerPlayer player) {
-                player.getCapability(AMCapability.PLAYER_MAGIC_HANDLER).ifPresent(cap ->//MagicData:122
-                    AMNetwork.INSTANCE.send(PacketDistributor.PLAYER.with(()-> player), new PlayerMagicDataSyncS2CPacket(cap.getMagicLevel())) //MagicData:123
+                player.getCapability(AMCapability.PLAYER_MAGIC_HANDLER).ifPresent(cap ->
+                    AMNetwork.sendToPlayer(new PlayerMagicDataSyncS2CPacket(cap.getMagicLevel()), player)
                 );
             }
         }

@@ -17,7 +17,9 @@ public class PlayerMagicDataSyncS2CPacket {
         this.data = byteBuf.readInt();
     }
 
-    public void encode(FriendlyByteBuf byteBuf) {}
+    public void encode(FriendlyByteBuf byteBuf) {
+        byteBuf.writeInt(this.data);
+    }
 
     public static PlayerMagicDataSyncS2CPacket decode(FriendlyByteBuf byteBuf) {
         return new PlayerMagicDataSyncS2CPacket(byteBuf);
@@ -26,6 +28,5 @@ public class PlayerMagicDataSyncS2CPacket {
     public void handle(Supplier<NetworkEvent.Context> ctxSup) {
         var context = ctxSup.get();
         context.enqueueWork(()-> ClientPlayerMagicData.setPlayerData(this.data));
-
     }
 }
