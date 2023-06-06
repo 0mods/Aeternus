@@ -16,6 +16,8 @@ public class MagicBookScreen extends Screen {
     private static final int imgWidth = 512;
     private static final int imgHeight = 256;
 
+    private static final ResourceLocation TEXTURE = textureGen("main");
+
     public MagicBookScreen() {
         super(Component.empty());
     }
@@ -31,17 +33,41 @@ public class MagicBookScreen extends Screen {
         var player = this.minecraft.player;
 
         assert player != null;
+
+        this.renderBackground(pPoseStack);
+        RenderSystem.setShaderTexture(0, TEXTURE);
+
+//        for (int i = 0; i < j; i++) {
+//            for (int l = 0; l < k; l++) {
+//                if (i == 66 && l == 29)
+//                    RenderSystem.setShaderTexture(1, textureGen("player_display"));
+//                if (i == 62 && l == 119)
+//                    RenderSystem.setShaderTexture(2, textureGen("tag_display"));
+//            }
+//        }
+
         blit(pPoseStack, j, k, 0, 0, imgWidth, imgHeight, imgWidth, imgHeight);
-        RenderSystem.setShaderTexture(0, new ResourceLocation(Constant.Key,
-                "textures/screen/magicbook/main.png"));
+
+        int xPos = j+97;
+        int yPos = k+111;
+
         InventoryScreen.renderEntityInInventoryFollowsMouse(
-                pPoseStack, 68, 31, 30, 68 - (float) xMouse, (float) yMouse,
+                pPoseStack, xPos, yPos, 35, (float) xPos - xMouse, (float) yPos - yMouse,
                 player
         );
 
-        player.getCapability(AMCapability.PLAYER_MAGIC_HANDLER).ifPresent(cap -> {
-            this.minecraft.font.draw(pPoseStack, MagicTypes.getByNumeration(cap.getMagicLevel()).getTranslation(),
-                    69, 122, ChatFormatting.BLACK.getId());
-        });
+        player.getCapability(AMCapability.PLAYER_MAGIC_HANDLER).ifPresent(cap ->
+                this.minecraft.font.draw(pPoseStack, Component.translatable("magic.ancientmagic.level",
+                                MagicTypes.getByNumeration(cap.getMagicLevel()).getTranslation()),
+                j + 58, k + 122, ChatFormatting.BLACK.getId()));
+    }
+
+    private static ResourceLocation textureGen(String name) {
+        return new ResourceLocation(Constant.Key, String.format("textures/screen/magicbook/%s.png", name));
+    }
+
+    @Override
+    public boolean isPauseScreen() {
+        return false;
     }
 }

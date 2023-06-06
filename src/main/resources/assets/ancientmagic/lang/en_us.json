@@ -21,6 +21,7 @@
   "magic.ancientmagic.admin.levelAdded": "Your level is updated! Current level: %s",
   "magic.ancientmagic.admin.levelMax": "%s magic level is max!",
   "magic.ancientmagic.admin.levelMin": "%s magic level is min!",
+  "magic.ancientmagic.level": "Mag.Lvl: %s",
 
   "itemTab.ancientmagic.tab": "Ancient Magic",
 
