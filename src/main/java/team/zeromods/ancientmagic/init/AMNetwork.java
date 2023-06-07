@@ -19,25 +19,36 @@ import java.util.function.Supplier;
 
 public class AMNetwork {
     private static final String NTW_VER = "1";
-    public final static SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(//AMNetwork:18
-            new ResourceLocation(Constant.Key, "main"),
-            ()-> NTW_VER,
-            NTW_VER::equals,
-            NTW_VER::equals
-    );
+    public static SimpleChannel INSTANCE;
 
     private static int packetIndex = 0;
 
-    public static synchronized void init() {
-        register(PlayerMagicDataC2SPacket.class, PlayerMagicDataC2SPacket::encode, PlayerMagicDataC2SPacket::decode,
-                PlayerMagicDataC2SPacket::handle, NetworkDirection.PLAY_TO_SERVER);
-        register(PlayerMagicDataSyncS2CPacket.class, PlayerMagicDataSyncS2CPacket::encode, PlayerMagicDataSyncS2CPacket::decode,
-                PlayerMagicDataSyncS2CPacket::handle, NetworkDirection.PLAY_TO_CLIENT);
+    private static int id() {
+        return packetIndex++ ;
     }
 
-    private static <T> void register(Class<T> messType, BiConsumer<T, FriendlyByteBuf> encoder, Function<FriendlyByteBuf, T> decoder,
-                                     BiConsumer<T, Supplier<NetworkEvent.Context>> messConsumer, NetworkDirection direction) {
-        INSTANCE.registerMessage(++packetIndex, messType, encoder, decoder, messConsumer, Optional.ofNullable(direction));
+    public static synchronized void init() {
+
+        SimpleChannel network = NetworkRegistry.newSimpleChannel(//AMNetwork:18
+                new ResourceLocation(Constant.Key, "main"),
+                ()-> NTW_VER,
+                NTW_VER::equals,
+                NTW_VER::equals
+        );
+
+        INSTANCE = network;
+
+        network.messageBuilder(PlayerMagicDataC2SPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
+                .decoder(PlayerMagicDataC2SPacket::decode)
+                .encoder(PlayerMagicDataC2SPacket::encode)
+                .consumerMainThread(PlayerMagicDataC2SPacket::handle)
+                .add();
+
+        network.messageBuilder(PlayerMagicDataSyncS2CPacket.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(PlayerMagicDataSyncS2CPacket::decode)
+                .encoder(PlayerMagicDataSyncS2CPacket::encode)
+                .consumerMainThread(PlayerMagicDataSyncS2CPacket::handle)
+                .add();
     }
 
     public static <MSG> void sendToServer(MSG message) {

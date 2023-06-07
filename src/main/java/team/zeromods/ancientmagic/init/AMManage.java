@@ -42,6 +42,7 @@ public class AMManage {
         bus.addListener(MagicData::playerEvent);
         bus.addGenericListener(Entity.class, MagicData::attachCapability);
         bus.addListener(MagicData::playerConnectToWorld);
+        bus.addListener(MagicData::playerTickEvent);
     }
 
     private static void modEventsInitialize(IEventBus bus) {

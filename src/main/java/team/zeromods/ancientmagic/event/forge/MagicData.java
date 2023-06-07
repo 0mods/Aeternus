@@ -111,4 +111,12 @@ public class MagicData {
             }
         }
     }
+    public static void playerTickEvent(TickEvent.PlayerTickEvent event) {
+        if (!event.player.level.isClientSide()) {
+            if (event.player instanceof ServerPlayer player) {
+                player.getCapability(AMCapability.PLAYER_MAGIC_HANDLER).ifPresent(cap ->
+                        AMNetwork.sendToPlayer(new PlayerMagicDataSyncS2CPacket(cap.getMagicLevel()), player));
+            }
+        }
+    }
 }
