@@ -119,6 +119,7 @@ public class MagicItem extends Item implements MagicState {
         return InteractionResultHolder.pass(stack);
     }
 
+    @SuppressWarnings({"DeprecatedIsStillUsed", "unused"})
     public static class MagicBuilder {
         private Properties properties = new Properties();
         private MagicType magicType = MagicTypes.LOW_MAGIC;
@@ -150,22 +151,18 @@ public class MagicItem extends Item implements MagicState {
         public int getMaxMana(ItemStack stack) {
             var tag = stack.getOrCreateTag();
 
-            if (tag.get("MaxManaStorage") != null) {
-                return tag.getInt("MaxManaStorage");
-            } else {
+            if (tag.get("MaxManaStorage") == null)
                 tag.putInt("MaxManaStorage", this.maxManaStorage);
-                return tag.getInt("MaxManaStorage");
-            }
+
+            return tag.getInt("MaxManaStorage");
         }
 
         private int getManaCount(ItemStack stack) {
             var tag = stack.getOrCreateTag();
-            if (tag.get("ManaStorage") != null)
-                return tag.getInt("ManaStorage");
-            else {
+            if (tag.get("ManaStorage") == null)
                 tag.putInt("ManaStorage", 0);
-                return tag.getInt("ManaStorage");
-            }
+
+            return tag.getInt("ManaStorage");
         }
 
         public MagicBuilder fireProof() {
@@ -178,6 +175,7 @@ public class MagicItem extends Item implements MagicState {
             return this;
         }
 
+        @Nullable
         public MagicBuilder setMagicType(MagicType type) {
             this.magicType = type;
             return this;
@@ -187,6 +185,7 @@ public class MagicItem extends Item implements MagicState {
             return this.magicType;
         }
 
+        @Nullable
         public MagicBuilder setMagicSubtype(MagicType type) {
             if (this.getMagicType() != null && type.getClassifier() == MagicType.MagicClassifier.SUBTYPE) {
                 this.magicSubtype = type;

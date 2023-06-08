@@ -13,6 +13,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.flag.FeatureFlag;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
@@ -33,29 +34,32 @@ import java.util.function.ToIntFunction;
 
 public class MagicBlock extends Block implements EntityBlock, MagicState {
     protected final MagicBuilder builder;
-    protected final BlockEntityType<MagicBlockEntity> blockEntity;
+    protected final BlockEntityType<? extends MagicBlockEntity> blockEntity;
 
-    public MagicBlock(MagicBuilder builder, BlockEntityType<MagicBlockEntity> blockEntity) {
+    public MagicBlock(MagicBuilder builder) {
         super(builder.getProperties());
         this.builder = builder;
-        this.blockEntity = blockEntity;
+        this.blockEntity = builder.getBlockEntityType();
     }
 
     @Override
-    public InteractionResult use(@NotNull BlockState p_60503_, @NotNull Level p_60504_, @NotNull BlockPos p_60505_,
-                                 @NotNull Player p_60506_, @NotNull InteractionHand p_60507_,
-                                 @NotNull BlockHitResult p_60508_) {
+    public @NotNull InteractionResult use(@NotNull BlockState p_60503_, @NotNull Level p_60504_, @NotNull BlockPos p_60505_,
+                                          @NotNull Player p_60506_, @NotNull InteractionHand p_60507_,
+                                          @NotNull BlockHitResult p_60508_) {
         return super.use(p_60503_, p_60504_, p_60505_, p_60506_, p_60507_, p_60508_);
     }
 
+    @SuppressWarnings("unchecked")
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos p_153215_, BlockState p_153216_) {
-        return new MagicBlockEntity(this.blockEntity, p_153215_, p_153216_);
+        if (this.blockEntity != null)
+            return new MagicBlockEntity((BlockEntityType<MagicBlockEntity>) this.blockEntity, p_153215_, p_153216_);
+        else return null;
     }
 
     @Override
-    @Nullable
+    @NotNull
     public MagicType getMagicType() {
         if (this.builder.getMagicType() != null) {
             if (this.builder.getMagicType().getClassifier() == MagicClassifier.MAIN_TYPE)
@@ -116,8 +120,7 @@ public class MagicBlock extends Block implements EntityBlock, MagicState {
         private Properties properties = Properties.of(Material.STONE);
         private MagicType magicType = MagicTypes.LOW_MAGIC;
         private MagicType magicSubtype;
-
-        private MagicBuilder() {}
+        private BlockEntityType<? extends MagicBlockEntity> blockEntity;
 
         public static MagicBuilder get() {
             return new MagicBuilder();
@@ -309,6 +312,25 @@ public class MagicBlock extends Block implements EntityBlock, MagicState {
         protected MagicBuilder setMaxMana(int maxMana, MagicBlockEntity entity) {
             entity.getUpdateTag().putInt("MaxManaStorage", maxMana);
             return this;
+        }
+
+        public MagicBuilder setBlockEntityType(BlockEntityType<? extends MagicBlockEntity> entityType) {
+            this.blockEntity = entityType;
+            return this;
+        }
+
+        @Nullable
+        public BlockEntityType<? extends MagicBlockEntity> getBlockEntityType() {
+            if (this.blockEntity != null)
+                return this.blockEntity;
+            else throw new NullPointerException(String.format("Block Entity type %s is null", this.getBlockEntityType()));
+        }
+
+        @Nullable
+        public BlockEntity getBlockEntity(BlockGetter block, BlockPos pos) {
+            if (this.getBlockEntityType() != null)
+                return this.getBlockEntityType().getBlockEntity(block, pos);
+            else throw new NullPointerException(String.format("Block Entity type %s is null", this.getBlockEntityType()));
         }
 
         private MagicType getMagicType() {

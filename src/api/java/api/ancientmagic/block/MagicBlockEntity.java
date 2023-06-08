@@ -9,4 +9,6 @@ public class MagicBlockEntity extends BlockEntity {
     public MagicBlockEntity(BlockEntityType<MagicBlockEntity> p_155228_, BlockPos p_155229_, BlockState p_155230_) {
         super(p_155228_, p_155229_, p_155230_);
     }
+
+
 }
