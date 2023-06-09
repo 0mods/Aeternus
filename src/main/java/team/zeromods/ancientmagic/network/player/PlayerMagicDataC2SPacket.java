@@ -1,4 +1,4 @@
-package team.zeromods.ancientmagic.network;
+package team.zeromods.ancientmagic.network.player;
 
 import api.ancientmagic.item.MagicItem;
 import api.ancientmagic.mod.Constant;
@@ -34,10 +34,11 @@ public class PlayerMagicDataC2SPacket {
                 var stack = serverPlayer.getItemInHand(InteractionHand.MAIN_HAND);
 
                 if (stack.getItem() instanceof MagicItem item) {
-                    serverPlayer.getCapability(AMCapability.PLAYER_MAGIC_HANDLER).ifPresent(cap -> {
-                        if (cap.getMagicLevel() >= Objects.requireNonNull(item.getMagicType()).numerate())
-                            item.canUseItem = true;
-                        else {
+                    serverPlayer.getCapability(AMCapability.PLAYER_MAGIC_HANDLER).ifPresent(cap ->
+                        stack.getCapability(AMCapability.MAGIC_OBJECT).ifPresent(iCap -> {
+                            if (cap.getMagicLevel() >= Objects.requireNonNull(iCap.getMagicType()).numerate())
+                                item.setItemUse(true);
+                            else {
                             /*if (serverLevel.isClientSide) {
                                 serverPlayer.displayClientMessage(MagicType.getMagicMessage("notLevel",
                                                 item.getMagicType().getTranslation(),
@@ -45,9 +46,11 @@ public class PlayerMagicDataC2SPacket {
                                         true);
 
                             } else*/ Constant.LOGGER.debug("Player haven't required level for use item");
-                            item.canUseItem = false;
-                        }
-                    });
+                                item.setItemUse(false);
+                            }
+
+                        })
+                    );
                 }
             }
         });

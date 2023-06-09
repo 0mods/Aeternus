@@ -11,20 +11,33 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.event.RegisterCommandsEvent;
+import team.zeromods.ancientmagic.init.config.AMCommon;
 
 import java.util.Collection;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class AMCommands {
+    public static final String[] NAMES_OF_COMMAND = new String[] {
+            "am",
+            "ancientmagic",
+            "ancient",
+            "magicancient"
+    };
+
     public static void registerCommands(RegisterCommandsEvent e) {
         commandRegister(e.getDispatcher());
     }
 
     private static void commandRegister(CommandDispatcher<CommandSourceStack> sourceStack) {
-        sourceStack.register(
-                Commands.literal("am")
-                        .then(registerSetStage())
-        );
+        String[] names = AMCommon.VALID_COMMAND_NAMES != null ? AMCommon.VALID_COMMAND_NAMES.get() :
+                AMCommands.NAMES_OF_COMMAND;
+
+        for (String name : names) {
+            sourceStack.register(
+                    Commands.literal(name)
+                            .then(registerSetStage())
+            );
+        }
     }
 
     private static ArgumentBuilder<CommandSourceStack, ?> registerSetStage() {
@@ -32,7 +45,7 @@ public class AMCommands {
                 .requires(req -> req.hasPermission(Commands.LEVEL_ADMINS))
                 .then(
                         Commands.argument("players", EntityArgument.players())
-                                .then(Commands.argument("level", IntegerArgumentType.integer(0, 4)))
+                                .then(Commands.argument("levels", IntegerArgumentType.integer(0, 4)))
                 )
                 .executes(cmd -> setLevel(cmd.getSource(), EntityArgument.getPlayers(cmd, "players"),
                         IntegerArgumentType.getInteger(cmd, "levels")));
@@ -48,10 +61,7 @@ public class AMCommands {
                     sourceStack.sendFailure(command("max"));
                     returnValue.set(0);
                 } else if (iValue < countOfLevels) {
-                    var playerData = new CompoundTag();
-                    playerData.putInt("MagicPlayerData", countOfLevels);
-
-                    cap.saveTag(playerData);
+                    cap.setLevel(countOfLevels);
 
                     sourceStack.sendSuccess(command("success", countOfLevels), false);
 

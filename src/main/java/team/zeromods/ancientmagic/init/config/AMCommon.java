@@ -1,6 +1,7 @@
 package team.zeromods.ancientmagic.init.config;
 
 import net.minecraftforge.common.ForgeConfigSpec;
+import team.zeromods.ancientmagic.init.AMCommands;
 
 public class AMCommon {
     public static final ForgeConfigSpec.Builder SPEC = new ForgeConfigSpec.Builder();
@@ -16,6 +17,10 @@ public class AMCommon {
             .defineInRange("consume_dust_on_teleport", 2, 1, 64);
 
     static {
-        SPEC.pop();
+        SPEC.pop(2);
+        SPEC.push("ModData");
     }
+
+    public static final ForgeConfigSpec.ConfigValue<String[]> VALID_COMMAND_NAMES = SPEC.comment("Valid identifiers for commands")
+            .define("val_commands", AMCommands.NAMES_OF_COMMAND);
 }

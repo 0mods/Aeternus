@@ -25,6 +25,10 @@ public class PlayerMagicCapability {
         this.level = Math.max(this.level - sub, 0);
     }
 
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
     public void copyFrom(PlayerMagicCapability source) {
         this.level = source.level;
     }

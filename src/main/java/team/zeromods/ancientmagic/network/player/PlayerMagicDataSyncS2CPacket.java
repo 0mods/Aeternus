@@ -1,4 +1,4 @@
-package team.zeromods.ancientmagic.network;
+package team.zeromods.ancientmagic.network.player;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;

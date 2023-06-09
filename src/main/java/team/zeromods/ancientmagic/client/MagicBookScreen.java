@@ -1,5 +1,6 @@
 package team.zeromods.ancientmagic.client;
 
+import api.ancientmagic.magic.MagicType;
 import api.ancientmagic.magic.MagicTypes;
 import api.ancientmagic.mod.Constant;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -58,7 +59,8 @@ public class MagicBookScreen extends Screen {
 
 
         this.minecraft.font.draw(pPoseStack, Component.translatable("magic.ancientmagic.level",
-                        MagicTypes.getByNumeration(ClientPlayerMagicData.getPlayerData()).getTranslation()),
+                        MagicTypes.getByNumeration(ClientPlayerMagicData.getPlayerData())
+                                .getTranslation()),
                 j + 56, k + 122, ChatFormatting.BLACK.getId());
     }
 

@@ -32,7 +32,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
 
-public class MagicBlock extends Block implements EntityBlock, MagicState {
+public class MagicBlock extends Block implements EntityBlock {
     protected final MagicBuilder builder;
     protected final BlockEntityType<? extends MagicBlockEntity> blockEntity;
 
@@ -58,62 +58,62 @@ public class MagicBlock extends Block implements EntityBlock, MagicState {
         else return null;
     }
 
-    @Override
-    @NotNull
-    public MagicType getMagicType() {
-        if (this.builder.getMagicType() != null) {
-            if (this.builder.getMagicType().getClassifier() == MagicClassifier.MAIN_TYPE)
-                return this.builder.getMagicType();
-            else {
-                Constant.LOGGER.error(String.format("Magic Type %s is not main type", this.builder.getMagicType().getId()));
-                throw new RuntimeException(String.format("Magic type %s is not main type!", this.builder.getMagicType().getId()));
-            }
-        } else return MagicTypes.LOW_MAGIC;
-    }
-
-    @Override
-    @Nullable
-    public MagicType getMagicSubtype() {
-        if (this.builder.getMagicSubtype() != null) {
-            if (this.builder.getMagicSubtype().getClassifier() == MagicClassifier.SUBTYPE)
-                return this.builder.getMagicSubtype();
-            else {
-                Constant.LOGGER.error(String.format("Magic Type %s is not subtype", this.builder.getMagicSubtype().getId()));
-                throw new RuntimeException(String.format("Magic type %s is not subtype!", this.builder.getMagicSubtype().getId()));
-            }
-        } else return null;
-    }
-
-    @Override
-    public int getMaxMana(ItemStack stack, MagicBlockEntity entity) {
-        return this.builder.getMaxMana(entity);
-    }
-
-    @Override
-    public void consumeMana(int numberOfConsume, ItemStack stack, MagicBlockEntity entity) {
-        var startMana = this.getStorageMana(null, entity);
-
-        if (startMana != 0) {
-            var consumed = startMana - numberOfConsume;
-            entity.getUpdateTag().putInt("ManaStorage", consumed);
-        } else entity.getUpdateTag().putInt("ManaStorage", 0);
-    }
-
-    @Override
-    public int getStorageMana(ItemStack stack, MagicBlockEntity entity) {
-        return this.builder.getManaCount(entity);
-    }
-
-    @Override
-    public void addMana(int countOfAddition, ItemStack stack, MagicBlockEntity entity) {
-        var storageMana = this.getStorageMana(null, entity);
-        var additionMana = storageMana + countOfAddition;
-        if (storageMana < this.getMaxMana(null, entity))
-            entity.getUpdateTag().putInt("ManaStorage", additionMana);
-    }
-
-    @Override
-    public void onActive(Level level, Player player, InteractionHand hand) {}
+//    @Override
+//    @NotNull
+//    public MagicType getMagicType() {
+//        if (this.builder.getMagicType() != null) {
+//            if (this.builder.getMagicType().getClassifier() == MagicClassifier.MAIN_TYPE)
+//                return this.builder.getMagicType();
+//            else {
+//                Constant.LOGGER.error(String.format("Magic Type %s is not main type", this.builder.getMagicType().getId()));
+//                throw new RuntimeException(String.format("Magic type %s is not main type!", this.builder.getMagicType().getId()));
+//            }
+//        } else return MagicTypes.LOW_MAGIC;
+//    }
+//
+//    @Override
+//    @Nullable
+//    public MagicType getMagicSubtype() {
+//        if (this.builder.getMagicSubtype() != null) {
+//            if (this.builder.getMagicSubtype().getClassifier() == MagicClassifier.SUBTYPE)
+//                return this.builder.getMagicSubtype();
+//            else {
+//                Constant.LOGGER.error(String.format("Magic Type %s is not subtype", this.builder.getMagicSubtype().getId()));
+//                throw new RuntimeException(String.format("Magic type %s is not subtype!", this.builder.getMagicSubtype().getId()));
+//            }
+//        } else return null;
+//    }
+//
+//    @Override
+//    public int getMaxMana(ItemStack stack, MagicBlockEntity entity) {
+//        return this.builder.getMaxMana(entity);
+//    }
+//
+//    @Override
+//    public void consumeMana(int numberOfConsume, ItemStack stack, MagicBlockEntity entity) {
+//        var startMana = this.getStorageMana(null, entity);
+//
+//        if (startMana != 0) {
+//            var consumed = startMana - numberOfConsume;
+//            entity.getUpdateTag().putInt("ManaStorage", consumed);
+//        } else entity.getUpdateTag().putInt("ManaStorage", 0);
+//    }
+//
+//    @Override
+//    public int getStorageMana(ItemStack stack, MagicBlockEntity entity) {
+//        return this.builder.getManaCount(entity);
+//    }
+//
+//    @Override
+//    public void addMana(int countOfAddition, ItemStack stack, MagicBlockEntity entity) {
+//        var storageMana = this.getStorageMana(null, entity);
+//        var additionMana = storageMana + countOfAddition;
+//        if (storageMana < this.getMaxMana(null, entity))
+//            entity.getUpdateTag().putInt("ManaStorage", additionMana);
+//    }
+//
+//    @Override
+//    public void onActive(Level level, Player player, InteractionHand hand) {}
 
     @SuppressWarnings({"unused", "DeprecatedIsStillUsed"})
     public static class MagicBuilder {

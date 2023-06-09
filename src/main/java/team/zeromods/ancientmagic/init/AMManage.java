@@ -40,7 +40,7 @@ public class AMManage {
         bus.addListener(AMCommands::registerCommands);
         bus.addListener(MagicData::playerClone);
         bus.addListener(MagicData::playerEvent);
-        bus.addGenericListener(Entity.class, MagicData::attachCapability);
+        bus.addGenericListener(Object.class, MagicData::attachCapability);
         bus.addListener(MagicData::playerConnectToWorld);
         bus.addListener(MagicData::playerTickEvent);
     }
