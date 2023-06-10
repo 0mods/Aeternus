@@ -1,10 +1,9 @@
 package api.ancientmagic.block;
 
-import api.ancientmagic.magic.MagicState;
+import api.ancientmagic.atomic.AtomicUse;
 import api.ancientmagic.magic.MagicType;
 import api.ancientmagic.magic.MagicType.MagicClassifier;
 import api.ancientmagic.magic.MagicTypes;
-import api.ancientmagic.mod.Constant;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -12,7 +11,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.flag.FeatureFlag;
 import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -22,8 +20,9 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
+import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -32,7 +31,8 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
 
-public class MagicBlock extends Block implements EntityBlock {
+@SuppressWarnings("deprecation")
+public class MagicBlock extends Block implements EntityBlock, IMagicBlock {
     protected final MagicBuilder builder;
     protected final BlockEntityType<? extends MagicBlockEntity> blockEntity;
 
@@ -43,10 +43,12 @@ public class MagicBlock extends Block implements EntityBlock {
     }
 
     @Override
-    public @NotNull InteractionResult use(@NotNull BlockState p_60503_, @NotNull Level p_60504_, @NotNull BlockPos p_60505_,
-                                          @NotNull Player p_60506_, @NotNull InteractionHand p_60507_,
-                                          @NotNull BlockHitResult p_60508_) {
-        return super.use(p_60503_, p_60504_, p_60505_, p_60506_, p_60507_, p_60508_);
+    public @NotNull InteractionResult use(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos,
+                                          @NotNull Player player, @NotNull InteractionHand hand,
+                                          @NotNull BlockHitResult result) {
+        AtomicUse<?> atomicUse = new AtomicUse<>(state, level, pos, player, hand, result);
+        this.use(atomicUse);
+        return atomicUse.getReturnResult();
     }
 
     @SuppressWarnings("unchecked")
@@ -57,6 +59,9 @@ public class MagicBlock extends Block implements EntityBlock {
             return new MagicBlockEntity((BlockEntityType<MagicBlockEntity>) this.blockEntity, p_153215_, p_153216_);
         else return null;
     }
+
+    @Override
+    public void use(AtomicUse<?> use) {}
 
 //    @Override
 //    @NotNull
@@ -117,7 +122,7 @@ public class MagicBlock extends Block implements EntityBlock {
 
     @SuppressWarnings({"unused", "DeprecatedIsStillUsed"})
     public static class MagicBuilder {
-        private Properties properties = Properties.of(Material.STONE);
+        private Properties properties = Properties.of();
         private MagicType magicType = MagicTypes.LOW_MAGIC;
         private MagicType magicSubtype;
         private BlockEntityType<? extends MagicBlockEntity> blockEntity;
@@ -132,20 +137,12 @@ public class MagicBlock extends Block implements EntityBlock {
             return this;
         }
 
-        public MagicBuilder make(Material material) {
-            return this.make(material, material.getColor());
+        public MagicBuilder make() {
+            return this.setProperties(Properties.of());
         }
 
-        public MagicBuilder make(Material material, DyeColor color) {
-            return this.make(material, color.getMaterialColor());
-        }
-
-        public MagicBuilder make(Material material, MaterialColor color) {
-            return this.setProperties(Properties.of(material, color));
-        }
-
-        public MagicBuilder make(Material material, Function<BlockState, MaterialColor> color) {
-            return this.setProperties(Properties.of(material, color));
+        public MagicBuilder make(BlockBehaviour copyFrom) {
+            return this.setProperties(Properties.copy(copyFrom));
         }
 
         @Deprecated
@@ -216,14 +213,45 @@ public class MagicBlock extends Block implements EntityBlock {
             return this;
         }
 
+        public MagicBuilder noLoot() {
+            this.getProperties().noLootTable();
+            return this;
+        }
+
         @Deprecated
-        public MagicBuilder dropsLike(Block block) {
+        public MagicBuilder drops(Block block) {
             this.getProperties().dropsLike(block);
             return this;
         }
 
-        public MagicBuilder dropsLike(Supplier<Block> blockIn) {
+        public MagicBuilder drops(Supplier<Block> blockIn) {
             this.getProperties().lootFrom(blockIn);
+            return this;
+        }
+
+        public MagicBuilder ignitedByLava() {
+            this.getProperties().ignitedByLava();
+            return this;
+        }
+
+        public MagicBuilder liquid() {
+            this.getProperties().liquid();
+            return this;
+        }
+
+        public MagicBuilder forceSolidOn() {
+            this.getProperties().forceSolidOn();
+            return this;
+        }
+
+        @Deprecated
+        public MagicBuilder forceSolidOff() {
+            this.getProperties().forceSolidOff();
+            return this;
+        }
+
+        public MagicBuilder onPush(PushReaction reaction) {
+            this.getProperties().pushReaction(reaction);
             return this;
         }
 
@@ -267,8 +295,18 @@ public class MagicBlock extends Block implements EntityBlock {
             return this;
         }
 
-        public MagicBuilder color(MaterialColor color) {
-            this.getProperties().color(color);
+        public MagicBuilder color(Function<BlockState, MapColor> color) {
+            this.getProperties().mapColor(color);
+            return this;
+        }
+
+        public MagicBuilder color(DyeColor color) {
+            this.getProperties().mapColor(color);
+            return this;
+        }
+
+        public MagicBuilder color(MapColor color) {
+            this.getProperties().mapColor(color);
             return this;
         }
 
@@ -294,6 +332,16 @@ public class MagicBlock extends Block implements EntityBlock {
 
         public MagicBuilder requiredFeatures(FeatureFlag... flags) {
             this.getProperties().requiredFeatures(flags);
+            return this;
+        }
+
+        public MagicBuilder instrument(NoteBlockInstrument instrument) {
+            this.getProperties().instrument(instrument);
+            return this;
+        }
+
+        public MagicBuilder replace() {
+            this.getProperties().replaceable();
             return this;
         }
 

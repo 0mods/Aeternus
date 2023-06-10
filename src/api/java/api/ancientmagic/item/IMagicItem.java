@@ -1,6 +1,9 @@
 package api.ancientmagic.item;
 
-@FunctionalInterface
+import api.ancientmagic.atomic.AtomicUse;
+import net.minecraft.world.item.ItemStack;
+
 public interface IMagicItem {
-    void use(MagicItemReturnableUse returnableUse);
+    void use(AtomicUse<ItemStack> atomicUse);
+    void useOn(AtomicUse<?> atomicUse);
 }

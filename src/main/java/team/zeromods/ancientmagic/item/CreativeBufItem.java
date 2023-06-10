@@ -1,11 +1,11 @@
 package team.zeromods.ancientmagic.item;
 
 import api.ancientmagic.item.MagicItem;
-import api.ancientmagic.item.MagicItemReturnableUse;
+import api.ancientmagic.atomic.AtomicUse;
 import api.ancientmagic.magic.MagicType;
 import api.ancientmagic.magic.MagicTypes;
 import net.minecraft.commands.Commands;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.item.ItemStack;
 import team.zeromods.ancientmagic.client.ClientPlayerMagicData;
 import team.zeromods.ancientmagic.init.AMCapability;
 import team.zeromods.ancientmagic.init.AMNetwork;
@@ -55,14 +55,13 @@ public class CreativeBufItem extends MagicItem {
 //    }
 
     @Override
-    public void use(MagicItemReturnableUse returnableUse) {
-        var player = returnableUse.getPlayer();
-        var level = returnableUse.getLevel();
-        var hand = returnableUse.getHand();
-        var stack = player.getItemInHand(hand);
+    public void use(AtomicUse<ItemStack> atomicUse) {
+        var player = atomicUse.getPlayer();
+        var level = atomicUse.getLevel();
+        var stack = atomicUse.getStack();
 
         if (!(player.hasPermissions(Commands.LEVEL_ADMINS) || player.isCreative()))
-            returnableUse.setReturnValue(InteractionResultHolder.fail(stack));
+            atomicUse.setFailHolder(stack);
         else {
             player.getCapability(AMCapability.PLAYER_MAGIC_HANDLER).ifPresent(cap-> {
                 var currentLevel = cap.getMagicLevel();
@@ -74,24 +73,27 @@ public class CreativeBufItem extends MagicItem {
                             player.displayClientMessage(MagicType.getMagicMessage("admin.levelAdded",
                                     MagicTypes.getByNumeration(ClientPlayerMagicData.getPlayerData() + 1).getTranslation()),
                                     true);
+                        atomicUse.setSuccessHolder(stack);
                     } else if (currentLevel == 4) {
                         if (level.isClientSide())
                             player.displayClientMessage(MagicType.getMagicMessage("admin.levelMax",
                                     MagicTypes.getByNumeration(currentLevel).getTranslation()), true);
+                        atomicUse.setFailHolder(stack);
                     }
                 } else {
                     if (currentLevel <= 4 && currentLevel != 0) {
                         cap.subLevel(1);
                         AMNetwork.sendToServer(new PlayerMagicDataC2SPacket());
-                        if (level.isClientSide()) {
+                        if (level.isClientSide())
                             player.displayClientMessage(MagicType.getMagicMessage("admin.levelAdded",
                                         MagicTypes.getByNumeration(ClientPlayerMagicData.getPlayerData() - 1).getTranslation()),
                                     true);
-                        }
+                        atomicUse.setSuccessHolder(stack);
                     } else if (currentLevel == 0) {
                         if (level.isClientSide())
                             player.displayClientMessage(MagicType.getMagicMessage("admin.levelMin",
                                     MagicTypes.getByNumeration(currentLevel).getTranslation()), true);
+                        atomicUse.setSuccessHolder(stack);
                     }
                 }
             });

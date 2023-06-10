@@ -1,15 +1,18 @@
 package api.ancientmagic.item;
 
+import api.ancientmagic.atomic.AtomicUse;
 import api.ancientmagic.magic.MagicType;
 import api.ancientmagic.magic.MagicTypes;
 import api.ancientmagic.unstandardable.MagicObjectCapability;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -94,10 +97,10 @@ public class MagicItem extends Item implements IMagicItem {
 
     @Deprecated
     @Override
-    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player,
+    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, @NotNull Player player,
                                                            @NotNull InteractionHand hand) {
-        var stack = player.getItemInHand(hand);
-        var returnableUse = new MagicItemReturnableUse(player, level, hand);
+        AtomicUse<ItemStack> atomicUse = new AtomicUse<>(player, level, hand);
+        var stack = atomicUse.getStack();
 
         if (!stack.is(this))
             return InteractionResultHolder.fail(stack);
@@ -115,24 +118,51 @@ public class MagicItem extends Item implements IMagicItem {
 //                this.onActive(level, player, hand);
 //            }
             if (this.getBuilder().getManaCount() != 0 && this.getBuilder().getManaCount() != 0) {
-                stack.getCapability(MagicObjectCapability.Provider.MAGIC_OBJECT).ifPresent(cap -> {
-                    cap.subMana(this.getBuilder().getSubManaIfUse());
-                });
-                this.use(returnableUse);
-                return returnableUse.getReturnValue();
+                stack.getCapability(MagicObjectCapability.Provider.MAGIC_OBJECT).ifPresent(cap ->
+                    cap.subMana(this.getBuilder().getSubManaIfUse())
+                );
+                this.use(atomicUse);
+                return atomicUse.getReturnHolder();
             } else if (this.getBuilder().getMaxMana() != 0 && this.getBuilder().getManaCount() == 0) {
                 player.displayClientMessage(MagicType.getMagicMessage("notMana", this.getName(stack)), true);
                 return InteractionResultHolder.fail(stack);
             } else if (this.getBuilder().getMaxMana() == 0) {
-                this.use(returnableUse);
-                return returnableUse.getReturnValue();
+                this.use(atomicUse);
+                return atomicUse.getReturnHolder();
             }
         }
         return InteractionResultHolder.pass(stack);
     }
 
+    @Deprecated
     @Override
-    public void use(MagicItemReturnableUse returnableUse) {}
+    public @NotNull InteractionResult useOn(@NotNull UseOnContext p_41427_) {
+        AtomicUse<?> context = new AtomicUse<>(p_41427_);
+        var stack = context.getStack();
+        var player = context.getPlayer();
+        if (this.getItemUse()) {
+            if (this.getBuilder().getManaCount() != 0 && this.getBuilder().getManaCount() != 0) {
+                stack.getCapability(MagicObjectCapability.Provider.MAGIC_OBJECT).ifPresent(cap ->
+                    cap.subMana(this.getBuilder().getSubManaIfUse())
+                );
+                this.useOn(context);
+                return context.getReturnResult();
+            } else if (this.getBuilder().getMaxMana() != 0 && this.getBuilder().getManaCount() == 0) {
+                player.displayClientMessage(MagicType.getMagicMessage("notMana", this.getName(stack)), true);
+                return InteractionResult.FAIL;
+            } else if (this.getBuilder().getMaxMana() == 0) {
+                this.useOn(context);
+                return context.getReturnResult();
+            }
+        }
+        return InteractionResult.PASS;
+    }
+
+    @Override
+    public void use(AtomicUse<ItemStack> returnableUse) {}
+
+    @Override
+    public void useOn(AtomicUse<?> returnableUse) {}
 
     public MagicBuilder getBuilder() {
         return this.builder;
