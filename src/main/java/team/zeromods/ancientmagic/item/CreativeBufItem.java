@@ -9,7 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import team.zeromods.ancientmagic.client.ClientPlayerMagicData;
 import team.zeromods.ancientmagic.init.AMCapability;
 import team.zeromods.ancientmagic.init.AMNetwork;
-import team.zeromods.ancientmagic.network.player.PlayerMagicDataC2SPacket;
+import team.zeromods.ancientmagic.network.PlayerMagicDataC2SPacket;
 
 public class CreativeBufItem extends MagicItem {
     public CreativeBufItem() {

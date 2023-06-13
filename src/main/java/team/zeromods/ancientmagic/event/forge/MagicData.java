@@ -25,7 +25,7 @@ import team.zeromods.ancientmagic.compact.CompactInitializer;
 import team.zeromods.ancientmagic.init.AMNetwork;
 import team.zeromods.ancientmagic.init.config.AMCommon;
 import team.zeromods.ancientmagic.init.AMTags;
-import team.zeromods.ancientmagic.network.player.PlayerMagicDataSyncS2CPacket;
+import team.zeromods.ancientmagic.network.PlayerMagicDataSyncS2CPacket;
 
 public class MagicData {
     public static void tooltipEvent(ItemTooltipEvent e) {
@@ -140,7 +140,7 @@ public class MagicData {
     }
     public static void playerTickEvent(TickEvent e) {
         if (e instanceof TickEvent.PlayerTickEvent event)
-            if (!event.player.level.isClientSide()) {
+            if (!event.player.level().isClientSide()) {
                 if (event.player instanceof ServerPlayer player) {
                     player.getCapability(AMCapability.PLAYER_MAGIC_HANDLER).ifPresent(cap ->
                             AMNetwork.sendToPlayer(new PlayerMagicDataSyncS2CPacket(cap.getMagicLevel()), player));

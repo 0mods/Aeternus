@@ -1,4 +1,4 @@
-package team.zeromods.ancientmagic.network.player;
+package team.zeromods.ancientmagic.network;
 
 import api.ancientmagic.item.MagicItem;
 import api.ancientmagic.mod.Constant;

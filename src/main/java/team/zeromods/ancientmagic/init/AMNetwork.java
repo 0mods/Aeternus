@@ -7,8 +7,8 @@ import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
-import team.zeromods.ancientmagic.network.player.PlayerMagicDataC2SPacket;
-import team.zeromods.ancientmagic.network.player.PlayerMagicDataSyncS2CPacket;
+import team.zeromods.ancientmagic.network.PlayerMagicDataC2SPacket;
+import team.zeromods.ancientmagic.network.PlayerMagicDataSyncS2CPacket;
 
 public class AMNetwork {
     private static final String NTW_VER = "1";
