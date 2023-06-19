@@ -1,6 +1,6 @@
 package team.zeromods.ancientmagic.compact.curios;
 
-import api.ancientmagic.mod.Constant;
+import team.zeromods.ancientmagic.api.mod.Constant;
 import net.minecraft.core.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;

@@ -1,6 +1,6 @@
 package team.zeromods.ancientmagic.item;
 
-import api.ancientmagic.item.MagicItem;
+import team.zeromods.ancientmagic.api.item.MagicItem;
 
 public class MagicalStick extends MagicItem {
     public MagicalStick() {

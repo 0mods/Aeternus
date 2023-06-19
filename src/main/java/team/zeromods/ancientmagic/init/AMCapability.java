@@ -1,11 +1,11 @@
 package team.zeromods.ancientmagic.init;
 
-import api.ancientmagic.mod.Constant;
+import team.zeromods.ancientmagic.api.mod.Constant;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
-import api.ancientmagic.unstandardable.MagicObjectCapability;
+import team.zeromods.ancientmagic.api.unstandardable.MagicObjectCapability;
 import team.zeromods.ancientmagic.capability.PlayerMagicCapability;
 
 public class AMCapability {

@@ -1,6 +1,6 @@
 package team.zeromods.ancientmagic.init;
 
-import api.ancientmagic.mod.Constant;
+import team.zeromods.ancientmagic.api.mod.Constant;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkDirection;

@@ -1,6 +1,6 @@
-package api.ancientmagic.magic;
+package team.zeromods.ancientmagic.api.magic;
 
-import api.ancientmagic.mod.Constant;
+import team.zeromods.ancientmagic.api.mod.Constant;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;

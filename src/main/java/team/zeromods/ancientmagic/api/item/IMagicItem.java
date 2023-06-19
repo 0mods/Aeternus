@@ -1,6 +1,6 @@
-package api.ancientmagic.item;
+package team.zeromods.ancientmagic.api.item;
 
-import api.ancientmagic.atomic.AtomicUse;
+import team.zeromods.ancientmagic.api.atomic.AtomicUse;
 import net.minecraft.world.item.ItemStack;
 
 public interface IMagicItem {

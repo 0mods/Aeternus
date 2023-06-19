@@ -1,6 +1,6 @@
 package team.zeromods.ancientmagic.mixin;
 
-import api.ancientmagic.mod.Constant;
+import team.zeromods.ancientmagic.api.mod.Constant;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;

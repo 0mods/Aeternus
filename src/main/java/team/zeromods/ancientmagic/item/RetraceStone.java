@@ -1,7 +1,7 @@
 package team.zeromods.ancientmagic.item;
 
-import api.ancientmagic.item.MagicItem;
-import api.ancientmagic.magic.MagicTypes;
+import team.zeromods.ancientmagic.api.item.MagicItem;
+import team.zeromods.ancientmagic.api.magic.MagicTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;

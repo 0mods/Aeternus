@@ -1,8 +1,7 @@
 package team.zeromods.ancientmagic.client;
 
-import api.ancientmagic.magic.MagicType;
-import api.ancientmagic.magic.MagicTypes;
-import api.ancientmagic.mod.Constant;
+import team.zeromods.ancientmagic.api.magic.MagicTypes;
+import team.zeromods.ancientmagic.api.mod.Constant;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.ChatFormatting;
@@ -11,7 +10,6 @@ import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
-import team.zeromods.ancientmagic.init.AMCapability;
 
 public class MagicBookScreen extends Screen {
     private static final int imgWidth = 512;

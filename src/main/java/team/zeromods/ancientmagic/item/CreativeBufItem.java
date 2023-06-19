@@ -1,9 +1,9 @@
 package team.zeromods.ancientmagic.item;
 
-import api.ancientmagic.item.MagicItem;
-import api.ancientmagic.atomic.AtomicUse;
-import api.ancientmagic.magic.MagicType;
-import api.ancientmagic.magic.MagicTypes;
+import team.zeromods.ancientmagic.api.item.MagicItem;
+import team.zeromods.ancientmagic.api.atomic.AtomicUse;
+import team.zeromods.ancientmagic.api.magic.MagicType;
+import team.zeromods.ancientmagic.api.magic.MagicTypes;
 import net.minecraft.commands.Commands;
 import net.minecraft.world.item.ItemStack;
 import team.zeromods.ancientmagic.client.ClientPlayerMagicData;

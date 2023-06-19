@@ -1,9 +1,9 @@
 package team.zeromods.ancientmagic.event.forge;
 
-import api.ancientmagic.item.MagicItem;
-import api.ancientmagic.magic.MagicType;
-import api.ancientmagic.magic.MagicTypes;
-import api.ancientmagic.mod.Constant;
+import team.zeromods.ancientmagic.api.item.MagicItem;
+import team.zeromods.ancientmagic.api.magic.MagicType;
+import team.zeromods.ancientmagic.api.magic.MagicTypes;
+import team.zeromods.ancientmagic.api.mod.Constant;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -17,7 +17,7 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.registries.ForgeRegistries;
-import api.ancientmagic.unstandardable.MagicObjectCapability;
+import team.zeromods.ancientmagic.api.unstandardable.MagicObjectCapability;
 import team.zeromods.ancientmagic.client.ClientPlayerMagicData;
 import team.zeromods.ancientmagic.init.AMCapability;
 import team.zeromods.ancientmagic.capability.PlayerMagicCapability;

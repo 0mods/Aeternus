@@ -1,4 +1,4 @@
-package api.ancientmagic.atomic;
+package team.zeromods.ancientmagic.api.atomic;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
@@ -10,7 +10,6 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
-import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unused")
 public class AtomicUse<T> {
@@ -25,7 +24,7 @@ public class AtomicUse<T> {
     private InteractionResultHolder<T> resultHolder;
     private InteractionResult result;
 
-    public AtomicUse(@NotNull Player player, @NotNull Level level, @NotNull InteractionHand hand, ItemStack stack,
+    public AtomicUse(Player player, Level level, InteractionHand hand, ItemStack stack,
                      BlockHitResult result, BlockPos pos, BlockState state) {
         this.player = player;
         this.level = level;

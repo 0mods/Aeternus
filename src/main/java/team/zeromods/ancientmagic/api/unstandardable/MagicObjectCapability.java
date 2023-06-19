@@ -1,8 +1,8 @@
-package api.ancientmagic.unstandardable;
+package team.zeromods.ancientmagic.api.unstandardable;
 
-import api.ancientmagic.magic.MagicState;
-import api.ancientmagic.magic.MagicType;
-import api.ancientmagic.magic.MagicTypes;
+import team.zeromods.ancientmagic.api.magic.MagicState;
+import team.zeromods.ancientmagic.api.magic.MagicType;
+import team.zeromods.ancientmagic.api.magic.MagicTypes;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;

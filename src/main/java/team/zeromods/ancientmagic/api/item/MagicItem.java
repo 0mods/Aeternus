@@ -1,9 +1,9 @@
-package api.ancientmagic.item;
+package team.zeromods.ancientmagic.api.item;
 
-import api.ancientmagic.atomic.AtomicUse;
-import api.ancientmagic.magic.MagicType;
-import api.ancientmagic.magic.MagicTypes;
-import api.ancientmagic.unstandardable.MagicObjectCapability;
+import team.zeromods.ancientmagic.api.atomic.AtomicUse;
+import team.zeromods.ancientmagic.api.magic.MagicType;
+import team.zeromods.ancientmagic.api.magic.MagicTypes;
+import team.zeromods.ancientmagic.api.unstandardable.MagicObjectCapability;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;

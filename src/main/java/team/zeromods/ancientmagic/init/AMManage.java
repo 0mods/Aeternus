@@ -1,11 +1,10 @@
 package team.zeromods.ancientmagic.init;
 
-import net.minecraft.world.entity.Entity;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig;
 import team.zeromods.ancientmagic.init.config.AMCommon;
 import team.zeromods.ancientmagic.event.mod.AncientMagicTabs;
-import api.ancientmagic.mod.Constant;
+import team.zeromods.ancientmagic.api.mod.Constant;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;

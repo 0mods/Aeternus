@@ -1,9 +1,9 @@
-package api.ancientmagic.block;
+package team.zeromods.ancientmagic.api.block;
 
-import api.ancientmagic.atomic.AtomicUse;
-import api.ancientmagic.magic.MagicType;
-import api.ancientmagic.magic.MagicType.MagicClassifier;
-import api.ancientmagic.magic.MagicTypes;
+import team.zeromods.ancientmagic.api.atomic.AtomicUse;
+import team.zeromods.ancientmagic.api.magic.MagicType;
+import team.zeromods.ancientmagic.api.magic.MagicType.MagicClassifier;
+import team.zeromods.ancientmagic.api.magic.MagicTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;

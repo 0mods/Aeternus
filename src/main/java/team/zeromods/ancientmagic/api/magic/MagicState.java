@@ -1,4 +1,4 @@
-package api.ancientmagic.magic;
+package team.zeromods.ancientmagic.api.magic;
 
 import net.minecraft.nbt.CompoundTag;
 

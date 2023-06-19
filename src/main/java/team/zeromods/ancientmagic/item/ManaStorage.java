@@ -1,7 +1,7 @@
 package team.zeromods.ancientmagic.item;
 
-import api.ancientmagic.item.MagicItem;
-import api.ancientmagic.magic.MagicTypes;
+import team.zeromods.ancientmagic.api.item.MagicItem;
+import team.zeromods.ancientmagic.api.magic.MagicTypes;
 
 public class ManaStorage extends MagicItem {
     public ManaStorage(MagicBuilder builder, int manaCount, boolean fireProof) {

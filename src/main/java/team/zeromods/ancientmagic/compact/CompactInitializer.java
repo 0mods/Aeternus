@@ -1,9 +1,8 @@
 package team.zeromods.ancientmagic.compact;
 
-import api.ancientmagic.mod.Constant;
+import team.zeromods.ancientmagic.api.mod.Constant;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import team.zeromods.ancientmagic.compact.curios.AMCurio;
 
 public class CompactInitializer {

@@ -1,8 +1,8 @@
 package team.zeromods.ancientmagic.init;
 
-import api.ancientmagic.item.MagicItem;
-import api.ancientmagic.magic.MagicTypes;
-import api.ancientmagic.mod.Constant;
+import team.zeromods.ancientmagic.api.item.MagicItem;
+import team.zeromods.ancientmagic.api.magic.MagicTypes;
+import team.zeromods.ancientmagic.api.mod.Constant;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
