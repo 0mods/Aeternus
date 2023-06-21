@@ -2,6 +2,7 @@ import net.minecraftforge.gradle.userdev.UserDevExtension
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.spongepowered.asm.gradle.plugins.MixinExtension
 
 buildscript {
     dependencies {
@@ -155,7 +156,9 @@ configure<UserDevExtension> {
 //    add(sourceSets.named("main"), "ancient.refmap.json")
 //}
 
-
+configure<MixinExtension> {
+    add(main, "ancient.refmap.json")
+}
 
 repositories {
     maven("https://nexus.twelveiterations.com/repository/maven-public/")
