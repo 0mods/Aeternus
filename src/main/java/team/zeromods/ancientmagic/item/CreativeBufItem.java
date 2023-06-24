@@ -1,7 +1,7 @@
 package team.zeromods.ancientmagic.item;
 
-import team.zeromods.ancientmagic.api.item.MagicItem;
-import team.zeromods.ancientmagic.api.atomic.AtomicUse;
+import team.zeromods.ancientmagic.api.atomic.KAtomicUse;
+import team.zeromods.ancientmagic.api.MagicItem;
 import team.zeromods.ancientmagic.api.magic.MagicType;
 import team.zeromods.ancientmagic.api.magic.MagicTypes;
 import net.minecraft.commands.Commands;
@@ -10,6 +10,8 @@ import team.zeromods.ancientmagic.client.ClientPlayerMagicData;
 import team.zeromods.ancientmagic.init.AMCapability;
 import team.zeromods.ancientmagic.init.AMNetwork;
 import team.zeromods.ancientmagic.network.PlayerMagicDataC2SPacket;
+
+import static team.zeromods.ancientmagic.api.magic.MagicTypes.*;
 
 public class CreativeBufItem extends MagicItem {
     public CreativeBufItem() {
@@ -55,13 +57,13 @@ public class CreativeBufItem extends MagicItem {
 //    }
 
     @Override
-    public void use(AtomicUse<ItemStack> atomicUse) {
+    public void use(KAtomicUse<ItemStack> atomicUse) {
         var player = atomicUse.getPlayer();
         var level = atomicUse.getLevel();
         var stack = atomicUse.getStack();
 
         if (!(player.hasPermissions(Commands.LEVEL_ADMINS) || player.isCreative()))
-            atomicUse.setFailHolder(stack);
+            atomicUse.setConsume(stack);
         else {
             player.getCapability(AMCapability.PLAYER_MAGIC_HANDLER).ifPresent(cap-> {
                 var currentLevel = cap.getMagicLevel();
@@ -71,14 +73,14 @@ public class CreativeBufItem extends MagicItem {
                         AMNetwork.sendToServer(new PlayerMagicDataC2SPacket());
                         if (level.isClientSide())
                             player.displayClientMessage(MagicType.getMagicMessage("admin.levelAdded",
-                                    MagicTypes.getByNumeration(ClientPlayerMagicData.getPlayerData() + 1).getTranslation()),
+                                    getByNumeration(ClientPlayerMagicData.getPlayerData() + 1).getTranslation()),
                                     true);
-                        atomicUse.setSuccessHolder(stack);
+                        atomicUse.setSuccess(stack);
                     } else if (currentLevel == 4) {
                         if (level.isClientSide())
                             player.displayClientMessage(MagicType.getMagicMessage("admin.levelMax",
-                                    MagicTypes.getByNumeration(currentLevel).getTranslation()), true);
-                        atomicUse.setFailHolder(stack);
+                                    getByNumeration(currentLevel).getTranslation()), true);
+                        atomicUse.setFail(stack);
                     }
                 } else {
                     if (currentLevel <= 4 && currentLevel != 0) {
@@ -86,14 +88,14 @@ public class CreativeBufItem extends MagicItem {
                         AMNetwork.sendToServer(new PlayerMagicDataC2SPacket());
                         if (level.isClientSide())
                             player.displayClientMessage(MagicType.getMagicMessage("admin.levelAdded",
-                                        MagicTypes.getByNumeration(ClientPlayerMagicData.getPlayerData() - 1).getTranslation()),
+                                        getByNumeration(ClientPlayerMagicData.getPlayerData() - 1).getTranslation()),
                                     true);
-                        atomicUse.setSuccessHolder(stack);
+                        atomicUse.setSuccess(stack);
                     } else if (currentLevel == 0) {
                         if (level.isClientSide())
                             player.displayClientMessage(MagicType.getMagicMessage("admin.levelMin",
-                                    MagicTypes.getByNumeration(currentLevel).getTranslation()), true);
-                        atomicUse.setSuccessHolder(stack);
+                                    getByNumeration(currentLevel).getTranslation()), true);
+                        atomicUse.setSuccess(stack);
                     }
                 }
             });

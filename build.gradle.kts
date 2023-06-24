@@ -152,10 +152,6 @@ configure<UserDevExtension> {
     }
 }
 
-//create("mixin") {
-//    add(sourceSets.named("main"), "ancient.refmap.json")
-//}
-
 configure<MixinExtension> {
     add(main, "ancient.refmap.json")
 }
@@ -188,6 +184,7 @@ dependencies {
     shadow("org.jetbrains.kotlinx:kotlinx-serialization-core:${serialization_version}")
     shadow("org.jetbrains.kotlinx:kotlinx-serialization-json:${serialization_version}")
 
+    implementation("org.jetbrains:annotations")
     implementation(kotlin("stdlib"))
 
     implementation("org.projectlombok:lombok:1.18.+") // mutable api version
