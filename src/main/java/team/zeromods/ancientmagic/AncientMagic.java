@@ -1,10 +1,10 @@
 package team.zeromods.ancientmagic;
 
-import team.zeromods.ancientmagic.api.mod.Constant;
 import net.minecraftforge.fml.common.Mod;
+import team.zeromods.ancientmagic.api.mod.Constant;
 import team.zeromods.ancientmagic.init.AMManage;
 
-@Mod(Constant.Key)
+@Mod(Constant.KEY)
 public class AncientMagic {
     public AncientMagic() {
         Constant.LOGGER.debug("Starting Mod!");

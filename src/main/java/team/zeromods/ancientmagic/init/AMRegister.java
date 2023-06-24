@@ -1,6 +1,9 @@
 package team.zeromods.ancientmagic.init;
 
-import team.zeromods.ancientmagic.api.item.MagicItem;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import team.zeromods.ancientmagic.api.MagicItem;
 import team.zeromods.ancientmagic.api.magic.MagicTypes;
 import team.zeromods.ancientmagic.api.mod.Constant;
 import com.mojang.serialization.Codec;
@@ -26,10 +29,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryObject;
 import team.zeromods.ancientmagic.init.config.AMCommon;
-import team.zeromods.ancientmagic.item.CreativeBufItem;
-import team.zeromods.ancientmagic.item.MagicBook;
-import team.zeromods.ancientmagic.item.ManaStorage;
-import team.zeromods.ancientmagic.item.RetraceStone;
+import team.zeromods.ancientmagic.item.*;
 
 import java.util.function.Supplier;
 
@@ -44,6 +44,13 @@ public final class AMRegister {
     public static final DeferredRegister<MenuType<?>> CONTAINER = deferredCreator(ForgeRegistries.MENU_TYPES);
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE = deferredCreator(ForgeRegistries.RECIPE_SERIALIZERS);
     public static final DeferredRegister<Codec<? extends BiomeModifier>> MODIFIER_CODEC = deferredCreator(ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS);
+    public static final DeferredRegister<CreativeModeTab> TABS = deferredCreator(Registries.CREATIVE_MODE_TAB);
+
+    public static final RegistryObject<CreativeModeTab> TAB = regTab("tab", CreativeModeTab.builder()
+            .icon(()-> new ItemStack(AMRegister.RETRACE_CRYSTAL.get()))
+            .displayItems((f,o) -> ITEMS.getEntries().stream().map(RegistryObject::get)
+                    .forEach(o::accept))
+    );
 
     public static final RegistryObject<MagicItem> MAGIC_DUST = i("magic_dust",
             ()-> new MagicItem(MagicItem.MagicBuilder.get().setMagicType(MagicTypes.LOW_MAGIC)));
@@ -69,12 +76,17 @@ public final class AMRegister {
         return ITEMS.register(id, sup);
     }
 
+    static RegistryObject<CreativeModeTab> regTab(String name, CreativeModeTab.Builder builder) {
+        return TABS.register(name, builder.title(Component.translatable(String.format("itemTab.%s.%s",
+                Constant.KEY, name)))::build);
+    }
+
     static <Y, T extends IForgeRegistry<Y>> DeferredRegister<Y> deferredCreator(T forgeRegister) {
-        return DeferredRegister.create(forgeRegister, Constant.Key);
+        return DeferredRegister.create(forgeRegister, Constant.KEY);
     }
 
     static <Y, T extends ResourceKey<? extends Registry<Y>>> DeferredRegister<Y> deferredCreator(T resourceKey) {
-        return DeferredRegister.create(resourceKey, Constant.Key);
+        return DeferredRegister.create(resourceKey, Constant.KEY);
     }
 
     public static void init() {

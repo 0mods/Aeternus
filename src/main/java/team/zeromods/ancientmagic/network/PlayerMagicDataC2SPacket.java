@@ -1,6 +1,6 @@
 package team.zeromods.ancientmagic.network;
 
-import team.zeromods.ancientmagic.api.item.MagicItem;
+import team.zeromods.ancientmagic.api.MagicItem;
 import team.zeromods.ancientmagic.api.mod.Constant;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.InteractionHand;

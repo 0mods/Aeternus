@@ -23,7 +23,7 @@ public class AMNetwork {
     public static synchronized void init() {
 
         SimpleChannel network = NetworkRegistry.newSimpleChannel(//AMNetwork:18
-                new ResourceLocation(Constant.Key, "main"),
+                new ResourceLocation(Constant.KEY, "main"),
                 ()-> NTW_VER,
                 NTW_VER::equals,
                 NTW_VER::equals

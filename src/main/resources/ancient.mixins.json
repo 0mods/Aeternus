@@ -5,7 +5,7 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "ancient.refmap.json",
   "mixins": [
-    "compact.WaystoneInject"
+//    "compact.WaystoneInject"
   ],
   "client": [
   ],

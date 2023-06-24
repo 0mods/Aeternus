@@ -22,11 +22,12 @@ class KAtomicUse<T> {
     val state: BlockState
     var returnHolder: InteractionResultHolder<T>? = null
     var returnResult: InteractionResult? = null
-    var obj: T? = null
 
     @JvmOverloads
     constructor(
-        player: Player?, level: Level?, hand: InteractionHand?, stack: ItemStack? = player!!.getItemInHand(hand),
+        player: Player?, level: Level?, hand: InteractionHand?, stack: ItemStack? = hand?.let {
+            player!!.getItemInHand(it)
+        },
         result: BlockHitResult? = null, pos: BlockPos? = null, state: BlockState? = null
     ) {
         this.player = player!!

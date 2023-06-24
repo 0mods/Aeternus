@@ -1,6 +1,6 @@
-package team.zeromods.ancientmagic.event.forge;
+package team.zeromods.ancientmagic.event;
 
-import team.zeromods.ancientmagic.api.item.MagicItem;
+import team.zeromods.ancientmagic.api.MagicItem;
 import team.zeromods.ancientmagic.api.magic.MagicType;
 import team.zeromods.ancientmagic.api.magic.MagicTypes;
 import team.zeromods.ancientmagic.api.mod.Constant;
@@ -17,7 +17,7 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.registries.ForgeRegistries;
-import team.zeromods.ancientmagic.api.unstandardable.MagicObjectCapability;
+import team.zeromods.ancientmagic.capability.MagicObjectCapability;
 import team.zeromods.ancientmagic.client.ClientPlayerMagicData;
 import team.zeromods.ancientmagic.init.AMCapability;
 import team.zeromods.ancientmagic.capability.PlayerMagicCapability;
@@ -59,14 +59,14 @@ public class MagicData {
             assert resource != null;
             var namespace = resource.getNamespace();
 
-            if (!namespace.equals(Constant.Key))
-                tooltip.add(Component.translatable(String.format("content.%s.added_by", Constant.Key), namespace));
+            if (!namespace.equals(Constant.KEY))
+                tooltip.add(Component.translatable(String.format("content.%s.added_by", Constant.KEY), namespace));
 
             if (CompactInitializer.getWaystonesLoaded() && ((AMCommon.COMPACT_WAYSTONES != null
                     && AMCommon.COMPACT_WAYSTONES.get()) && FMLEnvironment.production) &&
                     (stack.is(AMTags.CONSUMABLE_TELEPORTATION_CATALYST)
                     || stack.is(AMTags.UNCONSUMABLE_TELEPORTATION_CATALYST))) {
-                tooltip.add(Component.translatable(String.format("compact.%s.waystones.tpItem", Constant.Key)));
+                tooltip.add(Component.translatable(String.format("compact.%s.waystones.tpItem", Constant.KEY)));
             }
         }
     }

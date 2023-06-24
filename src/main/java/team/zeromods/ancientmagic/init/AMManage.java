@@ -3,7 +3,6 @@ package team.zeromods.ancientmagic.init;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig;
 import team.zeromods.ancientmagic.init.config.AMCommon;
-import team.zeromods.ancientmagic.event.mod.AncientMagicTabs;
 import team.zeromods.ancientmagic.api.mod.Constant;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -16,7 +15,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLDedicatedServerSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import team.zeromods.ancientmagic.compact.CompactInitializer;
-import team.zeromods.ancientmagic.event.forge.MagicData;
+import team.zeromods.ancientmagic.event.MagicData;
 
 public class AMManage {
     protected static IEventBus FORGE_BUS = MinecraftForge.EVENT_BUS;
@@ -47,7 +46,6 @@ public class AMManage {
     private static void modEventsInitialize(IEventBus bus) {
         Constant.LOGGER.debug("Initializing mod events");
         CompactInitializer.init(bus);
-        bus.addListener(AncientMagicTabs::registerTabs);
         bus.addListener(AMManage::modCommon);
         bus.addListener(MagicData::registerCapability);
     }
@@ -57,7 +55,7 @@ public class AMManage {
         AMNetwork.init();
     }
 
-    @Mod.EventBusSubscriber(modid = Constant.Key, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+    @Mod.EventBusSubscriber(modid = Constant.KEY, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
     public static class ClientInit implements ProxyBase {
         @SubscribeEvent
         public static void client(final FMLClientSetupEvent e) {
@@ -70,7 +68,7 @@ public class AMManage {
         }
     }
 
-    @Mod.EventBusSubscriber(modid = Constant.Key, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.DEDICATED_SERVER)
+    @Mod.EventBusSubscriber(modid = Constant.KEY, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.DEDICATED_SERVER)
     public static class ServerInit implements ProxyBase {
         @SubscribeEvent
         public static void server(FMLDedicatedServerSetupEvent e) {}

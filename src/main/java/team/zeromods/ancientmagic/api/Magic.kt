@@ -32,7 +32,8 @@ import team.zeromods.ancientmagic.api.atomic.KAtomicUse
 import team.zeromods.ancientmagic.api.magic.MagicType
 import team.zeromods.ancientmagic.api.magic.MagicType.MagicClassifier
 import team.zeromods.ancientmagic.api.magic.MagicTypes
-import team.zeromods.ancientmagic.api.unstandardable.MagicObjectCapability
+import team.zeromods.ancientmagic.capability.MagicObjectCapability
+import team.zeromods.ancientmagic.init.AMCapability
 import java.util.function.Function
 import java.util.function.Supplier
 import java.util.function.ToIntFunction
@@ -358,11 +359,11 @@ open class MagicBlock(builder: MagicBuilder): Block(builder.getProperties()), En
         : BlockEntity(blockEntity, pos, state)
 }
 
-open class MagicItem(private val builder: MagicBuilder): Item(builder.properties), IMagicItem {
+open class MagicItem(private val builder: MagicBuilder): Item(builder.getProperties()), IMagicItem {
     private var canUseItem = true
 
     init {
-        this.builder.properties.setNoRepair()
+        this.builder.getProperties().setNoRepair()
     }
 
 //    @Override
@@ -521,15 +522,15 @@ open class MagicItem(private val builder: MagicBuilder): Item(builder.properties
 //            } else if (this.getMaxMana(stack, null) == 0) {
 //                this.onActive(level, player, hand);
 //            }
-            if (getBuilder().manaCount != 0 && getBuilder().manaCount != 0) {
-                stack.getCapability(MagicObjectCapability.Provider.MAGIC_OBJECT)
-                    .ifPresent { cap -> cap.subMana(getBuilder().subManaIfUse) }
+            if (getBuilder().getManaCount() != 0 && getBuilder().getManaCount() != 0) {
+                stack.getCapability(AMCapability.MAGIC_OBJECT)
+                    .ifPresent { cap -> cap.subMana(getBuilder().getSubMana()) }
                 this.use(atomicUse)
                 return atomicUse.returnHolder!!
-            } else if (getBuilder().maxMana != 0 && getBuilder().manaCount == 0) {
+            } else if (getBuilder().getMaxMana() != 0 && getBuilder().getManaCount() == 0) {
                 player.displayClientMessage(MagicType.getMagicMessage("notMana", getName(stack)), true)
                 return InteractionResultHolder.fail(stack)
-            } else if (getBuilder().maxMana == 0) {
+            } else if (getBuilder().getMaxMana() == 0) {
                 this.use(atomicUse)
                 return atomicUse.returnHolder!!
             }
@@ -543,15 +544,15 @@ open class MagicItem(private val builder: MagicBuilder): Item(builder.properties
         val stack = context.stack
         val player = context.player
         if (getItemUse()) {
-            if (getBuilder().manaCount != 0 && getBuilder().manaCount != 0) {
-                stack.getCapability(MagicObjectCapability.Provider.MAGIC_OBJECT)
-                    .ifPresent { cap -> cap.subMana(getBuilder().subManaIfUse) }
+            if (getBuilder().getManaCount() != 0 && getBuilder().getManaCount() != 0) {
+                stack.getCapability(AMCapability.MAGIC_OBJECT)
+                    .ifPresent { cap -> cap.subMana(getBuilder().getSubMana()) }
                 this.useOn(context)
                 return context.returnResult!!
-            } else if (getBuilder().maxMana != 0 && getBuilder().manaCount == 0) {
+            } else if (getBuilder().getMaxMana() != 0 && getBuilder().getManaCount() == 0) {
                 player.displayClientMessage(MagicType.getMagicMessage("notMana", getName(stack)), true)
                 return InteractionResult.FAIL
-            } else if (getBuilder().maxMana == 0) {
+            } else if (getBuilder().getMaxMana() == 0) {
                 this.useOn(context)
                 return context.returnResult!!
             }
@@ -577,16 +578,16 @@ open class MagicItem(private val builder: MagicBuilder): Item(builder.properties
 
 
     @Suppress("unused")
-    class MagicBuilder private constructor() {
+    open class MagicBuilder private constructor() {
         @get:Deprecated("")
-        var properties = Properties()
+        protected var properties = Properties()
 
         private var magicType: MagicType = MagicTypes.LOW_MAGIC
 
         private var magicSubtype: MagicType? = null
-        var maxMana = 0
-        var manaCount = 0
-        var subManaIfUse = 0
+        private var maxMana = 0
+        private var manaCount = 0
+        private var subManaIfUse = 0
 
         @Deprecated("")
         fun setProperties(properties: Properties): MagicBuilder {
@@ -643,6 +644,18 @@ open class MagicItem(private val builder: MagicBuilder): Item(builder.properties
             properties.stacksTo(stacksTo)
             return this
         }
+
+        fun getManaCount() : Int = manaCount
+
+        fun getMaxMana() : Int = maxMana
+
+        fun getSubMana() : Int = subManaIfUse
+
+        fun getMagicType() : MagicType = magicType
+
+        fun getMagicSubtype() : MagicType = magicSubtype!!
+
+        fun getProperties(): Properties = properties
 
         companion object {
             @JvmStatic

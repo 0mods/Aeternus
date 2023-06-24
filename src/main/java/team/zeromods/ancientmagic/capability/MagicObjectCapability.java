@@ -1,4 +1,4 @@
-package team.zeromods.ancientmagic.api.unstandardable;
+package team.zeromods.ancientmagic.capability;
 
 import team.zeromods.ancientmagic.api.magic.MagicState;
 import team.zeromods.ancientmagic.api.magic.MagicType;
@@ -12,8 +12,7 @@ import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import team.zeromods.ancientmagic.init.AMCapability;
 
 public class MagicObjectCapability implements MagicState {
     private MagicType type;
@@ -90,8 +89,6 @@ public class MagicObjectCapability implements MagicState {
     }
 
     public static class Provider implements ICapabilityProvider, INBTSerializable<CompoundTag> {
-        public static final Capability<MagicObjectCapability> MAGIC_OBJECT =
-                CapabilityManager.get(new CapabilityToken<>() {});
         private MagicState wrapper = null;
         private final LazyOptional<MagicState> lazy = LazyOptional.of(this::createCap);
 
@@ -101,9 +98,9 @@ public class MagicObjectCapability implements MagicState {
         }
 
         @Override
-        public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap,
-                                                          @Nullable Direction side) {
-            if (cap == MAGIC_OBJECT) return lazy.cast();
+        public <T> LazyOptional<T> getCapability(Capability<T> cap,
+                                                          Direction side) {
+            if (cap == AMCapability.MAGIC_OBJECT) return lazy.cast();
 
             return LazyOptional.empty();
         }
