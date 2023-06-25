@@ -32,9 +32,7 @@ val forge_version: String by project
 val coroutines_version: String by project
 val serialization_version: String by project
 
-val shadow: Configuration by configurations.creating {
-    exclude("org.jetbrains", "annotations")
-}
+val shadow: Configuration by configurations.creating
 //val apiImplementation: Configuration by configurations.creating {
 //    extendsFrom(implementation)
 //}
@@ -166,14 +164,13 @@ repositories {
 dependencies {
     minecraft("net.minecraftforge:forge:$mc_version-+")
 
-//    implementation fg.deobf("net.blay09.mods:waystones-forge:13.1.0+1.19.4")
-//    implementation fg.deobf("net.blay09.mods:waystones-common:13.1.0+1.19.4")
-//
-//    implementation fg.deobf("net.blay09.mods:balm-forge:6.0.2+1.19.4")
-//    implementation fg.deobf("net.blay09.mods:balm-common:6.0.2+1.19.4")
-//
-//    implementation fg.deobf("top.theillusivec4.curios:curios-forge:1.19.4-5.1.5.3")
-//    implementation fg.deobf("top.theillusivec4.curios:curios-forge:1.19.4-5.1.5.3:api")
+//    implementation(fg.deobf("net.blay09.mods:waystones-forge:14.0.0"))
+    implementation(fg.deobf("net.blay09.mods:waystones-common:14.0.0+1.20"))
+
+    implementation(fg.deobf("net.blay09.mods:balm-forge:7.1.0-SNAPSHOT"))
+    implementation(fg.deobf("net.blay09.mods:balm-common:7.1.0-SNAPSHOT"))
+
+    implementation(fg.deobf("top.theillusivec4.curios:curios-forge:5.2.0-beta.3+1.20.1"))
 
     shadow("org.jetbrains.kotlin:kotlin-reflect:${kotlin.coreLibrariesVersion}")
     shadow("org.jetbrains.kotlin:kotlin-stdlib:${kotlin.coreLibrariesVersion}")
@@ -184,7 +181,6 @@ dependencies {
     shadow("org.jetbrains.kotlinx:kotlinx-serialization-core:${serialization_version}")
     shadow("org.jetbrains.kotlinx:kotlinx-serialization-json:${serialization_version}")
 
-    implementation("org.jetbrains:annotations")
     implementation(kotlin("stdlib"))
 
     implementation("org.projectlombok:lombok:1.18.+") // mutable api version
