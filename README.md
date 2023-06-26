@@ -12,8 +12,8 @@ I want to note that the mod will add the mechanics of "character leveling", whic
 
 ## Compact
 The mod is compatible with the following mods:
-- Waystones
-- Curios
+- [Waystones](https://github.com/ModdingForBlockheads/Waystones)
+- [Curios](https://github.com/TheIllusiveC4/Curios)
 
 ### Waystones
 The mod will complicate the game with Waystones by adding a requirement for teleportation, in the form of the presence of special dust or an item in the inventory. You can find out more about dust or the teleportation item in the game guidebook
