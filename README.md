@@ -15,12 +15,13 @@ The mod is compatible with the following mods:
 - Waystones
 - Curios
 
-Over time, integration with the following mods will be added:
-- Botania
-and etc.
-
 ## Waystones
 The mod will complicate the game with Waystones by adding a requirement for teleportation, in the form of the presence of special dust or an item in the inventory. You can find out more about dust or the teleportation item in the game guidebook
-
 ## Curios
 Add a new slot and make artifacts go there
+## In plans
+Over time, integration with the following mods will be added:
+[ ] Botania
+[ ] Occultism
+[ ] Mana and Artifice
+and etc.
