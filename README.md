@@ -8,7 +8,7 @@ The mod will add a new kind of data, and liquid in general is mana. You can get 
 
 ## Magic level
 
-I want to note that the mod will add the mechanics of "character leveling", which will make the mod more difficult. The level will be obtained through various rituals. Also, I want to add that without a certain level, you will not be able to use this or that item or block until you reach it. For example: You have an item that requires the "Pre-High" level, and you have the "Medium" level - you will not be able to use this item until you reach the "Pre-High" level
+I want to note that the mod will add the mechanics of "character leveling", which will make the mod more difficult. The level will be obtained through various rituals. Also, I want to add that without a certain level, you will not be able to use this or that item or block until you reach it. For example: You have an item that requires the "Pre-High" level, and you have the "Medium" level - you will not be able to use this item until you reach the "Pre-High" level, but if you have "High" level, you can use item
 
 ## Compact
 The mod is compatible with the following mods:
