@@ -1,6 +1,6 @@
 # AncientMagic
 
-AncientMagic - a small magic mod that adds new leveling mechanics, items, and so on
+AncientMagic - a small magic mod that adds new leveling mechanics, items, and etc..
 
 ## Mana
 
