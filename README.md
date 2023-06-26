@@ -21,7 +21,7 @@ The mod will complicate the game with Waystones by adding a requirement for tele
 Add a new slot and make artifacts go there
 ## In plans
 Over time, integration with the following mods will be added:
-[ ] Botania
-[ ] Occultism
-[ ] Mana and Artifice
+- [ ] Botania
+- [ ] Occultism
+- [ ] Mana and Artifice
 and etc.
