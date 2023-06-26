@@ -24,4 +24,4 @@ Over time, integration with the following mods will be added:
 - [ ] Botania
 - [ ] Occultism
 - [ ] Mana and Artifice
-and etc.
+- and etc.
