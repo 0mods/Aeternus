@@ -1,7 +1,9 @@
 package team.zeds.ancientmagic.init.config
 
 import net.minecraftforge.common.ForgeConfigSpec
+import team.zeds.ancientmagic.init.AMCommands
 
+@Suppress("PropertyName")
 class AMCommon {
     @JvmField val SPEC: ForgeConfigSpec.Builder = ForgeConfigSpec.Builder()
 
@@ -18,7 +20,8 @@ class AMCommon {
             .defineInRange("consume_dust_on_teleport", 2, 1, 64)
         SPEC.pop(2)
         SPEC.push("ModData")
-        VALID_COMMAND_NAMES
+        VALID_COMMAND_NAMES = SPEC.comment("Valid identifiers for commands")
+            .define("command_value", AMCommands.NAMES_OF_COMMAND)
         SPEC.pop()
     }
 
