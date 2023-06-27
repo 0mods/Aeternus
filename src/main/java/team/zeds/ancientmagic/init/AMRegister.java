@@ -21,18 +21,19 @@ import net.minecraft.world.level.levelgen.structure.StructureType;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.common.world.BiomeModifier;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryObject;
+import team.zeds.ancientmagic.compact.CompactInitializer;
 import team.zeds.ancientmagic.item.RetraceStone;
 import team.zeds.ancientmagic.item.*;
 
 import java.util.function.Supplier;
 
+@SuppressWarnings({"SameParameterValue", "DataFlowIssue", "unused"})
 public final class AMRegister {
     public static final DeferredRegister<Item> ITEMS = deferredCreator(ForgeRegistries.ITEMS);
     public static final DeferredRegister<Block> BLOCKS = deferredCreator(ForgeRegistries.BLOCKS);
@@ -55,7 +56,7 @@ public final class AMRegister {
     public static final RegistryObject<MagicItem> MAGIC_DUST = i("magic_dust",
             ()-> new MagicItem(MagicItem.MagicBuilder.get().setMagicType(MagicTypes.LOW_MAGIC)));
     public static final RegistryObject<MagicItem> RETRACE_CRYSTAL =
-        boolReg("teleportation_crystal", RetraceStone::new, ModList.get().isLoaded("waystones")
+        boolReg("teleportation_crystal", RetraceStone::new, CompactInitializer.getWaystonesLoaded()
             && (FMLEnvironment.production && AMManage.COMMON_CONFIG.COMPACT_WAYSTONES.get()), "retrace_stone", RetraceStone::new);
     public static final RegistryObject<MagicItem> START_MANA_STORAGE = i("start_mana_storage",
             ()-> new ManaStorage(MagicItem.MagicBuilder.get(), 1000, false));

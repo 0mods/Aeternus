@@ -8,7 +8,7 @@ import team.zeds.ancientmagic.api.magic.*
 import team.zeds.ancientmagic.client.ClientPlayerMagicData
 import team.zeds.ancientmagic.init.AMCapability
 import team.zeds.ancientmagic.init.AMNetwork
-import team.zeds.ancientmagic.network.PlayerMagicDataC2SPacket
+import team.zeds.ancientmagic.network.c2s.PlayerMagicDataC2SPacket
 
 class CreativeBufItem: MagicItem(MagicBuilder.get().setMagicType(MagicTypes.LOW_MAGIC).setMagicType(MagicTypes.ADMIN)) {
     override fun use(use: KAtomicUse<ItemStack>) {

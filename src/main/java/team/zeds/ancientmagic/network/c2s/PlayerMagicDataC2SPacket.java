@@ -1,4 +1,4 @@
-package team.zeds.ancientmagic.network;
+package team.zeds.ancientmagic.network.c2s;
 
 import team.zeds.ancientmagic.api.MagicItem;
 import team.zeds.ancientmagic.api.mod.Constant;

@@ -4,7 +4,7 @@ import team.zeds.ancientmagic.api.magic.MagicType;
 import team.zeds.ancientmagic.api.magic.MagicTypes;
 import team.zeds.ancientmagic.capability.PlayerMagicCapability;
 import team.zeds.ancientmagic.client.ClientPlayerMagicData;
-import team.zeds.ancientmagic.network.PlayerMagicDataSyncS2CPacket;
+import team.zeds.ancientmagic.network.s2c.PlayerMagicDataSyncS2CPacket;
 import team.zeds.ancientmagic.api.MagicItem;
 import team.zeds.ancientmagic.api.mod.Constant;
 import net.minecraft.network.chat.Component;

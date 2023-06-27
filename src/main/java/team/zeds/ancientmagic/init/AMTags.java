@@ -18,7 +18,7 @@ public class AMTags {
     protected static TagKey<Item> createTag(String tagName) {
         var tag = TagKey.create(Registries.ITEM, new ResourceLocation(Constant.KEY, tagName));
 
-        Constant.LOGGER.debug("{} has been registered!", tag.location());
+        Constant.LOGGER.debug("{} has been registered or initialized!", tag.location());
         return tag;
     }
 }
