@@ -1,5 +1,6 @@
 package team.zeds.ancientmagic.network.c2s;
 
+import net.minecraft.network.chat.Component;
 import team.zeds.ancientmagic.api.MagicItem;
 import team.zeds.ancientmagic.api.mod.Constant;
 import net.minecraft.network.FriendlyByteBuf;
@@ -10,18 +11,15 @@ import team.zeds.ancientmagic.init.AMCapability;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-public class PlayerMagicDataC2SPacket {
-    public PlayerMagicDataC2SPacket(FriendlyByteBuf byteBuf) {
-    }
+public class PlayerMagicDataC2SPacketOld {
+    public PlayerMagicDataC2SPacketOld(FriendlyByteBuf byteBuf) {}
 
-    public PlayerMagicDataC2SPacket() {
-
-    }
+    public PlayerMagicDataC2SPacketOld() {}
 
     public void encode(FriendlyByteBuf byteBuf) {}
 
-    public static PlayerMagicDataC2SPacket decode(FriendlyByteBuf byteBuf) {
-        return new PlayerMagicDataC2SPacket(byteBuf);
+    public static PlayerMagicDataC2SPacketOld decode(FriendlyByteBuf byteBuf) {
+        return new PlayerMagicDataC2SPacketOld(byteBuf);
     }
 
     public void handle(Supplier<NetworkEvent.Context> ctxSup) {
@@ -34,6 +32,7 @@ public class PlayerMagicDataC2SPacket {
                 var stack = serverPlayer.getItemInHand(InteractionHand.MAIN_HAND);
 
                 if (stack.getItem() instanceof MagicItem item) {
+
                     serverPlayer.getCapability(AMCapability.PLAYER_MAGIC_HANDLER).ifPresent(cap ->
                         stack.getCapability(AMCapability.MAGIC_OBJECT).ifPresent(iCap -> {
                             if (cap.getMagicLevel() >= Objects.requireNonNull(iCap.getMagicType()).numerate())

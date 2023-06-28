@@ -3,9 +3,10 @@ package team.zeds.ancientmagic.network.s2c
 import net.minecraft.network.FriendlyByteBuf
 import net.minecraftforge.network.NetworkEvent
 import team.zeds.ancientmagic.client.ClientPlayerMagicData
+import team.zeds.ancientmagic.network.PacketBase
 import java.util.function.Supplier
 
-class PlayerMagicDataSyncS2CPacket {
+class PlayerMagicDataSyncS2CPacket: PacketBase {
     val data: Int
 
     constructor(magicData: Int) {
@@ -16,8 +17,8 @@ class PlayerMagicDataSyncS2CPacket {
         this.data = byteBuf.readInt()
     }
 
-    fun encode(buf: FriendlyByteBuf) {
-        buf.writeInt(this.data)
+    override fun encode(byteBuf: FriendlyByteBuf) {
+        byteBuf.writeInt(this.data)
     }
 
     companion object {
@@ -27,7 +28,7 @@ class PlayerMagicDataSyncS2CPacket {
         }
     }
 
-    fun handle(ctxSup: Supplier<NetworkEvent.Context>) {
+    override fun handle(ctxSup: Supplier<NetworkEvent.Context>) {
         val context = ctxSup.get()
         context.enqueueWork { ClientPlayerMagicData.setPlayerData(data) }
     }

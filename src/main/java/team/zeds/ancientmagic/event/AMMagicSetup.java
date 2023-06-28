@@ -1,5 +1,7 @@
 package team.zeds.ancientmagic.event;
 
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent;
 import team.zeds.ancientmagic.api.magic.MagicType;
 import team.zeds.ancientmagic.api.magic.MagicTypes;
 import team.zeds.ancientmagic.capability.PlayerMagicCapability;
@@ -11,7 +13,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
@@ -27,7 +28,7 @@ import team.zeds.ancientmagic.init.AMNetwork;
 import team.zeds.ancientmagic.init.config.AMCommonOld;
 import team.zeds.ancientmagic.init.AMTags;
 
-public class MagicData {
+public class AMMagicSetup {
     public static void tooltipEvent(ItemTooltipEvent e) {
         var stack = e.getItemStack();
         var tooltip = e.getToolTip();
@@ -42,17 +43,14 @@ public class MagicData {
 //                tooltip.add(MagicType.getMagicMessage("storage", item.getStorageMana(stack, null),
 //                        item.getMaxMana(stack, null)));
             e.getItemStack().getCapability(AMCapability.MAGIC_OBJECT).ifPresent(cap -> {
-//                if (cap.getMagicType() != null)
-//                    tooltip.add(Component.translatable("magicType.type", cap.getMagicType().getTranslation()));
-//                if (cap.getMagicSubtype() != null)
-//                    tooltip.add(Component.translatable("magicType.subtype", cap.getMagicSubtype().getTranslation()));
-//
-//                if (cap.getMaxMana() != 0)
-//                    tooltip.add(MagicType.getMagicMessage("storage", cap.getStorageMana(),
-//                            cap.getMaxMana()));
+                if (cap.getMagicType() != null)
+                    tooltip.add(Component.translatable("magicType.type", cap.getMagicType().getTranslation()));
+                if (cap.getMagicSubtype() != null)
+                    tooltip.add(Component.translatable("magicType.subtype", cap.getMagicSubtype().getTranslation()));
 
-                if (item.getBuilder().getMagicType() != null)
-                    cap.setMagicType(item.getBuilder().getMagicType());
+                if (cap.getMaxMana() != 0)
+                    tooltip.add(MagicType.getMagicMessage("storage", cap.getStorageMana(),
+                            cap.getMaxMana()));
             });
 
             var resource = ForgeRegistries.ITEMS.getKey(item);
@@ -76,10 +74,10 @@ public class MagicData {
             if (!player.getCapability(AMCapability.PLAYER_MAGIC_HANDLER).isPresent())
                 event.addCapability(AMCapability.PLAYER_MAGIC_HANDLER_ID, new PlayerMagicCapability.Provider());
         }
+
         if (event.getObject() instanceof ItemStack stack) {
             if (stack.getItem() instanceof MagicItem) {
-                if (stack.getCapability(AMCapability.MAGIC_OBJECT).isPresent())
-                    event.addCapability(AMCapability.MAGIC_OBJECT_ID, new MagicObjectCapability.Provider());
+                event.addCapability(AMCapability.MAGIC_OBJECT_ID, new MagicObjectCapability.Provider(stack));
             }
         }
     }
@@ -146,5 +144,21 @@ public class MagicData {
                             AMNetwork.sendToPlayer(new PlayerMagicDataSyncS2CPacket(cap.getMagicLevel()), player));
                 }
             }
+        if (e instanceof TickEvent.LevelTickEvent event) {
+            event.level.getCapability(AMCapability.MAGIC_OBJECT).ifPresent(cap -> {
+                var stack = cap.getStack();
+
+                if (stack.getItem() instanceof MagicItem item) {
+                    if (cap.getMagicType() == null)
+                        cap.setMagicType(item.getBuilder().getMagicType());
+                    if (cap.getMagicSubtype() == null)
+                        if (item.getBuilder().getMagicSubtype() != null)
+                            cap.setMagicSubtype(item.getBuilder().getMagicSubtype());
+                    if (cap.getMaxMana() == 0)
+                        if (item.getBuilder().getMaxMana() != 0)
+                            cap.setMaxMana(item.getBuilder().getMaxMana());
+                }
+            });
+        }
     }
 }

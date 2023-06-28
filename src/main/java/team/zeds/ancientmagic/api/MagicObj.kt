@@ -3,6 +3,7 @@
 package team.zeds.ancientmagic.api
 
 import net.minecraft.core.BlockPos
+import net.minecraft.nbt.CompoundTag
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.InteractionResultHolder
@@ -28,10 +29,13 @@ import net.minecraft.world.level.block.state.properties.NoteBlockInstrument
 import net.minecraft.world.level.material.MapColor
 import net.minecraft.world.level.material.PushReaction
 import net.minecraft.world.phys.BlockHitResult
+import net.minecraftforge.common.capabilities.ICapabilityProvider
+import org.jetbrains.annotations.Nullable
 import team.zeds.ancientmagic.api.atomic.KAtomicUse
 import team.zeds.ancientmagic.api.magic.MagicType
 import team.zeds.ancientmagic.api.magic.MagicType.MagicClassifier
 import team.zeds.ancientmagic.api.magic.MagicTypes
+import team.zeds.ancientmagic.capability.MagicObjectCapability
 import team.zeds.ancientmagic.init.AMCapability
 import java.util.function.Function
 import java.util.function.Supplier
@@ -429,18 +433,17 @@ open class MagicItem(private val builder: MagicBuilder): Item(builder.getPropert
         canUseItem = canUse
     }
 
-
     @Suppress("unused")
     open class MagicBuilder private constructor() {
         @Deprecated("Move to private")
         @JvmField var properties = Properties()
 
-        @JvmField var magicType: MagicType = MagicTypes.LOW_MAGIC
+        private var magicType: MagicType = MagicTypes.LOW_MAGIC
 
-        @JvmField var magicSubtype: MagicType? = null
-        @JvmField var maxMana = 0
-        @JvmField var manaCount = 0
-        @JvmField var subManaIfUse = 0
+        private var magicSubtype: MagicType? = null
+        private var maxMana = 0
+        private var manaCount = 0
+        private var subManaIfUse = 0
 
         @Deprecated("")
         fun setProperties(properties: Properties): MagicBuilder {
@@ -474,13 +477,17 @@ open class MagicItem(private val builder: MagicBuilder): Item(builder.getPropert
         }
 
         fun setMagicType(type: MagicType): MagicBuilder {
-            magicType = type
-            return this
+            if (type.getClassifier() == MagicClassifier.MAIN_TYPE) {
+                magicType = type
+                return this
+            } else throw RuntimeException("Classifier ${type.getClassifier()} is ${MagicClassifier.SUBTYPE}. Accepts only ${MagicClassifier.MAIN_TYPE}!")
         }
 
         fun setMagicSubtype(type: MagicType): MagicBuilder {
-            if (type.getClassifier() == MagicClassifier.SUBTYPE) magicSubtype = type
-            return this
+            if (type.getClassifier() == MagicClassifier.SUBTYPE && this.getMagicType() != null) {
+                magicSubtype = type
+                return this
+            } else throw RuntimeException("Classifier ${type.getClassifier()} is ${MagicClassifier.MAIN_TYPE}. Accepts only {}")
         }
 
         fun setRarity(rarity: Rarity): MagicBuilder {
@@ -506,6 +513,7 @@ open class MagicItem(private val builder: MagicBuilder): Item(builder.getPropert
 
         fun getMagicType() : MagicType = magicType
 
+        @Nullable
         fun getMagicSubtype() : MagicType = magicSubtype!!
 
         fun getProperties(): Properties = properties

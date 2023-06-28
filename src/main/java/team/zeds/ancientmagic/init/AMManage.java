@@ -3,7 +3,7 @@ package team.zeds.ancientmagic.init;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig;
 import team.zeds.ancientmagic.api.mod.Constant;
-import team.zeds.ancientmagic.event.MagicData;
+import team.zeds.ancientmagic.event.AMMagicSetup;
 import team.zeds.ancientmagic.init.config.*;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -39,18 +39,18 @@ public class AMManage {
         Constant.LOGGER.debug("Initializing forge events");
         bus.addListener(AMManage::modCommon);
         bus.addListener(AMCommands::registerCommands);
-        bus.addListener(MagicData::playerClone);
-        bus.addListener(MagicData::playerEvent);
-        bus.addGenericListener(Object.class, MagicData::attachCapability);
-        bus.addListener(MagicData::playerConnectToWorld);
-        bus.addListener(MagicData::playerTickEvent);
+        bus.addListener(AMMagicSetup::playerClone);
+        bus.addListener(AMMagicSetup::playerEvent);
+        bus.addGenericListener(Object.class, AMMagicSetup::attachCapability);
+        bus.addListener(AMMagicSetup::playerConnectToWorld);
+        bus.addListener(AMMagicSetup::playerTickEvent);
     }
 
     private static void modEventsInitialize(IEventBus bus) {
         Constant.LOGGER.debug("Initializing mod events");
         CompactInitializer.init(bus);
         bus.addListener(AMManage::modCommon);
-        bus.addListener(MagicData::registerCapability);
+        bus.addListener(AMMagicSetup::registerCapability);
     }
 
     private static void modCommon(final FMLCommonSetupEvent e) {
@@ -62,7 +62,7 @@ public class AMManage {
     public static class ClientInit implements ProxyBase {
         @SubscribeEvent
         public static void client(final FMLClientSetupEvent e) {
-            FORGE_BUS.addListener(MagicData::tooltipEvent);
+            FORGE_BUS.addListener(AMMagicSetup::tooltipEvent);
         }
 
         @Override

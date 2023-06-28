@@ -1,5 +1,8 @@
 package team.zeds.ancientmagic.capability;
 
+import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import team.zeds.ancientmagic.api.magic.MagicState;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -14,16 +17,24 @@ import team.zeds.ancientmagic.init.AMCapability;
 
 public class MagicObjectCapability implements MagicState {
     private MagicType type;
+    @Nullable
     private MagicType subtype;
     private int maxMana;
     private int manaCount = 0;
+    private final ItemStack stack;
+
+    public MagicObjectCapability(ItemStack stack) {
+        this.stack = stack;
+    }
 
     @Override
+    @Nullable
     public MagicType getMagicType() {
         return this.type;
     }
 
     @Override
+    @Nullable
     public MagicType getMagicSubtype() {
         return this.subtype;
     }
@@ -86,18 +97,29 @@ public class MagicObjectCapability implements MagicState {
         this.manaCount = toLoad.getInt("CurrentStorageMana");
     }
 
+    @NotNull
+    @Override
+    public ItemStack getStack() {
+        return this.stack;
+    }
+
     public static class Provider implements ICapabilityProvider, INBTSerializable<CompoundTag> {
         private MagicState wrapper = null;
         private final LazyOptional<MagicState> lazy = LazyOptional.of(this::createCap);
+        private final ItemStack stack;
 
+        @NotNull
         private MagicState createCap() {
-            if (this.wrapper == null) this.wrapper = new MagicObjectCapability();
+            if (this.wrapper == null) this.wrapper = new MagicObjectCapability(this.stack);
             return this.wrapper;
         }
 
+        public Provider(ItemStack stack) {
+            this.stack = stack;
+        }
+
         @Override
-        public <T> LazyOptional<T> getCapability(Capability<T> cap,
-                                                          Direction side) {
+        public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
             if (cap == AMCapability.MAGIC_OBJECT) return lazy.cast();
 
             return LazyOptional.empty();
