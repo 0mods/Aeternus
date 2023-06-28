@@ -26,6 +26,7 @@ interface MagicState {
     /**
      * Getter of [MagicType]
      * Have a [MagicClassifier] check of [MagicClassifier.SUBTYPE]
+     * @return [MagicType]
      */
     fun getMagicSubtype(): MagicType
 
