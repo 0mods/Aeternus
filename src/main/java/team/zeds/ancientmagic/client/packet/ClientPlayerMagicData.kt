@@ -5,5 +5,5 @@ object ClientPlayerMagicData {
     @get:Synchronized
     @set:JvmStatic
     @set:Synchronized
-    var playerData: Int? = 0
+    var playerData: Int = 0
 }

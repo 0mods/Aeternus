@@ -30,6 +30,9 @@ import net.minecraftforge.registries.RegistryObject;
 import team.zeds.ancientmagic.compact.CompactInitializer;
 import team.zeds.ancientmagic.item.RetraceStone;
 import team.zeds.ancientmagic.item.*;
+import team.zeds.ancientmagic.recipes.AltarRecipe;
+import team.zeds.ancientmagic.recipes.base.AMRecipeSerializer;
+import team.zeds.ancientmagic.recipes.base.AbstractAMRecipe;
 
 import java.util.function.Supplier;
 
@@ -63,6 +66,7 @@ public final class AMRegister {
     public static final RegistryObject<MagicItem> CREATIVE_BUF_ITEM =
             boolReg("creative_buf", CreativeBufItem::new, !FMLEnvironment.production);
     public static final RegistryObject<Item> MAGIC_BOOK = i("magic_book", MagicBook::new);
+    public static final RegistryObject<AMRecipeSerializer<AltarRecipe>> ALTAR_RECIPE_SERIAL = r("altar_recipe", AltarRecipe::new);
 
     static <T extends Item> RegistryObject<T> boolReg(String id, Supplier<T> sup, boolean boolIfReg) {
         return boolIfReg ? i(id, sup) : null;
@@ -80,6 +84,10 @@ public final class AMRegister {
     static RegistryObject<CreativeModeTab> regTab(String name, CreativeModeTab.Builder builder) {
         return TABS.register(name, builder.title(Component.translatable(String.format("itemTab.%s.%s",
                 Constant.KEY, name)))::build);
+    }
+
+    static <T extends AbstractAMRecipe> RegistryObject<AMRecipeSerializer<T>> r(String id, AMRecipeSerializer.SerializerFactory<T> factory) {
+        return RECIPE.register(id, ()-> new AMRecipeSerializer<>(factory));
     }
 
     static <Y, T extends IForgeRegistry<Y>> DeferredRegister<Y> deferredCreator(T forgeRegister) {

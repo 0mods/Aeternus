@@ -10,7 +10,7 @@ import team.zeds.ancientmagic.api.magic.MagicTypes
 import team.zeds.ancientmagic.api.mod.Constant
 import team.zeds.ancientmagic.client.packet.ClientPlayerMagicData
 
-class MagicBookScreen : Screen(Component.empty()) {
+class MagicBookScreen: Screen(Component.empty()) {
     private val imgWidth: Int = 512
     private val imgHeight: Int = 256
 
@@ -51,7 +51,7 @@ class MagicBookScreen : Screen(Component.empty()) {
     override fun isPauseScreen(): Boolean = true
 
     fun addTexts() {
-        addTextWithoutFormat("level", 56, 122, MagicTypes.getByNumeration(ClientPlayerMagicData.playerData!!).getTranslation())
+        addTextWithoutFormat("level", 56, 122, MagicTypes.getByNumeration(ClientPlayerMagicData.playerData).getTranslation())
     }
 
     fun addText(message: String, xPos: Int, yPos: Int, color: Int, vararg objects: Any) {

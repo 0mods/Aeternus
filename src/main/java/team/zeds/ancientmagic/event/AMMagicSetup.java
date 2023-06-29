@@ -1,5 +1,6 @@
 package team.zeds.ancientmagic.event;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import team.zeds.ancientmagic.api.magic.MagicType;
 import team.zeds.ancientmagic.api.magic.MagicTypes;
@@ -161,5 +162,9 @@ public class AMMagicSetup {
                 }
             });
         }
+    }
+
+    private ResourceLocation rl(String name)  {
+        return new ResourceLocation(Constant.KEY, name);
     }
 }

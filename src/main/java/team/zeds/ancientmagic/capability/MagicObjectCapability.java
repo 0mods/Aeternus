@@ -28,7 +28,7 @@ public class MagicObjectCapability implements ItemStackMagic {
     }
 
     @Override
-    @NotNull
+    @Nullable
     public MagicType getMagicType() {
         return this.type;
     }
