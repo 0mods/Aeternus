@@ -1,6 +1,5 @@
 package team.zeds.ancientmagic.network.c2s;
 
-import net.minecraft.network.chat.Component;
 import team.zeds.ancientmagic.api.MagicItem;
 import team.zeds.ancientmagic.api.mod.Constant;
 import net.minecraft.network.FriendlyByteBuf;
@@ -38,13 +37,7 @@ public class PlayerMagicDataC2SPacketOld {
                             if (cap.getMagicLevel() >= Objects.requireNonNull(iCap.getMagicType()).numerate())
                                 item.setItemUse(true);
                             else {
-                            /*if (serverLevel.isClientSide) {
-                                serverPlayer.displayClientMessage(MagicType.getMagicMessage("notLevel",
-                                                item.getMagicType().getTranslation(),
-                                                MagicTypes.getByNumeration(cap.getMagicLevel()).getTranslation()),
-                                        true);
-
-                            } else*/ Constant.LOGGER.debug("Player haven't required level for use item");
+                                Constant.LOGGER.debug("Player haven't required level for use item");
                                 item.setItemUse(false);
                             }
 

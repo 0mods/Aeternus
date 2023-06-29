@@ -3,7 +3,7 @@ package team.zeds.ancientmagic.capability;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import team.zeds.ancientmagic.api.magic.MagicState;
+import team.zeds.ancientmagic.api.cap.ItemStackMagic;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -15,7 +15,7 @@ import team.zeds.ancientmagic.api.magic.MagicType;
 import team.zeds.ancientmagic.api.magic.MagicTypes;
 import team.zeds.ancientmagic.init.AMCapability;
 
-public class MagicObjectCapability implements MagicState {
+public class MagicObjectCapability implements ItemStackMagic {
     private MagicType type;
     @Nullable
     private MagicType subtype;
@@ -28,7 +28,7 @@ public class MagicObjectCapability implements MagicState {
     }
 
     @Override
-    @Nullable
+    @NotNull
     public MagicType getMagicType() {
         return this.type;
     }
@@ -104,18 +104,18 @@ public class MagicObjectCapability implements MagicState {
     }
 
     public static class Provider implements ICapabilityProvider, INBTSerializable<CompoundTag> {
-        private MagicState wrapper = null;
-        private final LazyOptional<MagicState> lazy = LazyOptional.of(this::createCap);
+        private ItemStackMagic wrapper = null;
+        private final LazyOptional<ItemStackMagic> lazy = LazyOptional.of(this::createCap);
         private final ItemStack stack;
-
-        @NotNull
-        private MagicState createCap() {
-            if (this.wrapper == null) this.wrapper = new MagicObjectCapability(this.stack);
-            return this.wrapper;
-        }
 
         public Provider(ItemStack stack) {
             this.stack = stack;
+        }
+
+        @NotNull
+        private ItemStackMagic createCap() {
+            if (this.wrapper == null) this.wrapper = new MagicObjectCapability(this.stack);
+            return this.wrapper;
         }
 
         @Override

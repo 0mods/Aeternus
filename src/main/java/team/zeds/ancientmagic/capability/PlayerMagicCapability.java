@@ -1,5 +1,9 @@
 package team.zeds.ancientmagic.capability;
 
+import org.jetbrains.annotations.NotNull;
+import team.zeds.ancientmagic.api.cap.PlayerMagic;
+import team.zeds.ancientmagic.api.magic.MagicType;
+import team.zeds.ancientmagic.api.magic.MagicTypes;
 import team.zeds.ancientmagic.api.mod.Constant;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -8,37 +12,51 @@ import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import team.zeds.ancientmagic.init.AMCapability;
 
-public class PlayerMagicCapability {
+public class PlayerMagicCapability implements PlayerMagic {
     private int level;
 
+    @Override
     public int getMagicLevel() {
         return this.level;
     }
 
+    @NotNull
+    @Override
+    public MagicType getMagicLevelAsMagicType() {
+        return MagicTypes.getByNumeration(this.getMagicLevel());
+    }
+
+    @Override
     public void addLevel(int add) {
         this.level = Math.min(this.level + add, 4);
     }
 
+    @Override
     public void subLevel(int sub) {
         this.level = Math.max(this.level - sub, 0);
     }
 
-    public void setLevel(int level) {
-        this.level = level;
+    @Override
+    public void setLevel(int set) {
+        this.level = set;
     }
 
-    public void copyFrom(PlayerMagicCapability source) {
-        this.level = source.level;
+    @Override
+    public void copyFrom(@NotNull PlayerMagic source) {
+        var capSource = (PlayerMagicCapability) source;
+        this.level = capSource.level;
     }
 
-    public void saveTag(CompoundTag tag) {
+    @Override
+    public void save(@NotNull CompoundTag tag) {
         tag.putInt("MagicPlayerLevel", this.level);
         Constant.LOGGER.debug("{} has been saved", tag);
     }
 
-    public void loadTag(CompoundTag tagToLoad) {
-        this.level = tagToLoad.getInt("MagicPlayerLevel");
-        Constant.LOGGER.debug("{} has been loaded", tagToLoad);
+    @Override
+    public void load(@NotNull CompoundTag tag) {
+        this.level = tag.getInt("MagicPlayerLevel");
+        Constant.LOGGER.debug("{} has been loaded", tag);
     }
 
     public static class Provider implements ICapabilityProvider, INBTSerializable<CompoundTag> {
@@ -47,7 +65,6 @@ public class PlayerMagicCapability {
 
         private PlayerMagicCapability createCap() {
             if (this.wrapper == null) this.wrapper = new PlayerMagicCapability();
-            Constant.LOGGER.debug("Capability \"PlayerMagicCapability\" has been created");
             return this.wrapper;
         }
 
@@ -61,15 +78,13 @@ public class PlayerMagicCapability {
         @Override
         public CompoundTag serializeNBT() {
             CompoundTag tag = new CompoundTag();
-            this.createCap().saveTag(tag);
-            Constant.LOGGER.debug("{} has been saved (FORGE)", tag);
+            this.createCap().save(tag);
             return tag;
         }
 
         @Override
         public void deserializeNBT(CompoundTag nbt) {
-            Constant.LOGGER.debug("{} has been loaded (FORGE)", nbt);
-            this.createCap().loadTag(nbt);
+            this.createCap().load(nbt);
         }
     }
 }

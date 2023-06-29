@@ -1,7 +1,6 @@
 package team.zeds.ancientmagic.event;
 
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent;
 import team.zeds.ancientmagic.api.magic.MagicType;
 import team.zeds.ancientmagic.api.magic.MagicTypes;
 import team.zeds.ancientmagic.capability.PlayerMagicCapability;
@@ -100,14 +99,16 @@ public class AMMagicSetup {
 //                    item.canUseItem = false;
 //                }
                 stack.getCapability(AMCapability.MAGIC_OBJECT).ifPresent(cap -> {
-                    if (magicLevel >= cap.getMagicType().numerate()) {
-                        item.setItemUse(true);
-                    } else {
-                        player.displayClientMessage(MagicType.getMagicMessage("notLevel",
-                                    cap.getMagicType().getTranslation(),
-                                    MagicTypes.getByNumeration(ClientPlayerMagicData.getPlayerData()).getTranslation()),
-                            true);
-                        item.setItemUse(false);
+                    if (cap.getMagicType() != null) {
+                        if (magicLevel >= cap.getMagicType().numerate()) {
+                            item.setItemUse(true);
+                        } else {
+                            player.displayClientMessage(MagicType.getMagicMessage("notLevel",
+                                            cap.getMagicType().getTranslation(),
+                                            MagicTypes.getByNumeration(ClientPlayerMagicData.getPlayerData()).getTranslation()),
+                                    true);
+                            item.setItemUse(false);
+                        }
                     }
                 });
             }
