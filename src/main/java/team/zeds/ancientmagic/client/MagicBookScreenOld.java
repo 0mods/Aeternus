@@ -8,56 +8,15 @@ import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
-public class MagicBookScreen extends Screen {
+public class MagicBookScreenOld extends Screen {
     private static final int imgWidth = 512;
     private static final int imgHeight = 256;
 
     private static final ResourceLocation TEXTURE = textureGen("book_screen");
 
-    public MagicBookScreen() {
+    public MagicBookScreenOld() {
         super(Component.empty());
     }
-
-//    @Override
-//    public void render(PoseStack pPoseStack, int xMouse, int yMouse, float partialTick) {
-//        super.render(pPoseStack, xMouse, yMouse, partialTick);
-//
-//        int j = ((this.width / 2) - (imgWidth / 2));
-//        int k = ((this.height / 2) - (imgHeight / 2));
-//
-//        assert this.minecraft != null;
-//        var player = this.minecraft.player;
-//
-//        assert player != null;
-//
-//        this.renderBackground(pPoseStack);
-//        RenderSystem.setShaderTexture(0, TEXTURE);
-//
-////        for (int i = 0; i < j; i++) {
-////            for (int l = 0; l < k; l++) {
-////                if (i == 66 && l == 29)
-////                    RenderSystem.setShaderTexture(1, textureGen("player_display"));
-////                if (i == 62 && l == 119)
-////                    RenderSystem.setShaderTexture(2, textureGen("tag_display"));
-////            }
-////        }
-//
-//        blit(pPoseStack, j, k, 0, 0, imgWidth, imgHeight, imgWidth, imgHeight);
-//
-//        int xPos = j+97;
-//        int yPos = k+111;
-//
-//        InventoryScreen.renderEntityInInventoryFollowsMouse(
-//                pPoseStack, xPos, yPos, 35, (float) xPos - xMouse, (float) yPos - yMouse,
-//                player
-//        );
-//
-//
-//        this.minecraft.font.draw(pPoseStack, Component.translatable("magic.ancientmagic.level",
-//                        MagicTypes.getByNumeration(ClientPlayerMagicData.getPlayerData())
-//                                .getTranslation()),
-//                j + 56, k + 122, ChatFormatting.BLACK.getId());
-//    }
 
     private GuiGraphics guiGraphics;
 

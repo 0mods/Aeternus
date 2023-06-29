@@ -2,7 +2,7 @@ package team.zeds.ancientmagic.network.s2c
 
 import net.minecraft.network.FriendlyByteBuf
 import net.minecraftforge.network.NetworkEvent
-import team.zeds.ancientmagic.client.ClientPlayerMagicData
+import team.zeds.ancientmagic.client.packet.ClientPlayerMagicData
 import team.zeds.ancientmagic.network.PacketBase
 import java.util.function.Supplier
 
@@ -30,6 +30,6 @@ class PlayerMagicDataSyncS2CPacket: PacketBase {
 
     override fun handle(ctxSup: Supplier<NetworkEvent.Context>) {
         val context = ctxSup.get()
-        context.enqueueWork { ClientPlayerMagicData.setPlayerData(data) }
+        context.enqueueWork { ClientPlayerMagicData.playerData = data }
     }
 }

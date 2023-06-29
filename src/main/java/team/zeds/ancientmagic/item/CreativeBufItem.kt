@@ -5,7 +5,7 @@ import net.minecraft.world.item.ItemStack
 import team.zeds.ancientmagic.api.MagicItem
 import team.zeds.ancientmagic.api.atomic.KAtomicUse
 import team.zeds.ancientmagic.api.magic.*
-import team.zeds.ancientmagic.client.ClientPlayerMagicData
+import team.zeds.ancientmagic.client.packet.ClientPlayerMagicData
 import team.zeds.ancientmagic.init.AMCapability
 import team.zeds.ancientmagic.init.AMNetwork
 import team.zeds.ancientmagic.network.c2s.PlayerMagicDataC2SPacket
@@ -20,7 +20,7 @@ class CreativeBufItem: MagicItem(MagicBuilder.get().setMagicType(MagicTypes.LOW_
             use.setConsume(stack)
         else {
             player.getCapability(AMCapability.PLAYER_MAGIC_HANDLER).ifPresent { cap ->
-                val currentLevel = cap.magicLevel
+                val currentLevel = cap.getMagicLevel()
                 if (!player.isShiftKeyDown) {
                     if (currentLevel < 4) {
                         cap.addLevel(1)
@@ -29,7 +29,7 @@ class CreativeBufItem: MagicItem(MagicBuilder.get().setMagicType(MagicTypes.LOW_
                             player.displayClientMessage(
                                 MagicType.getMagicMessage(
                                     "admin.levelAdded",
-                                    MagicTypes.getByNumeration(ClientPlayerMagicData.getPlayerData() + 1).getTranslation()
+                                    MagicTypes.getByNumeration(ClientPlayerMagicData.playerData!!.plus(1)).getTranslation()
                                 ),
                                 true
                             )
@@ -50,7 +50,7 @@ class CreativeBufItem: MagicItem(MagicBuilder.get().setMagicType(MagicTypes.LOW_
                         if (level.isClientSide()) player.displayClientMessage(
                             MagicType.getMagicMessage(
                                 "admin.levelAdded",
-                                MagicTypes.getByNumeration(ClientPlayerMagicData.getPlayerData() - 1).getTranslation()
+                                MagicTypes.getByNumeration(ClientPlayerMagicData.playerData!!.minus(1)).getTranslation()
                             ),
                             true
                         )
