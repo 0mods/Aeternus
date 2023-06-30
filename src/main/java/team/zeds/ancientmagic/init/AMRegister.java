@@ -3,9 +3,10 @@ package team.zeds.ancientmagic.init;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
+import team.zeds.ancientmagic.api.item.MagicItemBuilder;
 import team.zeds.ancientmagic.api.magic.MagicTypes;
 import team.zeds.ancientmagic.api.mod.Constant;
-import team.zeds.ancientmagic.api.MagicItem;
+import team.zeds.ancientmagic.api.item.MagicItem;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
@@ -57,12 +58,12 @@ public final class AMRegister {
     );
 
     public static final RegistryObject<MagicItem> MAGIC_DUST = i("magic_dust",
-            ()-> new MagicItem(MagicItem.MagicBuilder.get().setMagicType(MagicTypes.LOW_MAGIC)));
+            ()-> new MagicItem(MagicItemBuilder.get().setMagicType(MagicTypes.LOW_MAGIC)));
     public static final RegistryObject<MagicItem> RETRACE_CRYSTAL =
         boolReg("teleportation_crystal", RetraceStone::new, CompactInitializer.getWaystonesLoaded()
             && (FMLEnvironment.production && AMManage.COMMON_CONFIG.COMPACT_WAYSTONES.get()), "retrace_stone", RetraceStone::new);
     public static final RegistryObject<MagicItem> START_MANA_STORAGE = i("start_mana_storage",
-            ()-> new ManaStorage(MagicItem.MagicBuilder.get(), 1000, false));
+            ()-> new ManaStorage(MagicItemBuilder.get(), 1000, false));
     public static final RegistryObject<MagicItem> CREATIVE_BUF_ITEM =
             boolReg("creative_buf", CreativeBufItem::new, !FMLEnvironment.production);
     public static final RegistryObject<Item> MAGIC_BOOK = i("magic_book", MagicBook::new);

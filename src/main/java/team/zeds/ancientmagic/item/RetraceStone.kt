@@ -4,14 +4,15 @@ import net.minecraft.nbt.CompoundTag
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Rarity
 import net.minecraftforge.common.capabilities.ICapabilityProvider
-import team.zeds.ancientmagic.api.MagicItem
+import team.zeds.ancientmagic.api.item.MagicItem
+import team.zeds.ancientmagic.api.item.MagicItemBuilder
 import team.zeds.ancientmagic.api.atomic.KAtomicUse
 import team.zeds.ancientmagic.api.magic.MagicTypes
 import team.zeds.ancientmagic.compact.CompactInitializer
 import team.zeds.ancientmagic.compact.curios.AMCurio
 
 class RetraceStone : MagicItem(
-    MagicBuilder.get()
+    MagicItemBuilder.get()
         .setMagicType(MagicTypes.PRE_HIGH_MAGIC)
         .fireProof()
         .setRarity(Rarity.RARE)

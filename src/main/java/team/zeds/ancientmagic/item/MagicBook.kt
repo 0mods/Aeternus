@@ -1,19 +1,17 @@
 package team.zeds.ancientmagic.item
 
 import net.minecraft.client.Minecraft
-import net.minecraft.world.InteractionHand
-import net.minecraft.world.InteractionResultHolder
-import net.minecraft.world.entity.player.Player
-import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
-import net.minecraft.world.level.Level
+import team.zeds.ancientmagic.api.item.MagicItem
+import team.zeds.ancientmagic.api.item.MagicItemBuilder
+import team.zeds.ancientmagic.api.atomic.KAtomicUse
 import team.zeds.ancientmagic.client.MagicBookScreen
 
-class MagicBook : Item(Properties().stacksTo(1)) {
-    override fun use(level: Level, player: Player, hand: InteractionHand): InteractionResultHolder<ItemStack> {
-        return if (level.isClientSide) {
+class MagicBook : MagicItem(MagicItemBuilder.get().setStacks(1)) {
+    override fun use(use: KAtomicUse<ItemStack>) {
+        if (use.level.isClientSide) {
             Minecraft.getInstance().setScreen(MagicBookScreen())
-            return InteractionResultHolder.success(player.getItemInHand(hand))
-        } else InteractionResultHolder.pass(player.getItemInHand(hand))
+            use.setSuccess(use.player.getItemInHand(use.hand))
+        } else use.setConsume(use.player.getItemInHand(use.hand))
     }
 }

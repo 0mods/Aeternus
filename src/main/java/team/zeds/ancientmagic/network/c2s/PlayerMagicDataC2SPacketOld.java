@@ -1,6 +1,6 @@
 package team.zeds.ancientmagic.network.c2s;
 
-import team.zeds.ancientmagic.api.MagicItem;
+import team.zeds.ancientmagic.api.item.MagicItem;
 import team.zeds.ancientmagic.api.mod.Constant;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.InteractionHand;

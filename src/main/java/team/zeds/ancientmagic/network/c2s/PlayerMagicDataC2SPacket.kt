@@ -4,14 +4,12 @@ import net.minecraft.network.FriendlyByteBuf
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.InteractionHand
 import net.minecraftforge.network.NetworkEvent
-import team.zeds.ancientmagic.api.MagicItem
-import team.zeds.ancientmagic.api.magic.MagicType
+import team.zeds.ancientmagic.api.item.MagicItem
 import team.zeds.ancientmagic.api.mod.Constant
 import team.zeds.ancientmagic.capability.MagicObjectCapability
 import team.zeds.ancientmagic.capability.PlayerMagicCapability
 import team.zeds.ancientmagic.init.AMCapability
 import team.zeds.ancientmagic.network.PacketBase
-import java.util.*
 import java.util.function.Supplier
 
 class PlayerMagicDataC2SPacket: PacketBase {
