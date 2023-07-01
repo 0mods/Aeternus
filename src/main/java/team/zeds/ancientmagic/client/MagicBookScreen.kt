@@ -9,6 +9,7 @@ import net.minecraft.resources.ResourceLocation
 import team.zeds.ancientmagic.api.magic.MagicTypes
 import team.zeds.ancientmagic.api.mod.Constant
 import team.zeds.ancientmagic.client.packet.ClientPlayerMagicData
+import team.zeds.ancientmagic.init.registries.AMCapability
 
 class MagicBookScreen: Screen(Component.empty()) {
     private val imgWidth: Int = 512
@@ -39,9 +40,13 @@ class MagicBookScreen: Screen(Component.empty()) {
         InventoryScreen.renderEntityInInventoryFollowsMouse(guiGraphics, xPos, yPos, 35, (xPos - xMouse).toFloat(),
             (yPos - yMouse).toFloat(), player!!)
 
-        this.renderBackground(guiGraphics)
+        player.getCapability(AMCapability.PLAYER_MAGIC_HANDLER).ifPresent { cap ->
+            guiGraphics.drawString(font, Component.translatable(
+                "magic.${Constant.KEY}.level", MagicTypes.getByNumeration(cap.getMagicLevel()).getTranslation()
+            ),
+                w + 56, h + 122, ChatFormatting.WHITE.id)
+        }
 
-        this.addTexts()
     }
 
     private fun textureGen(name: String): ResourceLocation {
@@ -49,42 +54,4 @@ class MagicBookScreen: Screen(Component.empty()) {
     }
 
     override fun isPauseScreen(): Boolean = false
-
-    fun addTexts() {
-        addText("level", 56, 122, ChatFormatting.WHITE, MagicTypes.getByNumeration(ClientPlayerMagicData.playerData).getTranslation())
-    }
-
-    fun addText(message: String, xPos: Int, yPos: Int, color: Int, vararg objects: Any) {
-        val w = ((this.width / 2) - (imgWidth / 2))
-        val h = ((this.height / 2) - (imgHeight / 2))
-
-        guiGraphics!!.drawString(
-            font,
-            Component.translatable("magic.${Constant.KEY}.${message}", objects),
-            w + xPos,
-            h + yPos,
-            color
-        )
-    }
-
-    fun addText(message: String, xPos: Int, yPos: Int, color: Int, vararg objects: Component) {
-        val w = ((this.width / 2) - (imgWidth / 2))
-        val h = ((this.height / 2) - (imgHeight / 2))
-
-        guiGraphics!!.drawString(
-            font,
-            Component.translatable("magic.${Constant.KEY}.${message}", objects),
-            w + xPos,
-            h + yPos,
-            color
-        )
-    }
-
-    fun addText(message: String, xPos: Int, yPos: Int, color: ChatFormatting, vararg objects: Any) {
-        this.addText(message, xPos, yPos, color.id, objects)
-    }
-
-    fun addTextWithoutFormat(message: String, xPos: Int, yPos: Int, vararg objects: Any) {
-        this.addText(message, xPos, yPos, ChatFormatting.WHITE, objects)
-    }
 }
