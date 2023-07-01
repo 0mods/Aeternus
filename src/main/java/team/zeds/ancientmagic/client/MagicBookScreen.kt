@@ -40,12 +40,10 @@ class MagicBookScreen: Screen(Component.empty()) {
         InventoryScreen.renderEntityInInventoryFollowsMouse(guiGraphics, xPos, yPos, 35, (xPos - xMouse).toFloat(),
             (yPos - yMouse).toFloat(), player!!)
 
-        player.getCapability(AMCapability.PLAYER_MAGIC_HANDLER).ifPresent { cap ->
-            guiGraphics.drawString(font, Component.translatable(
-                "magic.${Constant.KEY}.level", MagicTypes.getByNumeration(cap.getMagicLevel()).getTranslation()
-            ),
-                w + 56, h + 122, ChatFormatting.WHITE.id)
-        }
+        guiGraphics.drawString(font, Component.translatable(
+            "magic.${Constant.KEY}.level", MagicTypes.getByNumeration(ClientPlayerMagicData.playerData).getTranslation()
+        ),
+            w + 56, h + 122, ChatFormatting.WHITE.id)
 
     }
 
