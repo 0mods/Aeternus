@@ -1,4 +1,4 @@
-@file:Suppress("unused", "SENSELESS_COMPARISON")
+@file:Suppress("SENSELESS_COMPARISON")
 
 package team.zeds.ancientmagic.api.item
 
@@ -7,85 +7,83 @@ import net.minecraft.world.InteractionResult
 import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.food.FoodProperties
+import net.minecraft.world.item.BlockItem
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Rarity
+import net.minecraft.world.item.context.BlockPlaceContext
 import net.minecraft.world.item.context.UseOnContext
 import net.minecraft.world.level.Level
-import org.jetbrains.annotations.Nullable
-import team.zeds.ancientmagic.api.atomic.KAtomicUse
+import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.phys.shapes.CollisionContext
 import team.zeds.ancientmagic.api.cap.ItemStackMagic
 import team.zeds.ancientmagic.api.magic.MagicType
 import team.zeds.ancientmagic.api.magic.MagicType.MagicClassifier
 import team.zeds.ancientmagic.api.magic.MagicTypes
-import team.zeds.ancientmagic.init.registries.AMCapability
 import kotlin.math.max
 import kotlin.math.min
 
 interface IMagicItem {
-    fun use(use: KAtomicUse<ItemStack>)
-    fun useOn(use: KAtomicUse<*>)
+    fun useMT(level: Level, player: Player, hand: InteractionHand)
+    fun useOnMT(use: UseOnContext)
 }
 
 open class MagicItem(private val builder: MagicItemBuilder): Item(builder.getProperties()), IMagicItem, ItemStackMagic {
     private var canUseItem = true
-    private var itemStack: ItemStack? = null
 
     init {
         this.builder.getProperties().setNoRepair()
-        this.setMagicType(this.builder.getMagicType())
-        this.setMaxMana(this.builder.getMaxMana())
     }
 
-    @Deprecated("Use \"use\" in MagicItem")
+    @Deprecated("Use \"useMT\" in MagicItem")
     override fun use(
         level: Level,
         player: Player,
         hand: InteractionHand
     ): InteractionResultHolder<ItemStack> {
-        val atomicUse: KAtomicUse<ItemStack> = KAtomicUse(player, level, hand)
-        val stack = atomicUse.stack
+        val stack = player.getItemInHand(hand)
         if (!stack.`is`(this)) return InteractionResultHolder.fail(stack)
-        if (getItemUse()) {
-            if (getBuilder().getManaCount() != 0 && getBuilder().getManaCount() != 0) {
-                subMana(this.getBuilder().getSubMana())
-                this.use(atomicUse)
-                return atomicUse.returnHolder!!
-            } else if (getBuilder().getMaxMana() != 0 && getBuilder().getManaCount() == 0) {
+        if (this.getItemUse()) {
+            if (this.getStorageMana(stack) != 0 && getBuilder().getMaxMana() != 0)  {
+                subMana(this.getBuilder().getSubMana(), stack)
+                this.useMT(level, player, hand)
+                return InteractionResultHolder.success(stack)
+            } else if (getBuilder().getMaxMana() != 0 && this.getStorageMana(stack) == 0) {
                 player.displayClientMessage(MagicType.getMagicMessage("notMana", getName(stack)), true)
                 return InteractionResultHolder.fail(stack)
             } else if (getBuilder().getMaxMana() == 0) {
-                this.use(atomicUse)
-                return atomicUse.returnHolder!!
+                this.useMT(level, player, hand)
+                return InteractionResultHolder.success(stack)
             }
         }
         return InteractionResultHolder.pass(stack)
     }
 
     @Deprecated("Use \"useOn\" in MagicItem")
-    override fun useOn(use: UseOnContext): InteractionResult {
-        val context: KAtomicUse<*> = KAtomicUse<Any>(use)
-        val stack = context.stack
-        val player = context.player
-        if (getItemUse()) {
-            if (getBuilder().getManaCount() != 0 && getBuilder().getManaCount() != 0) {
-                subMana(this.getBuilder().getSubMana())
-                this.useOn(context)
-                return context.returnResult!!
-            } else if (getBuilder().getMaxMana() != 0 && getBuilder().getManaCount() == 0) {
+    override fun useOn(context: UseOnContext): InteractionResult {
+        val player = context.player!!
+        val stack = player.getItemInHand(context.hand)
+
+        if (this.getItemUse()) {
+            if (this.getStorageMana(stack) != 0 && getBuilder().getMaxMana() != 0) {
+                subMana(this.getBuilder().getSubMana(), stack)
+                this.useOnMT(context)
+                return InteractionResult.SUCCESS
+            } else if (getBuilder().getMaxMana() != 0 && this.getStorageMana(stack) == 0) {
                 player.displayClientMessage(MagicType.getMagicMessage("notMana", getName(stack)), true)
                 return InteractionResult.FAIL
             } else if (getBuilder().getMaxMana() == 0) {
-                this.useOn(context)
-                return context.returnResult!!
+                this.useOnMT(context)
+                return InteractionResult.SUCCESS
             }
         }
         return InteractionResult.PASS
     }
 
-    override fun use(use: KAtomicUse<ItemStack>) {}
+    override fun useMT(level: Level, player: Player, hand: InteractionHand) {}
 
-    override fun useOn(use: KAtomicUse<*>) {}
+    override fun useOnMT(use: UseOnContext) {}
 
     fun getBuilder(): MagicItemBuilder {
         return builder
@@ -103,52 +101,159 @@ open class MagicItem(private val builder: MagicItemBuilder): Item(builder.getPro
         return this.getBuilder().getMagicType()
     }
 
-    @Nullable
     override fun getMagicSubtype(): MagicType {
         return this.getBuilder().getMagicSubtype()
     }
 
-    override fun setMaxMana(max: Int) {
-        this.getStack().orCreateTag.putInt("MaxMana", max)
+    override fun getMaxMana(): Int {
+        return this.getBuilder().getMaxMana()
     }
 
-    override fun setMagicType(type: MagicType) {
-        this.getStack().orCreateTag.putInt("MagicLevel", type.numerate())
+    override fun getStorageMana(stack: ItemStack): Int {
+        return if (stack.orCreateTag.get("StorageMana") != null) {
+            stack.orCreateTag.getInt("StorageMana")
+        } else 0
+    }
+
+    override fun setStorageMana(mana: Int, stack: ItemStack) {
+        stack.orCreateTag.putInt("StorageMana", mana)
+    }
+
+    override fun addMana(count: Int, stack: ItemStack) {
+        val storage = this.getStorageMana(stack)
+        val calc = min(storage + count, getMaxMana())
+        setStorageMana(calc, stack)
+    }
+
+    override fun subMana(count: Int, stack: ItemStack) {
+        val storage = this.getStorageMana(stack)
+        val calc = max(storage - count, 0)
+        setStorageMana(calc, stack)
+    }
+
+    companion object {
+        @JvmStatic
+        fun callBuilder() : MagicItemBuilder {
+            return MagicItemBuilder.get()
+        }
+    }
+}
+
+open class MagicBlockItem(block: Block, private var builder: MagicItemBuilder): BlockItem(block, builder.getProperties()), ItemStackMagic, IMagicItem {
+    private var canUseItem = true
+
+    init {
+        this.builder.getProperties().setNoRepair()
+    }
+
+    @Deprecated("Use \"useMT\" in MagicItem")
+    override fun use(
+        level: Level,
+        player: Player,
+        hand: InteractionHand
+    ): InteractionResultHolder<ItemStack> {
+        val stack = player.getItemInHand(hand)
+        if (!stack.`is`(this)) return InteractionResultHolder.fail(stack)
+        if (this.getItemUse()) {
+            if (this.getStorageMana(stack) != 0 && getBuilder().getMaxMana() != 0)  {
+                subMana(this.getBuilder().getSubMana(), stack)
+                this.useMT(level, player, hand)
+                return InteractionResultHolder.success(stack)
+            } else if (getBuilder().getMaxMana() != 0 && this.getStorageMana(stack) == 0) {
+                player.displayClientMessage(MagicType.getMagicMessage("notMana", getName(stack)), true)
+                return InteractionResultHolder.fail(stack)
+            } else if (getBuilder().getMaxMana() == 0) {
+                this.useMT(level, player, hand)
+                return InteractionResultHolder.success(stack)
+            }
+        }
+        return InteractionResultHolder.pass(stack)
+    }
+
+    @Deprecated("Use \"useOn\" in MagicItem")
+    override fun useOn(context: UseOnContext): InteractionResult {
+        val player = context.player!!
+        val stack = player.getItemInHand(context.hand)
+
+        if (this.getItemUse()) {
+            if (this.getStorageMana(stack) != 0 && getBuilder().getMaxMana() != 0) {
+                subMana(this.getBuilder().getSubMana(), stack)
+                this.useOnMT(context)
+                return InteractionResult.SUCCESS
+            } else if (getBuilder().getMaxMana() != 0 && this.getStorageMana(stack) == 0) {
+                player.displayClientMessage(MagicType.getMagicMessage("notMana", getName(stack)), true)
+                return InteractionResult.FAIL
+            } else if (getBuilder().getMaxMana() == 0) {
+                this.useOnMT(context)
+                return InteractionResult.SUCCESS
+            }
+        }
+        return InteractionResult.PASS
+    }
+
+    override fun useMT(level: Level, player: Player, hand: InteractionHand) {}
+
+    override fun useOnMT(use: UseOnContext) {}
+
+    fun getBuilder(): MagicItemBuilder {
+        return builder
+    }
+
+    fun getItemUse(): Boolean {
+        return canUseItem
+    }
+
+    fun setItemUse(canUse: Boolean) {
+        canUseItem = canUse
+    }
+
+    override fun getMagicType(): MagicType {
+        return this.getBuilder().getMagicType()
+    }
+
+    override fun getMagicSubtype(): MagicType {
+        return this.getBuilder().getMagicSubtype()
     }
 
     override fun getMaxMana(): Int {
-        return this.getStack().orCreateTag.getInt("MaxMana")
+        return this.getBuilder().getMaxMana()
     }
 
-    override fun getStorageMana(): Int {
-        val tag = this.getStack().orCreateTag
-
-        return if (tag.get("ManaStorage") == null) {
-            return if (getMaxMana() != 0) {
-                tag.putInt("ManaStorage", 0)
-                tag.getInt("ManaStorage")
-            } else 0
-        } else tag.getInt("ManaStorage")
+    override fun getStorageMana(stack: ItemStack): Int {
+        return if (stack.orCreateTag.get("StorageMana") != null) {
+            stack.orCreateTag.getInt("StorageMana")
+        } else 0
     }
 
-    override fun addMana(count: Int) {
-        val storage = this.getStorageMana()
+    override fun setStorageMana(mana: Int, stack: ItemStack) {
+        stack.orCreateTag.putInt("StorageMana", mana)
+    }
+
+    override fun addMana(count: Int, stack: ItemStack) {
+        val storage = this.getStorageMana(stack)
         val calc = min(storage + count, getMaxMana())
-
-        this.getStack().orCreateTag.putInt("ManaStorage", calc)
+        setStorageMana(calc, stack)
     }
 
-    override fun subMana(count: Int) {
-        val storage = this.getStorageMana()
-        max(storage - count, 0)
+    override fun subMana(count: Int, stack: ItemStack) {
+        val storage = this.getStorageMana(stack)
+        val calc = max(storage - count, 0)
+        setStorageMana(calc, stack)
     }
 
-    override fun getStack(): ItemStack {
-        return this.itemStack!!
+    override fun placeBlock(context: BlockPlaceContext, state: BlockState): Boolean {
+        val player = context.player
+        val collisionContext = if (player == null) CollisionContext.empty() else CollisionContext.of(player)
+
+        return (getItemUse()) && (!this.mustSurvive() || state.canSurvive(context.level, context.clickedPos))
+                && context.level.isUnobstructed(state, context.clickedPos, collisionContext)
     }
 
-    override fun setStack(stack: ItemStack) {
-        this.itemStack = stack
+    companion object {
+        @JvmStatic
+        fun callBuilder() : MagicItemBuilder {
+            return MagicItemBuilder.get()
+        }
     }
 }
 
@@ -158,18 +263,13 @@ open class MagicItemBuilder private constructor() {
 
     private var magicType: MagicType = MagicTypes.LOW_MAGIC
 
-    private var magicSubtype: MagicType? = null
+    private var magicSubtype: MagicType = MagicTypes.NOTHING
     private var maxMana = 0
     private var manaCount = 0
-    private var subManaIfUse = 0
+    private var subManaIfUse = 1
 
     fun setMaxMana(maxMana: Int): MagicItemBuilder {
         this.maxMana = maxMana
-        return this
-    }
-
-    fun setManaCount(count: Int): MagicItemBuilder {
-        manaCount = count
         return this
     }
 
@@ -217,16 +317,15 @@ open class MagicItemBuilder private constructor() {
         return this
     }
 
-    fun getManaCount() : Int = manaCount
-
-    fun getMaxMana() : Int = maxMana
+    fun getMaxMana() : Int {
+        return if (maxMana >= 0) maxMana else throw RuntimeException("${maxMana.javaClass} may not be a lower than 0")
+    }
 
     fun getSubMana() : Int = subManaIfUse
 
     fun getMagicType() : MagicType = magicType
 
-    @Nullable
-    fun getMagicSubtype() : MagicType = magicSubtype!!
+    fun getMagicSubtype() : MagicType = magicSubtype
 
     fun getProperties(): Item.Properties = properties
 

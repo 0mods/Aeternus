@@ -1,6 +1,7 @@
 package team.zeds.ancientmagic.init.registries;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import team.zeds.ancientmagic.api.item.MagicItemBuilder;
@@ -36,6 +37,7 @@ import team.zeds.ancientmagic.recipes.AltarRecipe;
 import team.zeds.ancientmagic.recipes.base.AMRecipeSerializer;
 import team.zeds.ancientmagic.recipes.base.AbstractAMRecipe;
 
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 @SuppressWarnings({"SameParameterValue", "DataFlowIssue", "unused"})
@@ -64,7 +66,7 @@ public final class AMRegister {
         boolReg("teleportation_crystal", RetraceStone::new, CompactInitializer.getWaystonesLoaded()
             && (FMLEnvironment.production && AMManage.COMMON_CONFIG.COMPACT_WAYSTONES.get()), "retrace_stone", RetraceStone::new);
     public static final RegistryObject<MagicItem> START_MANA_STORAGE = i("start_mana_storage",
-            ()-> new ManaStorage(MagicItemBuilder.get(), 1000, false));
+            ()-> new ManaStorage(MagicItem.callBuilder(), 1000, false));
     public static final RegistryObject<MagicItem> CREATIVE_BUF_ITEM =
             boolReg("creative_buf", CreativeBufItem::new, !FMLEnvironment.production);
     public static final RegistryObject<Item> MAGIC_BOOK = i("magic_book", MagicBook::new);
@@ -81,6 +83,12 @@ public final class AMRegister {
 
     static <T extends Item> RegistryObject<T> i(String id, Supplier<T> sup) {
         return ITEMS.register(id, sup);
+    }
+
+    static <T extends Block> RegistryObject<T> b(String name, Supplier<T> block, Function<T, Item> blockItem) {
+        RegistryObject<T> blockReg = BLOCKS.register(name, block);
+        ITEMS.register(name, ()-> blockItem.apply(blockReg.get()));
+        return blockReg;
     }
 
     static RegistryObject<CreativeModeTab> regTab(String name, CreativeModeTab.Builder builder) {
@@ -113,5 +121,6 @@ public final class AMRegister {
         CONTAINER.register(b);
         RECIPE.register(b);
         MODIFIER_CODEC.register(b);
+        TABS.register(b);
     }
 }

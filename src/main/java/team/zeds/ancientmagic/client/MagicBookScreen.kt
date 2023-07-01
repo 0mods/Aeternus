@@ -30,7 +30,7 @@ class MagicBookScreen: Screen(Component.empty()) {
             playerDisplayWidth, playerDisplayHeight)
         guiGraphics.blit(textureGen("tag_display"), w + 97, h + 111, tagDisplayWidth, tagDisplayHeight,
             tagDisplayWidth, tagDisplayHeight)
-        guiGraphics.blit(textureGen("main"), w, h, imgWidth, imgHeight, imgWidth, imgHeight)
+        guiGraphics.blit(textureGen("main"), w, h, 0f, 0f, imgWidth, imgHeight, imgWidth, imgHeight)
 
         val player = this.minecraft!!.player
         val xPos: Int = w + 97
@@ -48,13 +48,26 @@ class MagicBookScreen: Screen(Component.empty()) {
         return ResourceLocation(Constant.KEY, "textures/screen/magicbook/${name}.png")
     }
 
-    override fun isPauseScreen(): Boolean = true
+    override fun isPauseScreen(): Boolean = false
 
     fun addTexts() {
-        addTextWithoutFormat("level", 56, 122, MagicTypes.getByNumeration(ClientPlayerMagicData.playerData).getTranslation())
+        addText("level", 56, 122, ChatFormatting.WHITE, MagicTypes.getByNumeration(ClientPlayerMagicData.playerData).getTranslation())
     }
 
     fun addText(message: String, xPos: Int, yPos: Int, color: Int, vararg objects: Any) {
+        val w = ((this.width / 2) - (imgWidth / 2))
+        val h = ((this.height / 2) - (imgHeight / 2))
+
+        guiGraphics!!.drawString(
+            font,
+            Component.translatable("magic.${Constant.KEY}.${message}", objects),
+            w + xPos,
+            h + yPos,
+            color
+        )
+    }
+
+    fun addText(message: String, xPos: Int, yPos: Int, color: Int, vararg objects: Component) {
         val w = ((this.width / 2) - (imgWidth / 2))
         val h = ((this.height / 2) - (imgHeight / 2))
 
@@ -72,6 +85,6 @@ class MagicBookScreen: Screen(Component.empty()) {
     }
 
     fun addTextWithoutFormat(message: String, xPos: Int, yPos: Int, vararg objects: Any) {
-        this.addText(message, xPos, yPos, ChatFormatting.BLACK, objects)
+        this.addText(message, xPos, yPos, ChatFormatting.WHITE, objects)
     }
 }

@@ -15,6 +15,7 @@ enum class MagicTypes(
     PRE_HIGH_MAGIC("pre_high", 2, MagicType.MagicClassifier.MAIN_TYPE, ChatFormatting.AQUA),
     HIGH_MAGIC("high_magic", 3, MagicType.MagicClassifier.MAIN_TYPE, ChatFormatting.GOLD),
     SUPERIOR("superior", 4, MagicType.MagicClassifier.MAIN_TYPE, ChatFormatting.RED),
+    NOTHING("nothing", MagicType.MagicClassifier.SUBTYPE),
     GENERATING("generating", MagicType.MagicClassifier.SUBTYPE),
     CONSUMING("consuming", MagicType.MagicClassifier.SUBTYPE),
     STORAGE("storage", MagicType.MagicClassifier.SUBTYPE),

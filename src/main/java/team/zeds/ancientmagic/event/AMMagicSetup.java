@@ -1,7 +1,10 @@
 package team.zeds.ancientmagic.event;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.InteractionHand;
+import team.zeds.ancientmagic.api.item.MagicBlockItem;
 import team.zeds.ancientmagic.api.magic.MagicType;
+import team.zeds.ancientmagic.api.magic.MagicTypes;
 import team.zeds.ancientmagic.capability.PlayerMagicCapability;
 import team.zeds.ancientmagic.init.AMManage;
 import team.zeds.ancientmagic.network.s2c.PlayerMagicDataSyncS2CPacket;
@@ -30,11 +33,11 @@ public class AMMagicSetup {
 
         if (e.getItemStack().getItem() instanceof MagicItem item) {
             tooltip.add(Component.translatable("magicType.type", item.getMagicType().getTranslation()));
-            if (item.getMagicSubtype() != null)
+            if (item.getMagicSubtype() != MagicTypes.NOTHING)
                 tooltip.add(Component.translatable("magicType.subtype", item.getMagicSubtype().getTranslation()));
 
             if (item.getMaxMana() != 0)
-                tooltip.add(MagicType.getMagicMessage("storage", item.getStorageMana(),
+                tooltip.add(MagicType.getMagicMessage("storage", item.getStorageMana(e.getItemStack()),
                         item.getMaxMana()));
 
             var resource = ForgeRegistries.ITEMS.getKey(item);
@@ -62,6 +65,43 @@ public class AMMagicSetup {
 
     public static void registerCapability(final RegisterCapabilitiesEvent e) {
         e.register(PlayerMagicCapability.class);
+    }
+
+    public static void playerTick(TickEvent.PlayerTickEvent event) {
+        var player = event.player;
+        var stack = player.getItemInHand(InteractionHand.MAIN_HAND);
+
+        if (stack.getItem() instanceof MagicItem item) {
+            player.getCapability(AMCapability.PLAYER_MAGIC_HANDLER).ifPresent(cap-> {
+                if (cap.getMagicLevel() >= item.getBuilder().getMagicType().numerate())
+                    item.setItemUse(true);
+                else {
+                    if (player.level().isClientSide())
+                        player.displayClientMessage(Component.translatable(
+                                "magic.ancientmagic.notLevel",
+                                item.getMagicType().getTranslation(),
+                                MagicTypes.getByNumeration(cap.getMagicLevel()).getTranslation()
+                        ), true);
+                    item.setItemUse(false);
+                }
+            });
+        }
+
+        if (stack.getItem() instanceof MagicBlockItem item) {
+            player.getCapability(AMCapability.PLAYER_MAGIC_HANDLER).ifPresent(cap-> {
+                if (cap.getMagicLevel() >= item.getBuilder().getMagicType().numerate())
+                    item.setItemUse(true);
+                else {
+                    if (player.level().isClientSide())
+                        player.displayClientMessage(Component.translatable(
+                                "magic.ancientmagic.notLevel",
+                                item.getMagicType().getTranslation(),
+                                MagicTypes.getByNumeration(cap.getMagicLevel()).getTranslation()
+                        ), true);
+                    item.setItemUse(false);
+                }
+            });
+        }
     }
 
     public static void playerClone(PlayerEvent.Clone event) {
