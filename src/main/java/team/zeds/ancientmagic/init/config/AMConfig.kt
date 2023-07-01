@@ -1,7 +1,7 @@
 package team.zeds.ancientmagic.init.config
 
 import net.minecraftforge.common.ForgeConfigSpec
-import team.zeds.ancientmagic.init.AMCommands
+import team.zeds.ancientmagic.init.registries.AMCommands
 
 @Suppress("PropertyName")
 class AMCommon {
@@ -9,7 +9,7 @@ class AMCommon {
 
     @JvmField var COMPACT_WAYSTONES: ForgeConfigSpec.BooleanValue? = null
     @JvmField var CONSUME_DUST_COUNT_ON_TELEPORT: ForgeConfigSpec.IntValue? = null
-    @JvmField var VALID_COMMAND_NAMES: ForgeConfigSpec.ConfigValue<Array<out String>>? = null
+    @JvmField var VALID_COMMAND_NAMES: ForgeConfigSpec.ConfigValue<MutableList<String>>? = null
 
     fun init() {
         SPEC.push("Mod Compact")

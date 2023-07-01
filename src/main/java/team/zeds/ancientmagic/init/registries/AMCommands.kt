@@ -1,4 +1,4 @@
-package team.zeds.ancientmagic.init
+package team.zeds.ancientmagic.init.registries
 
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.IntegerArgumentType
@@ -13,12 +13,14 @@ import net.minecraftforge.event.RegisterCommandsEvent
 import team.zeds.ancientmagic.api.magic.MagicType
 import team.zeds.ancientmagic.api.mod.Constant
 import team.zeds.ancientmagic.capability.PlayerMagicCapability
+import team.zeds.ancientmagic.init.AMManage
+import team.zeds.ancientmagic.init.config.AMCommon
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.function.Supplier
 
 object AMCommands {
     @JvmField
-    val NAMES_OF_COMMAND = arrayOf(
+    val NAMES_OF_COMMAND = mutableListOf(
         "am",
         Constant.KEY,
         "ancient",
@@ -63,7 +65,7 @@ object AMCommands {
         val returnValue = AtomicInteger()
         for (player in players) {
             player.getCapability(AMCapability.PLAYER_MAGIC_HANDLER).ifPresent { cap: PlayerMagicCapability ->
-                val iValue = cap.magicLevel
+                val iValue = cap.getMagicLevel()
                 if (iValue == countOfLevels && countOfLevels == 4) {
                     command("max").get()?.let { sourceStack.sendFailure(it) }
                     returnValue.set(0)

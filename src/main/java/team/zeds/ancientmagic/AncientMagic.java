@@ -7,7 +7,7 @@ import team.zeds.ancientmagic.init.AMManage;
 @Mod(Constant.KEY)
 public class AncientMagic {
     public AncientMagic() {
-        Constant.LOGGER.debug("Starting Mod!");
+        Constant.LOGGER.debug("Setup a Mod!");
         AMManage.init();
     }
 }

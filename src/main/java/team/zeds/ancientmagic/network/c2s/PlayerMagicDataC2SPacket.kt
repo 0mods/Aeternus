@@ -6,9 +6,8 @@ import net.minecraft.world.InteractionHand
 import net.minecraftforge.network.NetworkEvent
 import team.zeds.ancientmagic.api.item.MagicItem
 import team.zeds.ancientmagic.api.mod.Constant
-import team.zeds.ancientmagic.capability.MagicObjectCapability
 import team.zeds.ancientmagic.capability.PlayerMagicCapability
-import team.zeds.ancientmagic.init.AMCapability
+import team.zeds.ancientmagic.init.registries.AMCapability
 import team.zeds.ancientmagic.network.PacketBase
 import java.util.function.Supplier
 
@@ -34,13 +33,11 @@ class PlayerMagicDataC2SPacket: PacketBase {
             if (stack.item is MagicItem) {
                 val item = stack.item as MagicItem
                 serverPlayer.getCapability(AMCapability.PLAYER_MAGIC_HANDLER).ifPresent { cap: PlayerMagicCapability ->
-                    stack.getCapability(AMCapability.MAGIC_OBJECT).ifPresent { iCap: MagicObjectCapability ->
-                        if (cap.getMagicLevel() >= iCap.getMagicType().numerate())
-                            item.setItemUse(true)
-                        else {
-                            Constant.LOGGER.debug("Player haven't required level for use item")
-                            item.setItemUse(false)
-                        }
+                    if (cap.getMagicLevel() >= item.getMagicType().numerate())
+                        item.setItemUse(true)
+                    else {
+                        Constant.LOGGER.debug("Player haven't required level for use item")
+                        item.setItemUse(false)
                     }
                 }
             }

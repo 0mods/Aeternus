@@ -13,7 +13,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionResult;
@@ -28,13 +27,15 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import team.zeds.ancientmagic.compact.CompactInitializer;
 import team.zeds.ancientmagic.compact.curios.events.RetraceStoneEvent;
-import team.zeds.ancientmagic.init.*;
+import team.zeds.ancientmagic.init.AMManage;
+import team.zeds.ancientmagic.init.registries.AMRegister;
+import team.zeds.ancientmagic.init.registries.AMTags;
 import team.zeds.ancientmagic.item.RetraceStone;
 
 @SuppressWarnings("ALL")
 @Mixin(value = WaystoneBlock.class, remap = false)
 public abstract class WaystoneInject extends WaystoneBlockBase {
-    public WaystoneInject(Properties properties) { super(properties); } // shit on this class
+    public WaystoneInject(Properties properties) { super(properties); }
 
     @Inject(method = "handleActivation", at = @At("HEAD"), cancellable = true)
     private void handleActivationInject(Level world, BlockPos pos, Player player, WaystoneBlockEntityBase tileEntity,

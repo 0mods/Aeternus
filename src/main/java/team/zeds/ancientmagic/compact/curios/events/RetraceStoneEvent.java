@@ -1,7 +1,7 @@
 package team.zeds.ancientmagic.compact.curios.events;
 
 import net.minecraft.world.item.ItemStack;
-import team.zeds.ancientmagic.init.AMRegister;
+import team.zeds.ancientmagic.init.registries.AMRegister;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurio;
 

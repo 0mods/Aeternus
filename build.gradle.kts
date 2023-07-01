@@ -33,33 +33,12 @@ val coroutines_version: String by project
 val serialization_version: String by project
 
 val shadow: Configuration by configurations.creating
-//val apiImplementation: Configuration by configurations.creating {
-//    extendsFrom(implementation)
-//}
-//val apiRuntimeOnly: Configuration by configurations.creating {
-//    extendsFrom(runtimeOnly)
-//}
-
-sourceSets {
-    create("api") {
-        resources.srcDirs()
-    }
-    named("main") {
-        compileClasspath += sourceSets["api"].output
-        runtimeClasspath += sourceSets["api"].output
-        resources.srcDir("src/generated/resources")
-    }
-}
 
 val main = sourceSets["main"]
-val api = sourceSets["api"]
 
 jarJar.enable()
 
 configurations {
-    apiElements {
-        artifacts.clear()
-    }
     runtimeElements {
         setExtendsFrom(emptySet())
 
@@ -93,7 +72,7 @@ configure<UserDevExtension> {
 
             mods {
                 create("ancientmagic") {
-                    sources(the<JavaPluginExtension>().sourceSets.getByName("main"), the<JavaPluginExtension>().sourceSets.getByName("api"))
+                    sources(the<JavaPluginExtension>().sourceSets.getByName("main"))
                 }
             }
         }
@@ -110,7 +89,7 @@ configure<UserDevExtension> {
 
             mods {
                 create("ancientmagic") {
-                    sources(the<JavaPluginExtension>().sourceSets.getByName("main"), the<JavaPluginExtension>().sourceSets.getByName("api"))
+                    sources(the<JavaPluginExtension>().sourceSets.getByName("main"))
                 }
             }
         }
@@ -127,7 +106,7 @@ configure<UserDevExtension> {
 
             mods {
                 create("ancientmagic") {
-                    sources(the<JavaPluginExtension>().sourceSets.getByName("main"), the<JavaPluginExtension>().sourceSets.getByName("api"))
+                    sources(the<JavaPluginExtension>().sourceSets.getByName("main"))
                 }
             }
         }
@@ -143,10 +122,16 @@ configure<UserDevExtension> {
 
             mods {
                 create("ancientmagic") {
-                    sources(the<JavaPluginExtension>().sourceSets.getByName("main"), the<JavaPluginExtension>().sourceSets.getByName("api"))
+                    sources(the<JavaPluginExtension>().sourceSets.getByName("main"))
                 }
             }
         }
+    }
+}
+
+sourceSets {
+    named("main") {
+        resources.srcDir("src/generated/resources")
     }
 }
 
@@ -162,9 +147,8 @@ repositories {
 }
 
 dependencies {
-    minecraft("net.minecraftforge:forge:$mc_version-+")
+    minecraft("net.minecraftforge:forge:$mc_version-$forge_version")
 
-//    implementation(fg.deobf("net.blay09.mods:waystones-forge:14.0.0"))
     implementation(fg.deobf("net.blay09.mods:waystones-common:14.0.0+1.20"))
 
     implementation(fg.deobf("net.blay09.mods:balm-forge:7.1.0-SNAPSHOT"))
@@ -183,16 +167,12 @@ dependencies {
 
     implementation(kotlin("stdlib"))
 
-    implementation("org.projectlombok:lombok:1.18.+") // mutable api version
-
     annotationProcessor("org.spongepowered:mixin:0.8.5:processor")
-    annotationProcessor("org.projectlombok:lombok:1.18.28")
 }
 
 tasks {
     withType<Jar> {
         from(main.output)
-        from(api.output)
         manifest {
             attributes(
                 mapOf(
@@ -213,34 +193,6 @@ tasks {
     withType<JavaCompile> {
         options.encoding = "UTF-8"
     }
-//    register("sourcesJar") {
-//        duplicatesStrategy.set(DuplicatesStrategy.FAIL)
-//        archiveClassifier.set("sources")
-//        from(the<JavaPluginExtension>().sourceSets.getByName("main").allJava)
-//        from(the<JavaPluginExtension>().sourceSets.getByName("api").allJava)
-//    }
-//
-//    register("apiJar") {
-//        duplicatesStrategy(DuplicatesStrategy.FAIL)
-//        archiveClassifier.set("api")
-//        from(the<JavaPluginExtension>().sourceSets.getByName("api").output)
-//        afterEvaluate {
-//            finalizedBy(tasks.getByName("reobfApiJar"))
-//        }
-//
-//        from(the<JavaPluginExtension>().sourceSets.getByName("api").allJava)
-//    }
-//
-//    register("deobfJar") {
-//        duplicatesStrategy(DuplicatesStrategy.FAIL)
-//        archiveClassifier.set("deobf")
-//        from(the<JavaPluginExtension>().sourceSets.getByName("main").output)
-//        from(the<JavaPluginExtension>().sourceSets.getByName("api").output)
-//    }
-//    register("reobf") {
-//        dependsOn("reobfJar")
-//        dependsOn("reobfApiJar")
-//    }
 }
 kotlin {
     jvmToolchain(17)

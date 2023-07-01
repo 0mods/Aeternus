@@ -10,7 +10,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.common.capabilities.*;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
-import team.zeds.ancientmagic.init.AMCapability;
+import team.zeds.ancientmagic.init.registries.AMCapability;
 
 public class PlayerMagicCapability implements PlayerMagic {
     private int level;

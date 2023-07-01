@@ -1,11 +1,12 @@
 {
   "required": false,
   "minVersion": "0.8",
-  "package": "team.zeromods.ancientmagic.mixin",
+  "package": "team.zeds.ancientmagic.mixin",
   "compatibilityLevel": "JAVA_8",
   "refmap": "ancient.refmap.json",
   "mixins": [
-//    "compact.WaystoneInject"
+    "ItemStackMixin",
+    "compact.WaystoneInject"
   ],
   "client": [
   ],

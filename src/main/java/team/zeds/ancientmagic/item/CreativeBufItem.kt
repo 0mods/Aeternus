@@ -7,11 +7,11 @@ import team.zeds.ancientmagic.api.item.MagicItemBuilder
 import team.zeds.ancientmagic.api.atomic.KAtomicUse
 import team.zeds.ancientmagic.api.magic.*
 import team.zeds.ancientmagic.client.packet.ClientPlayerMagicData
-import team.zeds.ancientmagic.init.AMCapability
-import team.zeds.ancientmagic.init.AMNetwork
+import team.zeds.ancientmagic.init.registries.AMCapability
+import team.zeds.ancientmagic.init.registries.AMNetwork
 import team.zeds.ancientmagic.network.c2s.PlayerMagicDataC2SPacket
 
-class CreativeBufItem: MagicItem(MagicItemBuilder.get().setMagicType(MagicTypes.LOW_MAGIC).setMagicType(MagicTypes.ADMIN)) {
+class CreativeBufItem: MagicItem(MagicItemBuilder.get().setMagicType(MagicTypes.LOW_MAGIC).setMagicSubtype(MagicTypes.ADMIN)) {
     override fun use(use: KAtomicUse<ItemStack>) {
         val player = use.player
         val level = use.level

@@ -14,21 +14,27 @@ import net.minecraft.world.item.context.UseOnContext
 import net.minecraft.world.level.Level
 import org.jetbrains.annotations.Nullable
 import team.zeds.ancientmagic.api.atomic.KAtomicUse
+import team.zeds.ancientmagic.api.cap.ItemStackMagic
 import team.zeds.ancientmagic.api.magic.MagicType
 import team.zeds.ancientmagic.api.magic.MagicType.MagicClassifier
 import team.zeds.ancientmagic.api.magic.MagicTypes
-import team.zeds.ancientmagic.init.AMCapability
+import team.zeds.ancientmagic.init.registries.AMCapability
+import kotlin.math.max
+import kotlin.math.min
 
 interface IMagicItem {
     fun use(use: KAtomicUse<ItemStack>)
     fun useOn(use: KAtomicUse<*>)
 }
 
-open class MagicItem(private val builder: MagicItemBuilder): Item(builder.getProperties()), IMagicItem {
+open class MagicItem(private val builder: MagicItemBuilder): Item(builder.getProperties()), IMagicItem, ItemStackMagic {
     private var canUseItem = true
+    private var itemStack: ItemStack? = null
 
     init {
         this.builder.getProperties().setNoRepair()
+        this.setMagicType(this.builder.getMagicType())
+        this.setMaxMana(this.builder.getMaxMana())
     }
 
     @Deprecated("Use \"use\" in MagicItem")
@@ -42,8 +48,7 @@ open class MagicItem(private val builder: MagicItemBuilder): Item(builder.getPro
         if (!stack.`is`(this)) return InteractionResultHolder.fail(stack)
         if (getItemUse()) {
             if (getBuilder().getManaCount() != 0 && getBuilder().getManaCount() != 0) {
-                stack.getCapability(AMCapability.MAGIC_OBJECT)
-                    .ifPresent { cap -> cap.subMana(getBuilder().getSubMana()) }
+                subMana(this.getBuilder().getSubMana())
                 this.use(atomicUse)
                 return atomicUse.returnHolder!!
             } else if (getBuilder().getMaxMana() != 0 && getBuilder().getManaCount() == 0) {
@@ -64,8 +69,7 @@ open class MagicItem(private val builder: MagicItemBuilder): Item(builder.getPro
         val player = context.player
         if (getItemUse()) {
             if (getBuilder().getManaCount() != 0 && getBuilder().getManaCount() != 0) {
-                stack.getCapability(AMCapability.MAGIC_OBJECT)
-                    .ifPresent { cap -> cap.subMana(getBuilder().getSubMana()) }
+                subMana(this.getBuilder().getSubMana())
                 this.useOn(context)
                 return context.returnResult!!
             } else if (getBuilder().getMaxMana() != 0 && getBuilder().getManaCount() == 0) {
@@ -93,6 +97,58 @@ open class MagicItem(private val builder: MagicItemBuilder): Item(builder.getPro
 
     fun setItemUse(canUse: Boolean) {
         canUseItem = canUse
+    }
+
+    override fun getMagicType(): MagicType {
+        return this.getBuilder().getMagicType()
+    }
+
+    @Nullable
+    override fun getMagicSubtype(): MagicType {
+        return this.getBuilder().getMagicSubtype()
+    }
+
+    override fun setMaxMana(max: Int) {
+        this.getStack().orCreateTag.putInt("MaxMana", max)
+    }
+
+    override fun setMagicType(type: MagicType) {
+        this.getStack().orCreateTag.putInt("MagicLevel", type.numerate())
+    }
+
+    override fun getMaxMana(): Int {
+        return this.getStack().orCreateTag.getInt("MaxMana")
+    }
+
+    override fun getStorageMana(): Int {
+        val tag = this.getStack().orCreateTag
+
+        return if (tag.get("ManaStorage") == null) {
+            return if (getMaxMana() != 0) {
+                tag.putInt("ManaStorage", 0)
+                tag.getInt("ManaStorage")
+            } else 0
+        } else tag.getInt("ManaStorage")
+    }
+
+    override fun addMana(count: Int) {
+        val storage = this.getStorageMana()
+        val calc = min(storage + count, getMaxMana())
+
+        this.getStack().orCreateTag.putInt("ManaStorage", calc)
+    }
+
+    override fun subMana(count: Int) {
+        val storage = this.getStorageMana()
+        max(storage - count, 0)
+    }
+
+    override fun getStack(): ItemStack {
+        return this.itemStack!!
+    }
+
+    override fun setStack(stack: ItemStack) {
+        this.itemStack = stack
     }
 }
 
@@ -136,14 +192,14 @@ open class MagicItemBuilder private constructor() {
         if (type.getClassifier() == MagicClassifier.MAIN_TYPE) {
             magicType = type
             return this
-        } else throw RuntimeException("Classifier ${type.getClassifier()} is ${MagicClassifier.SUBTYPE}. Accepts only ${MagicClassifier.MAIN_TYPE}!")
+        } else throw RuntimeException("Classifier ${type.getClassifier().declaringJavaClass} isn't ${MagicClassifier.MAIN_TYPE}. Accepts only ${MagicClassifier.MAIN_TYPE}!")
     }
 
     fun setMagicSubtype(type: MagicType): MagicItemBuilder {
         if (type.getClassifier() == MagicClassifier.SUBTYPE && this.getMagicType() != null) {
             magicSubtype = type
             return this
-        } else throw RuntimeException("Classifier ${type.getClassifier()} is ${MagicClassifier.MAIN_TYPE}. Accepts only {}")
+        } else throw RuntimeException("Classifier ${type.getClassifier().declaringJavaClass} isn't ${MagicClassifier.SUBTYPE}. Accepts only ${MagicClassifier.SUBTYPE}!")
     }
 
     fun setRarity(rarity: Rarity): MagicItemBuilder {

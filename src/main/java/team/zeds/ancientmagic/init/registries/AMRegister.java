@@ -1,4 +1,4 @@
-package team.zeds.ancientmagic.init;
+package team.zeds.ancientmagic.init.registries;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -29,6 +29,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryObject;
 import team.zeds.ancientmagic.compact.CompactInitializer;
+import team.zeds.ancientmagic.init.AMManage;
 import team.zeds.ancientmagic.item.RetraceStone;
 import team.zeds.ancientmagic.item.*;
 import team.zeds.ancientmagic.recipes.AltarRecipe;

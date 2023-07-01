@@ -16,6 +16,10 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLDedicatedServerSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import team.zeds.ancientmagic.compact.CompactInitializer;
+import team.zeds.ancientmagic.init.registries.AMCommands;
+import team.zeds.ancientmagic.init.registries.AMNetwork;
+import team.zeds.ancientmagic.init.registries.AMRegister;
+import team.zeds.ancientmagic.init.registries.AMTags;
 
 public class AMManage {
     protected static IEventBus FORGE_BUS = MinecraftForge.EVENT_BUS;
@@ -40,7 +44,6 @@ public class AMManage {
         bus.addListener(AMManage::modCommon);
         bus.addListener(AMCommands::registerCommands);
         bus.addListener(AMMagicSetup::playerClone);
-        bus.addListener(AMMagicSetup::playerEvent);
         bus.addGenericListener(Object.class, AMMagicSetup::attachCapability);
         bus.addListener(AMMagicSetup::playerConnectToWorld);
         bus.addListener(AMMagicSetup::playerTickEvent);

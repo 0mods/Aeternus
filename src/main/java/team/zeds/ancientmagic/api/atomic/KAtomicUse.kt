@@ -25,16 +25,14 @@ class KAtomicUse<T> {
 
     @JvmOverloads
     constructor(
-        player: Player?, level: Level?, hand: InteractionHand?, stack: ItemStack? = hand?.let {
-            player!!.getItemInHand(it)
-        },
+        player: Player, level: Level, hand: InteractionHand, stack: ItemStack = player.getItemInHand(hand),
         result: BlockHitResult? = null, pos: BlockPos? = null, state: BlockState? = null
     ) {
-        this.player = player!!
-        this.level = level!!
-        this.hand = hand!!
+        this.player = player
+        this.level = level
+        this.hand = hand
         hitResult = result!!
-        this.stack = stack!!
+        this.stack = stack
         context = UseOnContext(level, player, hand, stack, result)
         this.pos = pos!!
         this.state = state!!
@@ -50,16 +48,6 @@ class KAtomicUse<T> {
         pos = context.clickedPos
         state = context.level.getBlockState(pos)
     }
-
-    @JvmOverloads
-    constructor(
-        state: BlockState? = null,
-        level: Level? = null,
-        pos: BlockPos? = null,
-        player: Player? = null,
-        hand: InteractionHand? = null,
-        hitResult: BlockHitResult? = null
-    ) : this(player, level, hand, null, hitResult, pos, state)
 
     fun setConsume(obj: T) {
         this.returnHolder = InteractionResultHolder.consume(obj)

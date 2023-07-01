@@ -41,14 +41,6 @@ interface ItemStackMagic {
     fun setMagicType(@NotNull type: MagicType)
 
     /**
-     * [MagicType] value setter.
-     * Only [MagicClassifier.SUBTYPE] accepts
-     *
-     * @param type may be a null
-     */
-    fun setMagicSubtype(@Nullable type: MagicType)
-
-    /**
      * Getter of maximal mana value
      * @return [Int]
      */
@@ -72,32 +64,7 @@ interface ItemStackMagic {
      */
     fun subMana(count: Int)
 
-    /**
-     * Serialize tag value of capability
-     * @param tag is value saver
-     */
-    fun save(tag: CompoundTag)
-
-    /**
-     * Deserialize tag value of capability
-     * @param tag is value loader
-     */
-    fun load(tag: CompoundTag)
-
-    /**
-     * [ItemStack] getter.
-     * returns only [team.zeds.ancientmagic.api.MagicItem]
-     *
-     * Example usage:
-     * [net.minecraftforge.common.capabilities.ICapabilityProvider.getCapability] ([team.zeds.ancientmagic.init.AMCapability.MAGIC_OBJECT]).
-     * (cap -> {
-     *
-     *      var stack = cap.getStack()
-     *      var item = (MagicItem) stack.getItem()
-     *      // here your code
-     * })
-     *
-     * @return [ItemStack]
-     */
     fun getStack() : ItemStack
+
+    fun setStack(stack: ItemStack)
 }
