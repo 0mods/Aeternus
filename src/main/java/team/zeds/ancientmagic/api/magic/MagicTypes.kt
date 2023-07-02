@@ -27,7 +27,7 @@ enum class MagicTypes(
             this(id, -1, classifier, ChatFormatting.WHITE)
 
     override fun getId(): String = this.id
-    override fun numerate(): Int = this.num
+    override fun asLevel(): Int = this.num
     override fun getTranslation(): MutableComponent = MagicType.getMagicTypeMessage(String.format("type.%s", getId()))
         .withStyle(*this.getStyles())
     override fun getClassifier(): MagicType.MagicClassifier = this.classifier

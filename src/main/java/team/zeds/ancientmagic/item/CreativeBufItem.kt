@@ -13,8 +13,6 @@ import team.zeds.ancientmagic.network.c2s.PlayerMagicDataC2SPacket
 
 class CreativeBufItem: MagicItem(this.callBuilder().setMagicType(MagicTypes.LOW_MAGIC).setMagicSubtype(MagicTypes.ADMIN)) {
     override fun useMT(level: Level, player: Player, hand: InteractionHand) {
-        val stack = player.getItemInHand(hand)
-
         if (!(player.hasPermissions(Commands.LEVEL_ADMINS) || player.isCreative))
             return
         else {
@@ -32,7 +30,7 @@ class CreativeBufItem: MagicItem(this.callBuilder().setMagicType(MagicTypes.LOW_
                                 ),
                                 true
                             )
-                        return@ifPresent
+
                     } else if (currentLevel == 4) {
                         if (level.isClientSide()) player.displayClientMessage(
                             MagicType.getMagicMessage(

@@ -73,7 +73,7 @@ public class AMMagicSetup {
 
         if (stack.getItem() instanceof MagicItem item) {
             player.getCapability(AMCapability.PLAYER_MAGIC_HANDLER).ifPresent(cap-> {
-                if (cap.getMagicLevel() >= item.getBuilder().getMagicType().numerate())
+                if (cap.getMagicLevel() >= item.getBuilder().getMagicType().asLevel())
                     item.setItemUse(true);
                 else {
                     if (player.level().isClientSide())
@@ -89,7 +89,7 @@ public class AMMagicSetup {
 
         if (stack.getItem() instanceof MagicBlockItem item) {
             player.getCapability(AMCapability.PLAYER_MAGIC_HANDLER).ifPresent(cap-> {
-                if (cap.getMagicLevel() >= item.getBuilder().getMagicType().numerate())
+                if (cap.getMagicLevel() >= item.getBuilder().getMagicType().asLevel())
                     item.setItemUse(true);
                 else {
                     if (player.level().isClientSide())

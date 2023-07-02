@@ -1,7 +1,6 @@
 package team.zeds.ancientmagic.capability;
 
 import org.jetbrains.annotations.NotNull;
-import team.zeds.ancientmagic.api.cap.PlayerMagic;
 import team.zeds.ancientmagic.api.magic.MagicType;
 import team.zeds.ancientmagic.api.magic.MagicTypes;
 import team.zeds.ancientmagic.api.mod.Constant;
@@ -12,48 +11,39 @@ import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import team.zeds.ancientmagic.init.registries.AMCapability;
 
-public class PlayerMagicCapability implements PlayerMagic {
+public class PlayerMagicCapability {
     private int level;
 
-    @Override
     public int getMagicLevel() {
         return this.level;
     }
 
     @NotNull
-    @Override
     public MagicType getMagicLevelAsMagicType() {
         return MagicTypes.getByNumeration(this.getMagicLevel());
     }
 
-    @Override
     public void addLevel(int add) {
         this.level = Math.min(this.level + add, 4);
     }
 
-    @Override
     public void subLevel(int sub) {
         this.level = Math.max(this.level - sub, 0);
     }
 
-    @Override
     public void setLevel(int set) {
         this.level = set;
     }
 
-    @Override
-    public void copyFrom(@NotNull PlayerMagic source) {
-        var capSource = (PlayerMagicCapability) source;
-        this.level = capSource.level;
+    public void copyFrom(@NotNull PlayerMagicCapability source) {
+        this.level = source.level;
     }
 
-    @Override
     public void save(@NotNull CompoundTag tag) {
         tag.putInt("MagicPlayerLevel", this.level);
         Constant.LOGGER.debug("{} has been saved", tag);
     }
 
-    @Override
     public void load(@NotNull CompoundTag tag) {
         this.level = tag.getInt("MagicPlayerLevel");
         Constant.LOGGER.debug("{} has been loaded", tag);

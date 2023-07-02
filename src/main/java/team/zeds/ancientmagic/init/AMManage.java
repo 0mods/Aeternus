@@ -44,7 +44,7 @@ public class AMManage {
         bus.addListener(AMManage::modCommon);
         bus.addListener(AMCommands::registerCommands);
         bus.addListener(AMMagicSetup::playerClone);
-        bus.addListener(AMMagicSetup::playerTick);
+//        bus.addListener(AMMagicSetup::playerTick);
         bus.addGenericListener(Object.class, AMMagicSetup::attachCapability);
         bus.addListener(AMMagicSetup::playerConnectToWorld);
         bus.addListener(AMMagicSetup::playerTickEvent);

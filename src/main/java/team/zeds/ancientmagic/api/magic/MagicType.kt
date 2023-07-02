@@ -11,7 +11,7 @@ interface MagicType {
     fun getId(): String
 
     @NotNull
-    fun numerate(): Int
+    fun asLevel(): Int
 
     @NotNull
     fun getTranslation(): MutableComponent

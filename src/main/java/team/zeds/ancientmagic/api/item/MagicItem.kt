@@ -265,7 +265,6 @@ open class MagicItemBuilder private constructor() {
 
     private var magicSubtype: MagicType = MagicTypes.NOTHING
     private var maxMana = 0
-    private var manaCount = 0
     private var subManaIfUse = 1
 
     fun setMaxMana(maxMana: Int): MagicItemBuilder {
