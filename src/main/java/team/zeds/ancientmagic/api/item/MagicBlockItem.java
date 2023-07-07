@@ -4,21 +4,25 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.CollisionContext;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import team.zeds.ancientmagic.api.cap.ItemStackMagic;
 import team.zeds.ancientmagic.api.magic.MagicType;
 
-public class MagicItemOld extends Item implements ItemStackMagic {
+public class MagicBlockItem extends BlockItem implements ItemStackMagic {
     private boolean canUseItem = true;
-    private final MagicItemBuilderOld builder;
+    private final MagicItemBuilder builder;
 
-    public MagicItemOld(MagicItemBuilderOld builder) {
-        super(builder.getProperties());
+    public MagicBlockItem(Block block, MagicItemBuilder builder) {
+        super(block, builder.getProperties());
         this.builder = builder;
     }
 
@@ -43,8 +47,23 @@ public class MagicItemOld extends Item implements ItemStackMagic {
     }
 
     @Override
-    public InteractionResult useOn(UseOnContext p_41427_) {
-        return super.useOn(p_41427_);
+    public InteractionResult useOn(UseOnContext ctx) {
+        var stack = ctx.getItemInHand();
+        if (!stack.is(this)) return InteractionResult.FAIL;
+        if (this.getItemUse()) {
+            if (((this.getStorageMana(stack) != 0) && this.getStorageMana(stack) >= builder.getSubMana())
+                    && this.builder.getMaxMana() != 0) {
+                subMana(this.builder.getMaxMana(), stack);
+                return this.useOnMT(ctx);
+            } else if ((this.getBuilder().getMaxMana() != 0 && this.getStorageMana(stack) == 0) || this.getStorageMana(stack) < this.getBuilder().getSubMana()) {
+                ctx.getPlayer().displayClientMessage(MagicType.getMagicMessage("notMana", getName(stack)), true);
+                return InteractionResult.FAIL;
+            } else if (this.getBuilder().getMaxMana() == 0) {
+                return this.useOnMT(ctx);
+            }
+        }
+
+        return InteractionResult.CONSUME;
     }
 
     @NotNull
@@ -107,7 +126,19 @@ public class MagicItemOld extends Item implements ItemStackMagic {
         this.canUseItem = val1;
     }
 
-    public MagicItemBuilderOld getBuilder() {
+    public MagicItemBuilder getBuilder() {
         return builder;
+    }
+
+    @Override
+    protected boolean canPlace(BlockPlaceContext ctx, BlockState state) {
+        Player player = ctx.getPlayer();
+        CollisionContext context = player == null ? CollisionContext.empty() : CollisionContext.of(player);
+        return (canUseItem) && (!this.mustSurvive() || state.canSurvive(ctx.getLevel(), ctx.getClickedPos()))
+                && ctx.getLevel().isUnobstructed(state, ctx.getClickedPos(), context);
+    }
+
+    public static MagicItemBuilder callBuilder() {
+        return MagicItemBuilder.get();
     }
 }

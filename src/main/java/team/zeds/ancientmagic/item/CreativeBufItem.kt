@@ -2,7 +2,9 @@ package team.zeds.ancientmagic.item
 
 import net.minecraft.commands.Commands
 import net.minecraft.world.InteractionHand
+import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
 import team.zeds.ancientmagic.api.item.MagicItem
 import team.zeds.ancientmagic.api.magic.*
@@ -11,13 +13,13 @@ import team.zeds.ancientmagic.init.registries.AMCapability
 import team.zeds.ancientmagic.init.registries.AMNetwork
 import team.zeds.ancientmagic.network.c2s.PlayerMagicDataC2SPacket
 
-class CreativeBufItem: MagicItem(this.callBuilder().setMagicType(MagicTypes.LOW_MAGIC).setMagicSubtype(MagicTypes.ADMIN)) {
-    override fun useMT(level: Level, player: Player, hand: InteractionHand) {
+class CreativeBufItem: MagicItem(callBuilder().setMagicType(MagicTypes.LOW_MAGIC).setMagicSubtype(MagicTypes.ADMIN)) {
+    override fun useMT(level: Level, player: Player, hand: InteractionHand): InteractionResultHolder<ItemStack>? {
         if (!(player.hasPermissions(Commands.LEVEL_ADMINS) || player.isCreative))
-            return
+            return InteractionResultHolder.fail(player.getItemInHand(hand))
         else {
             player.getCapability(AMCapability.PLAYER_MAGIC_HANDLER).ifPresent { cap ->
-                val currentLevel = cap.getMagicLevel()
+                val currentLevel = cap.magicLevel
                 if (!player.isShiftKeyDown) {
                     if (currentLevel < 4) {
                         cap.addLevel(1)
@@ -30,7 +32,6 @@ class CreativeBufItem: MagicItem(this.callBuilder().setMagicType(MagicTypes.LOW_
                                 ),
                                 true
                             )
-
                     } else if (currentLevel == 4) {
                         if (level.isClientSide()) player.displayClientMessage(
                             MagicType.getMagicMessage(
@@ -38,7 +39,6 @@ class CreativeBufItem: MagicItem(this.callBuilder().setMagicType(MagicTypes.LOW_
                                 MagicTypes.getByNumeration(currentLevel).getTranslation()
                             ), true
                         )
-                        return@ifPresent
                     }
                 } else {
                     if (currentLevel <= 4 && currentLevel != 0) {
@@ -51,7 +51,6 @@ class CreativeBufItem: MagicItem(this.callBuilder().setMagicType(MagicTypes.LOW_
                             ),
                             true
                         )
-                        return@ifPresent
                     } else if (currentLevel == 0) {
                         if (level.isClientSide()) player.displayClientMessage(
                             MagicType.getMagicMessage(
@@ -59,10 +58,11 @@ class CreativeBufItem: MagicItem(this.callBuilder().setMagicType(MagicTypes.LOW_
                                 MagicTypes.getByNumeration(currentLevel).getTranslation()
                             ), true
                         )
-                        return@ifPresent
                     }
                 }
             }
         }
+
+        return InteractionResultHolder.pass(player.getItemInHand(hand))
     }
 }

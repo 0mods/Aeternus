@@ -2,6 +2,7 @@ package team.zeds.ancientmagic.item
 
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.world.InteractionHand
+import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Rarity
@@ -18,8 +19,13 @@ class RetraceStone : MagicItem(
         .fireProof()
         .setRarity(Rarity.RARE)
 ) {
-    override fun useMT(level: Level, player: Player, hand: InteractionHand) {
-        if (player.isShiftKeyDown) setActive(player.getItemInHand(hand), !getActive(player.getItemInHand(hand)))
+    override fun useMT(level: Level, player: Player, hand: InteractionHand): InteractionResultHolder<ItemStack> {
+        return if (player.isShiftKeyDown) {
+            setActive(player.getItemInHand(hand), !getActive(player.getItemInHand(hand)))
+            InteractionResultHolder.success(player.getItemInHand(hand))
+        } else {
+            InteractionResultHolder.consume(player.getItemInHand(hand))
+        }
     }
 
     override fun isFoil(itemStack: ItemStack): Boolean {

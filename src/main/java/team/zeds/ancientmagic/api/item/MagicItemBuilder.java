@@ -7,7 +7,7 @@ import team.zeds.ancientmagic.api.magic.MagicType;
 import team.zeds.ancientmagic.api.magic.MagicType.MagicClassifier;
 import team.zeds.ancientmagic.api.magic.MagicTypes;
 
-public class MagicItemBuilderOld {
+public class MagicItemBuilder {
     private final Item.Properties properties;
 
     private MagicType magicType;
@@ -16,7 +16,7 @@ public class MagicItemBuilderOld {
     private int maxMana;
     private int subManaIfUse;
 
-    private MagicItemBuilderOld() {
+    private MagicItemBuilder() {
         this.properties = new Item.Properties();
         this.magicType = MagicTypes.LOW_MAGIC;
         this.magicSubtype = MagicTypes.NOTHING;
@@ -24,27 +24,27 @@ public class MagicItemBuilderOld {
         this.subManaIfUse = 1;
     }
 
-    public MagicItemBuilderOld setMaxMana(int maxMana) {
+    public MagicItemBuilder setMaxMana(int maxMana) {
         this.maxMana = maxMana;
         return this;
     }
 
-    public MagicItemBuilderOld setManaSub(int count) {
+    public MagicItemBuilder setManaSub(int count) {
         this.subManaIfUse = count;
         return this;
     }
 
-    public MagicItemBuilderOld fireProof() {
+    public MagicItemBuilder fireProof() {
         properties.fireResistant();
         return this;
     }
 
-    public MagicItemBuilderOld setFood(FoodProperties properties) {
+    public MagicItemBuilder setFood(FoodProperties properties) {
         this.properties.food(properties);
         return this;
     }
 
-    public MagicItemBuilderOld setMagicType(MagicType type) {
+    public MagicItemBuilder setMagicType(MagicType type) {
         if (type.getClassifier() == MagicClassifier.MAIN_TYPE) {
             this.magicType = type;
             return this;
@@ -53,7 +53,7 @@ public class MagicItemBuilderOld {
                 .describeConstable(), MagicClassifier.MAIN_TYPE, MagicClassifier.MAIN_TYPE));
     }
 
-    public MagicItemBuilderOld setMagicSubtype(MagicType type) {
+    public MagicItemBuilder setMagicSubtype(MagicType type) {
         if (type.getClassifier() == MagicClassifier.SUBTYPE) {
             this.magicSubtype = type;
             return this;
@@ -62,17 +62,17 @@ public class MagicItemBuilderOld {
                 .describeConstable(), MagicClassifier.SUBTYPE, MagicClassifier.SUBTYPE));
     }
 
-    public MagicItemBuilderOld setRarity(Rarity rarity) {
+    public MagicItemBuilder setRarity(Rarity rarity) {
         properties.rarity(rarity);
         return this;
     }
 
-    public MagicItemBuilderOld setRemainder(Item item) {
+    public MagicItemBuilder setRemainder(Item item) {
         properties.craftRemainder(item);
         return this;
     }
 
-    public MagicItemBuilderOld stacks(int stacksTo) {
+    public MagicItemBuilder stacks(int stacksTo) {
         properties.stacksTo(stacksTo);
         return this;
     }
@@ -99,7 +99,7 @@ public class MagicItemBuilderOld {
         return properties;
     }
 
-    public static MagicItemBuilderOld get() {
-        return new MagicItemBuilderOld();
+    public static MagicItemBuilder get() {
+        return new MagicItemBuilder();
     }
 }

@@ -7,7 +7,7 @@ import net.minecraftforge.items.IItemHandler
 import net.minecraftforge.items.SlotItemHandler
 import net.minecraftforge.items.wrapper.InvWrapper
 
-
+@Suppress("NAME_SHADOWING")
 abstract class AMAbstractContainerMenuBase(p_38851_: MenuType<*>?, p_38852_: Int, inv: Inventory)
     : AbstractContainerMenu(p_38851_, p_38852_) {
     private val playerInventory: IItemHandler
