@@ -1,4 +1,4 @@
-package team.zeds.ancientmagic.recipes.base
+package team.zeds.ancientmagic.api.recipe
 
 import net.minecraft.core.NonNullList
 import net.minecraft.core.RegistryAccess
@@ -10,9 +10,9 @@ import net.minecraft.world.item.crafting.Recipe
 import net.minecraft.world.item.crafting.RecipeType
 import net.minecraft.world.level.Level
 import org.jetbrains.annotations.Nullable
-import team.zeds.ancientmagic.recipes.ingredient.IngredientHelper
+import team.zeds.ancientmagic.api.recipe.ingredient.IngredientHelper
 
-abstract class AbstractAMRecipe(
+abstract class AMAbstractRecipe(
     @JvmField val recipeType: RecipeType<*>,
     @JvmField val id: ResourceLocation,
     @JvmField val ingredient: Ingredient,

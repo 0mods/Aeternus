@@ -1,8 +1,11 @@
 package team.zeds.ancientmagic.init.registries;
 
+import kotlin.jvm.functions.Function6;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import team.zeds.ancientmagic.api.magic.MagicTypes;
 import team.zeds.ancientmagic.api.mod.Constant;
 import team.zeds.ancientmagic.api.item.MagicItem;
@@ -32,8 +35,8 @@ import team.zeds.ancientmagic.init.AMManage;
 import team.zeds.ancientmagic.item.RetraceStone;
 import team.zeds.ancientmagic.item.*;
 import team.zeds.ancientmagic.recipes.AltarRecipe;
-import team.zeds.ancientmagic.recipes.base.AMRecipeSerializer;
-import team.zeds.ancientmagic.recipes.base.AbstractAMRecipe;
+import team.zeds.ancientmagic.api.recipe.*;
+import team.zeds.ancientmagic.recipes.ManaGenerationRecipe;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -58,17 +61,13 @@ public final class AMRegister {
                     .forEach(o::accept))
     );
 
-    public static final RegistryObject<MagicItem> MAGIC_DUST = i("magic_dust",
-            ()-> new MagicItem(MagicItem.callBuilder().setMagicType(MagicTypes.LOW_MAGIC)));
-    public static final RegistryObject<MagicItem> RETRACE_CRYSTAL =
-        boolReg("teleportation_crystal", RetraceStone::new, CompactInitializer.getWaystonesLoaded()
-            && (FMLEnvironment.production && AMManage.COMMON_CONFIG.COMPACT_WAYSTONES.get()), "retrace_stone", RetraceStone::new);
-    public static final RegistryObject<MagicItem> START_MANA_STORAGE = i("start_mana_storage",
-            ()-> new ManaStorage(MagicItem.callBuilder(), 1000, false));
-    public static final RegistryObject<MagicItem> CREATIVE_BUF_ITEM =
-            boolReg("creative_buf", CreativeBufItem::new, !FMLEnvironment.production);
+    public static final RegistryObject<MagicItem> MAGIC_DUST = i("magic_dust", ()-> new MagicItem(MagicItem.callBuilder().setMagicType(MagicTypes.LOW_MAGIC)));
+    public static final RegistryObject<MagicItem> RETRACE_CRYSTAL = boolReg("teleportation_crystal", RetraceStone::new, CompactInitializer.getWaystonesLoaded() && (FMLEnvironment.production && AMManage.COMMON_CONFIG.COMPACT_WAYSTONES.get()), "retrace_stone", RetraceStone::new);
+    public static final RegistryObject<MagicItem> START_MANA_STORAGE = i("start_mana_storage", ()-> new ManaStorage(MagicItem.callBuilder(), 1000, false));
+    public static final RegistryObject<MagicItem> CREATIVE_BUF_ITEM = boolReg("creative_buf", CreativeBufItem::new, !FMLEnvironment.production);
     public static final RegistryObject<Item> MAGIC_BOOK = i("magic_book", MagicBook::new);
     public static final RegistryObject<AMRecipeSerializer<AltarRecipe>> ALTAR_RECIPE_SERIAL = r("altar_recipe", AltarRecipe::new);
+    public static final RegistryObject<AMChancedRecipeSerializer<ManaGenerationRecipe>> MANA_RECIPE_SERIAL = r("mana_gen",ManaGenerationRecipe::new);
 
     static <T extends Item> RegistryObject<T> boolReg(String id, Supplier<T> sup, boolean boolIfReg) {
         return boolIfReg ? i(id, sup) : null;
@@ -94,7 +93,13 @@ public final class AMRegister {
                 Constant.KEY, name)))::build);
     }
 
-    static <T extends AbstractAMRecipe> RegistryObject<AMRecipeSerializer<T>> r(String id, AMRecipeSerializer.SerializerFactory<T> factory) {
+    static <T extends AMAbstractChancedRecipe> RegistryObject<AMChancedRecipeSerializer<T>>
+                r(String id, Function6<ResourceLocation, Ingredient, ItemStack, Integer, Float, Integer, T> factory) {
+        return RECIPE.register(id, ()-> new AMChancedRecipeSerializer<>(factory));
+    }
+
+    static <T extends AMAbstractRecipe> RegistryObject<AMRecipeSerializer<T>> r(String id, AMRecipeSerializer.
+            SerializerFactory<T> factory) {
         return RECIPE.register(id, ()-> new AMRecipeSerializer<>(factory));
     }
 

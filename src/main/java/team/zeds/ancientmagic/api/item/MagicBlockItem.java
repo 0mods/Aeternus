@@ -16,6 +16,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import team.zeds.ancientmagic.api.cap.ItemStackMagic;
 import team.zeds.ancientmagic.api.magic.MagicType;
+import team.zeds.ancientmagic.api.recipe.AMChancedRecipeSerializer;
 
 public class MagicBlockItem extends BlockItem implements ItemStackMagic {
     private boolean canUseItem = true;

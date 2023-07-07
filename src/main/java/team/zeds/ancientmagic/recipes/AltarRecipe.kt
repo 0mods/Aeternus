@@ -6,7 +6,7 @@ import net.minecraft.world.item.crafting.Ingredient
 import net.minecraft.world.item.crafting.RecipeSerializer
 import team.zeds.ancientmagic.init.registries.AMRecipeTypes
 import team.zeds.ancientmagic.init.registries.AMRegister
-import team.zeds.ancientmagic.recipes.base.AbstractAMRecipe
+import team.zeds.ancientmagic.api.recipe.AMAbstractRecipe
 
 class AltarRecipe(
     id: ResourceLocation,
@@ -14,7 +14,7 @@ class AltarRecipe(
     result: ItemStack,
     exp: Float,
     time: Int
-) : AbstractAMRecipe(
+) : AMAbstractRecipe(
     AMRecipeTypes.ALTAR_RECIPE,
     id,
     ingredient,

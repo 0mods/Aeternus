@@ -1,4 +1,4 @@
-package team.zeds.ancientmagic.recipes.ingredient
+package team.zeds.ancientmagic.api.recipe.ingredient
 
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
