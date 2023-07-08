@@ -91,6 +91,7 @@ public class AMMagicSetup {
             player.getCapability(AMCapability.PLAYER_MAGIC_HANDLER).ifPresent(cap-> {
                 if (cap.getMagicLevel() >= item.getBuilder().getMagicType().asLevel())
                     item.setItemUse(true);
+
                 else {
                     if (player.level().isClientSide())
                         player.displayClientMessage(Component.translatable(
@@ -101,6 +102,12 @@ public class AMMagicSetup {
                     item.setItemUse(false);
                 }
             });
+        }
+
+        if (!event.player.level().isClientSide())
+            if (player instanceof ServerPlayer serverPlayer) {
+                serverPlayer.getCapability(AMCapability.PLAYER_MAGIC_HANDLER).ifPresent(cap ->
+                        AMNetwork.sendToPlayer(new PlayerMagicDataSyncS2CPacket(cap.getMagicLevel()), serverPlayer));
         }
     }
 
@@ -120,15 +127,6 @@ public class AMMagicSetup {
                 );
             }
         }
-    }
-    public static void playerTickEvent(TickEvent e) {
-        if (e instanceof TickEvent.PlayerTickEvent event)
-            if (!event.player.level().isClientSide()) {
-                if (event.player instanceof ServerPlayer player) {
-                    player.getCapability(AMCapability.PLAYER_MAGIC_HANDLER).ifPresent(cap ->
-                            AMNetwork.sendToPlayer(new PlayerMagicDataSyncS2CPacket(cap.getMagicLevel()), player));
-                }
-            }
     }
 
     private static ResourceLocation rl(String name)  {

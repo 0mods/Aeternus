@@ -15,7 +15,7 @@ import java.util.stream.StreamSupport
 
 object IngredientHelper {
     @JvmStatic
-    fun test(ingredient: Ingredient, inventory: Container): Boolean {
+    fun <T: Container> test(ingredient: Ingredient, inventory: T): Boolean {
         if (ingredient.items.size != inventory.containerSize) return false
         for (i in 0 until inventory.containerSize) {
             val ingredientItem = ingredient.items[i]

@@ -12,7 +12,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import team.zeds.ancientmagic.init.registries.AMCapability;
 
 public class PlayerMagicCapability {
-    private int level;
+    private int level = 0;
 
     public int getMagicLevel() {
         return this.level;

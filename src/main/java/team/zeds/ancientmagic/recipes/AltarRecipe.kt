@@ -1,6 +1,7 @@
 package team.zeds.ancientmagic.recipes
 
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.Container
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.crafting.Ingredient
 import net.minecraft.world.item.crafting.RecipeSerializer
@@ -14,7 +15,7 @@ class AltarRecipe(
     result: ItemStack,
     exp: Float,
     time: Int
-) : AMAbstractRecipe(
+) : AMAbstractRecipe<Container>(
     AMRecipeTypes.ALTAR_RECIPE,
     id,
     ingredient,

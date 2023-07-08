@@ -5,6 +5,7 @@ import com.google.gson.JsonSyntaxException
 import net.minecraft.network.FriendlyByteBuf
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.GsonHelper
+import net.minecraft.world.Container
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.crafting.Ingredient
 import net.minecraft.world.item.crafting.RecipeSerializer
@@ -12,7 +13,7 @@ import net.minecraft.world.item.crafting.ShapedRecipe
 import net.minecraftforge.registries.ForgeRegistries
 import team.zeds.ancientmagic.api.recipe.ingredient.IngredientHelper
 
-class AMRecipeSerializer<T : AMAbstractRecipe>(val serial: SerializerFactory<T>): RecipeSerializer<T> {
+class AMRecipeSerializer<Y: Container, T : AMAbstractRecipe<Y>>(val serial: SerializerFactory<Y, T>): RecipeSerializer<T> {
     override fun fromJson(resourceLocation: ResourceLocation, jsonObject: JsonObject): T {
         val jsonIngredient = if (GsonHelper.isArrayNode(jsonObject, "ingredients")) GsonHelper.getAsJsonArray(
             jsonObject,
@@ -52,12 +53,12 @@ class AMRecipeSerializer<T : AMAbstractRecipe>(val serial: SerializerFactory<T>)
         byteBuf.writeInt(value.time)
     }
 
-    fun getSerializer(): SerializerFactory<T> {
+    fun getSerializer(): SerializerFactory<Y, T> {
         return this.serial
     }
 
     @FunctionalInterface
-    interface SerializerFactory<T : AMAbstractRecipe> {
+    interface SerializerFactory<Y: Container, T : AMAbstractRecipe<Y>> {
         fun create(id: ResourceLocation, ingredient: Ingredient, result: ItemStack, xp: Float?, time: Int?): T
     }
 }

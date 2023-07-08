@@ -2,12 +2,13 @@ package team.zeds.ancientmagic.api.recipe
 
 import net.minecraft.core.RegistryAccess
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.Container
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.crafting.Ingredient
 import net.minecraft.world.item.crafting.RecipeType
 import kotlin.random.Random
 
-abstract class AMAbstractChancedRecipe(
+abstract class AMAbstractChancedRecipe<T: Container>(
     recipeTypeChanced: RecipeType<*>,
     idChanced: ResourceLocation,
     ingredientChanced: Ingredient,
@@ -16,7 +17,7 @@ abstract class AMAbstractChancedRecipe(
     experienceChanced: Float,
     timeChanced: Int
 
-): AMAbstractRecipe(
+): AMAbstractRecipe<T>(
     recipeTypeChanced,
     idChanced,
     ingredientChanced,

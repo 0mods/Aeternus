@@ -1,6 +1,7 @@
 package team.zeds.ancientmagic.recipes
 
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.Container
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.crafting.Ingredient
 import net.minecraft.world.item.crafting.RecipeSerializer
@@ -15,7 +16,7 @@ class ManaGenerationRecipe(
     chance: Int,
     experienceChanced: Float,
     timeChanced: Int
-) : AMAbstractChancedRecipe(
+) : AMAbstractChancedRecipe<Container>(
     AMRecipeTypes.MANA_GEN_RECIPE,
     idChanced,
     ingredientChanced,

@@ -27,17 +27,29 @@ public class MagicItem extends Item implements ItemStackMagic {
         var stack = player.getItemInHand(hand);
         if (!stack.is(this)) return InteractionResultHolder.fail(stack);
         if (this.getItemUse()) {
-            if (((this.getStorageMana(stack) != 0) && this.getStorageMana(stack) >= builder.getSubMana())
-                    && this.builder.getMaxMana() != 0) {
-                subMana(this.builder.getMaxMana(), stack);
+//            if (((this.getStorageMana(stack) != 0) && this.getStorageMana(stack) >= builder.getSubMana())
+//                    && this.builder.getMaxMana() > 0) {
+//                subMana(this.builder.getMaxMana(), stack);
+//                return this.useMT(level, player, hand);
+//            } else if (this.getMaxMana() > 0 &&
+//                    (this.getBuilder().getMaxMana() > 0 && this.getStorageMana(stack) == 0)
+//                    || this.getStorageMana(stack) < this.getBuilder().getSubMana()) {
+//                player.displayClientMessage(MagicType.getMagicMessage("notMana", getName(stack)), true);
+//                return InteractionResultHolder.fail(stack);
+//            } else if (this.getBuilder().getMaxMana() == 0) {
+//                return this.useMT(level, player, hand);
+//            }
+
+            if (this.getMaxMana() != 0 && ((this.getStorageMana(stack) != 0) && this.getStorageMana(stack) >= this.getBuilder().getSubMana())) {
+                subMana(this.builder.getSubMana(), stack);
                 return this.useMT(level, player, hand);
-            } else if ((this.getBuilder().getMaxMana() != 0 && this.getStorageMana(stack) == 0) || this.getStorageMana(stack) < this.getBuilder().getSubMana()) {
+            } else if ((this.getMaxMana() > 0 && this.getStorageMana(stack) == 0) && this.getStorageMana(stack) < this.getBuilder().getSubMana()) {
                 player.displayClientMessage(MagicType.getMagicMessage("notMana", getName(stack)), true);
                 return InteractionResultHolder.fail(stack);
-            } else if (this.getBuilder().getMaxMana() == 0) {
+            } else if (this.getMaxMana() == 0) {
                 return this.useMT(level, player, hand);
             }
-        }
+        } else return InteractionResultHolder.fail(stack);
 
         return InteractionResultHolder.pass(stack);
     }
@@ -47,17 +59,16 @@ public class MagicItem extends Item implements ItemStackMagic {
         var stack = ctx.getItemInHand();
         if (!stack.is(this)) return InteractionResult.FAIL;
         if (this.getItemUse()) {
-            if (((this.getStorageMana(stack) != 0) && this.getStorageMana(stack) >= builder.getSubMana())
-                    && this.builder.getMaxMana() != 0) {
-                subMana(this.builder.getMaxMana(), stack);
+            if (this.getMaxMana() != 0 && ((this.getStorageMana(stack) != 0) && this.getStorageMana(stack) >= this.getBuilder().getSubMana())) {
+                subMana(this.builder.getSubMana(), stack);
                 return this.useOnMT(ctx);
-            } else if ((this.getBuilder().getMaxMana() != 0 && this.getStorageMana(stack) == 0) || this.getStorageMana(stack) < this.getBuilder().getSubMana()) {
+            } else if ((this.getMaxMana() > 0 && this.getStorageMana(stack) == 0) && this.getStorageMana(stack) < this.getBuilder().getSubMana()) {
                 ctx.getPlayer().displayClientMessage(MagicType.getMagicMessage("notMana", getName(stack)), true);
                 return InteractionResult.FAIL;
-            } else if (this.getBuilder().getMaxMana() == 0) {
+            } else if (this.getMaxMana() == 0) {
                 return this.useOnMT(ctx);
             }
-        }
+        } else return InteractionResult.FAIL;
 
         return InteractionResult.CONSUME;
     }
