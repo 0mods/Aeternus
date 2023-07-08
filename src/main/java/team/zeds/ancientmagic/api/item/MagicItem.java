@@ -1,8 +1,11 @@
 package team.zeds.ancientmagic.api.item;
 
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -12,6 +15,10 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import team.zeds.ancientmagic.api.cap.ItemStackMagic;
 import team.zeds.ancientmagic.api.magic.MagicType;
+import team.zeds.ancientmagic.api.magic.MagicTypes;
+import team.zeds.ancientmagic.init.registries.AMCapability;
+import team.zeds.ancientmagic.init.registries.AMNetwork;
+import team.zeds.ancientmagic.network.s2c.PlayerMagicDataSyncS2CPacket;
 
 public class MagicItem extends Item implements ItemStackMagic {
     private boolean canUseItem = true;
@@ -139,5 +146,49 @@ public class MagicItem extends Item implements ItemStackMagic {
 
     public static MagicItemBuilder callBuilder() {
         return MagicItemBuilder.get();
+    }
+
+    @Override
+    public void inventoryTick(ItemStack stack, Level level, Entity entity, int p_41407_, boolean p_41408_) {
+        if (entity instanceof Player player) {
+            if (stack.getItem() instanceof MagicItem item) {
+                player.getCapability(AMCapability.PLAYER_MAGIC_HANDLER).ifPresent(cap-> {
+                    if (cap.getMagicLevel() >= item.getBuilder().getMagicType().asLevel())
+                        item.setItemUse(true);
+                    else {
+                        if (player.level().isClientSide())
+                            player.displayClientMessage(Component.translatable(
+                                    "magic.ancientmagic.notLevel",
+                                    item.getMagicType().getTranslation(),
+                                    MagicTypes.getByNumeration(cap.getMagicLevel()).getTranslation()
+                            ), true);
+                        item.setItemUse(false);
+                    }
+                });
+            }
+
+            if (stack.getItem() instanceof MagicBlockItem item) {
+                player.getCapability(AMCapability.PLAYER_MAGIC_HANDLER).ifPresent(cap-> {
+                    if (cap.getMagicLevel() >= item.getBuilder().getMagicType().asLevel())
+                        item.setItemUse(true);
+
+                    else {
+                        if (player.level().isClientSide())
+                            player.displayClientMessage(Component.translatable(
+                                    "magic.ancientmagic.notLevel",
+                                    item.getMagicType().getTranslation(),
+                                    MagicTypes.getByNumeration(cap.getMagicLevel()).getTranslation()
+                            ), true);
+                        item.setItemUse(false);
+                    }
+                });
+            }
+
+            if (!level.isClientSide())
+                if (player instanceof ServerPlayer serverPlayer) {
+                    serverPlayer.getCapability(AMCapability.PLAYER_MAGIC_HANDLER).ifPresent(cap ->
+                            AMNetwork.sendToPlayer(new PlayerMagicDataSyncS2CPacket(cap.getMagicLevel()), serverPlayer));
+                }
+        }
     }
 }

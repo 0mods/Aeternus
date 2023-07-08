@@ -35,7 +35,9 @@ object AMCommands {
     @JvmStatic
     private fun commandRegister(sourceStack: CommandDispatcher<CommandSourceStack>) {
         val names =
-            if (AMManage.COMMON_CONFIG.VALID_COMMAND_NAMES != null) AMManage.COMMON_CONFIG.VALID_COMMAND_NAMES!!.get() else NAMES_OF_COMMAND
+            if (AMManage.COMMON_CONFIG.VALID_COMMAND_NAMES != null)
+                AMManage.COMMON_CONFIG.VALID_COMMAND_NAMES!!.get()
+            else NAMES_OF_COMMAND
         for (name in names) {
             sourceStack.register(
                 Commands.literal(name)
@@ -46,7 +48,7 @@ object AMCommands {
 
     @JvmStatic
     private fun registerSetStage(): ArgumentBuilder<CommandSourceStack?, *>? {
-        return Commands.literal("setStage")
+        return Commands.literal("level")
             .requires { req: CommandSourceStack -> req.hasPermission(Commands.LEVEL_ADMINS) }
             .then(
                 Commands.argument("players", EntityArgument.players())

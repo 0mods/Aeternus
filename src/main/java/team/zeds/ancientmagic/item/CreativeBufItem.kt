@@ -28,7 +28,7 @@ class CreativeBufItem: MagicItem(callBuilder().setMagicType(MagicTypes.LOW_MAGIC
                             player.displayClientMessage(
                                 MagicType.getMagicMessage(
                                     "admin.levelAdded",
-                                    MagicTypes.getByNumeration(ClientPlayerMagicData.playerData.plus(1)).getTranslation()
+                                    MagicTypes.getByNumeration(ClientPlayerMagicData.getPlayerData() + 1).getTranslation()
                                 ),
                                 true
                             )
@@ -47,7 +47,7 @@ class CreativeBufItem: MagicItem(callBuilder().setMagicType(MagicTypes.LOW_MAGIC
                         if (level.isClientSide()) player.displayClientMessage(
                             MagicType.getMagicMessage(
                                 "admin.levelAdded",
-                                MagicTypes.getByNumeration(ClientPlayerMagicData.playerData.minus(1)).getTranslation()
+                                MagicTypes.getByNumeration(ClientPlayerMagicData.getPlayerData() - 1).getTranslation()
                             ),
                             true
                         )

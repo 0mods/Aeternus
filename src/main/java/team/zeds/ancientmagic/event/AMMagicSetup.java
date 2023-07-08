@@ -128,7 +128,6 @@ public class AMMagicSetup {
             }
         }
     }
-
     private static ResourceLocation rl(String name)  {
         return new ResourceLocation(Constant.KEY, name);
     }

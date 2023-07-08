@@ -11,32 +11,29 @@ import team.zeds.ancientmagic.api.mod.Constant
 import team.zeds.ancientmagic.client.packet.ClientPlayerMagicData
 
 abstract class MagicBookScreen(component: Component): Screen(component), IMagicBookScreen {
-    private val imgWidth: Int = 512
-    private val imgHeight: Int = 256
-
-    var guiGraphics: GuiGraphics? = null
+    private val imgWidth: Int = 436
+    private val imgHeight: Int = 232
 
     override fun render(guiGraphics: GuiGraphics, xMouse: Int, yMouse: Int, partialTick: Float) {
-        this.guiGraphics = guiGraphics
+        super.render(guiGraphics, xMouse, yMouse, partialTick)
         val w = ((this.width / 2) - (imgWidth / 2))
         val h = ((this.height / 2) - (imgHeight / 2))
 
         val playerDisplayWidth = 64
         val playerDisplayHeight = 88
-        val tagDisplayWidth = 72
+        val tagDisplayWidth = 92
         val tagDisplayHeight = 16
 
         if (this.getBookClassifier() == IMagicBookScreen.MagicBookClassifier.MAIN_PAGE) {
+            guiGraphics.blit(textureGen("book_screen"), w, h, 0f, 0f, imgWidth, imgHeight, imgWidth, imgHeight)
             guiGraphics.blit(
-                textureGen("display"), w + 66, h + 29, playerDisplayWidth, playerDisplayHeight,
+                textureGen("player_frame"), w + 66, h + 29, playerDisplayWidth, playerDisplayHeight,
                 playerDisplayWidth, playerDisplayHeight
             )
             guiGraphics.blit(
-                textureGen("display"), w + 97, h + 111, tagDisplayWidth, tagDisplayHeight,
+                textureGen("tag_frame"), w + 59, h + 119, tagDisplayWidth, tagDisplayHeight,
                 tagDisplayWidth, tagDisplayHeight
             )
-            guiGraphics.blit(textureGen("main"), w, h, 0f, 0f, imgWidth, imgHeight, imgWidth, imgHeight)
-
             val player = this.minecraft!!.player!!
             val xPos: Int = w + 97
             val yPos: Int = h + 111
@@ -46,7 +43,7 @@ abstract class MagicBookScreen(component: Component): Screen(component), IMagicB
                 (yPos - yMouse).toFloat(), player
             )
             guiGraphics.drawString(font, Component.translatable(
-                "magic.${Constant.KEY}.level", MagicTypes.getByNumeration(ClientPlayerMagicData.playerData).getTranslation()
+                "magic.${Constant.KEY}.level", MagicTypes.getByNumeration(ClientPlayerMagicData.getPlayerData()).getTranslation()
             ),
                 w + 56, h + 122, ChatFormatting.WHITE.id)
             render(guiGraphics, xMouse, yMouse, partialTick, w, h)
