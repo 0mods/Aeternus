@@ -2,6 +2,7 @@ package team.zeds.ancientmagic.client
 
 import net.minecraft.client.gui.components.Button
 import net.minecraft.network.chat.Component
+import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.block.Blocks
 import team.zeds.ancientmagic.api.screen.IMagicBookScreen.MagicBookClassifier
 import team.zeds.ancientmagic.api.screen.MagicBookScreen
@@ -16,7 +17,7 @@ class MagicBookMainScreen: MagicBookScreen(Component.empty()) {
                         "It's work!"
                     ), false
                 )
-            }.size(16, 16).pos(40, 40), Blocks.AMETHYST_BLOCK)
+            }.size(16, 16).pos(40, 40), ItemStack(Blocks.AMETHYST_BLOCK))
         )
     }
 

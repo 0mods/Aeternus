@@ -1,19 +1,18 @@
 package team.zeds.ancientmagic.api.screen.widget;
 
+import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.inventory.InventoryMenu;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.block.Block;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.item.ItemStack;
 
 public class ButtonBase extends Button {
     private final int x;
@@ -22,10 +21,10 @@ public class ButtonBase extends Button {
     private final int height;
     private final Component text;
     private final ResourceLocation texture;
-    private final boolean isBlockTexture;
-    private final boolean isItemTexture;
+    private final ItemStack stack;
+    private final boolean isStackedTexture;
 
-    private ButtonBase(Builder builder, ResourceLocation texture, boolean isBlockTexture, boolean isItemTexture) {
+    private ButtonBase(Builder builder, ResourceLocation texture) {
         super(builder);
         this.texture = texture;
         this.text = builder.message;
@@ -33,20 +32,20 @@ public class ButtonBase extends Button {
         this.y = builder.y;
         this.width = builder.width;
         this.height = builder.height;
-        this.isBlockTexture = isBlockTexture;
-        this.isItemTexture = isItemTexture;
+        this.stack = null;
+        this.isStackedTexture = false;
     }
 
-    public ButtonBase(Builder builder, ResourceLocation texture) {
-        this(builder, texture, false, false);
-    }
-
-    public ButtonBase(Builder builder, Block block) {
-        this(builder, ForgeRegistries.BLOCKS.getKey(block), true, false);
-    }
-
-    public ButtonBase(Builder builder, ItemLike item) {
-        this(builder, ForgeRegistries.ITEMS.getKey(item.asItem()), false, true);
+    public ButtonBase(Builder builder, ItemStack stack) {
+        super(builder);
+        this.texture = new ResourceLocation(ResourceLocation.DEFAULT_NAMESPACE, "");
+        this.text = builder.message;
+        this.x = builder.x;
+        this.y = builder.y;
+        this.width = builder.width;
+        this.height = builder.height;
+        this.stack = stack;
+        this.isStackedTexture = true;
     }
 
     @Override
@@ -55,31 +54,52 @@ public class ButtonBase extends Button {
         Font font = minecraft.font;
         PoseStack stack = graphics.pose();
 
-        stack.pushPose();
-        stack.translate(0.0, 0.0, 100.0);
-        graphics.drawString(font, this.text, this.x, this.y + height / 4, 0xFFFFFF);
-        stack.popPose();
+        if (this.text != null)
+            graphics.drawString(font, this.text, this.x, this.y + height / 4, 0xFFFFFF);
 
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
+        if (isStackedTexture) {
+            if (!this.stack.isEmpty()) {
+                stack.pushPose();
+                stack.translate(this.x, this.y, 0.0);
+                Lighting.setupFor3DItems();
+                MultiBufferSource.BufferSource vertexConsumers = graphics.bufferSource();
 
-        if (isBlockTexture) {
-            ResourceLocation loc = InventoryMenu.BLOCK_ATLAS;
-            ResourceLocation blockLoc = new ResourceLocation(this.texture.getNamespace(),
-                    String.format("block/%s", this.texture.getPath()));
-            TextureAtlasSprite texture = minecraft.getTextureAtlas(loc).apply(blockLoc);
-            graphics.blit(this.x, this.y, 0, this.width, this.height, texture);
-        }
+                minecraft.getItemRenderer().renderStatic(
+                        this.stack,
+                        ItemDisplayContext.GUI,
+                        0,
+                        0,
+                        stack,
+                        vertexConsumers,
+                        minecraft.level,
+                        0
+                );
 
-        if (isItemTexture) {
-            Item item = ForgeRegistries.ITEMS.getValue(this.texture);
-            TextureAtlasSprite texture = minecraft.getItemRenderer().getItemModelShaper().getItemModel(item).getParticleIcon();
-            graphics.blit(this.x, this.y, 0, this.width, this.height, texture);
-        }
-
-        if (!isItemTexture && !isBlockTexture) {
+                vertexConsumers.endBatch();
+                stack.popPose();
+            }
+        } else {
             graphics.blit(texture, this.x, this.y, 0, isCursorAtButton(x, y) ? this.height : 0, this.width, this.height, this.width, this.height * 2);
         }
+
+//        if (isBlockTexture) {
+//            ResourceLocation loc = InventoryMenu.BLOCK_ATLAS;
+//            ResourceLocation blockLoc = new ResourceLocation(this.texture.getNamespace(),
+//                    String.format("block/%s", this.texture.getPath()));
+//            TextureAtlasSprite texture = minecraft.getTextureAtlas(loc).apply(blockLoc);
+//            graphics.blit(this.x, this.y, 0, this.width, this.height, texture);
+//        }
+//
+//        if (isItemTexture) {
+//            Item item = ForgeRegistries.ITEMS.getValue(this.texture);
+//            TextureAtlasSprite texture = minecraft.getItemRenderer().getItemModelShaper().getItemModel(item).getParticleIcon();
+//            graphics.blit(this.x, this.y, 0, this.width, this.height, texture);
+//        }
+//
+//        if (!isItemTexture && !isBlockTexture) {
+//            graphics.blit(texture, this.x, this.y, 0, isCursorAtButton(x, y) ? this.height : 0, this.width, this.height, this.width, this.height * 2);
+//        }
+
     }
 
     public boolean isCursorAtButton(int cursorX, int cursorY) {
