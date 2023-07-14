@@ -53,7 +53,7 @@ public class PlayerMagicCapability {
         private PlayerMagicCapability wrapper = null;
         private final LazyOptional<PlayerMagicCapability> lazy = LazyOptional.of(this::createCap);
 
-        private PlayerMagicCapability createCap() {
+        public PlayerMagicCapability createCap() {
             if (this.wrapper == null) this.wrapper = new PlayerMagicCapability();
             return this.wrapper;
         }

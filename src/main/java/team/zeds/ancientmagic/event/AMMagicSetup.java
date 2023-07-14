@@ -2,9 +2,13 @@ package team.zeds.ancientmagic.event;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import team.zeds.ancientmagic.api.block.MagicBlockEntity;
+import team.zeds.ancientmagic.api.cap.BlockMana;
 import team.zeds.ancientmagic.api.item.MagicBlockItem;
 import team.zeds.ancientmagic.api.magic.MagicType;
 import team.zeds.ancientmagic.api.magic.MagicTypes;
+import team.zeds.ancientmagic.capability.BlockManaCapability;
 import team.zeds.ancientmagic.capability.PlayerMagicCapability;
 import team.zeds.ancientmagic.init.AMManage;
 import team.zeds.ancientmagic.network.s2c.PlayerMagicDataSyncS2CPacket;
@@ -27,6 +31,8 @@ import team.zeds.ancientmagic.init.registries.AMNetwork;
 import team.zeds.ancientmagic.init.registries.AMTags;
 
 public class AMMagicSetup {
+    public static final BlockManaCapability.Provider BLOCK_MANA_CAPABILITY = new BlockManaCapability.Provider();
+
     public static void tooltipEvent(ItemTooltipEvent e) {
         var stack = e.getItemStack();
         var tooltip = e.getToolTip();
@@ -56,15 +62,21 @@ public class AMMagicSetup {
         }
     }
 
-    public static void attachCapability(final AttachCapabilitiesEvent<Object> event) {
-        if (event.getObject() instanceof Player player) {
-            if (!player.getCapability(AMCapability.PLAYER_MAGIC_HANDLER).isPresent())
-                event.addCapability(rl("player_magic"), new PlayerMagicCapability.Provider());
+    public static void attachCapabilityToPlayer(final AttachCapabilitiesEvent<Player> event) {
+        if (!event.getObject().getCapability(AMCapability.PLAYER_MAGIC_HANDLER).isPresent())
+            event.addCapability(rl("player_magic"), new PlayerMagicCapability.Provider());
+    }
+
+    public static void attachCapabilityToBlockEntity(final AttachCapabilitiesEvent<BlockEntity> event) {
+        if (event.getObject() instanceof MagicBlockEntity) {
+            if (!event.getObject().getCapability(AMCapability.BLOCK_MAGIC_CAPABILITY).isPresent())
+                event.addCapability(rl("block_mana"), BLOCK_MANA_CAPABILITY);
         }
     }
 
     public static void registerCapability(final RegisterCapabilitiesEvent e) {
         e.register(PlayerMagicCapability.class);
+        e.register(BlockManaCapability.class);
     }
 
     public static void playerTick(TickEvent.PlayerTickEvent event) {

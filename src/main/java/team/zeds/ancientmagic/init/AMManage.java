@@ -1,5 +1,7 @@
 package team.zeds.ancientmagic.init;
 
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig;
 import team.zeds.ancientmagic.api.mod.Constant;
@@ -45,7 +47,8 @@ public class AMManage {
         bus.addListener(AMCommands::registerCommands);
         bus.addListener(AMMagicSetup::playerClone);
         bus.addListener(AMMagicSetup::playerTick);
-        bus.addGenericListener(Object.class, AMMagicSetup::attachCapability);
+        bus.addGenericListener(Player.class, AMMagicSetup::attachCapabilityToPlayer);
+        bus.addGenericListener(BlockEntity.class, AMMagicSetup::attachCapabilityToBlockEntity);
         bus.addListener(AMMagicSetup::playerConnectToWorld);
     }
 
