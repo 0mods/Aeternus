@@ -4,8 +4,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import team.zeds.ancientmagic.api.mod.Constant;
-import team.zeds.ancientmagic.event.AMMagicSetup;
+import team.zeds.ancientmagic.event.*;
 import team.zeds.ancientmagic.init.config.*;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -26,7 +27,6 @@ import team.zeds.ancientmagic.init.registries.AMTags;
 public class AMManage {
     protected static IEventBus FORGE_BUS = MinecraftForge.EVENT_BUS;
     protected static IEventBus MOD_BUS = FMLJavaModLoadingContext.get().getModEventBus();
-    private static final ProxyBase PROXY = DistExecutor.safeRunForDist(()-> ClientInit::new, ()-> ServerInit::new);
     public static AMCommon COMMON_CONFIG;
 
     public static void init() {
@@ -45,49 +45,24 @@ public class AMManage {
         Constant.LOGGER.debug("Initializing forge events");
         bus.addListener(AMManage::modCommon);
         bus.addListener(AMCommands::registerCommands);
-        bus.addListener(AMMagicSetup::playerClone);
-        bus.addListener(AMMagicSetup::playerTick);
-        bus.addGenericListener(Player.class, AMMagicSetup::attachCapabilityToPlayer);
-        bus.addGenericListener(BlockEntity.class, AMMagicSetup::attachCapabilityToBlockEntity);
-        bus.addListener(AMMagicSetup::playerConnectToWorld);
+        bus.register(AMForgeEvents.class);
+
+        bus.addGenericListener(Player.class, AMGenericEvents::attachCapabilityToPlayer);
+        bus.addGenericListener(BlockEntity.class, AMGenericEvents::attachCapabilityToBlockEntity);
+
+        if (FMLEnvironment.dist.isClient()) {
+            bus.addListener(AMForgeEvents::tooltipEvent);
+        }
     }
 
     private static void modEventsInitialize(IEventBus bus) {
         Constant.LOGGER.debug("Initializing mod events");
         CompactInitializer.init(bus);
         bus.addListener(AMManage::modCommon);
-        bus.addListener(AMMagicSetup::registerCapability);
+        bus.register(AMModEvents.class);
     }
 
     private static void modCommon(final FMLCommonSetupEvent e) {
-        PROXY.init();
         AMNetwork.init();
     }
-
-    @Mod.EventBusSubscriber(modid = Constant.KEY, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-    public static class ClientInit implements ProxyBase {
-        @SubscribeEvent
-        public static void client(final FMLClientSetupEvent e) {
-            FORGE_BUS.addListener(AMMagicSetup::tooltipEvent);
-        }
-
-        @Override
-        public void init() {
-            Constant.LOGGER.debug("Initializing client dist");
-        }
-    }
-
-    @Mod.EventBusSubscriber(modid = Constant.KEY, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.DEDICATED_SERVER)
-    public static class ServerInit implements ProxyBase {
-        @SubscribeEvent
-        public static void server(FMLDedicatedServerSetupEvent e) {}
-
-        @Override
-        public void init() {
-            Constant.LOGGER.debug("Initializing client dist");
-        }
-    }
-
-    @FunctionalInterface
-    private interface ProxyBase { void init(); }
 }

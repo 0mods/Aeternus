@@ -15,7 +15,7 @@ abstract class MagicBookScreen(component: Component): Screen(component), IMagicB
     private val imgHeight: Int = 232
 
     @Deprecated("Don't use MC method! Use from MagicBook.",
-        ReplaceWith("render", "net.minecraft.client.gui.GuiGraphics",
+        ReplaceWith("team.zeds.ancientmagic.api.screen.MagicBookScreen#render", "net.minecraft.client.gui.GuiGraphics",
         "kotlin.Int", "kotlin.Int", "kotlin.Float", "kotlin.Int", "kotlin.Int"),
         DeprecationLevel.HIDDEN
     )

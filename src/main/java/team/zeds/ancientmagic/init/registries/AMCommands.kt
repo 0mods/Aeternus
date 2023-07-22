@@ -14,7 +14,6 @@ import team.zeds.ancientmagic.api.magic.MagicType
 import team.zeds.ancientmagic.api.mod.Constant
 import team.zeds.ancientmagic.capability.PlayerMagicCapability
 import team.zeds.ancientmagic.init.AMManage
-import team.zeds.ancientmagic.init.config.AMCommon
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.function.Supplier
 
@@ -35,8 +34,8 @@ object AMCommands {
     @JvmStatic
     private fun commandRegister(sourceStack: CommandDispatcher<CommandSourceStack>) {
         val names =
-            if (AMManage.COMMON_CONFIG.VALID_COMMAND_NAMES != null)
-                AMManage.COMMON_CONFIG.VALID_COMMAND_NAMES!!.get()
+            if (AMManage.COMMON_CONFIG.commandsIdentifier != null)
+                AMManage.COMMON_CONFIG.commandsIdentifier!!.get()
             else NAMES_OF_COMMAND
         for (name in names) {
             sourceStack.register(
@@ -67,7 +66,7 @@ object AMCommands {
         val returnValue = AtomicInteger()
         for (player in players) {
             player.getCapability(AMCapability.PLAYER_MAGIC_HANDLER).ifPresent { cap: PlayerMagicCapability ->
-                val iValue = cap.getMagicLevel()
+                val iValue = cap.magicLevel
                 if (iValue == countOfLevels && countOfLevels == 4) {
                     command("max").get()?.let { sourceStack.sendFailure(it) }
                     returnValue.set(0)

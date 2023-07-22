@@ -45,11 +45,11 @@ public abstract class WaystoneInject extends WaystoneBlockBase {
         if (mainHand.is(ModTags.BOUND_SCROLLS)) {
             cir.setReturnValue(InteractionResult.PASS);
         } else {
-            if (((AMManage.COMMON_CONFIG.COMPACT_WAYSTONES != null && AMManage.COMMON_CONFIG.COMPACT_WAYSTONES.get())
+            if (((AMManage.COMMON_CONFIG.getCompactWaystones() != null && AMManage.COMMON_CONFIG.getCompactWaystones().get())
                     && FMLEnvironment.production)) {
                 if ((mainHand.is(AMTags.CONSUMABLE_TELEPORTATION_CATALYST))) {
-                    if (AMManage.COMMON_CONFIG.CONSUME_DUST_COUNT_ON_TELEPORT != null)
-                        mainHand.shrink(AMManage.COMMON_CONFIG.CONSUME_DUST_COUNT_ON_TELEPORT.get());
+                    if (AMManage.COMMON_CONFIG.getConsumeDustTeleportUse() != null)
+                        mainHand.shrink(AMManage.COMMON_CONFIG.getConsumeDustTeleportUse().get());
                     else mainHand.shrink(2);
 
                     start(world, pos, player, tileEntity, waystone);
@@ -67,10 +67,10 @@ public abstract class WaystoneInject extends WaystoneBlockBase {
                     player.displayClientMessage(Component.translatable("compact.ancientmagic.waystones.no_essence"), true);
                     cir.setReturnValue(InteractionResult.FAIL);
                 }
-            } else if (((AMManage.COMMON_CONFIG.COMPACT_WAYSTONES != null && !AMManage.COMMON_CONFIG.COMPACT_WAYSTONES.get()) && FMLEnvironment.production)) {
+            } else if (((AMManage.COMMON_CONFIG.getCompactWaystones() != null && !AMManage.COMMON_CONFIG.getCompactWaystones().get()) && FMLEnvironment.production)) {
                 start(world, pos, player, tileEntity, waystone);
                 cir.setReturnValue(InteractionResult.SUCCESS);
-            } else if (AMManage.COMMON_CONFIG.COMPACT_WAYSTONES == null) {
+            } else if (AMManage.COMMON_CONFIG.getCompactWaystones() == null) {
                 start(world, pos, player, tileEntity, waystone);
                 cir.setReturnValue(InteractionResult.SUCCESS);
             } else if (!FMLEnvironment.production) {
@@ -78,8 +78,8 @@ public abstract class WaystoneInject extends WaystoneBlockBase {
 
                 if (!id.equals("retrace_stone")) {
                     if ((mainHand.is(AMTags.CONSUMABLE_TELEPORTATION_CATALYST))) {
-                        if (AMManage.COMMON_CONFIG.CONSUME_DUST_COUNT_ON_TELEPORT != null)
-                            mainHand.shrink(AMManage.COMMON_CONFIG.CONSUME_DUST_COUNT_ON_TELEPORT.get());
+                        if (AMManage.COMMON_CONFIG.getConsumeDustTeleportUse() != null)
+                            mainHand.shrink(AMManage.COMMON_CONFIG.getConsumeDustTeleportUse().get());
                         else mainHand.shrink(2);
 
                         start(world, pos, player, tileEntity, waystone);
