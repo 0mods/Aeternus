@@ -30,7 +30,7 @@ public class AMManage {
     public static AMCommon COMMON_CONFIG;
 
     public static void init() {
-        AMCommon common = new AMCommon();
+        AMCommon common = AMCommon.getInstance();
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, common.SPEC.build());
         COMMON_CONFIG = common;
 

@@ -6,6 +6,7 @@ import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurio;
 
 public class RetraceStoneEvent implements ICurio {
+
     public static boolean isEquip = false;
     @Override
     public ItemStack getStack() {

@@ -15,6 +15,7 @@ plugins {
     eclipse
     idea
     `maven-publish`
+    scala
     id("net.minecraftforge.gradle") version "6.+"
     kotlin("jvm") version "1.9.0-Beta"
 }
@@ -164,6 +165,7 @@ dependencies {
     shadow("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:${coroutines_version}")
     shadow("org.jetbrains.kotlinx:kotlinx-serialization-core:${serialization_version}")
     shadow("org.jetbrains.kotlinx:kotlinx-serialization-json:${serialization_version}")
+    shadow("org.scala-lang:scala-library:2.11.12")
 
     implementation(kotlin("stdlib"))
 

@@ -4,7 +4,7 @@ import kotlin.Unit;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraftforge.client.event.RegisterShadersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import team.zeds.ancientmagic.client.ModShaders;
+import team.zeds.ancientmagic.client.render.ModShaders;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;

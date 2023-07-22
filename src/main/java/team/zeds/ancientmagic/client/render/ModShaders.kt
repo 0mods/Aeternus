@@ -1,4 +1,4 @@
-package team.zeds.ancientmagic.client
+package team.zeds.ancientmagic.client.render
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat
 import com.mojang.blaze3d.vertex.VertexFormat

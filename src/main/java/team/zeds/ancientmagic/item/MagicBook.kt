@@ -7,8 +7,7 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
 import team.zeds.ancientmagic.api.item.MagicItem
-import team.zeds.ancientmagic.api.screen.MagicBookScreen
-import team.zeds.ancientmagic.client.MagicBookMainScreen
+import team.zeds.ancientmagic.client.screen.MagicBookMainScreen
 
 class MagicBook : MagicItem(callBuilder().stacks(1).setMaxMana(0)) {
     override fun useMT(level: Level, player: Player, hand: InteractionHand): InteractionResultHolder<ItemStack> {

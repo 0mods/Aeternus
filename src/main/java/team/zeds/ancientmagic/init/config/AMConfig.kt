@@ -7,25 +7,29 @@ import team.zeds.ancientmagic.init.registries.AMCommands
 class AMCommon {
     @JvmField val SPEC: ForgeConfigSpec.Builder = ForgeConfigSpec.Builder()
 
-    var compactWaystones: ForgeConfigSpec.BooleanValue? = null
-    var consumeDustTeleportUse: ForgeConfigSpec.IntValue? = null
-    var commandsIdentifier: ForgeConfigSpec.ConfigValue<MutableList<String>>? = null
-
-    fun init() {
+    init {
         SPEC.push("Mod Compact")
         SPEC.push("Waystones")
-        compactWaystones = SPEC.comment("Enable mod compact with mod Waystones")
-            .define("enable_waystones_compact", true)
-        consumeDustTeleportUse = SPEC.comment("Count of consuming Magical Dust on teleport")
-            .defineInRange("consume_dust_on_teleport", 2, 1, 64)
+    }
+
+    var compactWaystones: ForgeConfigSpec.BooleanValue = SPEC.comment("Enable mod compact with mod Waystones")
+        .define("enable_waystones_compact", true)
+    var consumeDustTeleportUse: ForgeConfigSpec.IntValue = SPEC.comment("Count of consuming Magical Dust on teleport")
+        .defineInRange("consume_dust_on_teleport", 2, 1, 64)
+
+    init {
         SPEC.pop(2)
         SPEC.push("ModData")
-        commandsIdentifier = SPEC.comment("Valid identifiers for commands")
-            .define("command_value", AMCommands.NAMES_OF_COMMAND)
+    }
+
+    var commandsIdentifier: ForgeConfigSpec.ConfigValue<MutableList<String>> = SPEC.comment("Valid identifiers for commands")
+        .define("command_value", AMCommands.NAMES_OF_COMMAND)
+
+    init {
         SPEC.pop()
     }
 
-    init {
-        init()
+    companion object {
+        @get:JvmStatic val instance = AMCommon()
     }
 }

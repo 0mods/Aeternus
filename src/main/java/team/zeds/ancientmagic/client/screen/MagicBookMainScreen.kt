@@ -1,4 +1,4 @@
-package team.zeds.ancientmagic.client
+package team.zeds.ancientmagic.client.screen
 
 import net.minecraft.client.gui.components.Button
 import net.minecraft.network.chat.Component
