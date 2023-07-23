@@ -1,4 +1,4 @@
-package team.zeds.ancientmagic.recipes
+package team.zeds.ancientmagic.api.recipe
 
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.crafting.Recipe

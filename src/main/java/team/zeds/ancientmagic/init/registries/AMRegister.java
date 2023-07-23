@@ -6,6 +6,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraftforge.common.extensions.IForgeBlockEntity;
 import team.zeds.ancientmagic.api.item.MagicBlockItem;
 import team.zeds.ancientmagic.api.magic.MagicTypes;
 import team.zeds.ancientmagic.api.mod.AMConstant;
@@ -33,6 +35,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryObject;
 import team.zeds.ancientmagic.block.AltarBlock;
 import team.zeds.ancientmagic.block.AltarPedestalBlock;
+import team.zeds.ancientmagic.block.entity.AltarBlockEntity;
 import team.zeds.ancientmagic.compact.CompactInitializer;
 import team.zeds.ancientmagic.init.AMManage;
 import team.zeds.ancientmagic.item.RetraceStone;
@@ -72,6 +75,8 @@ public final class AMRegister {
 
     public static final RegistryObject<Block> ALTAR_BLOCK = b("altar", AltarBlock::new, b -> new MagicBlockItem(b, MagicBlockItem.of()));
     public static final RegistryObject<Block> ALTAR_PEDESTAL_BLOCK = b("altar_pedestal", AltarPedestalBlock::new, b -> new MagicBlockItem(b, MagicBlockItem.of()));
+
+    public static final RegistryObject<BlockEntityType<AltarBlockEntity>> ALTAR_BLOCK_ENTITY = be(AMRegister.ALTAR_BLOCK, AltarBlockEntity::new);
 
     public static final RegistryObject<AMRecipeSerializer<AltarRecipe>> ALTAR_RECIPE_SERIAL = r("altar_recipe", AltarRecipe::new);
     public static final RegistryObject<AMChancedRecipeSerializer<ManaGenerationRecipe>> MANA_RECIPE_SERIAL = r("mana_gen",ManaGenerationRecipe::new);
@@ -116,6 +121,15 @@ public final class AMRegister {
 
     static <Y, T extends ResourceKey<? extends Registry<Y>>> DeferredRegister<Y> deferredCreator(T resourceKey) {
         return DeferredRegister.create(resourceKey, AMConstant.KEY);
+    }
+
+    static <T extends BlockEntity> RegistryObject<BlockEntityType<T>> be(RegistryObject<Block> block, BlockEntityType.BlockEntitySupplier<T> sup) {
+        var blockId = block.getId().getPath();
+        return be(blockId, ()-> new Block[] { block.get() }, sup);
+    }
+
+    static <T extends BlockEntity> RegistryObject<BlockEntityType<T>> be(String id, Supplier<Block[]> blocks, BlockEntityType.BlockEntitySupplier<T> sup) {
+        return BLOCK_ENTITY.register(id, ()-> BlockEntityType.Builder.of(sup, blocks.get()).build(null));
     }
 
     public static void init() {

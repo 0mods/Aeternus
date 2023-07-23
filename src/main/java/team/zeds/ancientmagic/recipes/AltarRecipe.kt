@@ -9,7 +9,7 @@ import team.zeds.ancientmagic.init.registries.AMRecipeTypes
 import team.zeds.ancientmagic.init.registries.AMRegister
 
 class AltarRecipe(id: ResourceLocation, ingr: Ingredient, result: ItemStack, exp: Float, time: Int): AMAbstractRecipe(
-    AMRecipeTypes.instance.altarRecipe,
+    AMRecipeTypes.instance!!.altarRecipe,
     id,
     ingr,
     result,

@@ -4,7 +4,7 @@ import net.minecraft.world.Container
 import net.minecraft.world.item.crafting.Recipe
 import net.minecraft.world.item.crafting.RecipeType
 import team.zeds.ancientmagic.recipes.AltarRecipe
-import team.zeds.ancientmagic.recipes.CastRecipeType
+import team.zeds.ancientmagic.api.recipe.CastRecipeType
 import team.zeds.ancientmagic.recipes.ManaGenerationRecipe
 
 class AMRecipeTypes {
@@ -15,6 +15,11 @@ class AMRecipeTypes {
 
     companion object {
         @get:JvmStatic
-        val instance = AMRecipeTypes()
+        var instance: AMRecipeTypes? = null
+            get() {
+                if (field == null) field = AMRecipeTypes()
+                return field
+            }
+            private set
     }
 }

@@ -6,7 +6,7 @@
   },
   "cull": false,
   "vertex": "position_tex_color",
-  "fragment": "holo",
+  "fragment": "ancientmagic:holo",
   "attributes": [
     "Position",
     "UV0",

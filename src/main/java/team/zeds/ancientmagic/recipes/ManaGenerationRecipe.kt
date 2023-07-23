@@ -9,7 +9,7 @@ import team.zeds.ancientmagic.init.registries.AMRecipeTypes
 import team.zeds.ancientmagic.init.registries.AMRegister
 
 class ManaGenerationRecipe(id: ResourceLocation, ingr: Ingredient, result: ItemStack, chance: Int, exp: Float, time: Int): AMAbstractChancedRecipe(
-    AMRecipeTypes.instance.manaRecipe,
+    AMRecipeTypes.instance!!.manaRecipe,
     id,
     ingr,
     result,

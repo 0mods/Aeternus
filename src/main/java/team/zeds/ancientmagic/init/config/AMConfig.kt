@@ -30,6 +30,12 @@ class AMCommon {
     }
 
     companion object {
-        @get:JvmStatic val instance = AMCommon()
+        @get:JvmStatic
+        var instance: AMCommon? = null
+            get() {
+                if (field == null) field = AMCommon()
+                return field!!
+            }
+            private set
     }
 }

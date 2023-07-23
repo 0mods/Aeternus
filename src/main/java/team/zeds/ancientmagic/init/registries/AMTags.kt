@@ -26,10 +26,7 @@ class AMTags private constructor() {
     val strippedWood = block("stripped_wood")
 
     fun init() {
-        for (i in 0 .. registeredTags.size) {
-            val tag = registeredTags[i]
-            AMConstant.LOGGER.debug("Tag \"{}\" are registered", tag)
-        }
+        AMConstant.LOGGER.debug("Tag {} are registered", registeredTags)
     }
 
     private fun item(id: String): TagKey<Item> {

@@ -36,7 +36,7 @@ object AMCommands {
     }
 
     private fun commandRegister(sourceStack: CommandDispatcher<CommandSourceStack>) {
-        val names = AMCommon.instance.commandsIdentifier.get()
+        val names = AMCommon.instance!!.commandsIdentifier.get()
         for (name in names) {
             sourceStack.register(
                 Commands.literal(name)
@@ -82,7 +82,7 @@ object AMCommands {
     private fun particle(sourceStack: CommandSourceStack): Int {
         return if (this.var0) {
             this.var0 = false
-            if (sourceStack.level.isClientSide) RenderSystem.setShader { ModShaders.instance.improvedParticle }
+            if (sourceStack.level.isClientSide) RenderSystem.setShader { ModShaders.instance!!.improvedParticle }
             1
         } else {
             this.var0 = true

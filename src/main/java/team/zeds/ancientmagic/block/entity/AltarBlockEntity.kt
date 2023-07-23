@@ -1,20 +1,20 @@
-package team.zeds.ancientmagic.api.block
+package team.zeds.ancientmagic.block.entity
 
 import net.minecraft.core.BlockPos
-import net.minecraft.tags.BlockTags
-import net.minecraft.tags.TagKey
 import net.minecraft.world.level.Level
-import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraftforge.registries.ForgeRegistries
+import team.zeds.ancientmagic.api.block.InventoriedBlockEntity
+import team.zeds.ancientmagic.api.handler.HandleStack
 import team.zeds.ancientmagic.api.lazy.StructurePosition
-import team.zeds.ancientmagic.api.mod.AMConstant
 import team.zeds.ancientmagic.init.registries.AMRegister
 import team.zeds.ancientmagic.init.registries.AMTags
 
-class AltarBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(null, pos, state) {
+class AltarBlockEntity(pos: BlockPos, state: BlockState) : InventoriedBlockEntity(AMRegister.ALTAR_BLOCK_ENTITY.get(), pos, state) {
+    @JvmField val inv: HandleStack
+
     //Structure validating
     var structureIsValid = false
     //Block validating
@@ -23,6 +23,10 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(null, pos
     var bricksWallIsValid = false
     var cutWoodIsValid = false
     var fireStoneIsValid = false
+
+    init {
+        inv = this.createHandler(this::changeX)
+    }
 
     private val pedestalPositions = StructurePosition.builder()
         .pos(2, 0, -2).pos(-2, 0, 2).pos(-2, 0, -2).pos(2, 0, 2)
@@ -96,5 +100,13 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : BlockEntity(null, pos
             blockEntity.structureIsValid = blockEntity.pedestalIsValid && blockEntity.bricksIsValid
                     && blockEntity.bricksWallIsValid && blockEntity.cutWoodIsValid && blockEntity.fireStoneIsValid
         }
+    }
+
+    override fun getInv(): HandleStack = this.inv
+
+    fun createHandler(contentChanged: Runnable): HandleStack = HandleStack.create(2, contentChanged) { builder ->
+        builder.setDefaultSlotLimit(1)
+        builder.setCanExtract { builder.getStackInSlot(1).isEmpty }
+        builder.setOutputSlots(1)
     }
 }
