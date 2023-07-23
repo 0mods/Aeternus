@@ -9,7 +9,7 @@ import net.minecraft.world.level.Level
 import team.zeds.ancientmagic.api.item.MagicItem
 import team.zeds.ancientmagic.client.screen.MagicBookMainScreen
 
-class MagicBook : MagicItem(callBuilder().stacks(1).setMaxMana(0)) {
+class MagicBook : MagicItem(of().stacks(1).setMaxMana(0)) {
     override fun useMT(level: Level, player: Player, hand: InteractionHand): InteractionResultHolder<ItemStack> {
         return if (level.isClientSide) {
             Minecraft.getInstance().setScreen(MagicBookMainScreen())

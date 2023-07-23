@@ -14,7 +14,7 @@ import team.zeds.ancientmagic.compact.CompactInitializer
 import team.zeds.ancientmagic.compact.curios.AMCurio
 
 class RetraceStone : MagicItem(
-    callBuilder()
+    of()
         .setMagicType(MagicTypes.PRE_HIGH_MAGIC)
         .fireProof()
         .setRarity(Rarity.RARE)

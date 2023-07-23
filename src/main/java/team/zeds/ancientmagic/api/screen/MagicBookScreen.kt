@@ -7,7 +7,7 @@ import net.minecraft.client.gui.screens.inventory.InventoryScreen
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import team.zeds.ancientmagic.api.magic.MagicTypes
-import team.zeds.ancientmagic.api.mod.Constant
+import team.zeds.ancientmagic.api.mod.AMConstant
 import team.zeds.ancientmagic.client.packet.ClientPlayerMagicData
 
 abstract class MagicBookScreen(component: Component): Screen(component), IMagicBookScreen {
@@ -48,7 +48,7 @@ abstract class MagicBookScreen(component: Component): Screen(component), IMagicB
                 (yPos - yMouse).toFloat(), player
             )
             guiGraphics.drawString(font, Component.translatable(
-                "magic.${Constant.KEY}.level", MagicTypes.getByNumeration(ClientPlayerMagicData.getPlayerData()).getTranslation()
+                "magic.${AMConstant.KEY}.level", MagicTypes.getByNumeration(ClientPlayerMagicData.getPlayerData()).getTranslation()
             ),
                 w + 56, h + 122, ChatFormatting.WHITE.id)
             render(guiGraphics, xMouse, yMouse, partialTick, w, h)
@@ -59,7 +59,7 @@ abstract class MagicBookScreen(component: Component): Screen(component), IMagicB
     fun render(guiGraphics: GuiGraphics, xMouse: Int, yMouse: Int, partialTick: Float, width: Int, height: Int) {}
 
     fun textureGen(name: String): ResourceLocation {
-        return ResourceLocation(Constant.KEY, "textures/screen/magicbook/${name}.png")
+        return ResourceLocation(AMConstant.KEY, "textures/screen/magicbook/${name}.png")
     }
 
     override fun isPauseScreen(): Boolean = false

@@ -3,12 +3,12 @@ package team.zeds.ancientmagic.init.registries;
 import kotlin.jvm.functions.Function6;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.Container;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import team.zeds.ancientmagic.api.item.MagicBlockItem;
 import team.zeds.ancientmagic.api.magic.MagicTypes;
-import team.zeds.ancientmagic.api.mod.Constant;
+import team.zeds.ancientmagic.api.mod.AMConstant;
 import team.zeds.ancientmagic.api.item.MagicItem;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.Registry;
@@ -31,12 +31,14 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.RegistryObject;
+import team.zeds.ancientmagic.block.AltarBlock;
+import team.zeds.ancientmagic.block.AltarPedestalBlock;
 import team.zeds.ancientmagic.compact.CompactInitializer;
 import team.zeds.ancientmagic.init.AMManage;
 import team.zeds.ancientmagic.item.RetraceStone;
 import team.zeds.ancientmagic.item.*;
-import team.zeds.ancientmagic.recipes.AltarRecipe;
 import team.zeds.ancientmagic.api.recipe.*;
+import team.zeds.ancientmagic.recipes.AltarRecipe;
 import team.zeds.ancientmagic.recipes.ManaGenerationRecipe;
 
 import java.util.function.Function;
@@ -62,13 +64,17 @@ public final class AMRegister {
                     .forEach(o::accept))
     );
 
-    public static final RegistryObject<MagicItem> MAGIC_DUST = i("magic_dust", ()-> new MagicItem(MagicItem.callBuilder().setMagicType(MagicTypes.LOW_MAGIC)));
+    public static final RegistryObject<MagicItem> MAGIC_DUST = i("magic_dust", ()-> new MagicItem(MagicItem.of().setMagicType(MagicTypes.LOW_MAGIC)));
     public static final RegistryObject<MagicItem> RETRACE_CRYSTAL = boolReg("teleportation_crystal", RetraceStone::new, CompactInitializer.getWaystonesLoaded() && (FMLEnvironment.production && AMManage.COMMON_CONFIG.getCompactWaystones().get()), "retrace_stone", RetraceStone::new);
-    public static final RegistryObject<MagicItem> START_MANA_STORAGE = i("start_mana_storage", ()-> new ManaStorage(MagicItem.callBuilder(), 1000, false));
+    public static final RegistryObject<MagicItem> START_MANA_STORAGE = i("start_mana_storage", ()-> new ManaStorage(MagicItem.of(), 1000, false));
     public static final RegistryObject<MagicItem> CREATIVE_BUF_ITEM = boolReg("creative_buf", CreativeBufItem::new, !FMLEnvironment.production);
-    public static final RegistryObject<Item> MAGIC_BOOK = i("magic_book", MagicBook::new);
-    public static final RegistryObject<AMRecipeSerializer<Container, AltarRecipe>> ALTAR_RECIPE_SERIAL = r("altar_recipe", AltarRecipe::new);
-    public static final RegistryObject<AMChancedRecipeSerializer<Container, ManaGenerationRecipe>> MANA_RECIPE_SERIAL = r("mana_gen",ManaGenerationRecipe::new);
+    public static final RegistryObject<MagicItem> MAGIC_BOOK = i("magic_book", MagicBook::new);
+
+    public static final RegistryObject<Block> ALTAR_BLOCK = b("altar", AltarBlock::new, b -> new MagicBlockItem(b, MagicBlockItem.of()));
+    public static final RegistryObject<Block> ALTAR_PEDESTAL_BLOCK = b("altar_pedestal", AltarPedestalBlock::new, b -> new MagicBlockItem(b, MagicBlockItem.of()));
+
+    public static final RegistryObject<AMRecipeSerializer<AltarRecipe>> ALTAR_RECIPE_SERIAL = r("altar_recipe", AltarRecipe::new);
+    public static final RegistryObject<AMChancedRecipeSerializer<ManaGenerationRecipe>> MANA_RECIPE_SERIAL = r("mana_gen",ManaGenerationRecipe::new);
 
     static <T extends Item> RegistryObject<T> boolReg(String id, Supplier<T> sup, boolean boolIfReg) {
         return boolIfReg ? i(id, sup) : null;
@@ -91,25 +97,25 @@ public final class AMRegister {
 
     static RegistryObject<CreativeModeTab> regTab(String name, CreativeModeTab.Builder builder) {
         return TABS.register(name, builder.title(Component.translatable(String.format("itemTab.%s.%s",
-                Constant.KEY, name)))::build);
+                AMConstant.KEY, name)))::build);
     }
 
-    static <Y extends Container, T extends AMAbstractChancedRecipe<Y>> RegistryObject<AMChancedRecipeSerializer<Y, T>>
+    static <T extends AMAbstractChancedRecipe> RegistryObject<AMChancedRecipeSerializer<T>>
                 r(String id, Function6<ResourceLocation, Ingredient, ItemStack, Integer, Float, Integer, T> factory) {
         return RECIPE.register(id, ()-> new AMChancedRecipeSerializer<>(factory));
     }
 
-    static <Y extends Container, T extends AMAbstractRecipe<Y>> RegistryObject<AMRecipeSerializer<Y, T>> r(String id, AMRecipeSerializer.
-            SerializerFactory<Y, T> factory) {
+    static <T extends AMAbstractRecipe> RegistryObject<AMRecipeSerializer<T>> r(String id, AMRecipeSerializer.
+            SerializerFactory<T> factory) {
         return RECIPE.register(id, ()-> new AMRecipeSerializer<>(factory));
     }
 
     static <Y, T extends IForgeRegistry<Y>> DeferredRegister<Y> deferredCreator(T forgeRegister) {
-        return DeferredRegister.create(forgeRegister, Constant.KEY);
+        return DeferredRegister.create(forgeRegister, AMConstant.KEY);
     }
 
     static <Y, T extends ResourceKey<? extends Registry<Y>>> DeferredRegister<Y> deferredCreator(T resourceKey) {
-        return DeferredRegister.create(resourceKey, Constant.KEY);
+        return DeferredRegister.create(resourceKey, AMConstant.KEY);
     }
 
     public static void init() {

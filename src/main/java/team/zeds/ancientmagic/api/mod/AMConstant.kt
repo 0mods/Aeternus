@@ -5,7 +5,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import team.zeds.ancientmagic.capability.BlockManaCapability
 
-object Constant {
+object AMConstant {
     @JvmField internal val LOGGER: Logger = LoggerFactory.getLogger("AncientMagic")
     @JvmField internal val BLOCK_MANA_CAPABILITY = BlockManaCapability.Provider()
     internal const val KEY: String = "ancientmagic"

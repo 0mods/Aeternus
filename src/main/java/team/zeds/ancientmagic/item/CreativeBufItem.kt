@@ -1,6 +1,5 @@
 package team.zeds.ancientmagic.item
 
-import net.minecraft.commands.Commands
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResultHolder
 import net.minecraft.world.entity.player.Player
@@ -13,11 +12,8 @@ import team.zeds.ancientmagic.init.registries.AMCapability
 import team.zeds.ancientmagic.init.registries.AMNetwork
 import team.zeds.ancientmagic.network.c2s.PlayerMagicDataC2SPacket
 
-class CreativeBufItem: MagicItem(callBuilder().setMagicType(MagicTypes.LOW_MAGIC).setMagicSubtype(MagicTypes.ADMIN)) {
+class CreativeBufItem: MagicItem(of().setMagicType(MagicTypes.LOW_MAGIC).setMagicSubtype(MagicTypes.ADMIN)) {
     override fun useMT(level: Level, player: Player, hand: InteractionHand): InteractionResultHolder<ItemStack>? {
-        if (!(player.hasPermissions(Commands.LEVEL_ADMINS) || player.isCreative))
-            return InteractionResultHolder.fail(player.getItemInHand(hand))
-        else {
             player.getCapability(AMCapability.PLAYER_MAGIC_HANDLER).ifPresent { cap ->
                 val currentLevel = cap.magicLevel
                 if (!player.isShiftKeyDown) {
@@ -61,8 +57,6 @@ class CreativeBufItem: MagicItem(callBuilder().setMagicType(MagicTypes.LOW_MAGIC
                     }
                 }
             }
-        }
-
         return InteractionResultHolder.pass(player.getItemInHand(hand))
     }
 }

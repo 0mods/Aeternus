@@ -1,6 +1,6 @@
 package team.zeds.ancientmagic.compact;
 
-import team.zeds.ancientmagic.api.mod.Constant;
+import team.zeds.ancientmagic.api.mod.AMConstant;
 import team.zeds.ancientmagic.compact.curios.AMCurio;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModList;
@@ -11,11 +11,11 @@ public class CompactInitializer {
     }
 
     public static boolean getWaystonesLoaded() {
-        return CompactInitializer.getModLoaded(Constant.WAYSTONES_KEY);
+        return CompactInitializer.getModLoaded(AMConstant.WAYSTONES_KEY);
     }
 
     public static boolean getCuriosLoaded() {
-        return CompactInitializer.getModLoaded(Constant.CURIO_KEY);
+        return CompactInitializer.getModLoaded(AMConstant.CURIO_KEY);
     }
 
     public static boolean getModLoaded(String modName) {

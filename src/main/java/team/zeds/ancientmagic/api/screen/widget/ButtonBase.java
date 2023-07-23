@@ -49,57 +49,23 @@ public class ButtonBase extends Button {
     }
 
     @Override
-    public void render(GuiGraphics graphics, int x, int y, float partialTick) {
+    public void renderWidget(GuiGraphics graphics, int x, int y, float partialTick) {
         Minecraft minecraft = Minecraft.getInstance();
         Font font = minecraft.font;
-        PoseStack stack = graphics.pose();
 
         if (this.text != null)
             graphics.drawString(font, this.text, this.x, this.y + height / 4, 0xFFFFFF);
 
         if (isStackedTexture) {
             if (!this.stack.isEmpty()) {
-                stack.pushPose();
-                stack.translate(this.x, this.y, 0.0);
                 Lighting.setupFor3DItems();
-                MultiBufferSource.BufferSource vertexConsumers = graphics.bufferSource();
 
-                minecraft.getItemRenderer().renderStatic(
-                        this.stack,
-                        ItemDisplayContext.GUI,
-                        0,
-                        0,
-                        stack,
-                        vertexConsumers,
-                        minecraft.level,
-                        0
-                );
-
-                vertexConsumers.endBatch();
-                stack.popPose();
+                graphics.renderItem(this.stack, this.x + 2, this.y + 2);
+                graphics.renderItemDecorations(font, this.stack, this.x + 2, this.y + 2);
             }
         } else {
             graphics.blit(texture, this.x, this.y, 0, isCursorAtButton(x, y) ? this.height : 0, this.width, this.height, this.width, this.height * 2);
         }
-
-//        if (isBlockTexture) {
-//            ResourceLocation loc = InventoryMenu.BLOCK_ATLAS;
-//            ResourceLocation blockLoc = new ResourceLocation(this.texture.getNamespace(),
-//                    String.format("block/%s", this.texture.getPath()));
-//            TextureAtlasSprite texture = minecraft.getTextureAtlas(loc).apply(blockLoc);
-//            graphics.blit(this.x, this.y, 0, this.width, this.height, texture);
-//        }
-//
-//        if (isItemTexture) {
-//            Item item = ForgeRegistries.ITEMS.getValue(this.texture);
-//            TextureAtlasSprite texture = minecraft.getItemRenderer().getItemModelShaper().getItemModel(item).getParticleIcon();
-//            graphics.blit(this.x, this.y, 0, this.width, this.height, texture);
-//        }
-//
-//        if (!isItemTexture && !isBlockTexture) {
-//            graphics.blit(texture, this.x, this.y, 0, isCursorAtButton(x, y) ? this.height : 0, this.width, this.height, this.width, this.height * 2);
-//        }
-
     }
 
     public boolean isCursorAtButton(int cursorX, int cursorY) {

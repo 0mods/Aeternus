@@ -16,7 +16,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import team.zeds.ancientmagic.api.cap.ItemStackMagic;
 import team.zeds.ancientmagic.api.magic.MagicType;
-import team.zeds.ancientmagic.api.recipe.AMChancedRecipeSerializer;
 
 public class MagicBlockItem extends BlockItem implements ItemStackMagic {
     private boolean canUseItem = true;
@@ -25,46 +24,6 @@ public class MagicBlockItem extends BlockItem implements ItemStackMagic {
     public MagicBlockItem(Block block, MagicItemBuilder builder) {
         super(block, builder.getProperties());
         this.builder = builder;
-    }
-
-    @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
-        var stack = player.getItemInHand(hand);
-        if (!stack.is(this)) return InteractionResultHolder.fail(stack);
-        if (this.getItemUse()) {
-            if (((this.getStorageMana(stack) != 0) && this.getStorageMana(stack) >= builder.getSubMana())
-                    && this.builder.getMaxMana() != 0) {
-                subMana(this.builder.getMaxMana(), stack);
-                return this.useMT(level, player, hand);
-            } else if ((this.getBuilder().getMaxMana() != 0 && this.getStorageMana(stack) == 0) || this.getStorageMana(stack) < this.getBuilder().getSubMana()) {
-                player.displayClientMessage(MagicType.getMagicMessage("notMana", getName(stack)), true);
-                return InteractionResultHolder.fail(stack);
-            } else if (this.getBuilder().getMaxMana() == 0) {
-                return this.useMT(level, player, hand);
-            }
-        }
-
-        return InteractionResultHolder.pass(stack);
-    }
-
-    @Override
-    public InteractionResult useOn(UseOnContext ctx) {
-        var stack = ctx.getItemInHand();
-        if (!stack.is(this)) return InteractionResult.FAIL;
-        if (this.getItemUse()) {
-            if (((this.getStorageMana(stack) != 0) && this.getStorageMana(stack) >= builder.getSubMana())
-                    && this.builder.getMaxMana() != 0) {
-                subMana(this.builder.getMaxMana(), stack);
-                return this.useOnMT(ctx);
-            } else if ((this.getBuilder().getMaxMana() != 0 && this.getStorageMana(stack) == 0) || this.getStorageMana(stack) < this.getBuilder().getSubMana()) {
-                ctx.getPlayer().displayClientMessage(MagicType.getMagicMessage("notMana", getName(stack)), true);
-                return InteractionResult.FAIL;
-            } else if (this.getBuilder().getMaxMana() == 0) {
-                return this.useOnMT(ctx);
-            }
-        }
-
-        return InteractionResult.CONSUME;
     }
 
     @NotNull
@@ -139,7 +98,7 @@ public class MagicBlockItem extends BlockItem implements ItemStackMagic {
                 && ctx.getLevel().isUnobstructed(state, ctx.getClickedPos(), context);
     }
 
-    public static MagicItemBuilder callBuilder() {
+    public static MagicItemBuilder of() {
         return MagicItemBuilder.get();
     }
 }

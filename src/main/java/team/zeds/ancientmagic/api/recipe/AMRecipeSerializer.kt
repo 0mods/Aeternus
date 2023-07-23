@@ -13,7 +13,7 @@ import net.minecraft.world.item.crafting.ShapedRecipe
 import net.minecraftforge.registries.ForgeRegistries
 import team.zeds.ancientmagic.api.recipe.ingredient.IngredientHelper
 
-class AMRecipeSerializer<Y: Container, T : AMAbstractRecipe<Y>>(val serial: SerializerFactory<Y, T>): RecipeSerializer<T> {
+class AMRecipeSerializer<T : AMAbstractRecipe>(val serial: SerializerFactory<T>): RecipeSerializer<T> {
     override fun fromJson(resourceLocation: ResourceLocation, jsonObject: JsonObject): T {
         val jsonIngredient = if (GsonHelper.isArrayNode(jsonObject, "ingredients")) GsonHelper.getAsJsonArray(
             jsonObject,
@@ -53,12 +53,12 @@ class AMRecipeSerializer<Y: Container, T : AMAbstractRecipe<Y>>(val serial: Seri
         byteBuf.writeInt(value.time)
     }
 
-    fun getSerializer(): SerializerFactory<Y, T> {
+    fun getSerializer(): SerializerFactory<T> {
         return this.serial
     }
 
     @FunctionalInterface
-    interface SerializerFactory<Y: Container, T : AMAbstractRecipe<Y>> {
+    interface SerializerFactory<T : AMAbstractRecipe> {
         fun create(id: ResourceLocation, ingredient: Ingredient, result: ItemStack, xp: Float?, time: Int?): T
     }
 }

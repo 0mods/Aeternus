@@ -13,7 +13,7 @@ import net.minecraft.world.item.crafting.ShapedRecipe
 import net.minecraftforge.registries.ForgeRegistries
 import team.zeds.ancientmagic.api.recipe.ingredient.IngredientHelper
 
-class AMChancedRecipeSerializer<Y: Container, T : AMAbstractChancedRecipe<Y>>(val serial: (ResourceLocation, Ingredient, ItemStack, Int, Float?, Int?) -> T) : RecipeSerializer<T> {
+class AMChancedRecipeSerializer<T : AMAbstractChancedRecipe>(val serial: (ResourceLocation, Ingredient, ItemStack, Int, Float?, Int?) -> T) : RecipeSerializer<T> {
     override fun fromJson(resourceLocation: ResourceLocation, jsonObject: JsonObject): T {
         val jsonIngredient = if (GsonHelper.isArrayNode(jsonObject, "ingredients")) GsonHelper.getAsJsonArray(
             jsonObject,

@@ -3,7 +3,7 @@ package team.zeds.ancientmagic.capability;
 import org.jetbrains.annotations.NotNull;
 import team.zeds.ancientmagic.api.magic.MagicType;
 import team.zeds.ancientmagic.api.magic.MagicTypes;
-import team.zeds.ancientmagic.api.mod.Constant;
+import team.zeds.ancientmagic.api.mod.AMConstant;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.common.capabilities.*;
@@ -41,12 +41,12 @@ public class PlayerMagicCapability {
 
     public void save(@NotNull CompoundTag tag) {
         tag.putInt("MagicPlayerLevel", this.level);
-        Constant.LOGGER.debug("{} has been saved", tag);
+        AMConstant.LOGGER.debug("{} has been saved", tag);
     }
 
     public void load(@NotNull CompoundTag tag) {
         this.level = tag.getInt("MagicPlayerLevel");
-        Constant.LOGGER.debug("{} has been loaded", tag);
+        AMConstant.LOGGER.debug("{} has been loaded", tag);
     }
 
     public static class Provider implements ICapabilityProvider, INBTSerializable<CompoundTag> {

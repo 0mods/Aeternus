@@ -4,7 +4,7 @@ import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
 import org.jetbrains.annotations.NotNull
-import team.zeds.ancientmagic.api.mod.Constant
+import team.zeds.ancientmagic.api.mod.AMConstant
 
 interface MagicType {
     @NotNull
@@ -25,7 +25,7 @@ interface MagicType {
     companion object {
         @JvmStatic
         fun getMagicMessage(message: String, vararg objects: Any?): MutableComponent {
-            return Component.translatable(String.format("magic.%s.%s", Constant.KEY, message), *objects)
+            return Component.translatable(String.format("magic.%s.%s", AMConstant.KEY, message), *objects)
         }
 
         @JvmStatic

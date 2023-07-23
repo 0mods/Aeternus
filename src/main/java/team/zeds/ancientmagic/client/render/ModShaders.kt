@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat
 import com.mojang.blaze3d.vertex.VertexFormat
 import net.minecraft.client.renderer.ShaderInstance
 import net.minecraft.resources.ResourceLocation
-import team.zeds.ancientmagic.api.mod.Constant.reloc
+import team.zeds.ancientmagic.api.mod.AMConstant.reloc
 import java.util.function.Consumer
 
 class ModShaders {

@@ -12,19 +12,19 @@ import net.minecraft.world.level.Level
 import org.jetbrains.annotations.Nullable
 import team.zeds.ancientmagic.api.recipe.ingredient.IngredientHelper
 
-abstract class AMAbstractRecipe<T: Container>(
+abstract class AMAbstractRecipe(
     @JvmField val recipeType: RecipeType<*>,
     @JvmField val id: ResourceLocation,
     @JvmField val ingredient: Ingredient,
     @JvmField val result: ItemStack,
     @JvmField @Nullable val experience: Float,
     @JvmField @Nullable val time: Int
-    ): Recipe<T> {
-    override fun matches(container: T, level: Level): Boolean {
+    ): Recipe<Container> {
+    override fun matches(container: Container, level: Level): Boolean {
         return IngredientHelper.test(this.ingredient, container)
     }
 
-    override fun assemble(container: T, access: RegistryAccess): ItemStack = this.result.copy()
+    override fun assemble(container: Container, access: RegistryAccess): ItemStack = this.result.copy()
 
     override fun canCraftInDimensions(p_43999_: Int, p_44000_: Int): Boolean = true
 

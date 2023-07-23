@@ -4,7 +4,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.InteractionHand;
 import net.minecraftforge.network.NetworkEvent;
 import team.zeds.ancientmagic.api.item.MagicItem;
-import team.zeds.ancientmagic.api.mod.Constant;
+import team.zeds.ancientmagic.api.mod.AMConstant;
 import team.zeds.ancientmagic.init.registries.AMCapability;
 
 import java.util.function.Supplier;
@@ -30,7 +30,7 @@ public class PlayerMagicDataC2SPacket {
                 serverPlayer.getCapability(AMCapability.PLAYER_MAGIC_HANDLER).ifPresent(cap -> {
                     if (cap.getMagicLevel() >= item.getMagicType().asLevel()) item.setItemUse(true);
                     else {
-                        Constant.LOGGER.debug("Player haven't required level for use item ({})", item);
+                        AMConstant.LOGGER.debug("Player haven't required level for use item ({})", item);
                         item.setItemUse(false);
                     }
                 });

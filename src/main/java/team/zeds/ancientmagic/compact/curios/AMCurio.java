@@ -1,6 +1,6 @@
 package team.zeds.ancientmagic.compact.curios;
 
-import team.zeds.ancientmagic.api.mod.Constant;
+import team.zeds.ancientmagic.api.mod.AMConstant;
 import team.zeds.ancientmagic.compact.curios.events.RetraceStoneEvent;
 import net.minecraft.core.Direction;
 import net.minecraftforge.common.capabilities.Capability;
@@ -20,7 +20,7 @@ public class AMCurio {
     public static final ICapabilityProvider RetraceStoneEventProvider = veryLazyCapProvider(RetraceStoneEvent::new);
 
     public static void createCurioSlots(final InterModEnqueueEvent event) {
-        InterModComms.sendTo(Constant.CURIO_KEY, SlotTypeMessage.REGISTER_TYPE, ()-> SlotTypePreset.BELT.getMessageBuilder().build());
+        InterModComms.sendTo(AMConstant.CURIO_KEY, SlotTypeMessage.REGISTER_TYPE, ()-> SlotTypePreset.BELT.getMessageBuilder().build());
     }
 
     private static ICapabilityProvider curioCapabilityProvider(LazyOptional<ICurio> curioLazy) {

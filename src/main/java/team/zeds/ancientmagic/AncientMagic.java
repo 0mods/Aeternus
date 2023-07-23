@@ -1,13 +1,13 @@
 package team.zeds.ancientmagic;
 
 import net.minecraftforge.fml.common.Mod;
-import team.zeds.ancientmagic.api.mod.Constant;
+import team.zeds.ancientmagic.api.mod.AMConstant;
 import team.zeds.ancientmagic.init.AMManage;
 
-@Mod(Constant.KEY)
+@Mod(AMConstant.KEY)
 public class AncientMagic {
     public AncientMagic() {
-        Constant.LOGGER.debug("Setup a Mod!");
+        AMConstant.LOGGER.debug("Setup a Mod!");
         AMManage.init();
     }
 }

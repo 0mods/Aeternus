@@ -1,6 +1,6 @@
 package team.zeds.ancientmagic.mixin;
 
-import team.zeds.ancientmagic.api.mod.Constant;
+import team.zeds.ancientmagic.api.mod.AMConstant;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
@@ -14,7 +14,7 @@ public class MixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public void onLoad(String mixinPackage) {
-        Constant.LOGGER.debug("Loading mixins {}", mixinPackage);
+        AMConstant.LOGGER.debug("Loading mixins {}", mixinPackage);
     }
 
     @Override

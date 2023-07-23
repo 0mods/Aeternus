@@ -6,7 +6,7 @@ import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
-import team.zeds.ancientmagic.api.mod.Constant;
+import team.zeds.ancientmagic.api.mod.AMConstant;
 import team.zeds.ancientmagic.network.c2s.PlayerMagicDataC2SPacket;
 import team.zeds.ancientmagic.network.s2c.PlayerMagicDataSyncS2CPacket;
 
@@ -23,7 +23,7 @@ public class AMNetwork {
 
     public static synchronized void init() {
         SimpleChannel network = NetworkRegistry.newSimpleChannel(
-                new ResourceLocation(Constant.KEY, "main"),
+                new ResourceLocation(AMConstant.KEY, "main"),
                 () -> NTW_VER,
                 NTW_VER::equals,
                 NTW_VER::equals

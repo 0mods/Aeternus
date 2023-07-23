@@ -5,18 +5,12 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.loading.FMLEnvironment;
-import team.zeds.ancientmagic.api.mod.Constant;
+import team.zeds.ancientmagic.api.mod.AMConstant;
 import team.zeds.ancientmagic.event.*;
 import team.zeds.ancientmagic.init.config.*;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLDedicatedServerSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import team.zeds.ancientmagic.compact.CompactInitializer;
 import team.zeds.ancientmagic.init.registries.AMCommands;
@@ -42,7 +36,7 @@ public class AMManage {
     }
 
     private static void forgeEventsInitialize(IEventBus bus) {
-        Constant.LOGGER.debug("Initializing forge events");
+        AMConstant.LOGGER.debug("Initializing forge events");
         bus.addListener(AMManage::modCommon);
         bus.addListener(AMCommands::registerCommands);
         bus.register(AMForgeEvents.class);
@@ -56,7 +50,7 @@ public class AMManage {
     }
 
     private static void modEventsInitialize(IEventBus bus) {
-        Constant.LOGGER.debug("Initializing mod events");
+        AMConstant.LOGGER.debug("Initializing mod events");
         CompactInitializer.init(bus);
         bus.addListener(AMManage::modCommon);
         bus.register(AMModEvents.class);

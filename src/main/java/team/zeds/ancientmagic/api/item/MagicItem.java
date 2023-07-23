@@ -144,7 +144,7 @@ public class MagicItem extends Item implements ItemStackMagic {
         return builder;
     }
 
-    public static MagicItemBuilder callBuilder() {
+    public static MagicItemBuilder of() {
         return MagicItemBuilder.get();
     }
 

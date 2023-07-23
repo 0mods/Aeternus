@@ -11,12 +11,12 @@ buildscript {
 }
 
 plugins {
+    scala
     java
     eclipse
     idea
     `maven-publish`
-    scala
-    id("net.minecraftforge.gradle") version "6.+"
+    id("net.neoforged.gradle") version "6.+"
     kotlin("jvm") version "1.9.0-Beta"
 }
 
@@ -148,7 +148,7 @@ repositories {
 }
 
 dependencies {
-    minecraft("net.minecraftforge:forge:$mc_version-$forge_version")
+    minecraft("net.neoforged:forge:$mc_version-$forge_version")
 
     implementation(fg.deobf("net.blay09.mods:waystones-common:14.0.0+1.20"))
 
@@ -165,7 +165,8 @@ dependencies {
     shadow("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:${coroutines_version}")
     shadow("org.jetbrains.kotlinx:kotlinx-serialization-core:${serialization_version}")
     shadow("org.jetbrains.kotlinx:kotlinx-serialization-json:${serialization_version}")
-    shadow("org.scala-lang:scala-library:2.11.12")
+    shadow("org.scala-lang:scala-library:2.13.11")
+    shadow("org.scala-lang:scala-reflect:2.13.11")
 
     implementation(kotlin("stdlib"))
 

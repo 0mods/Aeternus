@@ -4,7 +4,7 @@ import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.tags.TagKey
 import net.minecraft.world.item.Item
-import team.zeds.ancientmagic.api.mod.Constant
+import team.zeds.ancientmagic.api.mod.AMConstant
 
 object AMTags {
     @JvmField var UNCONSUMABLE_TELEPORTATION_CATALYST: TagKey<Item>? = null
@@ -18,9 +18,9 @@ object AMTags {
 
     @JvmStatic
     private fun createTag(tagName: String): TagKey<Item> {
-        val tag: TagKey<Item> = TagKey.create(Registries.ITEM, ResourceLocation(Constant.KEY, tagName))
+        val tag: TagKey<Item> = TagKey.create(Registries.ITEM, ResourceLocation(AMConstant.KEY, tagName))
 
-        Constant.LOGGER.debug("{} has been registered or initialized!", tag.location)
+        AMConstant.LOGGER.debug("{} has been registered or initialized!", tag.location)
         return tag
     }
 }

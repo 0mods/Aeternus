@@ -8,7 +8,7 @@ import net.minecraft.world.item.crafting.Ingredient
 import net.minecraft.world.item.crafting.RecipeType
 import kotlin.random.Random
 
-abstract class AMAbstractChancedRecipe<T: Container>(
+abstract class AMAbstractChancedRecipe(
     recipeTypeChanced: RecipeType<*>,
     idChanced: ResourceLocation,
     ingredientChanced: Ingredient,
@@ -17,7 +17,7 @@ abstract class AMAbstractChancedRecipe<T: Container>(
     experienceChanced: Float,
     timeChanced: Int
 
-): AMAbstractRecipe<T>(
+): AMAbstractRecipe(
     recipeTypeChanced,
     idChanced,
     ingredientChanced,
@@ -25,10 +25,19 @@ abstract class AMAbstractChancedRecipe<T: Container>(
     experienceChanced,
     timeChanced
 ) {
+    val numberArray: MutableList<Double> = mutableListOf(0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0)
+
     override fun getResultItem(access: RegistryAccess): ItemStack {
         val chance: Double = chance / 100.0
-        val randomized = Random.nextDouble(0.0, 1.0)
+        val randomized = Random.nextInt(numberArray.size)
         return if (randomized >= chance) this.result.copy() else ItemStack.EMPTY
+    }
+
+    override fun assemble(container: Container, access: RegistryAccess): ItemStack {
+        val chance: Double = chance / 100.0
+        val random = Random.nextInt(numberArray.size)
+        val objectFromList = numberArray[random]
+        return if (objectFromList >= chance) this.result.copy() else ItemStack.EMPTY.copy()
     }
 
     override fun toString(): String = "AMRecipe{" +

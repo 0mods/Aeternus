@@ -6,7 +6,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.network.protocol.game.ClientboundBlockUpdatePacket;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -15,7 +14,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import team.zeds.ancientmagic.api.mod.Constant;
+import team.zeds.ancientmagic.api.mod.AMConstant;
 import team.zeds.ancientmagic.capability.BlockManaCapability;
 import team.zeds.ancientmagic.init.registries.AMCapability;
 
@@ -29,7 +28,7 @@ public abstract class MagicBlockEntity extends BlockEntity implements MenuProvid
     @Override
     public void onLoad() {
         super.onLoad();
-        MANA_CAPABILITY = LazyOptional.of(Constant.BLOCK_MANA_CAPABILITY::createCap);
+        MANA_CAPABILITY = LazyOptional.of(AMConstant.BLOCK_MANA_CAPABILITY::createCap);
     }
 
     @Override
@@ -40,7 +39,7 @@ public abstract class MagicBlockEntity extends BlockEntity implements MenuProvid
 
     @Override
     protected void saveAdditional(CompoundTag p_187471_) {
-        p_187471_.putInt("am_magic_block.mana_storage", Constant.BLOCK_MANA_CAPABILITY.createCap().getManaStorage());
+        p_187471_.putInt("am_magic_block.mana_storage", AMConstant.BLOCK_MANA_CAPABILITY.createCap().getManaStorage());
         super.saveAdditional(p_187471_);
     }
 
