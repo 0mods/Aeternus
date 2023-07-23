@@ -8,37 +8,40 @@ import net.minecraft.world.phys.shapes.VoxelShape
  * @author BlakeBr0
  */
 class VoxelShapeBuilder {
-    private var `is`: VoxelShape? = null
-    private var last: VoxelShape? = null
+    private var leftShape: VoxelShape? = null
+    private var lastOrShape: VoxelShape? = null
 
     companion object {
-        @JvmStatic
-        fun from(vararg shapes: VoxelShape) : VoxelShapeBuilder {
-            val builder = VoxelShapeBuilder()
-            for (shape in shapes) builder.`is`
+        fun builder(): VoxelShapeBuilder {
+            return VoxelShapeBuilder()
+        }
 
+        fun from(vararg shapes: VoxelShape): VoxelShapeBuilder {
+            val builder = VoxelShapeBuilder()
+            for (shape in shapes) builder.shape(shape)
             return builder
         }
     }
 
     fun shape(shape: VoxelShape): VoxelShapeBuilder {
-        if (this.`is` == null) this.`is` = shape
-        else {
-            val newShape = this.`is`?.let { Shapes.or(it, shape) }!!
-
-            if (this.last != null) this.last = this.last?.let { Shapes.or(it, newShape) }
-            else this.last = newShape
-
-            this.`is` = null
+        if (leftShape == null) {
+            leftShape = shape
+        } else {
+            val newShape = Shapes.or(leftShape!!, shape)
+            lastOrShape = if (lastOrShape != null) {
+                Shapes.or(lastOrShape!!, newShape)
+            } else {
+                newShape
+            }
+            leftShape = null
         }
-
         return this
     }
 
     fun cube(xMin: Double, yMin: Double, zMin: Double, xMax: Double, yMax: Double, zMax: Double): VoxelShapeBuilder {
         val shape = Block.box(xMin, yMin, zMin, xMax, yMax, zMax)
-        return this.shape(shape)
+        return shape(shape)
     }
 
-    fun of(): VoxelShape = this.last!!
+    fun of(): VoxelShape = this.lastOrShape!!
 }

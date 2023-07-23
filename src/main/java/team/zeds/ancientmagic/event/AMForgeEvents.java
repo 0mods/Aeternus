@@ -48,8 +48,8 @@ public final class AMForgeEvents {
 
             if (CompactInitializer.getWaystonesLoaded() && ((AMManage.COMMON_CONFIG.getCompactWaystones().get() != null
                     && AMManage.COMMON_CONFIG.getCompactWaystones().get()) && FMLEnvironment.production) &&
-                    (stack.is(AMTags.CONSUMABLE_TELEPORTATION_CATALYST)
-                            || stack.is(AMTags.UNCONSUMABLE_TELEPORTATION_CATALYST))) {
+                    (stack.is(AMTags.getInstance().getUnconsumeCatalyst())
+                            || stack.is(AMTags.getInstance().getConsumeCatalyst()))) {
                 tooltip.add(Component.translatable(String.format("compact.%s.waystones.tpItem", AMConstant.KEY)));
             }
         }

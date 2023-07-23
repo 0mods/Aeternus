@@ -31,7 +31,7 @@ public class AMManage {
         modEventsInitialize(MOD_BUS);
         forgeEventsInitialize(FORGE_BUS);
 
-        AMTags.init();
+        AMTags.getInstance().init();
         AMRegister.init();
     }
 
@@ -44,9 +44,7 @@ public class AMManage {
         bus.addGenericListener(Player.class, AMGenericEvents::attachCapabilityToPlayer);
         bus.addGenericListener(BlockEntity.class, AMGenericEvents::attachCapabilityToBlockEntity);
 
-        if (FMLEnvironment.dist.isClient()) {
-            bus.addListener(AMForgeEvents::tooltipEvent);
-        }
+        if (FMLEnvironment.dist.isClient()) bus.addListener(AMForgeEvents::tooltipEvent);
     }
 
     private static void modEventsInitialize(IEventBus bus) {
@@ -54,6 +52,7 @@ public class AMManage {
         CompactInitializer.init(bus);
         bus.addListener(AMManage::modCommon);
         bus.register(AMModEvents.class);
+        if (FMLEnvironment.dist.isClient()) bus.addListener(AMModEvents::registerShaders);
     }
 
     private static void modCommon(final FMLCommonSetupEvent e) {

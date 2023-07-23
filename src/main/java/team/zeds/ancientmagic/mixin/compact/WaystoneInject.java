@@ -47,7 +47,7 @@ public abstract class WaystoneInject extends WaystoneBlockBase {
         } else {
             if (((AMManage.COMMON_CONFIG.getCompactWaystones() != null && AMManage.COMMON_CONFIG.getCompactWaystones().get())
                     && FMLEnvironment.production)) {
-                if ((mainHand.is(AMTags.CONSUMABLE_TELEPORTATION_CATALYST))) {
+                if ((mainHand.is(AMTags.getInstance().getConsumeCatalyst()))) {
                     if (AMManage.COMMON_CONFIG.getConsumeDustTeleportUse() != null)
                         mainHand.shrink(AMManage.COMMON_CONFIG.getConsumeDustTeleportUse().get());
                     else mainHand.shrink(2);
@@ -55,14 +55,14 @@ public abstract class WaystoneInject extends WaystoneBlockBase {
                     start(world, pos, player, tileEntity, waystone);
                     cir.setReturnValue(InteractionResult.SUCCESS);
                 } else if (
-                        (mainHand.is(AMTags.UNCONSUMABLE_TELEPORTATION_CATALYST)
+                        (mainHand.is(AMTags.getInstance().getUnconsumeCatalyst())
                                 || CompactInitializer.getCuriosLoaded() && RetraceStoneEvent.isEquip
                                 && RetraceStone.getActive(new ItemStack(AMRegister.RETRACE_CRYSTAL.get())))
                 ) {
                     start(world, pos, player, tileEntity, waystone);
                     cir.setReturnValue(InteractionResult.SUCCESS);
-                } else if ((mainHand.isEmpty() || !(mainHand.is(AMTags.UNCONSUMABLE_TELEPORTATION_CATALYST)
-                        || mainHand.is(AMTags.CONSUMABLE_TELEPORTATION_CATALYST)))
+                } else if ((mainHand.isEmpty() || !(mainHand.is(AMTags.getInstance().getUnconsumeCatalyst())
+                        || mainHand.is(AMTags.getInstance().getConsumeCatalyst())))
                 ) {
                     player.displayClientMessage(Component.translatable("compact.ancientmagic.waystones.no_essence"), true);
                     cir.setReturnValue(InteractionResult.FAIL);
@@ -77,7 +77,7 @@ public abstract class WaystoneInject extends WaystoneBlockBase {
                 var id = ForgeRegistries.ITEMS.getKey(AMRegister.RETRACE_CRYSTAL.get()).getPath();
 
                 if (!id.equals("retrace_stone")) {
-                    if ((mainHand.is(AMTags.CONSUMABLE_TELEPORTATION_CATALYST))) {
+                    if ((mainHand.is(AMTags.getInstance().getConsumeCatalyst()))) {
                         if (AMManage.COMMON_CONFIG.getConsumeDustTeleportUse() != null)
                             mainHand.shrink(AMManage.COMMON_CONFIG.getConsumeDustTeleportUse().get());
                         else mainHand.shrink(2);
@@ -85,14 +85,14 @@ public abstract class WaystoneInject extends WaystoneBlockBase {
                         start(world, pos, player, tileEntity, waystone);
                         cir.setReturnValue(InteractionResult.SUCCESS);
                     } else if (
-                            (mainHand.is(AMTags.UNCONSUMABLE_TELEPORTATION_CATALYST)
+                            (mainHand.is(AMTags.getInstance().getUnconsumeCatalyst())
                                     || CompactInitializer.getCuriosLoaded() && RetraceStoneEvent.isEquip
                                     && RetraceStone.getActive(new ItemStack(AMRegister.RETRACE_CRYSTAL.get())))
                     ) {
                         start(world, pos, player, tileEntity, waystone);
                         cir.setReturnValue(InteractionResult.SUCCESS);
-                    } else if ((mainHand.isEmpty() || !(mainHand.is(AMTags.UNCONSUMABLE_TELEPORTATION_CATALYST)
-                            || mainHand.is(AMTags.CONSUMABLE_TELEPORTATION_CATALYST)))
+                    } else if ((mainHand.isEmpty() || !(mainHand.is(AMTags.getInstance().getUnconsumeCatalyst())
+                            || mainHand.is(AMTags.getInstance().getConsumeCatalyst())))
                     ) {
                         player.displayClientMessage(Component.translatable("compact.ancientmagic.waystones.no_essence"), true);
                         cir.setReturnValue(InteractionResult.FAIL);

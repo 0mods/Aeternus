@@ -1,0 +1,6 @@
+{
+	"parent": "ancientmagic:block/pedestal",
+	"textures": {
+		"layertextured": "block/stone_bricks"
+	}
+}

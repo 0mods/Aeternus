@@ -9,12 +9,17 @@ import java.util.function.Consumer
 
 class ModShaders {
     var improvedParticle: ShaderInstance? = null
+    var hologram: ShaderInstance? = null
 
     fun init(registration: (ResourceLocation, VertexFormat, Consumer<ShaderInstance>) -> Unit = {_, _, _ -> }) {
         registration.invoke(
             reloc("impr_particle"),
             DefaultVertexFormat.POSITION
         ) { inst -> improvedParticle = inst }
+        registration.invoke(
+            reloc("holo"),
+            DefaultVertexFormat.POSITION
+        ) { inst -> hologram = inst }
     }
 
     companion object {

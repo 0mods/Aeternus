@@ -24,6 +24,7 @@ public class MagicBlockItem extends BlockItem implements ItemStackMagic {
     public MagicBlockItem(Block block, MagicItemBuilder builder) {
         super(block, builder.getProperties());
         this.builder = builder;
+
     }
 
     @NotNull

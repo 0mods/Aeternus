@@ -1,26 +1,46 @@
 package team.zeds.ancientmagic.init.registries
 
-import net.minecraft.core.registries.Registries
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.tags.BlockTags
+import net.minecraft.tags.ItemTags
 import net.minecraft.tags.TagKey
 import net.minecraft.world.item.Item
+import net.minecraft.world.level.block.Block
 import team.zeds.ancientmagic.api.mod.AMConstant
+import team.zeds.ancientmagic.api.mod.AMConstant.reloc
 
-object AMTags {
-    @JvmField var UNCONSUMABLE_TELEPORTATION_CATALYST: TagKey<Item>? = null
-    @JvmField var CONSUMABLE_TELEPORTATION_CATALYST: TagKey<Item>? = null
-
-    @JvmStatic
-    fun init() {
-        UNCONSUMABLE_TELEPORTATION_CATALYST = createTag("unbreakable_tp")
-        CONSUMABLE_TELEPORTATION_CATALYST = createTag("consume_tp")
+class AMTags private constructor() {
+    companion object {
+        @get:JvmStatic
+        var instance: AMTags? = null
+            get() {
+                if (field == null) instance = AMTags()
+                return field!!
+            }
+            private set //no value setter
     }
 
-    @JvmStatic
-    private fun createTag(tagName: String): TagKey<Item> {
-        val tag: TagKey<Item> = TagKey.create(Registries.ITEM, ResourceLocation(AMConstant.KEY, tagName))
+    private val registeredTags = mutableListOf<TagKey<*>>()
 
-        AMConstant.LOGGER.debug("{} has been registered or initialized!", tag.location)
-        return tag
+    val unconsumeCatalyst: TagKey<Item> = item("unbreakable_tp")
+    val consumeCatalyst: TagKey<Item> = item("consume_tp")
+    val strippedWood = block("stripped_wood")
+
+    fun init() {
+        for (i in 0 .. registeredTags.size) {
+            val tag = registeredTags[i]
+            AMConstant.LOGGER.debug("Tag \"{}\" are registered", tag)
+        }
+    }
+
+    private fun item(id: String): TagKey<Item> {
+        val registered = ItemTags.create(reloc(id))
+        registeredTags.add(registered)
+        return registered
+    }
+
+    private fun block(id: String): TagKey<Block> {
+        val registered = BlockTags.create(reloc(id))
+        registeredTags.add(registered)
+        return registered
     }
 }

@@ -63,4 +63,14 @@ abstract class MagicBookScreen(component: Component): Screen(component), IMagicB
     }
 
     override fun isPauseScreen(): Boolean = false
+
+    protected fun calcWidgetXPos(x: Int): Int {
+        val j = ((this.width / 2) - (imgWidth / 2))
+        return j + x;
+    }
+
+    protected fun calcWidgetYPos(y: Int): Int {
+        val k = ((this.height / 2) - (imgHeight / 2))
+        return k + y
+    }
 }
