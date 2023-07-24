@@ -9,6 +9,7 @@ import net.minecraft.world.item.crafting.Ingredient
 import net.minecraft.world.item.crafting.Recipe
 import net.minecraft.world.item.crafting.RecipeType
 import net.minecraft.world.level.Level
+import net.minecraftforge.items.IItemHandler
 import org.jetbrains.annotations.Nullable
 import team.zeds.ancientmagic.api.recipe.ingredient.IngredientHelper
 

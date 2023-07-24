@@ -7,7 +7,6 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.extensions.IForgeBlockEntity;
 import team.zeds.ancientmagic.api.item.MagicBlockItem;
 import team.zeds.ancientmagic.api.magic.MagicTypes;
 import team.zeds.ancientmagic.api.mod.AMConstant;
@@ -36,6 +35,7 @@ import net.minecraftforge.registries.RegistryObject;
 import team.zeds.ancientmagic.block.AltarBlock;
 import team.zeds.ancientmagic.block.AltarPedestalBlock;
 import team.zeds.ancientmagic.block.entity.AltarBlockEntity;
+import team.zeds.ancientmagic.block.entity.AltarPedestalBlockEntity;
 import team.zeds.ancientmagic.compact.CompactInitializer;
 import team.zeds.ancientmagic.init.AMManage;
 import team.zeds.ancientmagic.item.RetraceStone;
@@ -77,6 +77,7 @@ public final class AMRegister {
     public static final RegistryObject<Block> ALTAR_PEDESTAL_BLOCK = b("altar_pedestal", AltarPedestalBlock::new, b -> new MagicBlockItem(b, MagicBlockItem.of()));
 
     public static final RegistryObject<BlockEntityType<AltarBlockEntity>> ALTAR_BLOCK_ENTITY = be(AMRegister.ALTAR_BLOCK, AltarBlockEntity::new);
+    public static final RegistryObject<BlockEntityType<AltarPedestalBlockEntity>> ALTAR_PEDESTAL_BLOCK_ENTITY = be(AMRegister.ALTAR_PEDESTAL_BLOCK, AltarPedestalBlockEntity::new);
 
     public static final RegistryObject<AMRecipeSerializer<AltarRecipe>> ALTAR_RECIPE_SERIAL = r("altar_recipe", AltarRecipe::new);
     public static final RegistryObject<AMChancedRecipeSerializer<ManaGenerationRecipe>> MANA_RECIPE_SERIAL = r("mana_gen",ManaGenerationRecipe::new);

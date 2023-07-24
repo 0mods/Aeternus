@@ -52,7 +52,10 @@ public class AMManage {
         CompactInitializer.init(bus);
         bus.addListener(AMManage::modCommon);
         bus.register(AMModEvents.class);
-        if (FMLEnvironment.dist.isClient()) bus.addListener(AMModEvents::registerShaders);
+        if (FMLEnvironment.dist.isClient()) {
+            bus.addListener(AMModEvents::registerShaders);
+            bus.addListener(AMModEvents::registerBlockEntityR3nders);
+        }
     }
 
     private static void modCommon(final FMLCommonSetupEvent e) {

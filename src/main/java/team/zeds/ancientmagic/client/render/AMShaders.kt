@@ -7,7 +7,7 @@ import net.minecraft.resources.ResourceLocation
 import team.zeds.ancientmagic.api.mod.AMConstant.reloc
 import java.util.function.Consumer
 
-class ModShaders private constructor() {
+class AMShaders private constructor() {
     var improvedParticle: ShaderInstance? = null
     var hologram: ShaderInstance? = null
 
@@ -23,9 +23,9 @@ class ModShaders private constructor() {
     }
 
     companion object {
-        @get:JvmStatic var instance: ModShaders? = null
+        @get:JvmStatic var instance: AMShaders? = null
             get() {
-                if (field == null) field = ModShaders(); return field
+                if (field == null) field = AMShaders(); return field
             }
             private set
     }

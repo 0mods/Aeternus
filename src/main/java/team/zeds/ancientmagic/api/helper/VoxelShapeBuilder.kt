@@ -1,4 +1,4 @@
-package team.zeds.ancientmagic.api.lazy
+package team.zeds.ancientmagic.api.helper
 
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.phys.shapes.Shapes

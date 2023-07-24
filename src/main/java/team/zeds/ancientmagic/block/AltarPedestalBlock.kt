@@ -1,15 +1,28 @@
 package team.zeds.ancientmagic.block
 
 import net.minecraft.core.BlockPos
+import net.minecraft.sounds.SoundEvents
+import net.minecraft.sounds.SoundSource
+import net.minecraft.world.Containers
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.InteractionResult
+import net.minecraft.world.entity.item.ItemEntity
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.BlockGetter
-import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.VoxelShape
-import team.zeds.ancientmagic.api.lazy.VoxelShapeBuilder
+import team.zeds.ancientmagic.api.block.EntityBlockBase
+import team.zeds.ancientmagic.api.helper.StackHelper
+import team.zeds.ancientmagic.api.helper.VoxelShapeBuilder
+import team.zeds.ancientmagic.block.entity.AltarPedestalBlockEntity
 
-class AltarPedestalBlock: Block(Properties.copy(Blocks.STONE)) {
+class AltarPedestalBlock: EntityBlockBase(Properties.copy(Blocks.STONE)) {
     init {
         this.registerDefaultState(this.stateDefinition.any())
     }
@@ -39,4 +52,56 @@ class AltarPedestalBlock: Block(Properties.copy(Blocks.STONE)) {
     ): VoxelShape {
         return voxelModel
     }
+
+    @Deprecated("Deprecated in Java")
+    override fun use(
+        blockState: BlockState,
+        level: Level,
+        blockPos: BlockPos,
+        player: Player,
+        hand: InteractionHand,
+        hitResult: BlockHitResult
+    ): InteractionResult {
+        val blockEntity = level.getBlockEntity(blockPos)
+
+        if (blockEntity is AltarPedestalBlockEntity) {
+            val inv = blockEntity.getInv()
+            val input = inv.getStackInSlot(0)
+            val output = inv.getStackInSlot(1)
+
+            if (!output.isEmpty) {
+                val item = ItemEntity(level, player.x, player.y, player.z, output)
+
+                item.setNoPickUpDelay()
+                level.addFreshEntity(item)
+                inv.setStackInSlot(1, ItemStack.EMPTY)
+            } else {
+                val itemHand = player.getItemInHand(hand)
+                if (input.isEmpty && !itemHand.isEmpty) {
+                    inv.setStackInSlot(0, StackHelper.withSize(itemHand, 1, false))
+                    player.setItemInHand(hand, StackHelper.shrink(itemHand, 1, false))
+                    level.playSound(null, blockPos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1.0f, 1.0f)
+                } else if (!input.isEmpty) {
+                    val item = ItemEntity(level, player.x, player.y, player.z, output)
+                    item.setNoPickUpDelay()
+                    level.addFreshEntity(item)
+                    inv.setStackInSlot(0, ItemStack.EMPTY)
+                }
+            }
+        }
+
+        return InteractionResult.SUCCESS
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onRemove(oldState: BlockState, level: Level, blockPos: BlockPos, newState: BlockState, isMoving: Boolean) {
+        if (oldState.block != newState.block) {
+            val blockEntity = level.getBlockEntity(blockPos)
+            if (blockEntity is AltarPedestalBlockEntity) Containers.dropContents(level, blockPos, blockEntity.getInv().getStacks())
+        }
+
+        super.onRemove(oldState, level, blockPos, newState, isMoving)
+    }
+
+    override fun newBlockEntity(pos: BlockPos, state: BlockState): BlockEntity = AltarPedestalBlockEntity(pos, state)
 }

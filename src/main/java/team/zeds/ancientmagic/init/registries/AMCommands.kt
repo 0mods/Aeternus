@@ -14,7 +14,7 @@ import net.minecraftforge.event.RegisterCommandsEvent
 import team.zeds.ancientmagic.api.magic.MagicType
 import team.zeds.ancientmagic.api.mod.AMConstant
 import team.zeds.ancientmagic.capability.PlayerMagicCapability
-import team.zeds.ancientmagic.client.render.ModShaders
+import team.zeds.ancientmagic.client.render.AMShaders
 import team.zeds.ancientmagic.init.config.AMCommon
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.function.Supplier
@@ -82,7 +82,7 @@ object AMCommands {
     private fun particle(sourceStack: CommandSourceStack): Int {
         return if (this.var0) {
             this.var0 = false
-            if (sourceStack.level.isClientSide) RenderSystem.setShader { ModShaders.instance!!.improvedParticle }
+            if (sourceStack.level.isClientSide) RenderSystem.setShader { AMShaders.instance!!.improvedParticle }
             1
         } else {
             this.var0 = true

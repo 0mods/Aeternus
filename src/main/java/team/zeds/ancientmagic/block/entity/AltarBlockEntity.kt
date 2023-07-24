@@ -1,19 +1,24 @@
 package team.zeds.ancientmagic.block.entity
 
 import net.minecraft.core.BlockPos
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.world.Container
+import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Blocks
-import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraftforge.registries.ForgeRegistries
 import team.zeds.ancientmagic.api.block.InventoriedBlockEntity
 import team.zeds.ancientmagic.api.handler.HandleStack
-import team.zeds.ancientmagic.api.lazy.StructurePosition
+import team.zeds.ancientmagic.api.helper.StructurePosition
+import team.zeds.ancientmagic.init.registries.AMRecipeTypes
 import team.zeds.ancientmagic.init.registries.AMRegister
 import team.zeds.ancientmagic.init.registries.AMTags
+import team.zeds.ancientmagic.recipes.AltarRecipe
 
 class AltarBlockEntity(pos: BlockPos, state: BlockState) : InventoriedBlockEntity(AMRegister.ALTAR_BLOCK_ENTITY.get(), pos, state) {
-    @JvmField val inv: HandleStack
+    private val inv: HandleStack
+    private val recipeInv: HandleStack
 
     //Structure validating
     var structureIsValid = false
@@ -23,9 +28,14 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : InventoriedBlockEntit
     var bricksWallIsValid = false
     var cutWoodIsValid = false
     var fireStoneIsValid = false
+    //functional
+    private var progress: Int = 0
+    private var active: Boolean = false
+    private var recipe: AltarRecipe? = null
 
     init {
         inv = this.createHandler(this::changeX)
+        recipeInv = HandleStack.create(9)
     }
 
     private val pedestalPositions = StructurePosition.builder()
@@ -88,8 +98,9 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : InventoriedBlockEntit
             for (i in 0 .. cutWoods.size) {
                 val cutWoodPos = cutWoods[i]
                 val blockAtState = level.getBlockState(cutWoodPos)
-                ForgeRegistries.BLOCKS.tags()!!.getTag(AMTags.instance!!.strippedWood).forEach { block ->
-                    blockEntity.cutWoodIsValid = blockAtState == block
+                ForgeRegistries.BLOCKS.tags()!!.getTag(AMTags.instance!!.strippedWood).forEach {
+                    blockEntity.cutWoodIsValid = blockAtState == it
+                    return@forEach
                 }
             }
             for (i in 0 .. fireStones.size) {
@@ -99,6 +110,53 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : InventoriedBlockEntit
             }
             blockEntity.structureIsValid = blockEntity.pedestalIsValid && blockEntity.bricksIsValid
                     && blockEntity.bricksWallIsValid && blockEntity.cutWoodIsValid && blockEntity.fireStoneIsValid
+
+            val input = blockEntity.inv.getStackInSlot(0)
+
+            if (blockEntity.structureIsValid) {
+                if (input.isEmpty) {
+                    blockEntity.reset()
+                    return
+                }
+
+                if (blockEntity.isActive()) {
+                    val recipe = blockEntity.getActiveRecipe()
+
+                    if (recipe != null) {
+                        blockEntity.progress++
+
+                        val pedestalList = blockEntity.getPedestals()
+
+                        val time = recipe.time * 20
+
+                        if (blockEntity.progress >= time) {
+                            val remaining = recipe.getRemainingItems(blockEntity.recipeInv.toContainer())
+
+                            for (i in 0 .. pedestalList.size) {
+                                val pedestal = pedestalList[i]
+                                pedestal.getInv().setStackInSlot(0, remaining[i + 1])
+                            }
+
+                            val result = recipe.assemble(blockEntity.recipeInv.toContainer(), level.registryAccess())
+
+                            blockEntity.setOutput(result)
+                            blockEntity.reset()
+                            blockEntity.changeX()
+                        } else {
+                            for (pedestal in pedestalList) {
+                                val pedestalPos = pedestal.blockPos
+                                val stack = pedestal.getInv().getStackInSlot(0)
+                            }
+                        }
+                    } else {
+                        blockEntity.reset()
+                    }
+                } else {
+                    blockEntity.progress = 0
+                }
+            } else {
+                blockEntity.reset()
+            }
         }
     }
 
@@ -108,5 +166,76 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : InventoriedBlockEntit
         builder.setDefaultSlotLimit(1)
         builder.setCanExtract { builder.getStackInSlot(1).isEmpty }
         builder.setOutputSlots(1)
+    }!!
+
+    fun reset() {
+        this.progress = 0
+        this.active = false
+    }
+
+    fun isActive(): Boolean {
+        if (!this.active) {
+            val level = this.getLevel()
+            this.active = level != null && this.getInv().getStackInSlot(0).isEmpty
+        }
+
+        return this.active
+    }
+
+    fun getActiveRecipe(): AltarRecipe? {
+        if (this.getLevel() == null) return null
+
+        val nonNullLevel = this.getLevel()!!
+
+        this.updateInv(this.getPedestals())
+
+        if (this.recipe == null || !this.recipe!!.matches(this.recipeInv.toContainer(), nonNullLevel)) {
+            val recipe = nonNullLevel.recipeManager.getRecipeFor(AMRecipeTypes.instance!!.altarRecipe,
+                this.recipeInv.toContainer(), nonNullLevel).orElse(null)
+            this.recipe = if (recipe is AltarRecipe) recipe else null
+        }
+
+        return this.recipe
+    }
+
+    fun updateInv(pedestals: MutableList<AltarPedestalBlockEntity>) {
+        this.recipeInv.setSize(9)
+        this.recipeInv.setStackInSlot(0, this.inv.getStackInSlot(0))
+
+        for (i in 0 .. pedestals.size) {
+            val stack = pedestals[i].getInv().getStackInSlot(0)
+            this.recipeInv.setStackInSlot(i + 1, stack)
+        }
+    }
+
+    fun getPedestals(): MutableList<AltarPedestalBlockEntity> {
+        if (this.getLevel() == null) return mutableListOf()
+
+        val pedestals: MutableList<AltarPedestalBlockEntity> = mutableListOf()
+
+        this.getPedestalPosition().forEach {pos ->
+            val blockEntity = this.getLevel()!!.getBlockEntity(pos)!!
+            if (blockEntity is AltarPedestalBlockEntity) pedestals.add(blockEntity)
+        }
+
+        return pedestals
+    }
+
+    fun setOutput(stack: ItemStack) {
+        this.inv.getStacks()[0] = ItemStack.EMPTY
+        this.inv.getStacks()[1] = stack
+    }
+
+    override fun load(tag: CompoundTag) {
+        super.load(tag)
+        this.progress = tag.getInt("AncientMagic.Altar.Progress")
+        this.active = tag.getBoolean("AncientMagic.Altar.Active")
+    }
+
+    override fun saveAdditional(tag: CompoundTag) {
+        super.saveAdditional(tag)
+
+        tag.putInt("AncientMagic.Altar.Progress", this.progress)
+        tag.putBoolean("AncientMagic.Altar.Active", this.active)
     }
 }

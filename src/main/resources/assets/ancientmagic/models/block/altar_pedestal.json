@@ -1,6 +1,6 @@
 {
-	"parent": "ancientmagic:block/pedestal",
-	"textures": {
-		"layertextured": "block/stone_bricks"
-	}
+  "parent": "ancientmagic:template/pedestal",
+  "textures": {
+    "layer_0": "block/stone_bricks"
+  }
 }
