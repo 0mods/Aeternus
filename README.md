@@ -13,8 +13,8 @@
 
 ## <div align="center"> <img src=https://i.imgur.com/GGP7BvT.png alt="logo"> </div>
 <div align="center">The mod is compatible with the following mods:</div>
-- <div align="center">[Waystones](https://github.com/ModdingForBlockheads/Waystones)</div>
-- <div align="center">[Curios](https://github.com/TheIllusiveC4/Curios)</div>
+<div align="center"><a href=https://github.com/ModdingForBlockheads/Waystones>Waystones</a></div>
+<div align="center"><a href=https://github.com/TheIllusiveC4/Curios>Curios</a></div>
 
 ### <div align="center">Waystones</div>
 <div align="center">The mod will complicate the game with Waystones by adding a requirement for teleportation, in the form of the presence of special dust or an item in the inventory. You can find out more about dust or the teleportation item in the game guidebook</div>
