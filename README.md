@@ -17,9 +17,11 @@
 <div align="center"><a href=https://github.com/TheIllusiveC4/Curios>Curios</a></div>
 
 ### <div align="center">Waystones</div>
-<div align="center">The mod will complicate the game with Waystones by adding a requirement for teleportation, in the form of the presence of special dust or an item in the inventory. You can find out more about dust or the teleportation item in the game guidebook</div>
+<div align="center">The mod will complicate the game with Waystones by adding a requirement for teleportation, in the form of the presence of special dust or an item in the inventory. You can find out more about dust or the teleportation item in the game guidebook </div>
+
 ### <div align="center">Curios</div>
 <div align="center">Add a new slot and make artifacts go there</div>
+
 ### <div align="center">In plans</div>
 <div align="center">Over time, integration with the following mods will be added:</div>
 <div align="center">Botania</div>
