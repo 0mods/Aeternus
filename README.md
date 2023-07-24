@@ -4,7 +4,7 @@
 
 <div align="center"> AncientMagic - a small magic mod that adds new leveling mechanics, items, and etc..</div>
 
-<div align="center">## Mana</div>
+## <div align="center">Mana</div>
 
 <div align="center">The mod will add a new kind of data, and liquid in general is mana. You can get it by generation, with the help of special items/blocks.</div>
 
