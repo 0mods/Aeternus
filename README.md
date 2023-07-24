@@ -1,4 +1,5 @@
-<div align="center"> ![ancientmagiclogo](https://github.com/0mods/AncientMagic/assets/46783751/4953a629-7976-40ff-a1f6-d7b14d01c6da) </div>
+<div align="center"> ![ancientmagiclogo] () </div>
+<div align="center"> <img src=https://github.com/0mods/AncientMagic/assets/46783751/4953a629-7976-40ff-a1f6-d7b14d01c6da alt="logo"> </div>
 
 
 AncientMagic - a small magic mod that adds new leveling mechanics, items, and etc..
