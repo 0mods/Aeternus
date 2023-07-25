@@ -15,15 +15,12 @@ import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
 import net.minecraftforge.client.model.data.ModelData
 import net.minecraftforge.fml.loading.FMLEnvironment
-import net.minecraftforge.registries.ForgeRegistries
 import team.zeds.ancientmagic.block.entity.AltarBlockEntity
 import team.zeds.ancientmagic.client.render.AMRenderTypes
 import team.zeds.ancientmagic.init.AMManage
 import team.zeds.ancientmagic.init.registries.AMRegister
-import team.zeds.ancientmagic.init.registries.AMTags
 import kotlin.math.*
 
-@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class AltarBlockEntityRender(context: BlockEntityRendererProvider.Context): BlockEntityRenderer<AltarBlockEntity> {
     override fun render(
         blockEntity: AltarBlockEntity,
@@ -68,9 +65,8 @@ class AltarBlockEntityRender(context: BlockEntityRendererProvider.Context): Bloc
                 drawer(minecraft, poseStack, it, Blocks.STONE_BRICK_WALL, level, consumer)
             }
             blockEntity.getCutWoodPosition().forEach { blockPos ->
-                ForgeRegistries.BLOCKS.tags()!!.getTag(AMTags.instance!!.strippedWood).forEach {
-                    drawer(minecraft, poseStack, blockPos, it, level, consumer)
-                }
+                for (block in blockEntity.strippedWoods)
+                    drawer(minecraft, poseStack, blockPos, block, level, consumer)
             }
             blockEntity.fireStonePosition().forEach {
                 drawer(minecraft, poseStack, it, Blocks.SMOOTH_STONE, level, consumer)

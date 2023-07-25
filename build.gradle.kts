@@ -64,6 +64,7 @@ configure<UserDevExtension> {
         create("client") {
             workingDirectory (project.file("run"))
 
+            jvmArg("-XX:+AllowEnhancedClassRedefinition")
             property("forge.logging.markers", "REGISTRIES")
             property("forge.logging.console.level", "debug")
             property("forge.enabledGameTestNamespaces", "AncientMagic")
@@ -81,6 +82,7 @@ configure<UserDevExtension> {
         create("server") {
             workingDirectory (project.file("run"))
 
+            jvmArg("-XX:+AllowEnhancedClassRedefinition")
             property("forge.logging.markers", "REGISTRIES")
             property("forge.logging.console.level", "debug")
             property("forge.enabledGameTestNamespaces", "AncientMagic")
@@ -98,6 +100,7 @@ configure<UserDevExtension> {
         create("gameTestServer") {
             workingDirectory (project.file("run"))
 
+            jvmArg("-XX:+AllowEnhancedClassRedefinition")
             property("forge.logging.markers", "REGISTRIES")
             property("forge.logging.console.level", "debug")
             property("forge.enabledGameTestNamespaces", "AncientMagic")
@@ -115,10 +118,9 @@ configure<UserDevExtension> {
         create("data") {
             workingDirectory (project.file("run"))
 
+            jvmArg("-XX:+AllowEnhancedClassRedefinition")
             property("forge.logging.markers", "REGISTRIES")
-
             property("forge.logging.console.level", "debug")
-
             args("--mod", "ancientmagic", "--all", "--output", file("src/generated/resources/"), "--existing", file("src/main/resources/"))
 
             mods {

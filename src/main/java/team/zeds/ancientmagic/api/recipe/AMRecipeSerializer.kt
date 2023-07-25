@@ -23,7 +23,7 @@ class AMRecipeSerializer<T : AMAbstractRecipe>(val serial: SerializerFactory<T>)
 
         if (!jsonObject.has("result"))
             throw JsonSyntaxException(
-                "${AMRecipeSerializer::class.java}; - has a message: \"RECIPE CAN'T BEEN CREATED! MISSING ARGUMENT: 'result'\""
+                "RECIPE HASN'T BEEN CREATED! MISSING ARGUMENT: 'result'"
             )
         val itemStack = if (jsonObject.get("result").isJsonObject)
             ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(jsonObject, "result"))

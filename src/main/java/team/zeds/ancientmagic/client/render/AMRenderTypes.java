@@ -11,6 +11,19 @@ import org.lwjgl.opengl.GL14;
 import static team.zeds.ancientmagic.api.mod.AMConstant.reloc;
 
 public final class AMRenderTypes extends RenderType {
+    private static final TransparencyStateShard HOLO_TRANSPARENCY = new TransparencyStateShard(reloc("hologram_transparency").toString(),
+            ()-> {
+                RenderSystem.enableBlend();
+                RenderSystem.blendFunc(GlStateManager.SourceFactor.CONSTANT_ALPHA, GlStateManager.DestFactor.ONE_MINUS_CONSTANT_ALPHA);
+                GL14.glBlendColor(1.0f, 1.0f, 1.0f, 0.45f);
+            },
+            ()-> {
+                GL14.glBlendColor(1.0f, 1.0f, 1.0f, 1.0f);
+                RenderSystem.disableBlend();
+                RenderSystem.defaultBlendFunc();
+            }
+    );
+
     public static final RenderType MAGICAL_HOLOGRAM = create(
             reloc("magical_hologram").toString(),
             DefaultVertexFormat.BLOCK,
@@ -20,24 +33,11 @@ public final class AMRenderTypes extends RenderType {
             false,
             CompositeState.builder()
                     .setLightmapState(LIGHTMAP)
-                    .setShaderState(AMShaderStateShards.HOLO_STATE)
+                    .setShaderState(RENDERTYPE_SOLID_SHADER)
                     .setTextureState(BLOCK_SHEET)
                     .setTransparencyState(AMRenderTypes.HOLO_TRANSPARENCY)
                     .createCompositeState(false)
     );
-
-    private static final TransparencyStateShard HOLO_TRANSPARENCY = new TransparencyStateShard(reloc("hologram_transparency").toString(),
-            ()-> {
-                RenderSystem.enableBlend();
-                RenderSystem.blendFunc(GlStateManager.SourceFactor.CONSTANT_ALPHA, GlStateManager.DestFactor.ONE_MINUS_CONSTANT_ALPHA);
-                GL14.glBlendColor(1.0f, 1.0f, 1.0f, 1.0f);
-            },
-            ()-> {
-                GL14.glBlendColor(1.0f, 1.0f, 1.0f, 1.0f);
-                RenderSystem.disableBlend();
-                RenderSystem.defaultBlendFunc();
-            }
-            );
 
     public AMRenderTypes(String p_173178_, VertexFormat p_173179_, VertexFormat.Mode p_173180_, int p_173181_, boolean p_173182_, boolean p_173183_, Runnable p_173184_, Runnable p_173185_) {
         super(p_173178_, p_173179_, p_173180_, p_173181_, p_173182_, p_173183_, p_173184_, p_173185_);
@@ -45,5 +45,6 @@ public final class AMRenderTypes extends RenderType {
 
     public static class AMShaderStateShards {
         public static final RenderStateShard.ShaderStateShard HOLO_STATE = new ShaderStateShard(AMShaders.getInstance()::getHologram);
+        public static final RenderStateShard.ShaderStateShard IMPROVED_PARTICLE = new ShaderStateShard(AMShaders.getInstance()::getImprovedParticle);
     }
 }

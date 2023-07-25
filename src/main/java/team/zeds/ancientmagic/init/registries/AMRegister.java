@@ -79,7 +79,7 @@ public final class AMRegister {
     public static final RegistryObject<BlockEntityType<AltarBlockEntity>> ALTAR_BLOCK_ENTITY = be(AMRegister.ALTAR_BLOCK, AltarBlockEntity::new);
     public static final RegistryObject<BlockEntityType<AltarPedestalBlockEntity>> ALTAR_PEDESTAL_BLOCK_ENTITY = be(AMRegister.ALTAR_PEDESTAL_BLOCK, AltarPedestalBlockEntity::new);
 
-    public static final RegistryObject<AMRecipeSerializer<AltarRecipe>> ALTAR_RECIPE_SERIAL = r("altar_recipe", AltarRecipe::new);
+    public static final RegistryObject<AMRecipeSerializer<AltarRecipe>> ALTAR_RECIPE_SERIAL = r("altar", AltarRecipe::new);
     public static final RegistryObject<AMChancedRecipeSerializer<ManaGenerationRecipe>> MANA_RECIPE_SERIAL = r("mana_gen",ManaGenerationRecipe::new);
 
     static <T extends Item> RegistryObject<T> boolReg(String id, Supplier<T> sup, boolean boolIfReg) {

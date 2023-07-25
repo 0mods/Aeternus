@@ -97,7 +97,7 @@ class AltarBlock: EntityBlockBase(Properties.copy(Blocks.STONE)) {
     override fun onRemove(oldState: BlockState, level: Level, blockPos: BlockPos, newState: BlockState, isMoving: Boolean) {
         if (oldState.block != newState.block) {
             val blockEntity = level.getBlockEntity(blockPos)
-            if (blockEntity is AltarBlockEntity) Containers.dropContents(level, blockPos, blockEntity.getInv().getStacks())
+            if (blockEntity is AltarBlockEntity) Containers.dropContents(level, blockPos, blockEntity.getInv().stacks)
         }
 
         super.onRemove(oldState, level, blockPos, newState, isMoving)

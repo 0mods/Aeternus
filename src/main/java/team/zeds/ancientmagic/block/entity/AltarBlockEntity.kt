@@ -2,21 +2,30 @@ package team.zeds.ancientmagic.block.entity
 
 import net.minecraft.core.BlockPos
 import net.minecraft.nbt.CompoundTag
-import net.minecraft.world.Container
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
+import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.state.BlockState
-import net.minecraftforge.registries.ForgeRegistries
 import team.zeds.ancientmagic.api.block.InventoriedBlockEntity
 import team.zeds.ancientmagic.api.handler.HandleStack
 import team.zeds.ancientmagic.api.helper.StructurePosition
+import team.zeds.ancientmagic.api.mod.AMConstant
 import team.zeds.ancientmagic.init.registries.AMRecipeTypes
 import team.zeds.ancientmagic.init.registries.AMRegister
-import team.zeds.ancientmagic.init.registries.AMTags
 import team.zeds.ancientmagic.recipes.AltarRecipe
 
 class AltarBlockEntity(pos: BlockPos, state: BlockState) : InventoriedBlockEntity(AMRegister.ALTAR_BLOCK_ENTITY.get(), pos, state) {
+    val strippedWoods = mutableListOf<Block>(
+        Blocks.STRIPPED_OAK_WOOD,
+        Blocks.STRIPPED_SPRUCE_WOOD,
+        Blocks.STRIPPED_BIRCH_WOOD,
+        Blocks.STRIPPED_JUNGLE_WOOD,
+        Blocks.STRIPPED_ACACIA_WOOD,
+        Blocks.STRIPPED_CHERRY_WOOD,
+        Blocks.STRIPPED_DARK_OAK_WOOD,
+        Blocks.STRIPPED_MANGROVE_WOOD
+    )
     private val inv: HandleStack
     private val recipeInv: HandleStack
 
@@ -55,6 +64,7 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : InventoriedBlockEntit
         .pos(1, -1, 1).pos(1, -1, 2).pos(1, -1, -1).pos(1, -1, -2)
         .pos(2, -1, 1).pos(2, -1, 2).pos(2, -1, -1).pos(2, -1, -2)
         .pos(-1, -1, 1).pos(-1, -1, 2).pos(-1, -1, -1).pos(-1, -1, -2)
+        .pos(-2, -1, 1).pos(-2, -1, 2).pos(-2, -1, -1).pos(-2, -1, -2)
         .build()
     private val fireStonePosition = StructurePosition.builder()
         .pos(3, -1, 1).pos(3, -1, 2).pos(3, -1, -1).pos(3, -1, -2)
@@ -77,85 +87,90 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : InventoriedBlockEntit
             val cutWoods = blockEntity.getCutWoodPosition()
             val fireStones = blockEntity.fireStonePosition()
 
-            for (i in 0 .. pedestals.size) {
+            for (i in 0 until pedestals.size) {
                 val pedestalPos = pedestals[i]
                 val blockAtState = level.getBlockState(pedestalPos).block
 
-                blockEntity.pedestalIsValid = blockAtState == AMRegister.ALTAR_PEDESTAL_BLOCK.get()
+                blockEntity.pedestalIsValid = if (blockAtState == AMRegister.ALTAR_PEDESTAL_BLOCK.get() && blockEntity.pedestalIsValid) {
+                    AMConstant.LOGGER.info("pedestals is valid")
+                    true
+                } else {
+                    AMConstant.LOGGER.debug("pedestals isn't valid")
+                    false
+                }
             }
-            for (i in 0 .. bricks.size) {
+            for (i in 0 until bricks.size) {
                 val brickPos = bricks[i]
                 val blockAtState = level.getBlockState(brickPos)
 
-                blockEntity.bricksIsValid = blockAtState == Blocks.STONE_BRICKS
+                blockEntity.bricksIsValid = blockAtState == Blocks.STONE_BRICKS && blockEntity.bricksIsValid
             }
-            for (i in 0 .. bricksWalls.size) {
+            for (i in 0 until bricksWalls.size) {
                 val brickWallPos = bricksWalls[i]
                 val blockAtState = level.getBlockState(brickWallPos)
 
-                blockEntity.bricksWallIsValid = blockAtState == Blocks.STONE_BRICK_WALL
+                blockEntity.bricksWallIsValid = blockAtState == Blocks.STONE_BRICK_WALL && blockEntity.bricksWallIsValid
             }
-            for (i in 0 .. cutWoods.size) {
+            for (i in 0 until cutWoods.size) {
                 val cutWoodPos = cutWoods[i]
                 val blockAtState = level.getBlockState(cutWoodPos)
-                ForgeRegistries.BLOCKS.tags()!!.getTag(AMTags.instance!!.strippedWood).forEach {
-                    blockEntity.cutWoodIsValid = blockAtState == it
-                    return@forEach
-                }
+//                ForgeRegistries.BLOCKS.tags()!!.getTag(AMTags.instance!!.strippedWood).forEach {
+//                    blockEntity.cutWoodIsValid = blockAtState == it
+//                    return@forEach
+//                }
+                 for (block in blockEntity.strippedWoods) {
+                     blockEntity.cutWoodIsValid = blockAtState == block
+                 }
             }
-            for (i in 0 .. fireStones.size) {
+            for (i in 0 until fireStones.size) {
                 val fireStonePos = fireStones[i]
                 val blockAtState = level.getBlockState(fireStonePos)
-                blockEntity.fireStoneIsValid = blockAtState == Blocks.SMOOTH_STONE
+                blockEntity.fireStoneIsValid = blockAtState == Blocks.SMOOTH_STONE && blockEntity.fireStoneIsValid
             }
             blockEntity.structureIsValid = blockEntity.pedestalIsValid && blockEntity.bricksIsValid
                     && blockEntity.bricksWallIsValid && blockEntity.cutWoodIsValid && blockEntity.fireStoneIsValid
 
             val input = blockEntity.inv.getStackInSlot(0)
 
-            if (blockEntity.structureIsValid) {
-                if (input.isEmpty) {
-                    blockEntity.reset()
-                    return
-                }
+            if (input.isEmpty) {
+                blockEntity.reset()
+                return
+            }
 
-                if (blockEntity.isActive()) {
-                    val recipe = blockEntity.getActiveRecipe()
+            if (blockEntity.isActive()) {
+                val recipe = blockEntity.getActiveRecipe()
 
-                    if (recipe != null) {
-                        blockEntity.progress++
+                if (recipe != null) {
+                    blockEntity.progress++
 
-                        val pedestalList = blockEntity.getPedestals()
+                    val pedestalList = blockEntity.getPedestals()
 
-                        val time = recipe.time * 20
+                    val time = if (recipe.time != 0) recipe.time * 20 else 400
 
-                        if (blockEntity.progress >= time) {
-                            val remaining = recipe.getRemainingItems(blockEntity.recipeInv.toContainer())
+                    if (blockEntity.progress >= time) {
+                        val remaining = recipe.getRemainingItems(blockEntity.recipeInv.toContainer())
 
-                            for (i in 0 .. pedestalList.size) {
-                                val pedestal = pedestalList[i]
-                                pedestal.getInv().setStackInSlot(0, remaining[i + 1])
-                            }
-
-                            val result = recipe.assemble(blockEntity.recipeInv.toContainer(), level.registryAccess())
-
-                            blockEntity.setOutput(result)
-                            blockEntity.reset()
-                            blockEntity.changeX()
-                        } else {
-                            for (pedestal in pedestalList) {
-                                val pedestalPos = pedestal.blockPos
-                                val stack = pedestal.getInv().getStackInSlot(0)
-                            }
+                        for (i in 0 until pedestalList.size) {
+                            val pedestal = pedestalList[i]
+                            pedestal.getInv().setStackInSlot(0, remaining[i + 1])
                         }
-                    } else {
+
+                        val result = recipe.assemble(blockEntity.recipeInv.toContainer(), level.registryAccess())
+
+                        blockEntity.setOutput(result)
                         blockEntity.reset()
+                        blockEntity.changeX()
+                    } else {
+                        for (pedestal in pedestalList) {
+                            val pedestalPos = pedestal.blockPos
+                            val stack = pedestal.getInv().getStackInSlot(0)
+                        }
                     }
                 } else {
-                    blockEntity.progress = 0
+                    blockEntity.reset()
                 }
             } else {
-                blockEntity.reset()
+                blockEntity.progress = 0
             }
         }
     }
@@ -176,8 +191,11 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : InventoriedBlockEntit
     fun isActive(): Boolean {
         if (!this.active) {
             val level = this.getLevel()
-            this.active = level != null && this.getInv().getStackInSlot(0).isEmpty
+            this.active = level != null && this.structureIsValid
         }
+
+        val activeStatus = if (this.active) "Active!" else "Inactive!"
+        AMConstant.LOGGER.debug("Altar Active Status is \"${activeStatus}\"")
 
         return this.active
     }
@@ -202,7 +220,7 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : InventoriedBlockEntit
         this.recipeInv.setSize(9)
         this.recipeInv.setStackInSlot(0, this.inv.getStackInSlot(0))
 
-        for (i in 0 .. pedestals.size) {
+        for (i in 0 until pedestals.size) {
             val stack = pedestals[i].getInv().getStackInSlot(0)
             this.recipeInv.setStackInSlot(i + 1, stack)
         }
@@ -213,8 +231,8 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : InventoriedBlockEntit
 
         val pedestals: MutableList<AltarPedestalBlockEntity> = mutableListOf()
 
-        this.getPedestalPosition().forEach {pos ->
-            val blockEntity = this.getLevel()!!.getBlockEntity(pos)!!
+        this.getPedestalPosition().forEach { pos ->
+            val blockEntity = this.getLevel()!!.getBlockEntity(pos) ?: return@forEach
             if (blockEntity is AltarPedestalBlockEntity) pedestals.add(blockEntity)
         }
 
@@ -222,8 +240,8 @@ class AltarBlockEntity(pos: BlockPos, state: BlockState) : InventoriedBlockEntit
     }
 
     fun setOutput(stack: ItemStack) {
-        this.inv.getStacks()[0] = ItemStack.EMPTY
-        this.inv.getStacks()[1] = stack
+        this.inv.stacks[0] = ItemStack.EMPTY
+        this.inv.stacks[1] = stack
     }
 
     override fun load(tag: CompoundTag) {

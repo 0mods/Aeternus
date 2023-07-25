@@ -67,26 +67,18 @@ class AltarPedestalBlock: EntityBlockBase(Properties.copy(Blocks.STONE)) {
         if (blockEntity is AltarPedestalBlockEntity) {
             val inv = blockEntity.getInv()
             val input = inv.getStackInSlot(0)
-            val output = inv.getStackInSlot(1)
+            val itemHand = player.getItemInHand(hand)
 
-            if (!output.isEmpty) {
-                val item = ItemEntity(level, player.x, player.y, player.z, output)
+            if (input.isEmpty && !itemHand.isEmpty) {
+                inv.setStackInSlot(0, StackHelper.withSize(itemHand, 1, false))
+                player.setItemInHand(hand, StackHelper.shrink(itemHand, 1, false))
+                level.playSound(null, blockPos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1.0f, 1.0f)
+            } else if (!input.isEmpty) {
+                inv.setStackInSlot(0, ItemStack.EMPTY)
+                val item = ItemEntity(level, player.x, player.y, player.z, input)
 
                 item.setNoPickUpDelay()
                 level.addFreshEntity(item)
-                inv.setStackInSlot(1, ItemStack.EMPTY)
-            } else {
-                val itemHand = player.getItemInHand(hand)
-                if (input.isEmpty && !itemHand.isEmpty) {
-                    inv.setStackInSlot(0, StackHelper.withSize(itemHand, 1, false))
-                    player.setItemInHand(hand, StackHelper.shrink(itemHand, 1, false))
-                    level.playSound(null, blockPos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1.0f, 1.0f)
-                } else if (!input.isEmpty) {
-                    val item = ItemEntity(level, player.x, player.y, player.z, output)
-                    item.setNoPickUpDelay()
-                    level.addFreshEntity(item)
-                    inv.setStackInSlot(0, ItemStack.EMPTY)
-                }
             }
         }
 
