@@ -4,9 +4,13 @@ import com.mojang.blaze3d.platform.Lighting
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.components.Button
+import net.minecraft.client.gui.components.Button.CreateNarration
+import net.minecraft.client.gui.components.Tooltip
 import net.minecraft.network.chat.Component
+import net.minecraft.network.chat.MutableComponent
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.ItemStack
+import java.util.function.Supplier
 
 class ButtonBase: Button {
     private val x: Int
@@ -97,20 +101,64 @@ class ButtonBase: Button {
         fun builder(component: Component, onPress: OnPress): Builder = Builder(component, onPress)
     }
 
-    class Builder(component: Component, onPress: OnPress): Button.Builder(component, onPress) {
+    class Builder(component: Component, val onPress: OnPress): Button.Builder(component, onPress) {
+        var createNarration: CreateNarration
+        var tooltip: Tooltip? = null
+
+        init {
+            createNarration = CreateNarration { narr ->
+                narr.get()
+            }
+        }
+
         @Deprecated("Don't use this method, it are invalid!",
-            ReplaceWith("build(net.minecraft.resources.ResourceLocation) or build(net.minec)",
-            "team.zeds.ancientmagic.api.gui.widget.ButtonBase.Builder"))
+            ReplaceWith("build(net.minecraft.resources.ResourceLocation) or build(net.minecraft.world.item.ItemStack)",
+            "team.zeds.ancientmagic.api.gui.widget.ButtonBase.Builder"), level = DeprecationLevel.HIDDEN)
         override fun build(): Button {
             return super.build()
         }
 
+        override fun pos(x: Int, y: Int): Builder {
+            this.x = x
+            this.y = y
+            return this
+        }
+
+        override fun width(width: Int): Builder {
+            this.width = width
+            return this
+        }
+
+        override fun size(width: Int, height: Int): Builder {
+            this.width = width
+            this.height = height
+            return this
+        }
+
+        override fun bounds(x: Int, y: Int, width: Int, height: Int): Builder {
+            return this.pos(x, y).size(width, height)
+        }
+
+        override fun tooltip(tooltip: Tooltip?): Builder {
+            this.tooltip = tooltip
+            return this
+        }
+
+        override fun createNarration(createNarration: CreateNarration): Builder {
+            this.createNarration = createNarration
+            return this
+        }
+
         fun build(resourceLocation: ResourceLocation): ButtonBase {
-            return ButtonBase(this.x, this.y, this.width, this.height, this.message, this.onPress, this.createNarration, resourceLocation)
+            val builder = ButtonBase(this.x, this.y, this.width, this.height, this.message, this.onPress, this.createNarration, resourceLocation)
+            builder.tooltip = this.tooltip
+            return builder
         }
 
         fun build(stack: ItemStack): ButtonBase {
-            return ButtonBase(this.x, this.y, this.width, this.height, this.message, this.onPress, this.createNarration, stack)
+            val builder = ButtonBase(this.x, this.y, this.width, this.height, this.message, this.onPress, this.createNarration, stack)
+            builder.tooltip = this.tooltip
+            return builder
         }
     }
 }

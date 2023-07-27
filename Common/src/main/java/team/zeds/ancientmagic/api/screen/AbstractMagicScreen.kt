@@ -8,7 +8,7 @@ import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import team.zeds.ancientmagic.AMConstant
 import team.zeds.ancientmagic.api.magic.MagicTypes
-import team.zeds.ancientmagic.api.sync.ClientPlayerMagicData
+import team.zeds.ancientmagic.client.sync.ClientPlayerMagicData
 
 abstract class AbstractMagicScreen(component: Component): Screen(component), IMagicScreen {
     private val imgWidth: Int = 436

@@ -4,4 +4,5 @@ import net.minecraftforge.fml.common.Mod
 
 @Mod(AMConstant.KEY)
 class AncientMagicForge {
+
 }

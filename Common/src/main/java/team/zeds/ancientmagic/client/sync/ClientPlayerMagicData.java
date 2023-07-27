@@ -1,4 +1,4 @@
-package team.zeds.ancientmagic.api.sync;
+package team.zeds.ancientmagic.client.sync;
 
 public class ClientPlayerMagicData {
     private static int playerData;

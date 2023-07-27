@@ -1,6 +1,7 @@
 package team.zeds.ancientmagic.platform.services
 
 import net.minecraft.world.level.block.entity.BlockEntityType
+import team.zeds.ancientmagic.api.cap.PlayerMagic
 import team.zeds.ancientmagic.api.helper.IHandleStack
 import team.zeds.ancientmagic.api.helper.IStackHelper
 import team.zeds.ancientmagic.api.recipe.AMRecipeSerializer
@@ -42,4 +43,5 @@ interface IPlatformHelper {
     fun getAltarPedestalBlock(): AltarPedestalBlock
     fun getAltarRecipeSerializer(): AMRecipeSerializer<AltarRecipe>
     fun getManaRecipeSerializer(): AMRecipeSerializer<ManaGenerationRecipe>
+    fun getPlayerMagic(): PlayerMagic? // returns null if foreach value is null
 }
