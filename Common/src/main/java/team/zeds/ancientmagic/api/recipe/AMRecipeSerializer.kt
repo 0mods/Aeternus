@@ -2,6 +2,7 @@ package team.zeds.ancientmagic.api.recipe
 
 import com.google.gson.JsonObject
 import com.google.gson.JsonSyntaxException
+import net.minecraft.client.gui.Gui
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.network.FriendlyByteBuf
 import net.minecraft.resources.ResourceLocation

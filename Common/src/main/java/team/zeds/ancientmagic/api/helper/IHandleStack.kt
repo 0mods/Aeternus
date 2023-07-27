@@ -20,4 +20,8 @@ interface IHandleStack {
     // WARNING! AUTOGEN. DON'T TOUCH IT! ONLY FIRST USE
     fun deserializeTag(tag: CompoundTag)
     fun serializeTag(): CompoundTag
+    fun getStackInSlotHandler(slot: Int): ItemStack
+    fun setStackInSlot(slot: Int, stack: ItemStack)
+    fun <T: IHandleStack> create(size: Int): T
+    fun setSizeHandler(int: Int)
 }

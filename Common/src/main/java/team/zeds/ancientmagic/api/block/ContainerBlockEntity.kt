@@ -9,7 +9,7 @@ import team.zeds.ancientmagic.api.helper.IHandleStack
 
 abstract class ContainerBlockEntity(blockEntityType: BlockEntityType<*>,
                                     blockPos: BlockPos, state: BlockState
-) : BlockEntityBase(blockEntityType, blockPos, state) {
+) : BlockEntityBase(blockEntityType, blockPos, state), IHandled {
     abstract fun getInv(): IHandleStack
 
     override fun load(tag: CompoundTag) {

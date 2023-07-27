@@ -5,7 +5,7 @@ import team.zeds.ancientmagic.platform.services.IPlatformHelper;
 
 import java.util.ServiceLoader;
 
-public class Services {
+public class AMServices {
 
     public static final IPlatformHelper PLATFORM = load(IPlatformHelper.class);
 

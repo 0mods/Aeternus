@@ -13,12 +13,12 @@ import org.jetbrains.annotations.Nullable
 import team.zeds.ancientmagic.api.recipe.ingredient.IngredientHelper
 
 abstract class AMAbstractRecipe(
-    private val recipeType: RecipeType<*>,
-    private val id: ResourceLocation,
-    private val ingredient: Ingredient,
-    private val result: ItemStack,
-    @Nullable private val experience: Float,
-    @Nullable private val time: Int
+    val recipeType: RecipeType<*>,
+    val id: ResourceLocation,
+    val ingredient: Ingredient,
+    val result: ItemStack,
+    @Nullable val experience: Float,
+    @Nullable val time: Int
 ): Recipe<Container> {
     override fun matches(container: Container, level: Level): Boolean = IngredientHelper.test(this.ingredient, container)
 

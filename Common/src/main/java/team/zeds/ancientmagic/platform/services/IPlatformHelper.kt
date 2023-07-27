@@ -1,7 +1,14 @@
 package team.zeds.ancientmagic.platform.services
 
+import net.minecraft.world.level.block.entity.BlockEntityType
 import team.zeds.ancientmagic.api.helper.IHandleStack
 import team.zeds.ancientmagic.api.helper.IStackHelper
+import team.zeds.ancientmagic.api.recipe.AMRecipeSerializer
+import team.zeds.ancientmagic.block.AltarBlock
+import team.zeds.ancientmagic.block.AltarPedestalBlock
+import team.zeds.ancientmagic.block.entity.AltarBlockEntity
+import team.zeds.ancientmagic.recipes.AltarRecipe
+import team.zeds.ancientmagic.recipes.ManaGenerationRecipe
 
 interface IPlatformHelper {
     /**
@@ -26,6 +33,13 @@ interface IPlatformHelper {
     fun isDeveloperment(): Boolean
 
     //ANCIENTMAGIC VALUES
-    fun getIStackHandler(): IHandleStack
+    fun getIHandleStackForAltarBlockEntity(contentChange: Runnable): IHandleStack
+    fun getIHandleStackForAltarPedestalBlockEntity(contentChange: Runnable): IHandleStack
     fun getIStackHelper(): IStackHelper
+    fun getAltarBlockEntityType(): BlockEntityType<AltarBlockEntity>
+    fun getAltarPedestalBlockEntityType(): BlockEntityType<AltarBlockEntity>
+    fun getIHandleStackForAltarBlockEntityRecipeInventory(size: Int): IHandleStack
+    fun getAltarPedestalBlock(): AltarPedestalBlock
+    fun getAltarRecipeSerializer(): AMRecipeSerializer<AltarRecipe>
+    fun getManaRecipeSerializer(): AMRecipeSerializer<ManaGenerationRecipe>
 }
