@@ -1,5 +1,5 @@
 
-<div align="center"> <img src=https://github.com/0mods/AncientMagic/assets/46783751/4953a629-7976-40ff-a1f6-d7b14d01c6da alt="logo"> </div>
+<div align="center"> <img src=https://github.com/0mods/AncientMagic/assets/46783751/c9157710-3806-42c7-af2b-c97830bc4299 alt="logo"> </div>
 
 # <div align="center"> AncientMagic - a small magic mod that adds new leveling mechanics, items, and etc..</div>
 
