@@ -54,7 +54,7 @@ class AMChancedRecipeSerializer<T : AMAbstractChancedRecipe>(val serial: (Resour
     override fun toNetwork(byteBuf: FriendlyByteBuf, value: T) {
         value.ingredient.toNetwork(byteBuf)
         byteBuf.writeItem(value.result)
-        byteBuf.writeInt(value.chance)
+        byteBuf.writeInt(value.getChance())
         byteBuf.writeFloat(value.experience)
         byteBuf.writeInt(value.time)
     }

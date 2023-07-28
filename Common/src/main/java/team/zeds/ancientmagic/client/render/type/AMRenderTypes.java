@@ -1,13 +1,13 @@
-package team.zeds.ancientmagic.client.render;
+package team.zeds.ancientmagic.client.render.type;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import org.lwjgl.opengl.GL14;
+import team.zeds.ancientmagic.client.render.shader.AMShaders;
 
 import static team.zeds.ancientmagic.AMConstant.reloc;
 
@@ -42,5 +42,10 @@ public final class AMRenderTypes extends RenderType {
 
     private AMRenderTypes(String $$0, VertexFormat $$1, VertexFormat.Mode $$2, int $$3, boolean $$4, boolean $$5, Runnable $$6, Runnable $$7) {
         super($$0, $$1, $$2, $$3, $$4, $$5, $$6, $$7);
+    }
+
+    public static class AMShaderStateShards {
+        public static final RenderStateShard.ShaderStateShard HOLO_STATE = new ShaderStateShard(AMShaders.getInstance()::getHologram);
+        public static final RenderStateShard.ShaderStateShard IMPROVED_PARTICLE = new ShaderStateShard(AMShaders.getInstance()::getImprovedParticle);
     }
 }

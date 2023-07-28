@@ -1,4 +1,4 @@
-package team.zeds.ancientmagic.init
+package team.zeds.ancientmagic.init.registries
 
 import net.minecraft.world.Container
 import net.minecraft.world.item.crafting.Recipe

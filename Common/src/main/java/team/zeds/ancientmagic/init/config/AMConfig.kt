@@ -4,8 +4,14 @@ import org.jetbrains.annotations.NotNull
 import team.zeds.ancientmagic.AMConstant
 
 class AMConfig {
-    interface Common {}
-    interface Client {}
+    interface Common {
+        fun isWayStoneCompact(): Boolean
+        fun countOfDustConsuming(): Int
+        fun isEasyMod(): Boolean
+    }
+    interface Client {
+        fun isEnableShaders(): Boolean
+    }
     interface Server {}
 
     companion object {

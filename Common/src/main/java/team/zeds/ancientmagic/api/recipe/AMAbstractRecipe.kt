@@ -14,7 +14,7 @@ import team.zeds.ancientmagic.api.recipe.ingredient.IngredientHelper
 
 abstract class AMAbstractRecipe(
     val recipeType: RecipeType<*>,
-    val id: ResourceLocation,
+    val resloc: ResourceLocation,
     val ingredient: Ingredient,
     val result: ItemStack,
     @Nullable val experience: Float,
@@ -34,13 +34,13 @@ abstract class AMAbstractRecipe(
         return nonNullList
     }
 
-    override fun getId(): ResourceLocation = this.id
+    override fun getId(): ResourceLocation = this.resloc
 
     override fun getType(): RecipeType<*> = this.recipeType
 
     override fun toString(): String = "AMRecipe{" +
             "type=${type}" +
-            ", id=${id}" +
+            ", id=${resloc}" +
             ", ingredient=${ingredient}" +
             ", result=${result}" +
             ", experience=${experience}" +

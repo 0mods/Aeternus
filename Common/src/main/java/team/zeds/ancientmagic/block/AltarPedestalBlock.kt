@@ -70,8 +70,8 @@ class AltarPedestalBlock: EntityBlockBase(Properties.copy(Blocks.STONE)) {
             val itemHand = player.getItemInHand(hand)
 
             if (input.isEmpty && !itemHand.isEmpty) {
-                inv.setStackInSlot(0, AMServices.PLATFORM.getIStackHelper().withSize(itemHand, 1, false))
-                player.setItemInHand(hand, AMServices.PLATFORM.getIStackHelper().shrink(itemHand, 1, false))
+                inv.setStackInSlot(0, AMServices.PLATFORM.getIStackHelper().iWithSize(itemHand, 1, false))
+                player.setItemInHand(hand, AMServices.PLATFORM.getIStackHelper().iShrink(itemHand, 1, false))
                 level.playSound(null, blockPos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1.0f, 1.0f)
             } else if (!input.isEmpty) {
                 inv.setStackInSlot(0, ItemStack.EMPTY)

@@ -1,35 +1,35 @@
 {
     "schemaVersion": 1,
-    "id": "modid",
+    "id": "ancientmagic",
     "version": "${version}",
   
-    "name": "Example Mod",
+    "name": "AncientMagic",
     "description": "This is an example description! Tell everyone what your mod is about!",
     "authors": [
-      "Me!"
+      "AlgorithmLX"
     ],
     "contact": {
       "homepage": "https://fabricmc.net/",
       "sources": "https://github.com/FabricMC/fabric-example-mod"
     },
-  
-    "license": "CC0-1.0",
+
+    "license": "ARR",
     "icon": "assets/modid/icon.png",
   
     "environment": "*",
     "entrypoints": {
       "main": [
-        "com.example.examplemod.ExampleMod"
+        "team.zeds.ancientmagic.fabric.AMFabric"
       ]
     },
     "mixins": [
-      "modid.mixins.json"
+      "ancient.fabric.mixins.json"
     ],
   
     "depends": {
-      "fabricloader": ">=0.12",
+      "fabricloader": ">=0.14.21",
       "fabric": "*",
-      "minecraft": "1.18.x",
+      "minecraft": "1.20.x",
       "java": ">=17"
     },
     "suggests": {

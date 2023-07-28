@@ -33,7 +33,7 @@ minecraft {
             }
         }
     }
-    accessWideners("src/main/resources/ancientmagic_common.accesswidener")
+    accessWideners("src/main/resources/ancientmagic.common.accesswidener")
 }
 
 dependencies {

@@ -11,19 +11,19 @@ import kotlin.random.Random
 abstract class AMAbstractChancedRecipe(
     recipeType: RecipeType<*>,
     id: ResourceLocation,
-    val ingredient: Ingredient,
-    val result: ItemStack,
-    val chance: Int,
-    val experience: Float,
-    val time: Int
+    private val ingredientC: Ingredient,
+    private val resultC: ItemStack,
+    private val chance: Int,
+    private val experienceC: Float,
+    private val timeC: Int
 
 ): AMAbstractRecipe(
     recipeType,
     id,
-    ingredient,
-    result,
-    experience,
-    time
+    ingredientC,
+    resultC,
+    experienceC,
+    timeC
 ) {
     val numberArray: MutableList<Double> = mutableListOf(0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0)
 
@@ -38,11 +38,11 @@ abstract class AMAbstractChancedRecipe(
 
     override fun toString(): String = "AMChanceRecipe{" +
             "type=${type}" +
-            ", id=${id}" +
-            ", ingredient=${ingredient}" +
-            ", result=${result}" +
+            ", id=${resloc}" +
+            ", ingredient=${ingredientC}" +
+            ", result=${resultC}" +
             ", chance=${chance}" +
-            ", experience=${experience}" +
-            ", time=${time}" +
+            ", experience=${experienceC}" +
+            ", time=${timeC}" +
             "}"
 }

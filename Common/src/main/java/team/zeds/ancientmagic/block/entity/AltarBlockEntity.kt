@@ -11,7 +11,7 @@ import team.zeds.ancientmagic.AMConstant
 import team.zeds.ancientmagic.api.block.ContainerBlockEntity
 import team.zeds.ancientmagic.api.helper.IHandleStack
 import team.zeds.ancientmagic.api.helper.StructurePosition
-import team.zeds.ancientmagic.init.AMRecipeTypes
+import team.zeds.ancientmagic.init.registries.AMRecipeTypes
 import team.zeds.ancientmagic.platform.AMServices
 import team.zeds.ancientmagic.recipes.AltarRecipe
 

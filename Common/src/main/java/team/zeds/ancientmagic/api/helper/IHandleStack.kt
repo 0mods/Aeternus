@@ -4,24 +4,26 @@ import net.minecraft.core.NonNullList
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.world.Container
 import net.minecraft.world.item.ItemStack
+import java.util.function.BiFunction
+import java.util.function.Function
 
 interface IHandleStack {
     fun insertItem(slot: Int, stack: ItemStack, simulate: Boolean, container: Boolean): ItemStack
-    fun extractItem(slot: Int, stack: ItemStack, simulate: Boolean, container: Boolean): ItemStack
+    fun extractItem(slot: Int, amount: Int, container: Boolean): ItemStack
     fun getStacks(): NonNullList<ItemStack>
-    fun getOutputSlots(): Array<Int>
+    fun getOutputSlots(): IntArray
     fun setDefaultSlotLimit(size: Int)
     fun addSlotLimit(slot: Int, size: Int)
-    fun setCanInsert(validator: (Int, ItemStack) -> Boolean)
-    fun setCanExtract(canExtract: (Int) -> Boolean)
-    fun setOutputSlots(slots: Array<Int>)
+    fun setCanInsert(validator: BiFunction<Int, ItemStack, Boolean>)
+    fun setCanExtract(canExtract: Function<Int, Boolean>)
+    fun setOutputSlots(vararg slots: Int)
     fun toContainer(): Container
-    fun copy(): IHandleStack
+    fun <T: IHandleStack> copy(): T
     // WARNING! AUTOGEN. DON'T TOUCH IT! ONLY FIRST USE
     fun deserializeTag(tag: CompoundTag)
     fun serializeTag(): CompoundTag
     fun getStackInSlotHandler(slot: Int): ItemStack
     fun setStackInSlot(slot: Int, stack: ItemStack)
-    fun <T: IHandleStack> create(size: Int): T
+    fun <T: IHandleStack> nsCreate(size: Int): T
     fun setSizeHandler(int: Int)
 }
