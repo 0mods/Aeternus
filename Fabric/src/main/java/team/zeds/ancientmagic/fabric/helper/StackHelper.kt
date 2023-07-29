@@ -2,8 +2,8 @@ package team.zeds.ancientmagic.fabric.helper
 
 import net.minecraft.nbt.NbtUtils
 import net.minecraft.world.item.ItemStack
-import team.zeds.ancientmagic.api.helper.IStackHelper
-import team.zeds.ancientmagic.api.helper.TagHelper
+import team.zeds.ancientmagic.common.api.helper.IStackHelper
+import team.zeds.ancientmagic.common.api.helper.TagHelper
 
 object StackHelper: IStackHelper {
     fun withSize(stack: ItemStack, size: Int, container: Boolean): ItemStack {

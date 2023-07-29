@@ -1,21 +1,15 @@
 package team.zeds.ancientmagic.platform
 
 import net.minecraft.world.entity.player.Player
-import net.minecraft.world.level.block.entity.BlockEntityType
 import net.minecraftforge.fml.ModList
 import net.minecraftforge.fml.loading.FMLLoader
-import team.zeds.ancientmagic.api.cap.PlayerMagic
-import team.zeds.ancientmagic.api.helper.IHandleStack
-import team.zeds.ancientmagic.api.helper.IStackHelper
-import team.zeds.ancientmagic.api.network.IAMNetwork
-import team.zeds.ancientmagic.api.network.IAMPacket
-import team.zeds.ancientmagic.api.recipe.AMRecipeSerializer
-import team.zeds.ancientmagic.api.registry.IAMRegistryEntry
-import team.zeds.ancientmagic.block.AltarPedestalBlock
-import team.zeds.ancientmagic.block.entity.AltarBlockEntity
-import team.zeds.ancientmagic.platform.services.IAMPlatformHelper
-import team.zeds.ancientmagic.recipes.AltarRecipe
-import team.zeds.ancientmagic.recipes.ManaGenerationRecipe
+import team.zeds.ancientmagic.common.api.cap.PlayerMagic
+import team.zeds.ancientmagic.common.api.helper.IHandleStack
+import team.zeds.ancientmagic.common.api.helper.IStackHelper
+import team.zeds.ancientmagic.common.api.network.IAMNetwork
+import team.zeds.ancientmagic.common.api.network.IAMPacket
+import team.zeds.ancientmagic.common.api.registry.IAMRegistryEntry
+import team.zeds.ancientmagic.common.platform.services.IAMPlatformHelper
 
 class ForgePlatformHelper: IAMPlatformHelper {
     override fun getPlatformName(): String = "Forge"
@@ -36,27 +30,7 @@ class ForgePlatformHelper: IAMPlatformHelper {
         TODO("Not yet implemented")
     }
 
-    override fun getAltarBlockEntityType(): BlockEntityType<AltarBlockEntity> {
-        TODO("Not yet implemented")
-    }
-
-    override fun getAltarPedestalBlockEntityType(): BlockEntityType<AltarBlockEntity> {
-        TODO("Not yet implemented")
-    }
-
     override fun getIHandleStackForAltarBlockEntityRecipeInventory(size: Int): IHandleStack {
-        TODO("Not yet implemented")
-    }
-
-    override fun getAltarPedestalBlock(): AltarPedestalBlock {
-        TODO("Not yet implemented")
-    }
-
-    override fun getAltarRecipeSerializer(): AMRecipeSerializer<AltarRecipe> {
-        TODO("Not yet implemented")
-    }
-
-    override fun getManaRecipeSerializer(): AMRecipeSerializer<ManaGenerationRecipe> {
         TODO("Not yet implemented")
     }
 

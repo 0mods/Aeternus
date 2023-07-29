@@ -2,22 +2,17 @@ package team.zeds.ancientmagic.fabric.platform
 
 import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.world.entity.player.Player
-import net.minecraft.world.level.block.entity.BlockEntityType
-import team.zeds.ancientmagic.api.cap.PlayerMagic
-import team.zeds.ancientmagic.api.helper.IHandleStack
-import team.zeds.ancientmagic.api.helper.IStackHelper
-import team.zeds.ancientmagic.api.network.IAMNetwork
-import team.zeds.ancientmagic.api.network.IAMPacket
-import team.zeds.ancientmagic.api.recipe.AMRecipeSerializer
-import team.zeds.ancientmagic.api.registry.IAMRegistryEntry
-import team.zeds.ancientmagic.block.AltarPedestalBlock
-import team.zeds.ancientmagic.block.entity.AltarBlockEntity
+import team.zeds.ancientmagic.common.api.cap.PlayerMagic
+import team.zeds.ancientmagic.common.api.helper.IHandleStack
+import team.zeds.ancientmagic.common.api.helper.IStackHelper
+import team.zeds.ancientmagic.common.api.network.IAMNetwork
+import team.zeds.ancientmagic.common.api.network.IAMPacket
+import team.zeds.ancientmagic.common.api.registry.IAMRegistryEntry
 import team.zeds.ancientmagic.fabric.helper.HandleStack
 import team.zeds.ancientmagic.fabric.helper.StackHelper
 import team.zeds.ancientmagic.fabric.registries.AMRegistry
-import team.zeds.ancientmagic.platform.services.IAMPlatformHelper
-import team.zeds.ancientmagic.recipes.AltarRecipe
-import team.zeds.ancientmagic.recipes.ManaGenerationRecipe
+import team.zeds.ancientmagic.common.platform.services.IAMPlatformHelper
+import team.zeds.ancientmagic.fabric.network.AMNetwork
 
 class FabricPlatformHelper: IAMPlatformHelper {
     override fun getPlatformName(): String = "Fabric"
@@ -40,37 +35,13 @@ class FabricPlatformHelper: IAMPlatformHelper {
 
     override fun getIStackHelper(): IStackHelper = StackHelper
 
-    override fun getAltarBlockEntityType(): BlockEntityType<AltarBlockEntity> {
-        TODO("Not yet implemented")
-    }
-
-    override fun getAltarPedestalBlockEntityType(): BlockEntityType<AltarBlockEntity> {
-        TODO("Not yet implemented")
-    }
-
-    override fun getIHandleStackForAltarBlockEntityRecipeInventory(size: Int): IHandleStack {
-        TODO("Not yet implemented")
-    }
-
-    override fun getAltarPedestalBlock(): AltarPedestalBlock {
-        TODO("Not yet implemented")
-    }
-
-    override fun getAltarRecipeSerializer(): AMRecipeSerializer<AltarRecipe> {
-        TODO("Not yet implemented")
-    }
-
-    override fun getManaRecipeSerializer(): AMRecipeSerializer<ManaGenerationRecipe> {
-        TODO("Not yet implemented")
-    }
+    override fun getIHandleStackForAltarBlockEntityRecipeInventory(size: Int): IHandleStack = HandleStack.create(9)
 
     override fun getPlayerMagic(player: Player): PlayerMagic? {
         TODO("Not yet implemented")
     }
 
-    override fun getIAMNetwork(): IAMNetwork {
-        TODO("Not yet implemented")
-    }
+    override fun getIAMNetwork(): IAMNetwork = AMNetwork()
 
     override fun getS2CPlayerPacket(): IAMPacket<*> {
         TODO("Not yet implemented")

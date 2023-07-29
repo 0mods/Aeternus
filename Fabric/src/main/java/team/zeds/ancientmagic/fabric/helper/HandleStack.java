@@ -9,7 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import team.zeds.ancientmagic.api.helper.IHandleStack;
+import team.zeds.ancientmagic.common.api.helper.IHandleStack;
 import team.zeds.ancientmagic.fabric.forged.ItemStackHandler;
 
 import java.util.HashMap;
