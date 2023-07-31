@@ -27,9 +27,6 @@ abstract class AbstractBlockEntityRenderer<T: BlockEntity>(
     val modelSet: EntityModelSet
     val font: Font
     val minecraft: Minecraft
-    val client: AMConfig.Client
-    val common: AMConfig.Common
-
     init {
         this.blockEntityRenderDispatcher = context.blockEntityRenderDispatcher
         this.blockRenderDispatcher = context.blockRenderDispatcher
@@ -38,8 +35,6 @@ abstract class AbstractBlockEntityRenderer<T: BlockEntity>(
         this.modelSet = context.modelSet
         this.font = context.font
         this.minecraft = Minecraft.getInstance()
-        this.client = AMConfig.client!!
-        this.common = AMConfig.common!!
     }
 
     override fun shouldRenderOffScreen(blockEntity: T): Boolean {

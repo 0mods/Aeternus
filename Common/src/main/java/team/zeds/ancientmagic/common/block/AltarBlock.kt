@@ -13,6 +13,8 @@ import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.entity.BlockEntity
+import net.minecraft.world.level.block.entity.BlockEntityTicker
+import net.minecraft.world.level.block.entity.BlockEntityType
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.world.phys.shapes.CollisionContext
@@ -23,20 +25,20 @@ import team.zeds.ancientmagic.common.block.entity.AltarBlockEntity
 import team.zeds.ancientmagic.common.platform.AMServices
 
 @Suppress("OVERRIDE_DEPRECATION")
-class AltarBlock: EntityBlockBase(Properties.copy(Blocks.STONE)) {
+class AltarBlock: EntityBlockBase(Properties.copy(Blocks.STONE).noOcclusion()) {
     val voxelModel = VoxelShapeBuilder.builder()
         .cube(2.0, 0.0, 2.0, 14.0, 1.0, 14.0)
-        .cube(1.5, 0.6000000000000001, 1.5, 14.5, 8.2, 14.8)
-        .cube(3.0, 8.1, 3.0, 13.0, 8.700000000000001, 13.3)
-        .cube(4.0, 8.700000000000001, 4.0, 12.0, 8.9, 12.0)
-        .cube(2.0, 13.299999999999997, 7.0, 4.0, 15.299999999999997, 9.0)
-        .cube(1.0, 8.199999999999996, 7.0, 3.0, 13.299999999999997, 9.0)
-        .cube(7.0, 8.199999999999998, 13.300000000000004, 9.0, 13.299999999999999, 15.299999999999994)
-        .cube(7.0, 13.299999999999999, 12.325000000000005, 9.0, 15.299999999999999, 14.325000000000003)
-        .cube(11.975000000000007, 13.299999999999999, 7.0, 13.975000000000007, 15.299999999999999, 9.0)
-        .cube(13.000000000000007, 8.199999999999998, 7.0, 14.999999999999991, 13.299999999999999, 9.0)
-        .cube(7.0, 13.399999999999999, 2.1000000000000005, 9.0, 15.399999999999999, 4.1)
-        .cube(7.0, 8.3, 1.0, 9.0, 13.399999999999999, 3.000000000000001)
+        .cube(1.5, 0.6, 1.5, 14.5, 8.2, 14.8)
+        .cube(3.0, 8.1, 3.0, 13.0, 8.7, 13.3)
+        .cube(4.0, 8.7, 4.0, 12.0, 8.9, 12.0)
+        .cube(2.0, 13.3, 7.0, 4.0, 15.3, 9.0)
+        .cube(1.0, 8.2, 7.0, 3.0, 13.3, 9.0)
+        .cube(7.0, 8.2, 13.3, 9.0, 13.3, 15.3)
+        .cube(7.0, 13.3, 12.3, 9.0, 15.3, 14.3)
+        .cube(12.0, 13.3, 7.0, 13.98, 15.3, 9.0)
+        .cube(13.0, 8.2, 7.0, 15.0, 13.3, 9.0)
+        .cube(7.0, 13.4, 2.1, 9.0, 15.4, 4.1)
+        .cube(7.0, 8.3, 1.0, 9.0, 13.4, 3.0)
         .of()
 
     override fun getShape(
@@ -92,4 +94,24 @@ class AltarBlock: EntityBlockBase(Properties.copy(Blocks.STONE)) {
 
         super.onRemove(oldState, level, blockPos, newState, isMoving)
     }
+
+    override fun <T : BlockEntity> serverTicker(
+        level: Level,
+        state: BlockState,
+        type: BlockEntityType<T>
+    ): BlockEntityTicker<T>? = createTicker(
+        type,
+        AMServices.PLATFORM.getIAMRegistryEntry().getAltarBlockEntityType(),
+        AltarBlockEntity::tick
+    )
+
+    override fun <T : BlockEntity> clientTicker(
+        level: Level,
+        state: BlockState,
+        type: BlockEntityType<T>
+    ): BlockEntityTicker<T>? = createTicker(
+        type,
+        AMServices.PLATFORM.getIAMRegistryEntry().getAltarBlockEntityType(),
+        AltarBlockEntity::tick
+    )
 }

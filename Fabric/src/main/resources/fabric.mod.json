@@ -1,39 +1,41 @@
 {
-    "schemaVersion": 1,
-    "id": "ancientmagic",
-    "version": "${version}",
+  "schemaVersion": 1,
+  "id": "ancientmagic",
+  "version": "${version}",
   
-    "name": "AncientMagic",
-    "description": "This is an example description! Tell everyone what your mod is about!",
-    "authors": [
-      "AlgorithmLX"
-    ],
-    "contact": {
-      "homepage": "https://fabricmc.net/",
-      "sources": "https://github.com/FabricMC/fabric-example-mod"
-    },
+  "name": "AncientMagic",
+  "description": "This is an example description! Tell everyone what your mod is about!",
+  "authors": [
+    "AlgorithmLX"
+  ],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
 
-    "license": "ARR",
-    "icon": "assets/modid/icon.png",
+  "license": "ARR",
+  "icon": "assets/modid/icon.png",
   
-    "environment": "*",
-    "entrypoints": {
-      "main": [
-        "team.zeds.ancientmagic.fabric.AMFabric"
-      ]
-    },
-    "mixins": [
-      "ancient.fabric.mixins.json"
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "team.zeds.ancientmagic.fabric.AMFabric"
     ],
-  
-    "depends": {
-      "fabricloader": ">=0.14.21",
-      "fabric": "*",
-      "minecraft": "1.20.x",
-      "java": ">=17"
-    },
-    "suggests": {
-      "another-mod": "*"
-    }
-  }
+    "client": [
+      "team.zeds.ancientmagic.fabric.AMFabricClient"
+    ]
+  },
+  "mixins": [
+    "ancient.fabric.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.14.21",
+    "cloth-config": ">=11.1.106",
+    "fabric": "*",
+    "minecraft": "1.20.x",
+    "java": ">=17"
+  },
+  "accessWidener": "ancientmagic.fabric.accesswidener"
+}
   

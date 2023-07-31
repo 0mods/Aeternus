@@ -15,6 +15,8 @@ public class PlayerMagicCapabilityMixin implements EntityDataHolder {
     @Unique
     private CompoundTag persistentData;
 
+
+    @SuppressWarnings("AddedMixinMembersNamePattern")
     @Override
     public CompoundTag getPersistentData() {
         if (persistentData == null) persistentData = new CompoundTag();

@@ -12,6 +12,7 @@ import team.zeds.ancientmagic.fabric.helper.HandleStack
 import team.zeds.ancientmagic.fabric.helper.StackHelper
 import team.zeds.ancientmagic.fabric.registries.AMRegistry
 import team.zeds.ancientmagic.common.platform.services.IAMPlatformHelper
+import team.zeds.ancientmagic.fabric.capability.PlayerMagicCapability
 import team.zeds.ancientmagic.fabric.network.AMNetwork
 
 class FabricPlatformHelper: IAMPlatformHelper {
@@ -37,27 +38,17 @@ class FabricPlatformHelper: IAMPlatformHelper {
 
     override fun getIHandleStackForAltarBlockEntityRecipeInventory(size: Int): IHandleStack = HandleStack.create(9)
 
-    override fun getPlayerMagic(player: Player): PlayerMagic? {
-        TODO("Not yet implemented")
-    }
+    override fun getPlayerMagic(player: Player): PlayerMagic = PlayerMagicCapability.getInstance(player)
 
     override fun getIAMNetwork(): IAMNetwork = AMNetwork()
 
-    override fun getS2CPlayerPacket(): IAMPacket<*> {
-        TODO("Not yet implemented")
-    }
+    override fun getS2CPlayerPacket(): IAMPacket<*> = AMNetwork.S2C_PLAYER_MAGIC
 
-    override fun getC2SPlayerPacket(): IAMPacket<*> {
-        TODO("Not yet implemented")
-    }
+    override fun getC2SPlayerPacket(): IAMPacket<*> = AMNetwork.C2S_PLAYER_MAGIC
 
-    override fun getOldPlayerMagic(player: Player): PlayerMagic? {
-        TODO("Not yet implemented")
-    }
+    override fun getOldPlayerMagic(player: Player): PlayerMagic = PlayerMagicCapability.getInstance(player)
 
-    override fun getNewPlayerMagic(player: Player): PlayerMagic? {
-        TODO("Not yet implemented")
-    }
+    override fun getNewPlayerMagic(player: Player): PlayerMagic = PlayerMagicCapability.getInstance(player)
 
     override fun getIAMRegistryEntry(): IAMRegistryEntry = AMRegistry
 }

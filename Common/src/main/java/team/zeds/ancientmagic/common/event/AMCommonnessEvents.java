@@ -143,9 +143,9 @@ public final class AMCommonnessEvents {
 
     }
 
-    public static void playerClone(Player original, boolean wasDeath) {
-        final var old = AMServices.PLATFORM.getOldPlayerMagic(original);
-        final var newCpt = AMServices.PLATFORM.getNewPlayerMagic(original);
+    public static void playerClone(Player oldPlayer, Player newPlayer, boolean wasDeath) {
+        final var old = AMServices.PLATFORM.getOldPlayerMagic(oldPlayer);
+        final var newCpt = AMServices.PLATFORM.getNewPlayerMagic(newPlayer);
         if (wasDeath) {
             newCpt.copy(old);
         }

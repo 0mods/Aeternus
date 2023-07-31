@@ -1,0 +1,13 @@
+accessWidener v1 named
+
+accessible method net/minecraft/world/item/crafting/Ingredient fromValues (Ljava/util/stream/Stream;)Lnet/minecraft/world/item/crafting/Ingredient;
+accessible method net/minecraft/world/item/crafting/Ingredient$ItemValue <init> (Lnet/minecraft/world/item/ItemStack;)V
+accessible method net/minecraft/client/renderer/RenderType create (Ljava/lang/String;Lcom/mojang/blaze3d/vertex/VertexFormat;Lcom/mojang/blaze3d/vertex/VertexFormat$Mode;IZZLnet/minecraft/client/renderer/RenderType$CompositeState;)Lnet/minecraft/client/renderer/RenderType$CompositeRenderType;
+
+accessible field net/minecraft/client/gui/components/Button$Builder message Lnet/minecraft/network/chat/Component;
+accessible field net/minecraft/client/gui/components/Button$Builder onPress Lnet/minecraft/gui/components/Button$OnPress;
+accessible field net/minecraft/client/gui/components/Button$Builder createNarration Lnet/minecraft/gui/components/Button$CreateNarration;
+accessible field net/minecraft/client/gui/components/Button$Builder x I
+accessible field net/minecraft/client/gui/components/Button$Builder y I
+accessible field net/minecraft/client/gui/components/Button$Builder width I
+accessible field net/minecraft/client/gui/components/Button$Builder height I

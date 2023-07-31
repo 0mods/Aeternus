@@ -10,6 +10,7 @@ val fabricVersion: String by project
 val fabricLoaderVersion: String by project
 val modName: String by project
 val modId: String by project
+val cloth: String by project
 val coroutines_version: String by project
 val serialization_version: String by project
 val shadow: Configuration by configurations.creating
@@ -20,11 +21,23 @@ base {
     archivesName.set(baseArchiveName)
 }
 
+//loom {
+//    accessWidenerPath.set(file("src/main/resources/ancientmagic.fabric.accesswidener"))
+//}
+
+repositories {
+    maven("https://maven.shedaniel.me/")
+    maven("https://maven.terraformersmc.com/releases/")
+}
+
 dependencies {
     minecraft("com.mojang:minecraft:${minecraftVersion}")
     mappings(loom.officialMojangMappings())
     modImplementation("net.fabricmc:fabric-loader:${fabricLoaderVersion}")
     modImplementation("net.fabricmc.fabric-api:fabric-api:${fabricVersion}")
+    modApi("me.shedaniel.cloth:cloth-config-fabric:${cloth}") {
+        exclude(group = "net.fabricmc.fabric-api")
+    }
     implementation(project(":Common"))
     shadow("org.jetbrains.kotlin:kotlin-reflect:${kotlin.coreLibrariesVersion}")
     shadow("org.jetbrains.kotlin:kotlin-stdlib:${kotlin.coreLibrariesVersion}")
@@ -44,12 +57,14 @@ loom {
             configName = "Fabric Client"
             ideConfigGenerated(true)
             runDir("run")
+            vmArg("-XX:+AllowEnhancedClassRedefinition")
         }
         named("server") {
             server()
             configName = "Fabric Server"
             ideConfigGenerated(true)
             runDir("run")
+            vmArg("-XX:+AllowEnhancedClassRedefinition")
         }
     }
 }

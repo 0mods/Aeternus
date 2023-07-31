@@ -4,11 +4,13 @@ import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Axis
 import net.minecraft.client.renderer.MultiBufferSource
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider
+import net.minecraft.tags.BlockTags
 import net.minecraft.world.item.BlockItem
 import net.minecraft.world.item.ItemDisplayContext
 import net.minecraft.world.level.block.Blocks
 import team.zeds.ancientmagic.common.block.entity.AltarBlockEntity
 import team.zeds.ancientmagic.common.client.render.type.AMRenderTypes
+import team.zeds.ancientmagic.common.init.config.AMConfig
 import team.zeds.ancientmagic.common.platform.AMServices
 import kotlin.math.PI
 import kotlin.math.sin
@@ -40,7 +42,9 @@ class AltarBlockEntityRender(context: BlockEntityRendererProvider.Context) : Abs
             poseStack.popPose()
         }
 
-        if (AMServices.PLATFORM.isDeveloperment() || this.common.isEasyMod()) {
+        val common = AMConfig.common
+
+        if (AMServices.PLATFORM.isDeveloperment() || ((common != null) && common.isEasyMod())) {
             val pos = blockEntity.blockPos
             val consumer = buf.getBuffer(AMRenderTypes.MAGICAL_HOLOGRAM)
 
