@@ -15,8 +15,7 @@ import team.zeds.ancientmagic.fabric.capability.PlayerMagicCapability
 import team.zeds.ancientmagic.fabric.network.AMNetwork
 import team.zeds.ancientmagic.fabric.util.EntityDataHolder
 
-class C2SPlayerMagic: IAMPacket<PacketSender> {
-    private var buf: FriendlyByteBuf? = null
+class C2SPlayerMagic(private val buf: FriendlyByteBuf): IAMPacket<PacketSender> {
     override fun receive(
         server: MinecraftServer,
         player: ServerPlayer,
@@ -24,7 +23,6 @@ class C2SPlayerMagic: IAMPacket<PacketSender> {
         buf: FriendlyByteBuf,
         sender: PacketSender
     ) {
-        this.buf = buf
         val stack = player.getItemInHand(InteractionHand.MAIN_HAND)
         val cap = PlayerMagicCapability.getInstance(player)
         val item = stack.item
@@ -44,5 +42,5 @@ class C2SPlayerMagic: IAMPacket<PacketSender> {
 
     override fun getId(): ResourceLocation = AMNetwork.C2S_PLAYER_MAGIC_ID
 
-    override fun getBuf(): FriendlyByteBuf? = this.buf
+    override fun getBuf(): FriendlyByteBuf = this.buf
 }

@@ -15,17 +15,23 @@ import team.zeds.ancientmagic.fabric.network.packet.S2CPlayerMagic;
 import static team.zeds.ancientmagic.common.AMConstant.reloc;
 
 public class AMNetwork implements IAMNetwork {
-    public static C2SPlayerMagic C2S_PLAYER_MAGIC = new C2SPlayerMagic();
-    public static S2CPlayerMagic S2C_PLAYER_MAGIC = new S2CPlayerMagic();
+    public static C2SPlayerMagic C2S_PLAYER_MAGIC;
+    public static S2CPlayerMagic S2C_PLAYER_MAGIC;
 
-    public static final ResourceLocation C2S_PLAYER_MAGIC_ID = reloc("player_magic_sync");
-    public static final ResourceLocation S2C_PLAYER_MAGIC_ID = reloc("player_magic_server_sync");
+    public static final ResourceLocation C2S_PLAYER_MAGIC_ID = reloc("player_magic_ctos");
+    public static final ResourceLocation S2C_PLAYER_MAGIC_ID = reloc("player_magic_stoc");
 
     public static void registerC2S() {
-        ServerPlayNetworking.registerGlobalReceiver(C2S_PLAYER_MAGIC_ID, C2S_PLAYER_MAGIC::receive);
+        ServerPlayNetworking.registerGlobalReceiver(C2S_PLAYER_MAGIC_ID, (mc, player, alias, buf, pack) -> {
+            C2S_PLAYER_MAGIC = new C2SPlayerMagic(buf);
+            C2S_PLAYER_MAGIC.receive(mc, player, alias, buf, pack);
+        });
     }
     public static void registerS2C() {
-        ClientPlayNetworking.registerGlobalReceiver(S2C_PLAYER_MAGIC_ID, S2C_PLAYER_MAGIC::receive);
+        ClientPlayNetworking.registerGlobalReceiver(S2C_PLAYER_MAGIC_ID, (mc, alias, buf, pack) -> {
+            S2C_PLAYER_MAGIC = new S2CPlayerMagic(buf);
+            S2C_PLAYER_MAGIC.receive(mc, alias, buf, pack);
+        });
     }
 
     @Override

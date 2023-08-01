@@ -9,7 +9,7 @@ class PlayerTick: ServerTickEvents.StartTick {
     override fun onStartTick(server: MinecraftServer)  {
         val players = server.playerList.players
         for (player in players) {
-            if (AMNetwork.S2C_PLAYER_MAGIC.getBuf() != null) AMCommonnessEvents.playerTick(player)
+            if (AMNetwork.S2C_PLAYER_MAGIC != null) AMCommonnessEvents.playerTick(player)
         }
     }
 }

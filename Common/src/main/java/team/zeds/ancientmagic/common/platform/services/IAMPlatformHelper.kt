@@ -37,8 +37,8 @@ interface IAMPlatformHelper {
     fun getIHandleStackForAltarBlockEntityRecipeInventory(size: Int): IHandleStack
     fun getPlayerMagic(player: Player): PlayerMagic? // returns null if foreach value is null
     fun getIAMNetwork(): IAMNetwork
-    fun getS2CPlayerPacket(): IAMPacket<*>
-    fun getC2SPlayerPacket(): IAMPacket<*>
+    fun getS2CPlayerPacket(): IAMPacket<*>?
+    fun getC2SPlayerPacket(): IAMPacket<*>?
     fun getOldPlayerMagic(player: Player): PlayerMagic?
     fun getNewPlayerMagic(player: Player): PlayerMagic?
     fun getIAMRegistryEntry(): IAMRegistryEntry

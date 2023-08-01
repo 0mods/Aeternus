@@ -13,8 +13,6 @@ import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.entity.BlockEntity
-import net.minecraft.world.level.block.entity.BlockEntityTicker
-import net.minecraft.world.level.block.entity.BlockEntityType
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.world.phys.shapes.CollisionContext
@@ -57,14 +55,14 @@ class AltarPedestalBlock: EntityBlockBase(Properties.copy(Blocks.STONE).noOcclus
 
     @Deprecated("Deprecated in Java")
     override fun use(
-        blockState: BlockState,
+        state: BlockState,
         level: Level,
-        blockPos: BlockPos,
+        pos: BlockPos,
         player: Player,
         hand: InteractionHand,
         hitResult: BlockHitResult
     ): InteractionResult {
-        val blockEntity = level.getBlockEntity(blockPos)
+        val blockEntity = level.getBlockEntity(pos)
 
         if (blockEntity is AltarPedestalBlockEntity) {
             val inv = blockEntity.getInv()
@@ -74,7 +72,7 @@ class AltarPedestalBlock: EntityBlockBase(Properties.copy(Blocks.STONE).noOcclus
             if (input.isEmpty && !itemHand.isEmpty) {
                 inv.setStackInSlot(0, AMServices.PLATFORM.getIStackHelper().iWithSize(itemHand, 1, false))
                 player.setItemInHand(hand, AMServices.PLATFORM.getIStackHelper().iShrink(itemHand, 1, false))
-                level.playSound(null, blockPos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1.0f, 1.0f)
+                level.playSound(null, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1.0f, 1.0f)
             } else if (!input.isEmpty) {
                 inv.setStackInSlot(0, ItemStack.EMPTY)
                 val item = ItemEntity(level, player.x, player.y, player.z, input)
@@ -88,13 +86,13 @@ class AltarPedestalBlock: EntityBlockBase(Properties.copy(Blocks.STONE).noOcclus
     }
 
     @Deprecated("Deprecated in Java")
-    override fun onRemove(oldState: BlockState, level: Level, blockPos: BlockPos, newState: BlockState, isMoving: Boolean) {
+    override fun onRemove(oldState: BlockState, level: Level, pos: BlockPos, newState: BlockState, isMoving: Boolean) {
         if (oldState.block != newState.block) {
-            val blockEntity = level.getBlockEntity(blockPos)
-            if (blockEntity is AltarPedestalBlockEntity) Containers.dropContents(level, blockPos, blockEntity.getInv().getStacks())
+            val blockEntity = level.getBlockEntity(pos)
+            if (blockEntity is AltarPedestalBlockEntity) Containers.dropContents(level, pos, blockEntity.getInv().getStacks())
         }
 
-        super.onRemove(oldState, level, blockPos, newState, isMoving)
+        super.onRemove(oldState, level, pos, newState, isMoving)
     }
 
     override fun newBlockEntity(var1: BlockPos, var2: BlockState): BlockEntity = AltarPedestalBlockEntity(var1, var2)

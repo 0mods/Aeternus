@@ -52,10 +52,10 @@ class AltarBlock: EntityBlockBase(Properties.copy(Blocks.STONE).noOcclusion()) {
 
     override fun newBlockEntity(var1: BlockPos, var2: BlockState): BlockEntity = AltarBlockEntity(var1, var2)
 
-    override fun use(blockState: BlockState, level: Level, blockPos: BlockPos, player: Player, hand: InteractionHand,
+    override fun use(state: BlockState, level: Level, pos: BlockPos, player: Player, hand: InteractionHand,
                      hitResult: BlockHitResult
     ): InteractionResult {
-        val blockEntity = level.getBlockEntity(blockPos)
+        val blockEntity = level.getBlockEntity(pos)
 
         if (blockEntity is AltarBlockEntity) {
             val inv = blockEntity.getInv()
@@ -63,22 +63,23 @@ class AltarBlock: EntityBlockBase(Properties.copy(Blocks.STONE).noOcclusion()) {
             val output = inv.getStackInSlotHandler(1)
 
             if (!output.isEmpty) {
+                inv.setStackInSlot(1, ItemStack.EMPTY)
                 val item = ItemEntity(level, player.x, player.y, player.z, output)
 
                 item.setNoPickUpDelay()
                 level.addFreshEntity(item)
-                inv.setStackInSlot(1, ItemStack.EMPTY)
             } else {
                 val itemHand = player.getItemInHand(hand)
                 if (input.isEmpty && !itemHand.isEmpty) {
                     inv.setStackInSlot(0, AMServices.PLATFORM.getIStackHelper().iWithSize(itemHand, 1, false))
                     player.setItemInHand(hand, AMServices.PLATFORM.getIStackHelper().iShrink(itemHand, 1, false))
-                    level.playSound(null, blockPos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1.0f, 1.0f)
+                    level.playSound(null, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1.0f, 1.0f)
                 } else if (!input.isEmpty) {
+                    inv.setStackInSlot(0, ItemStack.EMPTY)
                     val item = ItemEntity(level, player.x, player.y, player.z, output)
+
                     item.setNoPickUpDelay()
                     level.addFreshEntity(item)
-                    inv.setStackInSlot(0, ItemStack.EMPTY)
                 }
             }
         }
@@ -86,26 +87,16 @@ class AltarBlock: EntityBlockBase(Properties.copy(Blocks.STONE).noOcclusion()) {
         return InteractionResult.SUCCESS
     }
 
-    override fun onRemove(oldState: BlockState, level: Level, blockPos: BlockPos, newState: BlockState, isMoving: Boolean) {
+    override fun onRemove(oldState: BlockState, level: Level, pos: BlockPos, newState: BlockState, isMoving: Boolean) {
         if (oldState.block != newState.block) {
-            val blockEntity = level.getBlockEntity(blockPos)
-            if (blockEntity is AltarBlockEntity) Containers.dropContents(level, blockPos, blockEntity.getInv().getStacks())
+            val blockEntity = level.getBlockEntity(pos)
+            if (blockEntity is AltarBlockEntity) Containers.dropContents(level, pos, blockEntity.getInv().getStacks())
         }
 
-        super.onRemove(oldState, level, blockPos, newState, isMoving)
+        super.onRemove(oldState, level, pos, newState, isMoving)
     }
 
     override fun <T : BlockEntity> serverTicker(
-        level: Level,
-        state: BlockState,
-        type: BlockEntityType<T>
-    ): BlockEntityTicker<T>? = createTicker(
-        type,
-        AMServices.PLATFORM.getIAMRegistryEntry().getAltarBlockEntityType(),
-        AltarBlockEntity::tick
-    )
-
-    override fun <T : BlockEntity> clientTicker(
         level: Level,
         state: BlockState,
         type: BlockEntityType<T>

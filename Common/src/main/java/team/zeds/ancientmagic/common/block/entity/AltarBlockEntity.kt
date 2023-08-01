@@ -1,7 +1,6 @@
 package team.zeds.ancientmagic.common.block.entity
 
 import net.minecraft.core.BlockPos
-import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
@@ -13,7 +12,6 @@ import team.zeds.ancientmagic.common.api.block.ContainerBlockEntity
 import team.zeds.ancientmagic.common.api.helper.IHandleStack
 import team.zeds.ancientmagic.common.api.helper.StructurePosition
 import team.zeds.ancientmagic.common.init.registries.AMRecipeTypes
-import team.zeds.ancientmagic.common.init.registries.AMTags
 import team.zeds.ancientmagic.common.platform.AMServices
 import team.zeds.ancientmagic.common.recipes.AltarRecipe
 
@@ -138,60 +136,11 @@ class AltarBlockEntity(blockPos: BlockPos, state: BlockState) : ContainerBlockEn
 
     fun reset() {
         this.progress = 0
-        this.active = false
     }
 
     fun isActive(): Boolean {
-        val pedestals = this.getPedestalPosition()
-        val bricks = this.getBricksPosition()
-        val bricksWalls = this.getBricksWallPosition()
-        val cutWoods = this.getCutWoodPosition()
-        val fireStones = this.fireStonePosition()
-
-        val strippedWoods = this.strippedWoods
-        val level = this.getLevel()
-
-        if (level != null) {
-            pedestals.forEach { bPos ->
-                val blockAtState = level.getBlockState(bPos).block
-                this.pedestalIsValid = blockAtState == AMServices.PLATFORM.getIAMRegistryEntry().getAltarPedestalBlock()
-            }
-
-            bricks.forEach { bPos ->
-                val blockAtState = level.getBlockState(bPos).block
-                this.bricksIsValid = blockAtState == Blocks.STONE_BRICKS
-            }
-
-            bricksWalls.forEach { bPos ->
-                val blockAtState = level.getBlockState(bPos).block
-                this.bricksWallIsValid = blockAtState == Blocks.STONE_BRICK_WALL
-            }
-
-            cutWoods.forEach { bPos ->
-                val blockAtState = level.getBlockState(bPos).block
-                strippedWoods.forEach {
-                    this.cutWoodIsValid = if (blockAtState == it) {
-                        AMConstant.LOGGER.info("stripped wood is valid")
-                        true
-                    } else false
-                }
-            }
-
-            fireStones.forEach { bPos ->
-                val blockAtState = level.getBlockState(bPos).block
-                this.fireStoneIsValid = blockAtState == Blocks.SMOOTH_STONE
-            }
-
-            this.structureIsValid = if (this.pedestalIsValid && this.bricksIsValid
-                && this.bricksWallIsValid && this.cutWoodIsValid && this.fireStoneIsValid
-            ) {
-                AMConstant.LOGGER.info("Structure is Valid!")
-                true
-            } else false
-        }
-
         if (!this.active) {
-            this.active = level != null && this.structureIsValid
+            this.active = level != null && this.getStructureValid()
         }
 
         val activeStatus = if (this.active) "Active!" else "Inactive!"
@@ -238,6 +187,51 @@ class AltarBlockEntity(blockPos: BlockPos, state: BlockState) : ContainerBlockEn
         }
 
         return pedestals
+    }
+
+    fun getStructureValid(): Boolean {
+        val pedestals = this.getPedestalPosition()
+        val bricks = this.getBricksPosition()
+        val bricksWall = this.getBricksWallPosition()
+        val cutWoods = this.getCutWoodPosition()
+        val fireStones = this.fireStonePosition()
+
+        val strippedWoods = this.strippedWoods
+        val level = this.getLevel()
+
+        if (level != null) {
+            for (bPos in pedestals) {
+                val blockAtState = level.getBlockState(bPos).block
+                this.pedestalIsValid = blockAtState == AMServices.PLATFORM.getIAMRegistryEntry().getAltarPedestalBlock()
+            }
+
+            for (bPos in bricks) {
+                val blockAtState = level.getBlockState(bPos).block
+                this.bricksIsValid = blockAtState == Blocks.STONE_BRICKS
+            }
+
+            for (bPos in bricksWall) {
+                val blockAtState = level.getBlockState(bPos).block
+                this.bricksWallIsValid = blockAtState == Blocks.STONE_BRICK_WALL
+            }
+
+            for (bPos in fireStones) {
+                val blockAtState = level.getBlockState(bPos).block
+                this.fireStoneIsValid = blockAtState == Blocks.SMOOTH_STONE
+            }
+
+            for (bPos in cutWoods) {
+                val blockAtState = level.getBlockState(bPos).block
+                for (block in strippedWoods) {
+                    this.cutWoodIsValid = blockAtState == block
+                }
+            }
+        }
+
+        this.structureIsValid = (this.pedestalIsValid && this.bricksIsValid
+                && this.bricksWallIsValid && this.cutWoodIsValid && this.fireStoneIsValid)
+
+        return this.structureIsValid
     }
 
     fun setOutput(stack: ItemStack) {

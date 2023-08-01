@@ -139,7 +139,8 @@ public final class AMCommonnessEvents {
 
         if (!player.level().isClientSide())
             if (player instanceof ServerPlayer sp)
-                AMServices.PLATFORM.getIAMNetwork().sendToPlayer(AMServices.PLATFORM.getS2CPlayerPacket(), sp);
+                if (AMServices.PLATFORM.getS2CPlayerPacket() != null)
+                    AMServices.PLATFORM.getIAMNetwork().sendToPlayer(AMServices.PLATFORM.getS2CPlayerPacket(), sp);
 
     }
 
@@ -156,7 +157,8 @@ public final class AMCommonnessEvents {
             if (entity instanceof ServerPlayer sp) {
                 AMConstant.LOGGER.debug("Player {} connected!", sp);
 
-                AMServices.PLATFORM.getIAMNetwork().sendToPlayer(AMServices.PLATFORM.getS2CPlayerPacket(), sp);
+                if (AMServices.PLATFORM.getS2CPlayerPacket() != null)
+                    AMServices.PLATFORM.getIAMNetwork().sendToPlayer(AMServices.PLATFORM.getS2CPlayerPacket(), sp);
             }
         }
     }
