@@ -32,8 +32,6 @@ class AltarBlockEntity(blockPos: BlockPos, state: BlockState) : ContainerBlockEn
     private val inv: IHandleStack
     private val recipeInv: IHandleStack
 
-    //Structure validating
-    var structureIsValid = false
     //Block validating
     var pedestalIsValid = false
     var bricksIsValid = false
@@ -91,7 +89,7 @@ class AltarBlockEntity(blockPos: BlockPos, state: BlockState) : ContainerBlockEn
                 return
             }
 
-            if (blockEntity.isActive()) {
+            if (blockEntity.getStructureValid()) {
                 val recipe = blockEntity.getActiveRecipe()
 
                 if (recipe != null) {
@@ -136,17 +134,6 @@ class AltarBlockEntity(blockPos: BlockPos, state: BlockState) : ContainerBlockEn
 
     fun reset() {
         this.progress = 0
-    }
-
-    fun isActive(): Boolean {
-        if (!this.active) {
-            this.active = level != null && this.getStructureValid()
-        }
-
-        val activeStatus = if (this.active) "Active!" else "Inactive!"
-        AMConstant.LOGGER.debug("Altar Active Status is \"${activeStatus}\"")
-
-        return this.active
     }
 
     fun getActiveRecipe(): AltarRecipe? {
@@ -226,12 +213,9 @@ class AltarBlockEntity(blockPos: BlockPos, state: BlockState) : ContainerBlockEn
                     this.cutWoodIsValid = blockAtState == block
                 }
             }
-        }
 
-        this.structureIsValid = (this.pedestalIsValid && this.bricksIsValid
-                && this.bricksWallIsValid && this.cutWoodIsValid && this.fireStoneIsValid)
-
-        return this.structureIsValid
+            return this.pedestalIsValid && this.bricksIsValid && this.bricksWallIsValid && this.fireStoneIsValid && this.cutWoodIsValid
+        } else return false
     }
 
     fun setOutput(stack: ItemStack) {

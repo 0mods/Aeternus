@@ -45,7 +45,7 @@ public final class AMRenderTypes extends RenderType {
     }
 
     public static class AMShaderStateShards {
-        public static final RenderStateShard.ShaderStateShard HOLO_STATE = new ShaderStateShard(AMShaders.getInstance()::getHologram);
-        public static final RenderStateShard.ShaderStateShard IMPROVED_PARTICLE = new ShaderStateShard(AMShaders.getInstance()::getImprovedParticle);
+        public static final ShaderStateShard HOLO_STATE = new ShaderStateShard(AMShaders.getInstance()::getHologram);
+        public static final ShaderStateShard IMPROVED_PARTICLE = new ShaderStateShard(AMShaders.getInstance()::getImprovedParticle);
     }
 }
