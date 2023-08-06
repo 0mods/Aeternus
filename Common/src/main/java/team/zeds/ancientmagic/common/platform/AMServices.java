@@ -6,7 +6,6 @@ import team.zeds.ancientmagic.common.platform.services.IAMPlatformHelper;
 import java.util.ServiceLoader;
 
 public class AMServices {
-
     public static final IAMPlatformHelper PLATFORM = load(IAMPlatformHelper.class);
 
     public static <T> T load(Class<T> clazz) {

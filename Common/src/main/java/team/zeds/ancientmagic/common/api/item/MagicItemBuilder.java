@@ -3,9 +3,9 @@ package team.zeds.ancientmagic.common.api.item;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
-import team.zeds.ancientmagic.common.api.magic.MagicType;
-import team.zeds.ancientmagic.common.api.magic.MagicType.MagicClassifier;
-import team.zeds.ancientmagic.common.api.magic.MagicTypes;
+import team.zeds.ancientmagic.common.api.magic.type.MagicType;
+import team.zeds.ancientmagic.common.api.magic.type.MagicType.MagicClassifier;
+import team.zeds.ancientmagic.common.api.magic.type.MagicTypes;
 
 public class MagicItemBuilder {
     private final Item.Properties properties;

@@ -7,7 +7,7 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Rarity
 import net.minecraft.world.level.Level
 import team.zeds.ancientmagic.common.api.item.MagicItem
-import team.zeds.ancientmagic.common.api.magic.MagicTypes
+import team.zeds.ancientmagic.common.api.magic.type.MagicTypes
 
 class RetraceStone: MagicItem(
     of()

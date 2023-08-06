@@ -9,6 +9,7 @@ import team.zeds.ancientmagic.common.client.render.entity.AltarBlockEntityRender
 import team.zeds.ancientmagic.common.client.render.entity.AltarPedestalBlockEntityRender;
 import team.zeds.ancientmagic.common.event.AMCommonnessEvents;
 import team.zeds.ancientmagic.common.init.config.AMConfig;
+import team.zeds.ancientmagic.common.init.registries.AMTags;
 import team.zeds.ancientmagic.fabric.config.AMClient;
 import team.zeds.ancientmagic.fabric.config.AMCommon;
 import team.zeds.ancientmagic.fabric.event.PlayerTick;
@@ -20,6 +21,7 @@ public class AMManage {
 
     public static void init() {
         AMConfig.setCommon(AMManage.commonConfig());
+        AMTags.getInstance().init();
         AMRegistry.initialize();
         AMNetwork.registerC2S();
         ServerTickEvents.START_SERVER_TICK.register(new PlayerTick());

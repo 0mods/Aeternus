@@ -2,7 +2,7 @@ package team.zeds.ancientmagic.common.api.cap
 
 import net.minecraft.world.item.ItemStack
 import org.jetbrains.annotations.Nullable
-import team.zeds.ancientmagic.common.api.magic.MagicType
+import team.zeds.ancientmagic.common.api.magic.type.MagicType
 
 interface ItemStackMagic {
     fun getMagicType(): MagicType

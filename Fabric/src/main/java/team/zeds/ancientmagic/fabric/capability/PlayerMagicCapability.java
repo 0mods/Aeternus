@@ -8,8 +8,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.NotNull;
 import team.zeds.ancientmagic.common.api.cap.PlayerMagic;
-import team.zeds.ancientmagic.common.api.magic.MagicType;
-import team.zeds.ancientmagic.common.api.magic.MagicTypes;
+import team.zeds.ancientmagic.common.api.magic.type.MagicType;
+import team.zeds.ancientmagic.common.api.magic.type.MagicTypes;
 import team.zeds.ancientmagic.fabric.network.AMNetwork;
 import team.zeds.ancientmagic.fabric.util.EntityDataHolder;
 

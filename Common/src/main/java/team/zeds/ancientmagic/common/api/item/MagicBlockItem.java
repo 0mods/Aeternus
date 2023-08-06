@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import team.zeds.ancientmagic.common.api.cap.ItemStackMagic;
-import team.zeds.ancientmagic.common.api.magic.MagicType;
+import team.zeds.ancientmagic.common.api.magic.type.MagicType;
 
 public class MagicBlockItem extends BlockItem implements ItemStackMagic {
     private boolean canUseItem = true;

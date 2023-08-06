@@ -10,71 +10,36 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import team.zeds.ancientmagic.common.AMConstant;
+import team.zeds.ancientmagic.common.api.cap.ItemStackMagic;
 import team.zeds.ancientmagic.common.api.item.MagicBlockItem;
 import team.zeds.ancientmagic.common.api.item.MagicItem;
-import team.zeds.ancientmagic.common.api.magic.MagicTypes;
+import team.zeds.ancientmagic.common.api.magic.type.MagicTypes;
 import team.zeds.ancientmagic.common.init.config.AMConfig;
 import team.zeds.ancientmagic.common.init.registries.AMTags;
 import team.zeds.ancientmagic.common.platform.AMServices;
 
 import java.util.List;
 
-import static team.zeds.ancientmagic.common.api.magic.MagicType.getMagicMessage;
+import static team.zeds.ancientmagic.common.api.magic.type.MagicType.getMagicMessage;
 
 public final class AMCommonnessEvents {
     public static void tooltipEvent(ItemStack stack, List<Component> tooltip, TooltipFlag flag) {
-        if (stack.getItem() instanceof MagicItem item) {
-            tooltip.add(Component.translatable("magicType.type", item.getMagicType().getTranslation()));
-            if (item.getMagicSubtype() != MagicTypes.NOTHING) tooltip.add(
-                    Component.translatable(
-                            "magicType.subtype",
-                            item.getMagicSubtype().getTranslation()
-                    )
-            );
+        final var item = stack.getItem();
 
-            if (item.getMaxMana() != 0) tooltip.add(
-                    getMagicMessage(
-                            "storage", item.getManaStorages(stack),
-                            item.getMaxMana()
-                    )
-            );
-
-            final var resource = BuiltInRegistries.ITEM.getKey(item);
-            final var namespace = resource.getNamespace();
-
-            if (!namespace.equals(AMConstant.KEY)) tooltip.add(
-                    Component.translatable(
-                            String.format(
-                                    "content.%s.added_by",
-                                    AMConstant.KEY
-                            ), namespace
-                    )
-            );
-
-            if (AMServices.PLATFORM.isDeveloperment() && AMServices.PLATFORM.isModLoaded("waystones") &&
-                    AMConfig.getCommon().isWayStoneCompact() /*&&
-                (stack.`is`(AMTags.getInstance().getUnconsumeCatalyst())
-                        || stack.`is`(AMTags.getInstance().getConsumeCatalyst()))*/
-            ) {
-                tooltip.add(Component.translatable(String.format("compact.%s.waystones.tpItem", AMConstant.KEY)));
+        if (item instanceof ItemStackMagic magic) {
+            tooltip.add(Component.translatable("magicType.type", magic.getMagicType().getTranslation()));
+            if (magic.getMagicSubtype() != MagicTypes.NOTHING || magic.getMagicSubtype() != null) {
+                tooltip.add(
+                        Component.translatable(
+                        "magicType.subtype",
+                                magic.getMagicSubtype().getTranslation()
+                ));
             }
-        }
 
-        if (stack.getItem() instanceof MagicBlockItem item) {
-            tooltip.add(Component.translatable("magicType.type", item.getMagicType().getTranslation()));
-            if (item.getMagicSubtype() != MagicTypes.NOTHING) tooltip.add(
-                    Component.translatable(
-                            "magicType.subtype",
-                            item.getMagicSubtype().getTranslation()
-                    )
-            );
-
-            if (item.getMaxMana() != 0) tooltip.add(
-                    getMagicMessage(
-                            "storage", item.getManaStorages(stack),
-                            item.getMaxMana()
-                    )
-            );
+            if (magic.getMaxMana() != 0) tooltip.add(getMagicMessage(
+                    "storage", magic.getManaStorages(stack),
+                    magic.getMaxMana()
+            ));
 
             final var resource = BuiltInRegistries.ITEM.getKey(item);
             final var namespace = resource.getNamespace();

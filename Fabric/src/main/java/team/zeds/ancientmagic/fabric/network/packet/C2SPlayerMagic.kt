@@ -9,7 +9,7 @@ import net.minecraft.server.MinecraftServer
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.InteractionHand
 import team.zeds.ancientmagic.common.api.item.MagicItem
-import team.zeds.ancientmagic.common.api.magic.MagicTypes
+import team.zeds.ancientmagic.common.api.magic.type.MagicTypes
 import team.zeds.ancientmagic.common.api.network.IAMPacket
 import team.zeds.ancientmagic.fabric.capability.PlayerMagicCapability
 import team.zeds.ancientmagic.fabric.network.AMNetwork

@@ -7,7 +7,7 @@ import net.minecraft.client.gui.screens.inventory.InventoryScreen
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import team.zeds.ancientmagic.common.AMConstant
-import team.zeds.ancientmagic.common.api.magic.MagicTypes
+import team.zeds.ancientmagic.common.api.magic.type.MagicTypes
 import team.zeds.ancientmagic.common.client.sync.ClientPlayerMagicData
 
 abstract class AbstractMagicScreen(component: Component): Screen(component), IMagicScreen {

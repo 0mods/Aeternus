@@ -11,7 +11,7 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import team.zeds.ancientmagic.common.api.cap.ItemStackMagic;
-import team.zeds.ancientmagic.common.api.magic.MagicType;
+import team.zeds.ancientmagic.common.api.magic.type.MagicType;
 
 public class MagicItem extends Item implements ItemStackMagic {
     private boolean canUseItem = true;

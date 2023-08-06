@@ -6,8 +6,8 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
 import team.zeds.ancientmagic.common.api.item.MagicItem
-import team.zeds.ancientmagic.common.api.magic.MagicType
-import team.zeds.ancientmagic.common.api.magic.MagicTypes
+import team.zeds.ancientmagic.common.api.magic.type.MagicType
+import team.zeds.ancientmagic.common.api.magic.type.MagicTypes
 import team.zeds.ancientmagic.common.client.sync.ClientPlayerMagicData
 import team.zeds.ancientmagic.common.platform.AMServices
 

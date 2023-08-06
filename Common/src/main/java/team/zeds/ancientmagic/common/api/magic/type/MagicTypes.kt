@@ -1,4 +1,4 @@
-package team.zeds.ancientmagic.common.api.magic
+package team.zeds.ancientmagic.common.api.magic.type
 
 import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.MutableComponent

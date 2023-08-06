@@ -7,7 +7,6 @@ import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.state.BlockState
-import team.zeds.ancientmagic.common.AMConstant
 import team.zeds.ancientmagic.common.api.block.ContainerBlockEntity
 import team.zeds.ancientmagic.common.api.helper.IHandleStack
 import team.zeds.ancientmagic.common.api.helper.StructurePosition
@@ -19,6 +18,7 @@ class AltarBlockEntity(blockPos: BlockPos, state: BlockState) : ContainerBlockEn
     AMServices.PLATFORM.getIAMRegistryEntry().getAltarBlockEntityType(),
     blockPos, state
 ) {
+
     val strippedWoods = mutableListOf<Block>(
         Blocks.STRIPPED_OAK_WOOD,
         Blocks.STRIPPED_SPRUCE_WOOD,

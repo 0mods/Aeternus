@@ -1,8 +1,7 @@
 package team.zeds.ancientmagic.common.api.cap
 
 import net.minecraft.nbt.CompoundTag
-import org.jetbrains.annotations.NotNull
-import team.zeds.ancientmagic.common.api.magic.MagicType
+import team.zeds.ancientmagic.common.api.magic.type.MagicType
 
 interface PlayerMagic {
     fun getMagicLevel(): Int
