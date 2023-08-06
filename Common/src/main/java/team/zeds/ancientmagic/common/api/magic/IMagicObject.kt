@@ -40,7 +40,7 @@ interface IMagicObject<T>: IMagicProvider<T> {
 
     fun isFull(obj: T): Boolean = this.getManaStorage(obj) == this.getMaxManaStorage(obj)
 
-    fun insertEnergy(value: Long): Long {
+    fun insertMana(value: Long): Long {
         val energy = getManaStorage()
         var result = 0L
         if (energy < this.getMaxManaStorage())
@@ -49,21 +49,21 @@ interface IMagicObject<T>: IMagicProvider<T> {
         return result
     }
 
-    fun insertEnergy(obj: T, value: Long): Long {
+    fun insertMana(obj: T, value: Long): Long {
         val energy = getManaStorage(obj)
         val result = min(energy + value, getMaxManaStorage(obj))
         setManaStorage(obj, result)
         return result
     }
 
-    fun extractEnergy(value: Long): Long {
+    fun extractMana(value: Long): Long {
         val energy = getManaStorage()
         val result = max(energy - value, 0)
         setManaStorage(result)
         return result
     }
 
-    fun extractEnergy(obj: T, value: Long): Long {
+    fun extractMana(obj: T, value: Long): Long {
         val energy = getManaStorage(obj)
         val result = max(energy - value, 0)
         setManaStorage(obj, result)
@@ -82,8 +82,8 @@ interface IMagicObject<T>: IMagicProvider<T> {
 
         if (i <= 0 && this.getManaStorage() == max) return 0
 
-        i += this.extractEnergy(i)
-        equalizeWith.insertEnergy(i)
+        i += this.extractMana(i)
+        equalizeWith.insertMana(i)
 
         return i
     }
@@ -101,27 +101,27 @@ interface IMagicObject<T>: IMagicProvider<T> {
 
         if (i == 0L || i < 0L && this.getManaStorage(obj) == max) return 0
 
-        i += this.extractEnergy(obj, i)
-        equalizeWith.insertEnergy(i)
+        i += this.extractMana(obj, i)
+        equalizeWith.insertMana(i)
 
         return i
     }
 
-    fun transferEnergy(storage: IMagicObject<*>): Long {
+    fun transferMana(storage: IMagicObject<*>): Long {
         var value = storage.getManaStorage()
         if (value > this.getMaxManaStorage()) value -= (value - this.getMaxManaStorage())
-        value -= this.insertEnergy(value)
-        value += storage.extractEnergy(value)
-        this.extractEnergy(value)
+        value -= this.insertMana(value)
+        value += storage.extractMana(value)
+        this.extractMana(value)
         return value
     }
 
-    fun transferEnergy(obj: T, storage: IMagicObject<*>): Long {
+    fun transferMana(obj: T, storage: IMagicObject<*>): Long {
         var value = storage.getManaStorage()
         if (value > this.getMaxManaStorage(obj)) value -= (value - this.getMaxManaStorage(obj))
-        value -= this.insertEnergy(obj, value)
-        value += storage.extractEnergy(value)
-        this.extractEnergy(obj, value)
+        value -= this.insertMana(obj, value)
+        value += storage.extractMana(value)
+        this.extractMana(obj, value)
         return value
     }
 

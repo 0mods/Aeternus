@@ -29,7 +29,7 @@ open class SimpleMagicStorage<T: SimpleMagicStorage<T>>(private var capacity: Lo
 
     override fun getMaxManaStorage(obj: T): Long = obj.capacity
 
-    override fun insertEnergy(value: Long): Long {
+    override fun insertMana(value: Long): Long {
         val energy = getManaStorage()
         var result = 0L
         if (energy < this.getMaxManaStorage())
@@ -38,21 +38,21 @@ open class SimpleMagicStorage<T: SimpleMagicStorage<T>>(private var capacity: Lo
         return result
     }
 
-    override fun insertEnergy(obj: T, value: Long): Long {
+    override fun insertMana(obj: T, value: Long): Long {
         val energy = getManaStorage(obj)
         val result = min(energy + value, getMaxManaStorage(obj))
         setManaStorage(obj, result)
         return result
     }
 
-    override fun extractEnergy(value: Long): Long {
+    override fun extractMana(value: Long): Long {
         val energy = getManaStorage()
         val result = max(energy - value, 0)
         setManaStorage(result)
         return result
     }
 
-    override fun extractEnergy(obj: T, value: Long): Long {
+    override fun extractMana(obj: T, value: Long): Long {
         val energy = getManaStorage(obj)
         val result = max(energy - value, 0)
         setManaStorage(obj, result)
