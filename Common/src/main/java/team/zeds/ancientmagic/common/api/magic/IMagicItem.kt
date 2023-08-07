@@ -20,4 +20,6 @@ interface IMagicItem: IMagicObject<ItemStack>, IMagic {
 
         return false
     }
+
+    fun setMaxMana(): Long
 }

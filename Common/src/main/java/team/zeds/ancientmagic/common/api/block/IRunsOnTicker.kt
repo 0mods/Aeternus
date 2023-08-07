@@ -6,6 +6,7 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker
 import net.minecraft.world.level.block.entity.BlockEntityType
 import net.minecraft.world.level.block.state.BlockState
 
+@Deprecated("Deprecated as not needed", level = DeprecationLevel.ERROR)
 interface IRunsOnTicker {
     @Suppress("UNCHECKED_CAST")
     fun <A: BlockEntity, B: BlockEntity> createTicker(tickerType: BlockEntityType<B>, modType: BlockEntityType<A>,

@@ -1,4 +1,4 @@
-package team.zeds.ancientmagic.common.api.block
+package team.zeds.ancientmagic.common.api.block.settings
 
 import team.zeds.ancientmagic.common.api.helper.IHandleStack
 

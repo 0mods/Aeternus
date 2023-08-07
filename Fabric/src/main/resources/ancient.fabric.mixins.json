@@ -4,6 +4,8 @@
   "package": "team.zeds.ancientmagic.fabric.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
+    "ItemMixin",
+    "ItemStackMixin",
     "PlayerMagicCapabilityMixin"
   ],
   "client": [],

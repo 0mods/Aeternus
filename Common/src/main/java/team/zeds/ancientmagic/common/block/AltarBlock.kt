@@ -13,8 +13,6 @@ import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.entity.BlockEntity
-import net.minecraft.world.level.block.entity.BlockEntityTicker
-import net.minecraft.world.level.block.entity.BlockEntityType
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.world.phys.shapes.CollisionContext
@@ -25,7 +23,10 @@ import team.zeds.ancientmagic.common.block.entity.AltarBlockEntity
 import team.zeds.ancientmagic.common.platform.AMServices
 
 @Suppress("OVERRIDE_DEPRECATION")
-class AltarBlock: EntityBlockBase(Properties.copy(Blocks.STONE).noOcclusion()) {
+class AltarBlock: EntityBlockBase<AltarBlockEntity>(
+    { pos, state -> AltarBlockEntity(pos, state) },
+    Properties.copy(Blocks.STONE).noOcclusion()
+) {
     val voxelModel = VoxelShapeBuilder.builder()
         .cube(2.0, 0.0, 2.0, 14.0, 1.0, 14.0)
         .cube(1.5, 0.6, 1.5, 14.5, 8.2, 14.8)
@@ -49,8 +50,6 @@ class AltarBlock: EntityBlockBase(Properties.copy(Blocks.STONE).noOcclusion()) {
     ): VoxelShape {
         return voxelModel
     }
-
-    override fun newBlockEntity(var1: BlockPos, var2: BlockState): BlockEntity = AltarBlockEntity(var1, var2)
 
     override fun use(state: BlockState, level: Level, pos: BlockPos, player: Player, hand: InteractionHand,
                      hitResult: BlockHitResult
@@ -95,14 +94,4 @@ class AltarBlock: EntityBlockBase(Properties.copy(Blocks.STONE).noOcclusion()) {
 
         super.onRemove(oldState, level, pos, newState, isMoving)
     }
-
-    override fun <T : BlockEntity> serverTicker(
-        level: Level,
-        state: BlockState,
-        type: BlockEntityType<T>
-    ): BlockEntityTicker<T>? = createTicker(
-        type,
-        AMServices.PLATFORM.getIAMRegistryEntry().getAltarBlockEntityType(),
-        AltarBlockEntity::tick
-    )
 }

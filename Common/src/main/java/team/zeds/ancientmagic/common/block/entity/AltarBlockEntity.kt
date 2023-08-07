@@ -14,7 +14,7 @@ import team.zeds.ancientmagic.common.init.registries.AMRecipeTypes
 import team.zeds.ancientmagic.common.platform.AMServices
 import team.zeds.ancientmagic.common.recipes.AltarRecipe
 
-class AltarBlockEntity(blockPos: BlockPos, state: BlockState) : ContainerBlockEntity(
+class AltarBlockEntity(blockPos: BlockPos, state: BlockState): ContainerBlockEntity<AltarBlockEntity>(
     AMServices.PLATFORM.getIAMRegistryEntry().getAltarBlockEntityType(),
     blockPos, state
 ) {
@@ -79,51 +79,48 @@ class AltarBlockEntity(blockPos: BlockPos, state: BlockState) : ContainerBlockEn
     fun getCutWoodPosition(): MutableList<BlockPos> = this.cutWoodPosition.get(this.blockPos)
     fun fireStonePosition(): MutableList<BlockPos> = this.fireStonePosition.get(this.blockPos)
 
-    companion object {
-        @JvmStatic
-        fun tick(level: Level, pos: BlockPos, state: BlockState, blockEntity: AltarBlockEntity) {
-            val input = blockEntity.inv.getStackInSlotHandler(0)
+    override fun tickOnServer(level: Level, pos: BlockPos, state: BlockState, blockEntity: AltarBlockEntity) {
+        val input = blockEntity.inv.getStackInSlotHandler(0)
 
-            if (input.isEmpty) {
-                blockEntity.reset()
-                return
-            }
+        if (input.isEmpty) {
+            blockEntity.reset()
+            return
+        }
 
-            if (blockEntity.getStructureValid()) {
-                val recipe = blockEntity.getActiveRecipe()
+        if (blockEntity.getStructureValid()) {
+            val recipe = blockEntity.getActiveRecipe()
 
-                if (recipe != null) {
-                    blockEntity.progress++
+            if (recipe != null) {
+                blockEntity.progress++
 
-                    val pedestalList = blockEntity.getPedestals()
+                val pedestalList = blockEntity.getPedestals()
 
-                    val time = if (recipe.time != 0) recipe.time * 20 else 400
+                val time = if (recipe.time != 0) recipe.time * 20 else 400
 
-                    if (blockEntity.progress >= time) {
-                        val remaining = recipe.getRemainingItems(blockEntity.recipeInv.toContainer())
+                if (blockEntity.progress >= time) {
+                    val remaining = recipe.getRemainingItems(blockEntity.recipeInv.toContainer())
 
-                        for (i in 0 until pedestalList.size) {
-                            val pedestal = pedestalList[i]
-                            pedestal.getInv().setStackInSlot(0, remaining[i + 1])
-                        }
-
-                        val result = recipe.assemble(blockEntity.recipeInv.toContainer(), level.registryAccess())
-
-                        blockEntity.setOutput(result)
-                        blockEntity.reset()
-                        blockEntity.changeX()
-                    } else {
-                        for (pedestal in pedestalList) {
-                            val pedestalPos = pedestal.blockPos
-                            val stack = pedestal.getInv().getStackInSlotHandler(0)
-                        }
+                    for (i in 0 until pedestalList.size) {
+                        val pedestal = pedestalList[i]
+                        pedestal.getInv().setStackInSlot(0, remaining[i + 1])
                     }
-                } else {
+
+                    val result = recipe.assemble(blockEntity.recipeInv.toContainer(), level.registryAccess())
+
+                    blockEntity.setOutput(result)
                     blockEntity.reset()
+                    blockEntity.changeX()
+                } else {
+                    for (pedestal in pedestalList) {
+                        val pedestalPos = pedestal.blockPos
+                        val stack = pedestal.getInv().getStackInSlotHandler(0)
+                    }
                 }
             } else {
-                blockEntity.progress = 0
+                blockEntity.reset()
             }
+        } else {
+            blockEntity.progress = 0
         }
     }
 

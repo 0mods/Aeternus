@@ -3,6 +3,8 @@ package team.zeds.ancientmagic.common.api.registry
 import net.minecraft.world.item.Item
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.entity.BlockEntityType
+import team.zeds.ancientmagic.common.api.block.mutli.entity.MultiCoreBlockEntity
+import team.zeds.ancientmagic.common.api.block.mutli.entity.MultiModuleBlockEntity
 import team.zeds.ancientmagic.common.api.recipe.AMChancedRecipeSerializer
 import team.zeds.ancientmagic.common.api.recipe.AMRecipeSerializer
 import team.zeds.ancientmagic.common.block.AltarBlock
@@ -19,6 +21,8 @@ interface IAMRegistryEntry {
     fun getAltarPedestalBlock(): AltarPedestalBlock
     fun getAltarRecipeSerializer(): AMRecipeSerializer<AltarRecipe>
     fun getManaRecipeSerializer(): AMChancedRecipeSerializer<ManaGenerationRecipe>
+    fun getMultiModuleBlockEntity(): BlockEntityType<MultiModuleBlockEntity>
+    fun getMultiCoreBlockEntity(): BlockEntityType<MultiCoreBlockEntity>
 
     companion object {
         @JvmStatic val registeredItems: MutableList<Item> = mutableListOf()

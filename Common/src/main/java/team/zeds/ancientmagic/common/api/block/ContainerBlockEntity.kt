@@ -5,11 +5,12 @@ import net.minecraft.nbt.CompoundTag
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.block.entity.BlockEntityType
 import net.minecraft.world.level.block.state.BlockState
+import team.zeds.ancientmagic.common.api.block.settings.IHandled
 import team.zeds.ancientmagic.common.api.helper.IHandleStack
 
-abstract class ContainerBlockEntity(blockEntityType: BlockEntityType<*>,
+abstract class ContainerBlockEntity<T: BlockEntityBase<T>>(blockEntityType: BlockEntityType<*>,
                                     blockPos: BlockPos, state: BlockState
-) : BlockEntityBase(blockEntityType, blockPos, state), IHandled {
+) : BlockEntityBase<T>(blockEntityType, blockPos, state), IHandled {
     abstract fun getInv(): IHandleStack
 
     override fun load(tag: CompoundTag) {

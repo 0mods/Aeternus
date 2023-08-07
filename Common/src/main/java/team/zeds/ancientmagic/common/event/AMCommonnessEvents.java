@@ -13,6 +13,7 @@ import team.zeds.ancientmagic.common.AMConstant;
 import team.zeds.ancientmagic.common.api.cap.ItemStackMagic;
 import team.zeds.ancientmagic.common.api.item.MagicBlockItem;
 import team.zeds.ancientmagic.common.api.item.MagicItem;
+import team.zeds.ancientmagic.common.api.magic.IMagicItem;
 import team.zeds.ancientmagic.common.api.magic.type.MagicTypes;
 import team.zeds.ancientmagic.common.init.config.AMConfig;
 import team.zeds.ancientmagic.common.init.registries.AMTags;
@@ -57,6 +58,42 @@ public final class AMCommonnessEvents {
                     AMConfig.getCommon().isWayStoneCompact() &&
                 (stack.is(AMTags.getInstance().getUnconsumeCatalyst())
                         || stack.is(AMTags.getInstance().getConsumeCatalyst()))
+            ) {
+                tooltip.add(Component.translatable(String.format("compact.%s.waystones.tpItem", AMConstant.KEY)));
+            }
+        }
+
+        if (item instanceof IMagicItem) {
+            tooltip.add(Component.translatable("magicType.type", ((IMagicItem) item).getMagicType().getTranslation()));
+            if (((IMagicItem) item).getMagicSubtype() != MagicTypes.NOTHING || ((IMagicItem) item).getMagicSubtype() != null) {
+                tooltip.add(
+                        Component.translatable(
+                                "magicType.subtype",
+                                ((IMagicItem) item).getMagicSubtype().getTranslation()
+                        ));
+            }
+
+            if (((IMagicItem) item).getMaxManaStorage() != 0) tooltip.add(getMagicMessage(
+                    "storage", ((IMagicItem) item).getManaStorage(),
+                    ((IMagicItem) item).getMaxManaStorage()
+            ));
+
+            final var resource = BuiltInRegistries.ITEM.getKey(item);
+            final var namespace = resource.getNamespace();
+
+            if (!namespace.equals(AMConstant.KEY)) tooltip.add(
+                    Component.translatable(
+                            String.format(
+                                    "content.%s.added_by",
+                                    AMConstant.KEY
+                            ), namespace
+                    )
+            );
+
+            if (AMServices.PLATFORM.isDeveloperment() && AMServices.PLATFORM.isModLoaded("waystones") &&
+                    AMConfig.getCommon().isWayStoneCompact() &&
+                    (stack.is(AMTags.getInstance().getUnconsumeCatalyst())
+                            || stack.is(AMTags.getInstance().getConsumeCatalyst()))
             ) {
                 tooltip.add(Component.translatable(String.format("compact.%s.waystones.tpItem", AMConstant.KEY)));
             }

@@ -15,7 +15,7 @@ import team.zeds.ancientmagic.common.platform.AMServices
 import kotlin.math.PI
 import kotlin.math.sin
 
-class AltarBlockEntityRender(context: BlockEntityRendererProvider.Context) : AbstractBlockEntityRenderer<AltarBlockEntity>(
+class AltarBlockEntityRender(context: BlockEntityRendererProvider.Context): AbstractBlockEntityRenderer<AltarBlockEntity>(
     context
 ) {
     override fun render(

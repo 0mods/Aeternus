@@ -3,6 +3,7 @@ package team.zeds.ancientmagic.common.api.magic
 import net.minecraft.nbt.CompoundTag
 import kotlin.math.*
 
+
 interface IMagicObject<T>: IMagicProvider<T> {
     fun saveToCompound(tag: CompoundTag): CompoundTag {
         tag.putLong("AMMagicStorage", this.getManaStorage())
@@ -14,6 +15,18 @@ interface IMagicObject<T>: IMagicProvider<T> {
         tag.putLong("AMMagicStorage", this.getManaStorage(obj))
         tag.putLong("AMMagicStorageMax", this.getMaxManaStorage(obj))
         return tag
+    }
+
+    fun readCompound(nbt: CompoundTag): CompoundTag {
+        this.setManaStorage(nbt.getLong("AMMagicStorage"))
+        this.setMaxManaStorage(nbt.getLong("AMMagicStorageMax"))
+        return nbt
+    }
+
+    fun readCompound(obj: T, nbt: CompoundTag): CompoundTag {
+        this.setManaStorage(obj, nbt.getLong("AMMagicStorage"))
+        this.setMaxManaStorage(obj, nbt.getLong("AMMagicStorageMax"))
+        return nbt
     }
 
     fun setManaStorage(value: Long) {}

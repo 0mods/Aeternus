@@ -3,10 +3,11 @@ package team.zeds.ancientmagic.common.block.entity
 import net.minecraft.core.BlockPos
 import net.minecraft.world.level.block.state.BlockState
 import team.zeds.ancientmagic.common.api.block.ContainerBlockEntity
+import team.zeds.ancientmagic.common.api.block.settings.TickedBlockEntity
 import team.zeds.ancientmagic.common.api.helper.IHandleStack
 import team.zeds.ancientmagic.common.platform.AMServices
 
-class AltarPedestalBlockEntity(pos: BlockPos, state: BlockState): ContainerBlockEntity(
+class AltarPedestalBlockEntity(pos: BlockPos, state: BlockState): ContainerBlockEntity<AltarPedestalBlockEntity>(
     AMServices.PLATFORM.getIAMRegistryEntry().getAltarPedestalBlockEntityType(),
     pos,
     state

@@ -9,9 +9,15 @@ import net.minecraft.network.chat.Component
 import net.minecraft.world.item.*
 import net.minecraft.world.item.crafting.RecipeSerializer
 import net.minecraft.world.level.block.Block
+import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.entity.BlockEntityType
+import net.minecraft.world.level.block.state.BlockBehaviour
 import team.zeds.ancientmagic.common.AMConstant
 import team.zeds.ancientmagic.common.AMConstant.reloc
+import team.zeds.ancientmagic.common.api.block.mutli.MultiCoreBlock
+import team.zeds.ancientmagic.common.api.block.mutli.MultiModuleBlock
+import team.zeds.ancientmagic.common.api.block.mutli.entity.MultiCoreBlockEntity
+import team.zeds.ancientmagic.common.api.block.mutli.entity.MultiModuleBlockEntity
 import team.zeds.ancientmagic.common.api.recipe.AMChancedRecipeSerializer
 import team.zeds.ancientmagic.common.api.recipe.AMRecipeSerializer
 import team.zeds.ancientmagic.common.api.registry.IAMRegistryEntry
@@ -25,12 +31,20 @@ import team.zeds.ancientmagic.common.recipes.ManaGenerationRecipe
 object AMRegistry: IAMRegistryEntry {
     private val altarBlock = AltarBlock()
     private val altarPedestalBlock = AltarPedestalBlock()
+    private val multiCoreBlock = MultiCoreBlock()
+    private val multiModuleBlock = MultiModuleBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK))
 
     private val altarBlockEntity = FabricBlockEntityTypeBuilder.create({ pos, state -> AltarBlockEntity(pos, state) },
         altarBlock
     ).build()
     private val altarPedestalBlockEntity = FabricBlockEntityTypeBuilder.create({ pos, state -> AltarPedestalBlockEntity(pos, state) },
         altarPedestalBlock
+    ).build()
+    private val multiCoreBlockEntity = FabricBlockEntityTypeBuilder.create({ pos, state -> MultiCoreBlockEntity(pos, state)},
+        multiCoreBlock
+    ).build()
+    private val multiModuleBlockEntity = FabricBlockEntityTypeBuilder.create({ pos, state -> MultiModuleBlockEntity(pos, state) },
+        multiModuleBlock
     ).build()
 
     private val altarRecipe = AMRecipeSerializer {id, ingr, stack, exp, time ->
@@ -51,9 +65,13 @@ object AMRegistry: IAMRegistryEntry {
         // BLOCKS
         block("altar", altarBlock)
         block("altar_pedestal", altarPedestalBlock)
+        blockNI("multi_core_block", multiCoreBlock)
+        blockNI("multi_module_block", multiModuleBlock)
         // BLOCK ENTITIES
         be("altar", altarBlockEntity)
         be("altar_pedestal", altarPedestalBlockEntity)
+        be("multi_core_block", multiCoreBlockEntity)
+        be("multi_module_block", multiModuleBlockEntity)
         // RECIPE SERIALIZERS
         recipe("altar", altarRecipe)
         recipe("mana", manaGenerationRecipe)
@@ -74,7 +92,7 @@ object AMRegistry: IAMRegistryEntry {
         Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, reloc(id), obj)
     }
 
-    private fun ngItem(id: String, obj: Item) {
+    private fun itemNG(id: String, obj: Item) {
         Registry.register(BuiltInRegistries.ITEM, reloc(id), obj)
     }
 
@@ -95,11 +113,11 @@ object AMRegistry: IAMRegistryEntry {
         Registry.register(BuiltInRegistries.BLOCK, reloc(id), obj)
     }
 
-    private fun ngBlock(id: String, obj: Block) {
-        ngBlock(id, obj, null)
+    private fun blockNG(id: String, obj: Block) {
+        blockNG(id, obj, null)
     }
 
-    private fun ngBlock(id: String, obj: Block, blockItemProps: Item.Properties?) {
+    private fun blockNG(id: String, obj: Block, blockItemProps: Item.Properties?) {
         val localprops = blockItemProps ?: Item.Properties()
         val block = Registry.register(BuiltInRegistries.BLOCK, reloc(id), obj)
         Registry.register(BuiltInRegistries.ITEM, reloc(id), BlockItem(block, localprops))
@@ -123,4 +141,8 @@ object AMRegistry: IAMRegistryEntry {
     override fun getAltarRecipeSerializer(): AMRecipeSerializer<AltarRecipe> = altarRecipe
 
     override fun getManaRecipeSerializer(): AMChancedRecipeSerializer<ManaGenerationRecipe> = manaGenerationRecipe
+
+    override fun getMultiModuleBlockEntity(): BlockEntityType<MultiModuleBlockEntity> = multiModuleBlockEntity
+
+    override fun getMultiCoreBlockEntity(): BlockEntityType<MultiCoreBlockEntity> = multiCoreBlockEntity
 }

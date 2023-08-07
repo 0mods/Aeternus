@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
+import team.zeds.ancientmagic.common.AMCommonInit;
 import team.zeds.ancientmagic.common.client.render.entity.AltarBlockEntityRender;
 import team.zeds.ancientmagic.common.client.render.entity.AltarPedestalBlockEntityRender;
 import team.zeds.ancientmagic.common.event.AMCommonnessEvents;
@@ -23,9 +24,10 @@ public class AMManage {
         AMConfig.setCommon(AMManage.commonConfig());
         AMTags.getInstance().init();
         AMRegistry.initialize();
+        AMCommonInit.init();
         AMNetwork.registerC2S();
         ServerTickEvents.START_SERVER_TICK.register(new PlayerTick());
-        ServerPlayerEvents.COPY_FROM.register(((oldPlayer, newPlayer, alive) -> AMCommonnessEvents.playerClone(oldPlayer, newPlayer, !alive)));
+        ServerPlayerEvents.COPY_FROM.register((oldPlayer, newPlayer, alive) -> AMCommonnessEvents.playerClone(oldPlayer, newPlayer, !alive));
     }
 
     public static void initClient() {

@@ -8,6 +8,7 @@ import team.zeds.ancientmagic.common.api.helper.IHandleStack
 import team.zeds.ancientmagic.common.api.helper.IStackHelper
 import team.zeds.ancientmagic.common.api.network.IAMNetwork
 import team.zeds.ancientmagic.common.api.network.IAMPacket
+import team.zeds.ancientmagic.common.api.registry.IAMMultiblocks
 import team.zeds.ancientmagic.common.api.registry.IAMRegistryEntry
 import team.zeds.ancientmagic.common.platform.services.IAMPlatformHelper
 
@@ -59,6 +60,10 @@ class ForgePlatformHelper: IAMPlatformHelper {
     }
 
     override fun getIAMRegistryEntry(): IAMRegistryEntry {
+        TODO("Not yet implemented")
+    }
+
+    override fun getIAMMultiblocks(): IAMMultiblocks {
         TODO("Not yet implemented")
     }
 }

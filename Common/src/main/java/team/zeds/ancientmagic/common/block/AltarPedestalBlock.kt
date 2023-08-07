@@ -12,7 +12,6 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.BlockGetter
 import net.minecraft.world.level.Level
 import net.minecraft.world.level.block.Blocks
-import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.phys.BlockHitResult
 import net.minecraft.world.phys.shapes.CollisionContext
@@ -22,7 +21,10 @@ import team.zeds.ancientmagic.common.api.helper.VoxelShapeBuilder
 import team.zeds.ancientmagic.common.block.entity.AltarPedestalBlockEntity
 import team.zeds.ancientmagic.common.platform.AMServices
 
-class AltarPedestalBlock: EntityBlockBase(Properties.copy(Blocks.STONE).noOcclusion()) {
+class AltarPedestalBlock: EntityBlockBase<AltarPedestalBlockEntity>(
+    { pos, state -> AltarPedestalBlockEntity(pos, state) },
+    Properties.copy(Blocks.STONE).noOcclusion()
+) {
     init {
         this.registerDefaultState(this.stateDefinition.any())
     }
@@ -94,6 +96,4 @@ class AltarPedestalBlock: EntityBlockBase(Properties.copy(Blocks.STONE).noOcclus
 
         super.onRemove(oldState, level, pos, newState, isMoving)
     }
-
-    override fun newBlockEntity(var1: BlockPos, var2: BlockState): BlockEntity = AltarPedestalBlockEntity(var1, var2)
 }

@@ -27,6 +27,7 @@ abstract class AbstractBlockEntityRenderer<T: BlockEntity>(
     val modelSet: EntityModelSet
     val font: Font
     val minecraft: Minecraft
+
     init {
         this.blockEntityRenderDispatcher = context.blockEntityRenderDispatcher
         this.blockRenderDispatcher = context.blockRenderDispatcher

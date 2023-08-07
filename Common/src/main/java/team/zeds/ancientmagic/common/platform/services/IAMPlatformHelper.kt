@@ -6,6 +6,7 @@ import team.zeds.ancientmagic.common.api.helper.IHandleStack
 import team.zeds.ancientmagic.common.api.helper.IStackHelper
 import team.zeds.ancientmagic.common.api.network.IAMNetwork
 import team.zeds.ancientmagic.common.api.network.IAMPacket
+import team.zeds.ancientmagic.common.api.registry.IAMMultiblocks
 import team.zeds.ancientmagic.common.api.registry.IAMRegistryEntry
 
 interface IAMPlatformHelper {
@@ -42,4 +43,5 @@ interface IAMPlatformHelper {
     fun getOldPlayerMagic(player: Player): PlayerMagic?
     fun getNewPlayerMagic(player: Player): PlayerMagic?
     fun getIAMRegistryEntry(): IAMRegistryEntry
+    fun getIAMMultiblocks(): IAMMultiblocks
 }

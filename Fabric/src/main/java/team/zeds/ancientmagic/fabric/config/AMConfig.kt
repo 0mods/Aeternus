@@ -11,6 +11,7 @@ import net.minecraft.ResourceLocationException
 import net.minecraft.resources.ResourceLocation
 import org.jetbrains.annotations.Range
 import team.zeds.ancientmagic.common.AMConstant
+import team.zeds.ancientmagic.common.api.except.UnsupportedAMObjectException
 import team.zeds.ancientmagic.common.init.config.AMConfig
 
 @Config(name = "${AMConstant.MOD_NAME}Common")
@@ -28,7 +29,13 @@ class AMCommon: ConfigData, AMConfig.Common {
             @Comment("Enables Waystone mod compact")
             var isWayStoneCompact = true
             @Comment("Count of consuming Magical Dust on teleport")
-            var consumeDust = 2.coerceAtLeast(1).coerceAtMost(64)
+            var consumeDust = 2
+
+            init {
+                if (consumeDust < 1 || consumeDust > 64) {
+                    throw UnsupportedAMObjectException("Value $consumeDust can't be less than 1 or greater than 64.")
+                }
+            }
         }
     }
 

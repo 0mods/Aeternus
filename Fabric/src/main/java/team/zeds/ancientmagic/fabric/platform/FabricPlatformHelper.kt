@@ -7,6 +7,7 @@ import team.zeds.ancientmagic.common.api.helper.IHandleStack
 import team.zeds.ancientmagic.common.api.helper.IStackHelper
 import team.zeds.ancientmagic.common.api.network.IAMNetwork
 import team.zeds.ancientmagic.common.api.network.IAMPacket
+import team.zeds.ancientmagic.common.api.registry.IAMMultiblocks
 import team.zeds.ancientmagic.common.api.registry.IAMRegistryEntry
 import team.zeds.ancientmagic.fabric.helper.HandleStack
 import team.zeds.ancientmagic.fabric.helper.StackHelper
@@ -14,6 +15,7 @@ import team.zeds.ancientmagic.fabric.registries.AMRegistry
 import team.zeds.ancientmagic.common.platform.services.IAMPlatformHelper
 import team.zeds.ancientmagic.fabric.capability.PlayerMagicCapability
 import team.zeds.ancientmagic.fabric.network.AMNetwork
+import team.zeds.ancientmagic.fabric.registries.AMMultiblocks
 
 class FabricPlatformHelper: IAMPlatformHelper {
     override fun getPlatformName(): String = "Fabric"
@@ -51,4 +53,5 @@ class FabricPlatformHelper: IAMPlatformHelper {
     override fun getNewPlayerMagic(player: Player): PlayerMagic = PlayerMagicCapability.getInstance(player)
 
     override fun getIAMRegistryEntry(): IAMRegistryEntry = AMRegistry
+    override fun getIAMMultiblocks(): IAMMultiblocks = AMMultiblocks()
 }
