@@ -3,7 +3,6 @@ package team.zeds.ancientmagic.common.api.magic
 import net.minecraft.nbt.CompoundTag
 import kotlin.math.*
 
-
 interface IMagicObject<T>: IMagicProvider<T> {
     fun saveToCompound(tag: CompoundTag): CompoundTag {
         tag.putLong("AMMagicStorage", this.getManaStorage())

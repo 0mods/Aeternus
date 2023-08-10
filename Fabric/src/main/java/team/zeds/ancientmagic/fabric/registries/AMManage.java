@@ -24,7 +24,7 @@ public class AMManage {
         AMConfig.setCommon(AMManage.commonConfig());
         AMTags.getInstance().init();
         AMRegistry.initialize();
-        AMCommonInit.init();
+//        AMCommonInit.init();
         AMNetwork.registerC2S();
         ServerTickEvents.START_SERVER_TICK.register(new PlayerTick());
         ServerPlayerEvents.COPY_FROM.register((oldPlayer, newPlayer, alive) -> AMCommonnessEvents.playerClone(oldPlayer, newPlayer, !alive));

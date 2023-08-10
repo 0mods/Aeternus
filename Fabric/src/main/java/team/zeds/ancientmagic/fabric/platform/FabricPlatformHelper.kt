@@ -24,23 +24,23 @@ class FabricPlatformHelper: IAMPlatformHelper {
 
     override fun isDeveloperment(): Boolean = FabricLoader.getInstance().isDevelopmentEnvironment
 
-    override fun getIHandleStackForAltarBlockEntity(contentChange: Runnable): IHandleStack =
+    override fun getIHandleStackForAltarBlockEntity(contentChange: Runnable): IHandleStack<*> =
         HandleStack.create(2, contentChange) { buildIn ->
             buildIn.setDefaultSlotLimit(1)
             buildIn.setCanExtract { buildIn.getItem(1).isEmpty }
             buildIn.setOutputSlots(1)
         }
 
-    override fun getIHandleStackForAltarPedestalBlockEntity(contentChange: Runnable): IHandleStack =
+    override fun getIHandleStackForAltarPedestalBlockEntity(contentChange: Runnable): IHandleStack<*> =
         HandleStack.create(1, contentChange) {
             it.setDefaultSlotLimit(1)
         }
 
     override fun getIStackHelper(): IStackHelper = StackHelper
 
-    override fun getIHandleStackForAltarBlockEntityRecipeInventory(size: Int): IHandleStack = HandleStack.create(9)
+    override fun getIHandleStackForAltarBlockEntityRecipeInventory(size: Int): IHandleStack<*> = HandleStack.create(9)
 
-    override fun getPlayerMagic(player: Player): PlayerMagic = PlayerMagicCapability.getInstance(player)
+    override fun getPlayerMagic(player: Player): PlayerMagic<*> = PlayerMagicCapability.getInstance(player)
 
     override fun getIAMNetwork(): IAMNetwork = AMNetwork()
 
@@ -48,9 +48,9 @@ class FabricPlatformHelper: IAMPlatformHelper {
 
     override fun getC2SPlayerPacket(): IAMPacket<*> = AMNetwork.C2S_PLAYER_MAGIC
 
-    override fun getOldPlayerMagic(player: Player): PlayerMagic = PlayerMagicCapability.getInstance(player)
+    override fun getOldPlayerMagic(player: Player): PlayerMagic<*> = PlayerMagicCapability.getInstance(player)
 
-    override fun getNewPlayerMagic(player: Player): PlayerMagic = PlayerMagicCapability.getInstance(player)
+    override fun getNewPlayerMagic(player: Player): PlayerMagic<*> = PlayerMagicCapability.getInstance(player)
 
     override fun getIAMRegistryEntry(): IAMRegistryEntry = AMRegistry
     override fun getIAMMultiblocks(): IAMMultiblocks = AMMultiblocks()

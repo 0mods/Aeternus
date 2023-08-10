@@ -18,6 +18,11 @@ interface MagicType {
 
     companion object {
         @JvmStatic
+        val listOfMagicTypes: MutableList<MagicType> = mutableListOf()
+        @JvmStatic
+        val listOfMagicSubtypes: MutableList<MagicType> = mutableListOf()
+
+        @JvmStatic
         fun getMagicMessage(message: String, vararg objects: Any?): MutableComponent {
             return Component.translatable(String.format("magic.%s.%s", AMConstant.KEY, message), *objects)
         }

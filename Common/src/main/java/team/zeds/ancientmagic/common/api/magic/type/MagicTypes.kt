@@ -4,12 +4,7 @@ import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.MutableComponent
 import java.lang.IllegalStateException
 
-enum class MagicTypes(
-    private val id: String,
-    private val num: Int,
-    private val classifier: MagicType.MagicClassifier,
-    private vararg val style: ChatFormatting,
-) : MagicType {
+enum class MagicTypes : MagicType {
     LOW_MAGIC("low_magic", 0, MagicType.MagicClassifier.MAIN_TYPE),
     MEDIUM_MAGIC("medium_magic", 1, MagicType.MagicClassifier.MAIN_TYPE, ChatFormatting.BLUE),
     PRE_HIGH_MAGIC("pre_high", 2, MagicType.MagicClassifier.MAIN_TYPE, ChatFormatting.AQUA),
@@ -21,8 +16,29 @@ enum class MagicTypes(
     STORAGE("storage", MagicType.MagicClassifier.SUBTYPE),
     ADMIN("admin", MagicType.MagicClassifier.SUBTYPE);
 
-    constructor(id: String, num: Int, classifier: MagicType.MagicClassifier) :
-            this(id, num, classifier, ChatFormatting.WHITE)
+    private val id: String;
+    private val num: Int;
+    private val classifier: MagicType.MagicClassifier;
+    private val style: Array<out ChatFormatting>
+
+    constructor(
+        id: String,
+        num: Int,
+        classifier: MagicType.MagicClassifier,
+        vararg style: ChatFormatting,
+    ) {
+        this.id = id
+        this.num = num
+        this.classifier = classifier
+        this.style = style
+
+        when(classifier) {
+            MagicType.MagicClassifier.MAIN_TYPE -> MagicType.listOfMagicTypes.add(this)
+            MagicType.MagicClassifier.SUBTYPE -> MagicType.listOfMagicSubtypes.add(this)
+        }
+    }
+
+    constructor(id: String, num: Int, classifier: MagicType.MagicClassifier) : this(id, num, classifier, ChatFormatting.WHITE)
     constructor(id: String, classifier: MagicType.MagicClassifier) :
             this(id, -1, classifier, ChatFormatting.WHITE)
 
@@ -40,7 +56,7 @@ enum class MagicTypes(
     companion object {
         @JvmStatic
         fun getByNumeration(id: Int): MagicType {
-            return if (id > 0 && id <= MagicTypes.entries.size) MagicTypes.entries[id] else LOW_MAGIC
+            return if (id > 0 && id <= MagicType.listOfMagicTypes.size) MagicType.listOfMagicTypes[id] else LOW_MAGIC
         }
         @JvmStatic
         fun create(

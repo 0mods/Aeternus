@@ -7,7 +7,7 @@ import net.minecraft.world.item.ItemStack
 import java.util.function.BiFunction
 import java.util.function.Function
 
-interface IHandleStack {
+interface IHandleStack<T: IHandleStack<T>> {
     fun insertItem(slot: Int, stack: ItemStack, simulate: Boolean, container: Boolean): ItemStack
     fun extractItem(slot: Int, amount: Int, container: Boolean): ItemStack
     fun getStacks(): NonNullList<ItemStack>
@@ -18,12 +18,12 @@ interface IHandleStack {
     fun setCanExtract(canExtract: Function<Int, Boolean>)
     fun setOutputSlots(vararg slots: Int)
     fun toContainer(): Container
-    fun <T: IHandleStack> copy(): T
+    fun copy(): T
     // WARNING! AUTOGEN. DON'T TOUCH IT! ONLY FIRST USE
     fun deserializeTag(tag: CompoundTag)
     fun serializeTag(): CompoundTag
     fun getStackInSlotHandler(slot: Int): ItemStack
     fun setStackInSlot(slot: Int, stack: ItemStack)
-    fun <T: IHandleStack> nsCreate(size: Int): T
+    fun nsCreate(size: Int): T
     fun setSizeHandler(int: Int)
 }

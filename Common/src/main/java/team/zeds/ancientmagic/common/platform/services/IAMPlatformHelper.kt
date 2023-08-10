@@ -32,16 +32,16 @@ interface IAMPlatformHelper {
     fun isDeveloperment(): Boolean
 
     //ANCIENTMAGIC VALUES
-    fun getIHandleStackForAltarBlockEntity(contentChange: Runnable): IHandleStack
-    fun getIHandleStackForAltarPedestalBlockEntity(contentChange: Runnable): IHandleStack
+    fun getIHandleStackForAltarBlockEntity(contentChange: Runnable): IHandleStack<*>
+    fun getIHandleStackForAltarPedestalBlockEntity(contentChange: Runnable): IHandleStack<*>
     fun getIStackHelper(): IStackHelper
-    fun getIHandleStackForAltarBlockEntityRecipeInventory(size: Int): IHandleStack
-    fun getPlayerMagic(player: Player): PlayerMagic? // returns null if foreach value is null
+    fun getIHandleStackForAltarBlockEntityRecipeInventory(size: Int): IHandleStack<*>
+    fun getPlayerMagic(player: Player): PlayerMagic<*>? // returns null if foreach value is null
     fun getIAMNetwork(): IAMNetwork
     fun getS2CPlayerPacket(): IAMPacket<*>?
     fun getC2SPlayerPacket(): IAMPacket<*>?
-    fun getOldPlayerMagic(player: Player): PlayerMagic?
-    fun getNewPlayerMagic(player: Player): PlayerMagic?
+    fun getOldPlayerMagic(player: Player): PlayerMagic<*>?
+    fun getNewPlayerMagic(player: Player): PlayerMagic<*>?
     fun getIAMRegistryEntry(): IAMRegistryEntry
     fun getIAMMultiblocks(): IAMMultiblocks
 }

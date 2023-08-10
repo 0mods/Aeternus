@@ -29,8 +29,8 @@ class AltarBlockEntity(blockPos: BlockPos, state: BlockState): ContainerBlockEnt
         Blocks.STRIPPED_DARK_OAK_WOOD,
         Blocks.STRIPPED_MANGROVE_WOOD
     )
-    private val inv: IHandleStack
-    private val recipeInv: IHandleStack
+    private val inv: IHandleStack<*>
+    private val recipeInv: IHandleStack<*>
 
     //Block validating
     var pedestalIsValid = false
@@ -124,9 +124,9 @@ class AltarBlockEntity(blockPos: BlockPos, state: BlockState): ContainerBlockEnt
         }
     }
 
-    override fun getInv(): IHandleStack = this.inv
+    override fun getInv(): IHandleStack<*> = this.inv
 
-    override fun createHandler(contextChange: Runnable): IHandleStack =
+    override fun createHandler(contextChange: Runnable): IHandleStack<*> =
         AMServices.PLATFORM.getIHandleStackForAltarBlockEntity(contextChange)
 
     fun reset() {

@@ -11,7 +11,7 @@ import team.zeds.ancientmagic.common.api.helper.IHandleStack
 abstract class ContainerBlockEntity<T: BlockEntityBase<T>>(blockEntityType: BlockEntityType<*>,
                                     blockPos: BlockPos, state: BlockState
 ) : BlockEntityBase<T>(blockEntityType, blockPos, state), IHandled {
-    abstract fun getInv(): IHandleStack
+    abstract fun getInv(): IHandleStack<*>
 
     override fun load(tag: CompoundTag) {
         super.load(tag)

@@ -13,7 +13,7 @@ import team.zeds.ancientmagic.common.api.magic.type.MagicTypes;
 import team.zeds.ancientmagic.fabric.network.AMNetwork;
 import team.zeds.ancientmagic.fabric.util.EntityDataHolder;
 
-public class PlayerMagicCapability implements PlayerMagic {
+public class PlayerMagicCapability implements PlayerMagic<PlayerMagicCapability> {
     protected int level;
     private static PlayerMagicCapability cap;
     private final Player player;
@@ -63,7 +63,7 @@ public class PlayerMagicCapability implements PlayerMagic {
     }
 
     @Override
-    public <T extends PlayerMagic> void copy(@NotNull T source) {
+    public void copy(@NotNull PlayerMagicCapability source) {
         this.level = source.getMagicLevel();
     }
 

@@ -1,16 +1,14 @@
-package team.zeds.ancientmagic.fabric.helper;
+package team.zeds.ancientmagic.forge.api;
 
-import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.items.ItemStackHandler;
 import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import team.zeds.ancientmagic.common.api.helper.IHandleStack;
-import team.zeds.ancientmagic.fabric.forged.ItemStackHandler;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,49 +22,42 @@ public class HandleStack extends ItemStackHandler implements IHandleStack<Handle
     private BiFunction<Integer, ItemStack, Boolean> canInsert = null;
     private Function<Integer, Boolean> canExtract = null;
     private int maxStackSize = 64;
-    protected int[] outputSlots = null;
-    private final int[] availableSlots;
+    private int[] outputSlots = null;
 
     protected HandleStack(int size, Runnable onContentsChanged) {
         super(size);
         this.onContentsChanged = onContentsChanged;
         this.slotSizeMap = new HashMap<>();
-
-        availableSlots = new int[getContainerSize()];
-        for (int i = 0; i < getContainerSize(); i++) {
-            availableSlots[i] = i;
-        }
     }
 
     @Override
-    public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack) {
-        return this.insertItem(slot, stack, false, false);
+    public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
+        return this.insertItem(slot, stack, simulate, false);
     }
 
     @NotNull
     @Override
     public ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate, boolean container) {
-        return !container && this.outputSlots != null && ArrayUtils.contains(this.outputSlots, slot) ? stack : super.insertItem(slot, stack);
+        if (!container && this.outputSlots != null && ArrayUtils.contains(this.outputSlots, slot))
+            return stack;
+        return super.insertItem(slot, stack, simulate);
     }
 
-    public ItemStack extractItem(int slot, int amount) {
-        return this.extractItem(slot, amount, false);
-    }
-
-    @NotNull
     @Override
-    public ItemStack extractItem(int slot, int amount, boolean container) {
-        if (!container) {
-            if (this.canExtract != null && !(Boolean)this.canExtract.apply(slot)) {
-                return ItemStack.EMPTY;
-            }
+    public ItemStack extractItem(int slot, int amount, boolean simulate) {
+        return this.extractItem(slot, amount, simulate, false);
+    }
 
-            if (this.outputSlots != null && !ArrayUtils.contains(this.outputSlots, slot)) {
+    public ItemStack extractItem(int slot, int amount, boolean simulate, boolean container) {
+        if (!container) {
+            if (this.canExtract != null && !this.canExtract.apply(slot))
                 return ItemStack.EMPTY;
-            }
+
+            if (this.outputSlots != null && !ArrayUtils.contains(this.outputSlots, slot))
+                return ItemStack.EMPTY;
         }
 
-        return super.removeItem(slot, amount);
+        return super.extractItem(slot, amount, simulate);
     }
 
     @Override
@@ -75,18 +66,12 @@ public class HandleStack extends ItemStackHandler implements IHandleStack<Handle
     }
 
     @Override
-    public boolean canPlaceItem(int i, ItemStack itemStack) {
-        return this.canInsert == null || this.canInsert.apply(i, itemStack);
+    public boolean isItemValid(int slot, @NotNull ItemStack stack) {
+        return this.canInsert == null || this.canInsert.apply(slot, stack);
     }
 
     @Override
-    public void clearContent() {
-        this.stacks.clear();
-        this.setChanged();
-    }
-
-    @Override
-    public void setChanged() {
+    protected void onContentsChanged(int slot) {
         if (this.onContentsChanged != null)
             this.onContentsChanged.run();
     }
@@ -97,6 +82,7 @@ public class HandleStack extends ItemStackHandler implements IHandleStack<Handle
         return this.stacks;
     }
 
+    @NotNull
     @Override
     public int[] getOutputSlots() {
         return this.outputSlots;
@@ -113,7 +99,7 @@ public class HandleStack extends ItemStackHandler implements IHandleStack<Handle
     }
 
     @Override
-    public void setCanInsert(BiFunction<Integer, ItemStack, Boolean> validator) {
+    public void setCanInsert(@NotNull BiFunction<Integer, ItemStack, Boolean> validator) {
         this.canInsert = validator;
     }
 
@@ -136,16 +122,17 @@ public class HandleStack extends ItemStackHandler implements IHandleStack<Handle
     @NotNull
     @Override
     public HandleStack copy() {
-        final var newInv = new HandleStack(this.getContainerSize(), this.onContentsChanged);
+        final var newInv = new HandleStack(this.getSlots(), this.onContentsChanged);
 
         newInv.setDefaultSlotLimit(this.maxStackSize);
         newInv.setCanInsert(this.canInsert);
+        newInv.setCanExtract(this.canExtract);
         newInv.setOutputSlots(this.outputSlots);
 
         this.slotSizeMap.forEach(newInv::addSlotLimit);
 
-        for (int i = 0; i < this.getContainerSize(); i++) {
-            final var stack = this.getItem(i);
+        for (int i = 0; i < this.getSlots(); i++) {
+            var stack = this.getStackInSlot(i);
 
             newInv.setStackInSlot(i, stack.copy());
         }
@@ -167,7 +154,7 @@ public class HandleStack extends ItemStackHandler implements IHandleStack<Handle
     @NotNull
     @Override
     public ItemStack getStackInSlotHandler(int slot) {
-        return this.getItem(slot);
+        return this.getStackInSlot(slot);
     }
 
     @NotNull
@@ -182,37 +169,20 @@ public class HandleStack extends ItemStackHandler implements IHandleStack<Handle
     }
 
     public static HandleStack create(int size) {
-        return create(size, (builder) -> {
-        });
+        return create(size, builder -> {});
     }
 
-    public static HandleStack create(int size, Runnable onContentsChanged) {
-        return create(size, onContentsChanged, (builder) -> {
-        });
+    public static HandleStack create(int size, Runnable contentChange) {
+        return create(size, contentChange, builder -> {});
     }
 
     public static HandleStack create(int size, Consumer<HandleStack> builder) {
         return create(size, null, builder);
     }
 
-    public static HandleStack create(int size, Runnable onContentsChanged, Consumer<HandleStack> builder) {
-        final var handler = new HandleStack(size, onContentsChanged);
+    public static HandleStack create(int size, Runnable contentChange, Consumer<HandleStack> builder) {
+        var handler = new HandleStack(size, contentChange);
         builder.accept(handler);
         return handler;
-    }
-
-    @Override
-    public boolean canTakeItemThroughFace(int i, ItemStack itemStack, Direction direction) {
-        return canPlaceItem(i, itemStack);
-    }
-
-    @Override
-    public int[] getSlotsForFace(Direction direction) {
-        return availableSlots;
-    }
-
-    @Override
-    public boolean canPlaceItemThroughFace(int i, ItemStack itemStack, @Nullable Direction direction) {
-        return (canExtract == null || canExtract.apply(i)) && (outputSlots == null || ArrayUtils.contains(outputSlots, i));
     }
 }

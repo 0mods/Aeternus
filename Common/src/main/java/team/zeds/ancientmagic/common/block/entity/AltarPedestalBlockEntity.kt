@@ -12,14 +12,14 @@ class AltarPedestalBlockEntity(pos: BlockPos, state: BlockState): ContainerBlock
     pos,
     state
 ) {
-    private val inv: IHandleStack
+    private val inv: IHandleStack<*>
 
     init {
         this.inv = createHandler(this::changeX)
     }
 
-    override fun getInv(): IHandleStack = this.inv
+    override fun getInv(): IHandleStack<*> = this.inv
 
-    override fun createHandler(contextChange: Runnable): IHandleStack =
+    override fun createHandler(contextChange: Runnable): IHandleStack<*> =
         AMServices.PLATFORM.getIHandleStackForAltarPedestalBlockEntity(contextChange)
 }
