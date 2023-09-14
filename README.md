@@ -1,3 +1,7 @@
+# Developerment temporarily suspended
+Why developerment suspended?
+
+A: I currently have very little time to develop a mod. There are already enough mods around my neck of the woods. The same LiaVeres, FancyChunks, Inscribers or DimOre.  Add to that studying and couples until 6pm, I just don't have the time. I really want to continue development and I'm very interested in it, but I can't.
 
 <div align="center"> <img src=https://github.com/0mods/AncientMagic/assets/46783751/c9157710-3806-42c7-af2b-c97830bc4299 alt="logo"> </div>
 
