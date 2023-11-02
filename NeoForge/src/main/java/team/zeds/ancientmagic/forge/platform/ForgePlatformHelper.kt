@@ -30,8 +30,8 @@ class ForgePlatformHelper: IAMPlatformHelper {
         builder.setOutputSlots(1)
     }
 
-    override fun getIHandleStackForAltarPedestalBlockEntity(contentChange: Runnable): IHandleStack<*> {
-        TODO("Not yet implemented")
+    override fun getIHandleStackForAltarPedestalBlockEntity(contentChange: Runnable): IHandleStack<*> = HandleStack.create(1, contentChange) {
+        it.setDefaultSlotLimit(1)
     }
 
     override fun getIStackHelper(): IStackHelper {
