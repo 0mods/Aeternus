@@ -67,24 +67,13 @@ public class PlayerMagicCapability implements PlayerMagic<PlayerMagicCapability>
         this.level = source.getMagicLevel();
     }
 
-    @Override
-    public CompoundTag save() {
-        CompoundTag tag = new CompoundTag();
-        tag.putInt("AncientMagicTag.level", this.level);
-        return tag;
-    }
-
-    @Override
-    public void load(@NotNull CompoundTag tag) {
-        this.level = tag.getInt("AncientMagicTag.level");
-    }
-
     public void save(EntityDataHolder holder) {
+        holder.getPersistentData().putInt("AncientMagicTag.level", this.level);
         holder.getPersistentData().merge(this.save());
     }
 
     public void load(EntityDataHolder holder) {
-        this.load(holder.getPersistentData());
+        this.level = holder.getPersistentData().getInt("AncientMagicTag.level");
     }
 
     public void syncMagic(int level, ServerPlayer player) {

@@ -20,5 +20,5 @@ pluginManagement {
     }
 }
 
-rootProject.name = "AncientMagic"
+rootProject.name = "Ethernal"
 include("Common", "Fabric", "NeoForge")

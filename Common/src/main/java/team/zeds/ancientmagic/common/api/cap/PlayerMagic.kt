@@ -10,6 +10,4 @@ interface PlayerMagic<T: PlayerMagic<T>> {
     fun subLevel(count: Int)
     fun setLevel(to: Int)
     fun copy(source: T)
-    fun save(): CompoundTag?
-    fun load(tag: CompoundTag)
 }

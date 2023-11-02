@@ -29,13 +29,6 @@ public final class AMCommonnessEvents {
 
         if (item instanceof ItemStackMagic magic) {
             tooltip.add(Component.translatable("magicType.type", magic.getMagicType().getTranslation()));
-            if (magic.getMagicSubtype() != MagicTypes.NOTHING || magic.getMagicSubtype() != null) {
-                tooltip.add(
-                        Component.translatable(
-                        "magicType.subtype",
-                                magic.getMagicSubtype().getTranslation()
-                ));
-            }
 
             if (magic.getMaxMana() != 0) tooltip.add(getMagicMessage(
                     "storage", magic.getManaStorages(stack),
