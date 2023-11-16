@@ -11,9 +11,6 @@ val commonClientRunName: String? by project
 val commonServerRunName: String? by project
 val modName: String by project
 val modId: String by project
-val coroutines_version: String by project
-val serialization_version: String by project
-val shadow: Configuration by configurations.creating
 
 val baseArchiveName = "${modName}-common-${minecraftVersion}"
 
@@ -33,19 +30,11 @@ minecraft {
             }
         }
     }
-    accessWideners("src/main/resources/ethernal.common.accesswidener")
+    accessWideners("src/main/resources/aeternus.common.accesswidener")
 }
 
 dependencies {
     compileOnly("org.spongepowered:mixin:0.8.5")
-    shadow("org.jetbrains.kotlin:kotlin-reflect:${kotlin.coreLibrariesVersion}")
-    shadow("org.jetbrains.kotlin:kotlin-stdlib:${kotlin.coreLibrariesVersion}")
-    shadow("org.jetbrains.kotlin:kotlin-stdlib-common:${kotlin.coreLibrariesVersion}")
-    shadow("org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutines_version}")
-    shadow("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:${coroutines_version}")
-    shadow("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:${coroutines_version}")
-    shadow("org.jetbrains.kotlinx:kotlinx-serialization-core:${serialization_version}")
-    shadow("org.jetbrains.kotlinx:kotlinx-serialization-json:${serialization_version}")
 }
 
 tasks.processResources {

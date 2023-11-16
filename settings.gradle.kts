@@ -20,5 +20,5 @@ pluginManagement {
     }
 }
 
-rootProject.name = "Ethernal"
+rootProject.name = "Aeternus"
 include("Common", "Fabric", "NeoForge")

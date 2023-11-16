@@ -1,17 +1,14 @@
 {
   "schemaVersion": 1,
-  "id": "ancientmagic",
+  "id": "aeternus",
   "version": "${version}",
   
-  "name": "AncientMagic",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "Aeternus",
+  "description": "Etherium-based magic mod",
   "authors": [
     "AlgorithmLX"
   ],
-  "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
-  },
+  "contact": {},
 
   "license": "ARR",
   "icon": "assets/modid/icon.png",
@@ -19,14 +16,14 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "team.zeds.ancientmagic.fabric.AMFabric"
+      "team.zeds.aeternus.fabric.AeternusFabric"
     ],
     "client": [
-      "team.zeds.ancientmagic.fabric.AMFabricClient"
+      "team.zeds.aeternus.fabric.AFClient"
     ]
   },
   "mixins": [
-    "ancient.fabric.mixins.json"
+    "aeternus.fabric.mixins.json"
   ],
 
   "depends": {
@@ -36,6 +33,6 @@
     "minecraft": "1.20.x",
     "java": ">=17"
   },
-  "accessWidener": "ancientmagic.fabric.accesswidener"
+  "accessWidener": "aeternus.fabric.accesswidener"
 }
   

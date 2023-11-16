@@ -12,9 +12,6 @@ val forgeAtsEnabled: String by project
 val modName: String by project
 val modAuthor: String by project
 val modId: String by project
-val coroutines_version: String by project
-val serialization_version: String by project
-val shadow: Configuration by configurations.creating
 
 val baseArchiveName = "${modName}-forge-${minecraftVersion}"
 
@@ -74,17 +71,16 @@ minecraft {
 
 sourceSets.main.get().resources.srcDir("src/generated/resources")
 
+repositories {
+    maven("https://thedarkcolour.github.io/KotlinForForge/")
+}
+
 dependencies {
+    val kffVersion: String by project
+
     minecraft("net.minecraftforge:forge:${minecraftVersion}-${forgeVersion}")
+    implementation("thedarkcolour:kotlinforforge:$kffVersion")
     compileOnly(project(":Common"))
-    shadow("org.jetbrains.kotlin:kotlin-reflect:${kotlin.coreLibrariesVersion}")
-    shadow("org.jetbrains.kotlin:kotlin-stdlib:${kotlin.coreLibrariesVersion}")
-    shadow("org.jetbrains.kotlin:kotlin-stdlib-common:${kotlin.coreLibrariesVersion}")
-    shadow("org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutines_version}")
-    shadow("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:${coroutines_version}")
-    shadow("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:${coroutines_version}")
-    shadow("org.jetbrains.kotlinx:kotlinx-serialization-core:${serialization_version}")
-    shadow("org.jetbrains.kotlinx:kotlinx-serialization-json:${serialization_version}")
 }
 
 tasks.withType<JavaCompile> {
