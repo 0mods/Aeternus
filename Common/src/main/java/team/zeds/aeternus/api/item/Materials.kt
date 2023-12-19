@@ -1,18 +1,25 @@
 package team.zeds.aeternus.api.item
 
+import net.minecraft.core.Registry
+import net.minecraft.core.registries.BuiltInRegistries
+import net.minecraft.resources.ResourceKey
 import net.minecraft.world.item.ArmorItem
 import net.minecraft.world.item.ArmorMaterial
 import net.minecraft.world.item.ArmorMaterials
 import net.minecraft.world.item.AxeItem
+import net.minecraft.world.item.CreativeModeTab
 import net.minecraft.world.item.HoeItem
 import net.minecraft.world.item.Item
+import net.minecraft.world.item.Item.Properties
 import net.minecraft.world.item.PickaxeItem
 import net.minecraft.world.item.ShovelItem
 import net.minecraft.world.item.SwordItem
 import net.minecraft.world.item.Tier
 import net.minecraft.world.item.Tiers
+import team.zeds.aeternus.provider.ServiceProvider
+import team.zeds.aeternus.reLoc
 
-class Materials private constructor(
+internal class Materials private constructor(
     private val modId: String,
     private val materialName: String,
     private val mainItem: Item?,
@@ -49,22 +56,225 @@ class Materials private constructor(
     private fun <T> thrower(string: String): T = throw UnsupportedOperationException("Enable to get \"${string.uppercase()}\" for material \"$modId:$materialName\", if it is null!")
 
     companion object {
+        @Deprecated("Removed in next time.",
+            ReplaceWith("MaterialCreator(modId)", "team.zeds.aeternus.api.item.Materials.MaterialCreator")
+        )
         @JvmStatic
         fun create(modId: String): MaterialCreator = MaterialCreator(modId)
+
+        @JvmStatic
+        fun create(modId: String, materialId: String) = PreparingBuilder(materialId, modId)
     }
 
-    class Builder(private val materialId: String, private val modId: String) {
-        fun setupProperties(properties: MaterialProperties.() -> Unit) {}
+    class PreparingBuilder(materialId: String, modId: String) {
+        private val props: MaterialProperties = MaterialProperties(modId, materialId)
 
-        class MaterialProperties {
-            var type: Tier = Tiers.IRON
-            var armorType: ArmorMaterial = ArmorMaterials.IRON
-            var durabilityModifier = 0F
-            var usageModifier = 0F
+        fun setupProperties(properties: MaterialProperties.() -> Unit): Builder {
+            props.apply(properties)
+            return Builder(props)
         }
     }
 
+    class MaterialProperties(val modId: String, val materialId: String) {
+        var tier: Tier = Tiers.IRON
+        var armorTier: ArmorMaterial = ArmorMaterials.IRON
+        var damage = 1F
+        var attackSpeed = 0F
+        var mainTab: CreativeModeTab? = null
+        var primaryTabFor: Map<String, CreativeModeTab> = mutableMapOf()
+    }
+
+    class Builder(private val props: MaterialProperties) {
+        private var mainItem: Item? = null
+        private var pickaxeItem: PickaxeItem? = null
+        private var swordItem: SwordItem? = null
+        private var shovelItem: ShovelItem? = null
+        private var axeItem: AxeItem? = null
+        private var hoeItem: HoeItem? = null
+        private var helmet: ArmorItem? = null
+        private var chest: ArmorItem? = null
+        private var legs: ArmorItem? = null
+        private var feet: ArmorItem? = null
+
+        fun mainItem(itemProps: ()-> Properties = ::Properties): Builder {
+            val item = Item(itemProps.invoke())
+
+            tabSetup(item)
+
+            this.mainItem = item
+
+            return this
+        }
+
+        fun pickaxe(itemProps: ()-> Properties = ::Properties): Builder {
+            val item = PickaxeItemImpl(props.tier, props.damage, props.attackSpeed, itemProps.invoke())
+
+            tabSetup(item, "pickaxe")
+
+            this.pickaxeItem = item
+
+            return this
+        }
+
+        fun sword(itemProps: ()-> Properties = ::Properties): Builder {
+            val item = SwordItemImpl(props.tier, props.damage, props.attackSpeed, itemProps.invoke())
+
+            tabSetup(item, "sword")
+
+            this.swordItem = item
+
+            return this
+        }
+
+        fun shovel(itemProps: ()-> Properties = ::Properties): Builder {
+            val item = ShovelItemImpl(props.tier, props.damage, props.attackSpeed, itemProps.invoke())
+
+            tabSetup(item, "shovel")
+
+            this.shovelItem = item
+
+            return this
+        }
+
+        fun axe(itemProps: ()-> Properties = ::Properties): Builder {
+            val item = AxeItemImpl(props.tier, props.damage, props.attackSpeed, itemProps.invoke())
+
+            tabSetup(item, "axe")
+
+            this.axeItem = item
+
+            return this
+        }
+
+        fun hoe(itemProps: ()-> Properties = ::Properties): Builder {
+            val item = HoeItemImpl(props.tier, props.damage, props.attackSpeed, itemProps.invoke())
+
+            tabSetup(item, "hoe")
+
+            this.hoeItem = item
+
+            return this
+        }
+
+        fun helmet(itemProps: ()-> Properties = ::Properties): Builder {
+            val item = ArmorItem(this.props.armorTier, ArmorItem.Type.HELMET, itemProps.invoke())
+
+            tabSetup(item, "helmet")
+
+            this.helmet = item
+
+            return this
+        }
+
+        fun chest(itemProps: ()-> Properties = ::Properties): Builder {
+            val item = ArmorItem(this.props.armorTier, ArmorItem.Type.CHESTPLATE, itemProps.invoke())
+
+            tabSetup(item, "chest")
+
+            this.chest = item
+
+            return this
+        }
+
+        fun legs(itemProps: ()-> Properties = ::Properties): Builder {
+            val item = ArmorItem(this.props.armorTier, ArmorItem.Type.LEGGINGS, itemProps.invoke())
+
+            tabSetup(item, "legs")
+
+            this.legs = item
+
+            return this
+        }
+
+        fun boots(itemProps: ()-> Properties = ::Properties): Builder {
+            val item = ArmorItem(this.props.armorTier, ArmorItem.Type.BOOTS, itemProps.invoke())
+
+            tabSetup(item, "boots")
+
+            this.feet = item
+
+            return this
+        }
+
+        fun fullArmor(itemProps: ()-> Properties = ::Properties) = this.helmet(itemProps).chest(itemProps).legs(itemProps).boots(itemProps)
+
+        fun fullTools(itemProps: () -> Properties = ::Properties) = this.pickaxe(itemProps).axe(itemProps).sword(itemProps).hoe(itemProps).shovel(itemProps)
+
+        fun fullSet(itemProps: () -> Properties = ::Properties) = this.fullArmor(itemProps).fullTools(itemProps).mainItem(itemProps)
+
+        fun build(): Materials {
+            // register all before creating
+            if (mainItem != null) {
+                registerItem("", mainItem!!)
+            }
+
+            if (pickaxeItem != null) {
+                registerItem("pickaxe", mainItem!!)
+            }
+
+            if (swordItem != null) {
+                registerItem("sword", mainItem!!)
+            }
+
+            if (shovelItem != null) {
+                registerItem("shovel", mainItem!!)
+            }
+
+            if (axeItem != null) {
+                registerItem("axe", mainItem!!)
+            }
+
+            if (hoeItem != null) {
+                registerItem("hoe", mainItem!!)
+            }
+
+            if (helmet != null) {
+                registerItem("helmet", mainItem!!)
+            }
+
+            if (chest != null) {
+                registerItem("chest", mainItem!!)
+            }
+
+            if (legs != null) {
+                registerItem("legs", mainItem!!)
+            }
+
+            if (feet != null) {
+                registerItem("boots", mainItem!!)
+            }
+
+            return Materials(props.modId, props.materialId, mainItem, pickaxeItem, swordItem, shovelItem, axeItem, hoeItem, helmet, chest, legs, feet)
+        }
+
+        private fun tabSetup(item: Item, itemId: String = "") {
+            var iId = itemId.lowercase()
+
+            if (iId.isNotEmpty()) iId = "_$iId"
+
+            val fullId = props.materialId + iId
+
+            props.primaryTabFor.forEach {
+                val id = it.key
+                if (id == fullId) ServiceProvider.tabHelper.addItemToTab(item, it.value)
+            }
+
+            if (!props.primaryTabFor.containsKey(fullId) && props.mainTab != null)
+                ServiceProvider.tabHelper.addItemToTab(item, props.mainTab)
+        }
+
+        private fun <T: Item> registerItem(str: String, obj: T): T = Registry.register(
+            BuiltInRegistries.ITEM,
+            ResourceKey.create(
+                BuiltInRegistries.ITEM.key(),
+                reLoc(props.modId, if (str.isNotEmpty()) "${props.materialId}_$str" else props.materialId)
+            ),
+            obj
+        )
+    }
+
+    @Deprecated("Removed in next time.")
     class MaterialCreator(val modId: String) {
-        fun builder(materialId: String) = Builder(materialId, modId)
+        fun builder(materialId: String) = PreparingBuilder(materialId, modId)
     }
 }
