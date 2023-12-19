@@ -209,39 +209,39 @@ internal class Materials private constructor(
             }
 
             if (pickaxeItem != null) {
-                registerItem("pickaxe", mainItem!!)
+                registerItem("pickaxe", pickaxeItem!!)
             }
 
             if (swordItem != null) {
-                registerItem("sword", mainItem!!)
+                registerItem("sword", swordItem!!)
             }
 
             if (shovelItem != null) {
-                registerItem("shovel", mainItem!!)
+                registerItem("shovel", shovelItem!!)
             }
 
             if (axeItem != null) {
-                registerItem("axe", mainItem!!)
+                registerItem("axe", axeItem!!)
             }
 
             if (hoeItem != null) {
-                registerItem("hoe", mainItem!!)
+                registerItem("hoe", hoeItem!!)
             }
 
             if (helmet != null) {
-                registerItem("helmet", mainItem!!)
+                registerItem("helmet", helmet!!)
             }
 
             if (chest != null) {
-                registerItem("chest", mainItem!!)
+                registerItem("chest", chest!!)
             }
 
             if (legs != null) {
-                registerItem("legs", mainItem!!)
+                registerItem("legs", legs!!)
             }
 
             if (feet != null) {
-                registerItem("boots", mainItem!!)
+                registerItem("boots", feet!!)
             }
 
             return Materials(props.modId, props.materialId, mainItem, pickaxeItem, swordItem, shovelItem, axeItem, hoeItem, helmet, chest, legs, feet)
