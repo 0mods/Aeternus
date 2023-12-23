@@ -10,17 +10,13 @@ interface MagicType {
 
     fun asLevel(): Int
 
-    fun getTranslation(): MutableComponent
+    fun getTranslation(): MutableComponent = getMagicTypeMessage("type.${this.getId()}").withStyle(*this.getStyles())
 
     fun getClassifier(): MagicClassifier
 
     fun getStyles(): Array<out ChatFormatting>
 
     companion object {
-        @JvmStatic
-        val listOfMagicTypes: MutableList<MagicType> = mutableListOf()
-        @JvmStatic
-        val listOfMagicSubtypes: MutableList<MagicType> = mutableListOf()
 
         @JvmStatic
         fun getMagicMessage(message: String, vararg objects: Any?): MutableComponent {
