@@ -3,7 +3,7 @@ package team.zeds.aeternus.api.magic
 import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
-import team.zeds.aeternus.ModId
+import team.zeds.aeternus.init.ModId
 
 interface MagicType {
     fun getId(): String

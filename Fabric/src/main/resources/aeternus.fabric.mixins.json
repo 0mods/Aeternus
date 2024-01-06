@@ -1,13 +1,9 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "team.zeds.ancientmagic.fabric.mixin",
-  "compatibilityLevel": "JAVA_16",
-  "mixins": [
-    "ItemMixin",
-    "ItemStackMixin",
-    "PlayerMagicCapabilityMixin"
-  ],
+  "package": "team.zeds.aeternus.fabric.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [],
   "client": [],
   "injectors": {
     "defaultRequire": 1

@@ -2,10 +2,10 @@ package team.zeds.aeternus.world
 
 import net.minecraft.core.Registry
 import net.minecraft.core.registries.Registries
-import net.minecraft.resources.ResourceLocation as location
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.MinecraftServer
 import net.minecraft.world.level.biome.Biome
-import team.zeds.aeternus.reLoc
+import team.zeds.aeternus.init.resloc
 
 object BiomeRegistryHolder {
     lateinit var biomeRegistry: Registry<Biome>
@@ -16,7 +16,7 @@ object BiomeRegistryHolder {
     }
 
     @JvmStatic
-    fun idToRL(id: Int) = if (id == -1) reLoc("a", "empty") else biomeRegistry.getHolder(id).get().key().location()
+    fun Int.idToRL() = (if (this == -1) resloc("a", "empty") else biomeRegistry.getHolder(this).get().key().location())!!
 
-    fun rlToId(biome: location) = biomeRegistry.getId(biomeRegistry.get(biome))
+    fun ResourceLocation.rlToId() = biomeRegistry.getId(biomeRegistry.get(this))
 }

@@ -1,10 +1,9 @@
 package team.zeds.aeternus.api.text
 
-import com.google.common.annotations.VisibleForTesting
 import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
-import team.zeds.aeternus.ModId
+import team.zeds.aeternus.init.ModId
 
 open class TranslationBuilder protected constructor(private var prepend: String = "", private val key: String) {
     private var arguments: Array<Any> = arrayOf()
@@ -49,9 +48,18 @@ open class TranslationBuilder protected constructor(private var prepend: String 
     val string: String = this.build.string
 
     companion object {
-        @get:JvmName("getDefaults")
-        val DEFAULTS: TranslationBuilder
-            get() = DefaultTranslations
+        @JvmField
+        val SHIFT = msg("shift")
+        @JvmField
+        val ALT = msg("alt")
+        @JvmField
+        val CTRL = msg("ctrl")
+        @JvmField
+        val SHIFT_ALT = msg("shift_alt")
+        @JvmField
+        val SHIFT_CTRL = msg("shift_ctrl")
+        @JvmField
+        val ALT_CTRL = msg("alt_ctrl")
 
         fun builder(key: String): TranslationBuilder = TranslationBuilder(key)
 
@@ -72,20 +80,5 @@ open class TranslationBuilder protected constructor(private var prepend: String 
         fun msg(key: String, modId: String = ModId): TranslationBuilder = builder(
             "msg.$modId.$key"
         )
-    }
-
-    private object DefaultTranslations: TranslationBuilder("", "") {
-        @JvmField
-        val SHIFT = msg("shift")
-        @JvmField
-        val ALT = msg("alt")
-        @JvmField
-        val CTRL = msg("ctrl")
-        @JvmField
-        val SHIFT_ALT = msg("shift_alt")
-        @JvmField
-        val SHIFT_CTRL = msg("shift_ctrl")
-        @JvmField
-        val ALT_CTRL = msg("alt_ctrl")
     }
 }

@@ -3,6 +3,7 @@ package team.zeds.aeternus.api.item
 import net.minecraft.core.Registry
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.resources.ResourceKey
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.ArmorItem
 import net.minecraft.world.item.ArmorMaterial
 import net.minecraft.world.item.ArmorMaterials
@@ -17,7 +18,7 @@ import net.minecraft.world.item.SwordItem
 import net.minecraft.world.item.Tier
 import net.minecraft.world.item.Tiers
 import team.zeds.aeternus.provider.ServiceProvider
-import team.zeds.aeternus.reLoc
+import team.zeds.aeternus.init.resloc
 
 internal class Materials private constructor(
     private val modId: String,
@@ -53,21 +54,23 @@ internal class Materials private constructor(
 
     fun getBoots(): ArmorItem = feet ?: thrower("boots")
 
-    private fun <T> thrower(string: String): T = throw UnsupportedOperationException("Enable to get \"${string.uppercase()}\" for material \"$modId:$materialName\", if it is null!")
+    private fun <T> thrower(string: String): T =
+        throw UnsupportedOperationException("Enable to get \"${string.uppercase()}\" for material \"$modId:$materialName\", if it is null!")
 
     companion object {
         @Deprecated("Removed in next time.",
             ReplaceWith("MaterialCreator(modId)", "team.zeds.aeternus.api.item.Materials.MaterialCreator")
         )
-        @JvmStatic
-        fun create(modId: String): MaterialCreator = MaterialCreator(modId)
 
         @JvmStatic
-        fun create(modId: String, materialId: String) = PreparingBuilder(materialId, modId)
+        fun create(modId: String, materialId: String) = PreparingBuilder(ResourceLocation(modId, materialId))
+
+        @JvmStatic
+        fun create(res: ResourceLocation) = PreparingBuilder(res)
     }
 
-    class PreparingBuilder(materialId: String, modId: String) {
-        private val props: MaterialProperties = MaterialProperties(modId, materialId)
+    class PreparingBuilder(res: ResourceLocation) {
+        private val props: MaterialProperties = MaterialProperties(res.path, res.namespace)
 
         fun setupProperties(properties: MaterialProperties.() -> Unit): Builder {
             props.apply(properties)
@@ -78,7 +81,7 @@ internal class Materials private constructor(
     class MaterialProperties(val modId: String, val materialId: String) {
         var tier: Tier = Tiers.IRON
         var armorTier: ArmorMaterial = ArmorMaterials.IRON
-        var damage = 1F
+        var damage = 0F
         var attackSpeed = 0F
         var mainTab: CreativeModeTab? = null
         var primaryTabFor: Map<String, CreativeModeTab> = mutableMapOf()
@@ -267,14 +270,9 @@ internal class Materials private constructor(
             BuiltInRegistries.ITEM,
             ResourceKey.create(
                 BuiltInRegistries.ITEM.key(),
-                reLoc(props.modId, if (str.isNotEmpty()) "${props.materialId}_$str" else props.materialId)
+                resloc(props.modId, if (str.isNotEmpty()) "${props.materialId}_$str" else props.materialId)
             ),
             obj
         )
-    }
-
-    @Deprecated("Removed in next time.")
-    class MaterialCreator(val modId: String) {
-        fun builder(materialId: String) = PreparingBuilder(materialId, modId)
     }
 }

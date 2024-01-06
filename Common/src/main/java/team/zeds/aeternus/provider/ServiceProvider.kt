@@ -1,6 +1,6 @@
 package team.zeds.aeternus.provider
 
-import team.zeds.aeternus.LOGGER
+import team.zeds.aeternus.init.LOGGER
 import team.zeds.aeternus.provider.core.ITabHelper
 import java.util.ServiceLoader
 import kotlin.reflect.KClass

@@ -12,3 +12,5 @@ accessible field net/minecraft/client/gui/components/Button$Builder x I
 accessible field net/minecraft/client/gui/components/Button$Builder y I
 accessible field net/minecraft/client/gui/components/Button$Builder width I
 accessible field net/minecraft/client/gui/components/Button$Builder height I
+
+accessible class net/minecraft/world/entity/animal/Panda$PandaAttackGoal

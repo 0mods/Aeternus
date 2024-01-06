@@ -1,9 +1,10 @@
 package team.zeds.aeternus.api.magic
 
 interface IPlayerEtherium {
-    val etherium: Int
 
-    fun addEtherium(count: Int)
+    fun getEtherium(etherium: Int)
 
-    fun consumeEtherium(count: Int)
+    operator fun plus(count: Int)
+
+    operator fun minus(count: Int)
 }
