@@ -1,30 +1,3 @@
 {
-  "magicType.type": "§9Magic Type: %s",
-  "magicType.subtype": "§1Magic Subtype: %s",
 
-  "magicType.type.low_magic": "Low",
-  "magicType.type.medium_magic": "Medium",
-  "magicType.type.pre_high": "Pre High",
-  "magicType.type.high_magic": "High",
-  "magicType.type.superior": "Superior",
-
-  "magicType.type.storage": "Storage",
-
-  "compact.ancientmagic.waystones.no_essence": "The gods say they can't do anything because you don't have an offering for them.",
-  "compact.ancientmagic.waystones.tpItem": "Is an offering for a gods. For teleportation",
-
-  "content.ancientmagic.added_by": "Added by mod: %s",
-
-  "magic.ancientmagic.nomana": "Not enough mana! You can't use %s",
-  "magic.ancientmagic.storage": "Mana storage: %s/%s",
-  "magic.ancientmagic.notLevel": "You can't use this item! Minimal level for use: %s§f. Your level is: %s§f.",
-  "magic.ancientmagic.admin.levelAdded": "Your level is updated! Current level: %s",
-  "magic.ancientmagic.admin.levelMax": "%s magic level is max!",
-  "magic.ancientmagic.admin.levelMin": "%s magic level is min!",
-  "magic.ancientmagic.level": "Mag.Lvl: %s",
-
-  "itemTab.ancientmagic.tab": "Ancient Magic",
-
-  "item.ancientmagic.retrace_stone": "Retrace Stone",
-  "item.ancientmagic.magic_dust": "Magic Dust"
 }

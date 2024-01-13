@@ -30,22 +30,13 @@ minecraft {
             }
         }
     }
-    accessWideners("src/main/resources/aeternus.common.accesswidener")
+    accessWideners("src/main/resources/aeternus.accesswidener")
 }
 
 dependencies {
     compileOnly("org.spongepowered:mixin:0.8.5")
 }
 
-tasks.processResources {
-
-    val buildProps = project.properties
-
-    filesMatching("pack.mcmeta") {
-
-        expand(buildProps)
-    }
-}
 publishing {
     publications {
         register("mavenJava", MavenPublication::class) {

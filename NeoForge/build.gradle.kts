@@ -1,71 +1,52 @@
 plugins {
-    java
+    `java-library`
     eclipse
-    id("net.neoforged.gradle") version ("6.+")
     `maven-publish`
     kotlin("jvm")
+    id("net.neoforged.gradle.userdev") version "[7.0,8.0)"
 }
 
+val parchmentMCVersion: String by project
+val parchmentVersion: String by project
 val minecraftVersion: String by project
-val forgeVersion: String by project
-val forgeAtsEnabled: String by project
+val neoAtsEnabled: String by project
 val modName: String by project
 val modAuthor: String by project
 val modId: String by project
 
-val baseArchiveName = "${modName}-forge-${minecraftVersion}"
+val baseArchiveName = "${modName}-neo-${minecraftVersion}"
 
 base {
     archivesName.set(baseArchiveName)
 }
 
-minecraft {
-    mappings("official", minecraftVersion)
+if (neoAtsEnabled.toBoolean())
+    minecraft.accessTransformers.file(file("src/main/resources/META-INF/accesstransformer.cfg"))
 
-    if (forgeAtsEnabled.toBoolean()) {
-        // This location is hardcoded in Forge and can not be changed.
-        // https://github.com/MinecraftForge/MinecraftForge/blob/be1698bb1554f9c8fa2f58e32b9ab70bc4385e60/fmlloader/src/main/java/net/minecraftforge/fml/loading/moddiscovery/ModFile.java#L123
-        accessTransformer(file("src/main/resources/META-INF/accesstransformer.cfg"))
-        project.logger.debug("Forge Access Transformers are enabled for this project.")
+subsystems.parchment {
+    minecraftVersion(parchmentMCVersion)
+    mappingsVersion(parchmentVersion)
+}
+
+runs {
+    configureEach { modSource(project.sourceSets.main.get()) }
+
+    create("client") { systemProperty("neoforge.enableGameTestNamespace", modId) }
+
+    create("server") {
+        systemProperty("neoforge.enabledGameTestNamespaces", modId)
+        programArgument("--nogui")
     }
 
-    runs {
-        create("client") {
-            workingDirectory(project.file("run"))
-            ideaModule("${rootProject.name}.${project.name}.main")
-            taskName("Client")
-            mods {
-                create(modId) {
-                    source(sourceSets.main.get())
-                    source(project(":Common").sourceSets.main.get())
-                }
-            }
-        }
+    create("gameTestServer") { systemProperty("neoforge.enabledGameTestNamespaces", modId) }
 
-        create("server") {
-            workingDirectory(project.file("run"))
-            ideaModule("${rootProject.name}.${project.name}.main")
-            taskName("Server")
-            mods {
-                create(modId) {
-                    source(sourceSets.main.get())
-                    source(project(":Common").sourceSets.main.get())
-                }
-            }
-        }
-
-        create("data") {
-            workingDirectory(project.file("run"))
-            ideaModule("${rootProject.name}.${project.name}.main")
-            args("--mod", modId, "--all", "--output", file("src/generated/resources/"), "--existing", file("src/main/resources/"))
-            taskName("Data")
-            mods {
-                create(modId) {
-                    source(sourceSets.main.get())
-                    source(project(":Common").sourceSets.main.get())
-                }
-            }
-        }
+    create("data") {
+        programArguments(
+                "--mod", modId,
+                "--all",
+                "--output", file("src/generated/resources").absolutePath,
+                "--existing", file("src/main/resources/").absolutePath
+        )
     }
 }
 
@@ -77,21 +58,22 @@ repositories {
 
 dependencies {
     val kffVersion: String by project
+    val neoVersion: String by project
 
-    minecraft("net.minecraftforge:forge:${minecraftVersion}-${forgeVersion}")
+    implementation("net.neoforged:neoforge:${neoVersion}")
     implementation("thedarkcolour:kotlinforforge:$kffVersion")
     compileOnly(project(":Common"))
 }
 
-tasks.withType<JavaCompile> {
-    source(project(":Common").sourceSets.main.get().allSource)
-}
-
-tasks.processResources {
-    from(project(":Common").sourceSets.main.get().resources)
-}
-
 tasks {
+    withType<JavaCompile> {
+        source(project(":Common").sourceSets.main.get().allSource)
+    }
+
+    processResources {
+        from(project(":Common").sourceSets.main.get().resources)
+    }
+
     jar {
         finalizedBy("reobfJar")
     }

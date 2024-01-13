@@ -1,6 +1,6 @@
 {
 	"credit": "Made with Blockbench",
-	"parent": "ancientmagic:template/item_block_modeled_render",
+	"parent": "aeternus:template/item_block_modeled_render",
 	"textures": {
 		"particle": "#layer_0"
 	},

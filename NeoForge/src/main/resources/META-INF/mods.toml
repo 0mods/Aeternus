@@ -1,26 +1,34 @@
-modLoader="kotlinforforge"
-loaderVersion="[4.6,)"
-license="All rights reserved"
+modLoader="${modloader}"
+loaderVersion="${mlVersion}"
+license="${license}"
 [[mods]]
-modId="aeternus"
-version="${file.jarVersion}"
-displayName="Aeternus"
-credits="Thanks for this example mod goes to Java"
-authors="AlgorithmLX, HollowHorizon, DizaGo Fox, sigma_veb, Goovy, _BENDY659_, _GuRmAn_"
+modId="${modId}"
+version="${modVersion}"
+displayName="${modName}"
+credits="${credits}"
+authors="${modAuthor}"
 description='''
-Etherium-based magic mod
+${description}
 '''
-[[dependencies.aeternus]]
-    modId="forge"
-    mandatory=true
-    versionRange="[38,)"
+[[mixins]]
+    config="${modId}.mixins.json"
+[[mixins]]
+[[dependencies.${modId}]]
+    modId="neoforge"
+    type="required" # types: required, incompactable, optional or discouraged
+    versionRange="${neoVersionRange}"
     ordering="NONE"
     side="BOTH"
-[[dependencies.aeternus]]
+[[dependencies.${modId}]]
     modId="minecraft"
-    mandatory=true
-    versionRange="[1.20.1,1.21)"
+    type="required"
+    versionRange="${mcRange}"
     ordering="NONE"
     side="BOTH"
-[[dependencies.aeternus]]
+[[dependencies.${modId}]]
     modId="kotlinforforge"
+    type="required"
+    reason="Mod requires KFF, i.e. it writted on Kotlin, not Java"
+    versionRange="${kffRange}"
+    ordering="NONE"
+    side="BOTH"

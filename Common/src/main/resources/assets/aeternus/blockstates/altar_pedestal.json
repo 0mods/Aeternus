@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "ancientmagic:block/altar_pedestal"
+      "model": "aeternus:block/altar_pedestal"
     }
   }
 }

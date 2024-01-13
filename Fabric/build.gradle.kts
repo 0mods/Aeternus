@@ -1,16 +1,14 @@
+val minecraftVersion: String by project
+val modName: String by project
+val modId: String by project
+val loomVersion: String by project
+
 plugins {
     idea
     `maven-publish`
-    id("fabric-loom") version "1.3.8"
+    id("fabric-loom") version("1.4.+")
     kotlin("jvm")
 }
-
-val minecraftVersion: String by project
-val fabricVersion: String by project
-val fabricLoaderVersion: String by project
-val modName: String by project
-val modId: String by project
-val cloth: String by project
 
 val baseArchiveName = "${modName}-fabric-${minecraftVersion}"
 
@@ -18,28 +16,16 @@ base {
     archivesName.set(baseArchiveName)
 }
 
-//loom {
-//    accessWidenerPath.set(file("src/main/resources/ancientmagic.fabric.accesswidener"))
-//}
-
 repositories {
     maven("https://maven.shedaniel.me/")
     maven("https://maven.terraformersmc.com/releases/")
 }
 
-dependencies {
-    minecraft("com.mojang:minecraft:${minecraftVersion}")
-    mappings(loom.officialMojangMappings())
-    modImplementation("net.fabricmc:fabric-loader:${fabricLoaderVersion}")
-    modImplementation("net.fabricmc.fabric-api:fabric-api:${fabricVersion}")
-    modApi("me.shedaniel.cloth:cloth-config-fabric:${cloth}") {
-        exclude(group = "net.fabricmc.fabric-api")
-    }
-    implementation(project(":Common"))
-
-}
-
 loom {
+    val file = project(":Common").file("src/main/resources/${modId}.accesswidener")
+
+    if (file.exists()) accessWidenerPath.set(file)
+
     runs {
         named("client") {
             client()
@@ -58,14 +44,31 @@ loom {
     }
 }
 
+dependencies {
+    val fabricVersion: String by project
+    val fabricLoaderVersion: String by project
+    val clothVersion: String by project
+    val klfVersion: String by project
+    val parchmentMCVersion: String by project
+    val parchmentVersion: String by project
+
+    minecraft("com.mojang:minecraft:${minecraftVersion}")
+    @Suppress("UnstableApiUsage")
+    mappings(loom.layered {
+        officialMojangMappings()
+        parchment("org.parchmentmc.data:parchment-${parchmentMCVersion}:${parchmentVersion}@zip")
+    })
+    modImplementation("net.fabricmc:fabric-loader:$fabricLoaderVersion")
+    modImplementation("net.fabricmc.fabric-api:fabric-api:$fabricVersion")
+    modApi("me.shedaniel.cloth:cloth-config-fabric:$clothVersion") {
+        exclude(group = "net.fabricmc.fabric-api")
+    }
+    modImplementation("net.fabricmc:fabric-language-kotlin:$klfVersion")
+    implementation(project(":Common"))
+}
 
 tasks.processResources {
     from(project(":Common").sourceSets.main.get().resources)
-    inputs.property("version", project.version)
-
-    filesMatching("fabric.mod.json") {
-        expand("version" to project.version)
-    }
 }
 
 tasks.withType<JavaCompile> {

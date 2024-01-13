@@ -1,5 +1,5 @@
 {
-  "parent": "ancientmagic:template/altar",
+  "parent": "aeternus:template/altar",
   "textures": {
     "layer_0": "block/stone_bricks",
     "layer_1": "block/red_wool",

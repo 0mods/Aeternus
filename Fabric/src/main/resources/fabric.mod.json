@@ -1,38 +1,44 @@
 {
   "schemaVersion": 1,
-  "id": "aeternus",
+  "id": "${modId}",
   "version": "${version}",
   
-  "name": "Aeternus",
-  "description": "Etherium-based magic mod",
+  "name": "${modName}",
+  "description": "${description}",
   "authors": [
-    "AlgorithmLX"
+    "${modAuthor}",
+    "${credits}"
   ],
   "contact": {},
-
-  "license": "ARR",
-  "icon": "assets/modid/icon.png",
-  
+  "license": "${license}",
   "environment": "*",
   "entrypoints": {
     "main": [
-      "team.zeds.aeternus.fabric.AeternusFabric"
+      {
+        "adapter": "kotlin",
+        "value": "team.zeds.aeternus.fabric.AeternusFabric"
+      }
     ],
     "client": [
-      "team.zeds.aeternus.fabric.AFClient"
+      {
+        "adapter": "kotlin",
+        "value": "team.zeds.aeternus.fabric.client.AFClient"
+      }
     ]
   },
   "mixins": [
-    "aeternus.fabric.mixins.json"
+    "${modId}.mixins.json",
+    "${modId}.fabric.mixins.json"
   ],
 
   "depends": {
-    "fabricloader": ">=0.14.21",
-    "cloth-config": ">=11.1.106",
+    "fabricloader": ">=${fabricLoaderVersion}",
+    "cloth-config": ">=${clothVersion}",
     "fabric": "*",
-    "minecraft": "1.20.x",
-    "java": ">=17"
+    "minecraft": "${minecraftVersion}",
+    "java": ">=17",
+    "fabric-language-kotlin": ">=${klfVersion}"
   },
-  "accessWidener": "aeternus.fabric.accesswidener"
+  "accessWidener": "${modId}.accesswidener"
 }
   
