@@ -1,6 +1,7 @@
 package team.zeds.aeternus.api.block
 
 import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
 import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.stats.Stats
@@ -13,19 +14,21 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.world.inventory.AbstractContainerMenu
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.Level
+import net.minecraft.world.level.LevelAccessor
 import net.minecraft.world.level.block.BaseEntityBlock
 import net.minecraft.world.level.block.Block
-import net.minecraft.world.level.block.FurnaceBlock
+import net.minecraft.world.level.block.SimpleWaterloggedBlock
 import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.entity.BlockEntityTicker
 import net.minecraft.world.level.block.entity.BlockEntityType
 import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.level.block.state.properties.BlockStateProperties.WATERLOGGED
+import net.minecraft.world.level.material.Fluids
 import net.minecraft.world.phys.BlockHitResult
 import team.zeds.aeternus.api.block.blockentity.IBlockEntity
 import team.zeds.aeternus.api.block.blockentity.IMenued
 import team.zeds.aeternus.api.block.blockentity.IStorable
 import team.zeds.aeternus.api.block.blockentity.ITickBlockEntity
-
 
 abstract class EntityBlockBase(private val blockEntity: (BlockPos, BlockState) -> BlockEntity, properties: Properties): BaseEntityBlock(properties) {
 
@@ -91,5 +94,21 @@ abstract class EntityBlockBase(private val blockEntity: (BlockPos, BlockState) -
         }
 
         return super.use(state, level, pos, player, hand, hitResult)
+    }
+
+    override fun updateShape(state: BlockState, facing: Direction, facingState: BlockState, levelAccessor: LevelAccessor, currentPos: BlockPos, facingPos: BlockPos): BlockState {
+        if (this is SimpleWaterloggedBlock && state.getValue(WATERLOGGED))
+            levelAccessor.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(levelAccessor))
+        if (!state.canSurvive(levelAccessor, currentPos)) {
+            val be = levelAccessor.getBlockEntity(currentPos)
+            if (!levelAccessor.isClientSide && be is IStorable) {
+                val isBE = be as IStorable
+                val stack = isBE.fromStorageToStack(ItemStack(this))
+                popResource(levelAccessor as Level, currentPos, stack)
+                levelAccessor.destroyBlock(currentPos, false)
+            }
+        }
+
+        return super.updateShape(state, facing, facingState, levelAccessor, currentPos, facingPos)
     }
 }
