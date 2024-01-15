@@ -13,6 +13,7 @@ ${description}
 [[mixins]]
     config="${modId}.mixins.json"
 [[mixins]]
+    config="${modId}.neo.mixins.json"
 [[dependencies.${modId}]]
     modId="neoforge"
     type="required" # types: required, incompactable, optional or discouraged

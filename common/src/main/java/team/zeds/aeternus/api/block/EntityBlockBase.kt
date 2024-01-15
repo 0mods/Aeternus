@@ -34,6 +34,10 @@ abstract class EntityBlockBase(private val blockEntity: (BlockPos, BlockState) -
 
     override fun newBlockEntity(p0: BlockPos, p1: BlockState): BlockEntity = blockEntity.invoke(p0, p1)
 
+    @Suppress(
+            "DEPRECATION",
+            "UNCHECKED_CAST"
+    )
     override fun <T : BlockEntity?> getTicker(
             level: Level,
             state: BlockState,
@@ -46,21 +50,23 @@ abstract class EntityBlockBase(private val blockEntity: (BlockPos, BlockState) -
         }
     }
 
+    @Suppress("OVERRIDE_DEPRECATION")
     override fun onPlace(state: BlockState, level: Level, pos: BlockPos, oldState: BlockState, isMoving: Boolean) {
         val be = level.getBlockEntity(pos)
-        if (be is IBlockEntity)
+        if (be is IBlockEntity<*>)
             be.onPlace(level, state, oldState, isMoving)
     }
 
+    @Suppress("OVERRIDE_DEPRECATION")
     override fun onRemove(state: BlockState, level: Level, pos: BlockPos, oldState: BlockState, isMoving: Boolean) {
         val be = level.getBlockEntity(pos)
-        if (be is IBlockEntity)
+        if (be is IBlockEntity<*>)
             be.onRemove(level, state, oldState, isMoving)
     }
 
     override fun setPlacedBy(level: Level, pos: BlockPos, state: BlockState, placer: LivingEntity?, stack: ItemStack) {
         val be = level.getBlockEntity(pos)
-        if (be is IBlockEntity)
+        if (be is IBlockEntity<*>)
             be.onPlacedBy(level, state, placer, stack)
     }
 
@@ -75,6 +81,10 @@ abstract class EntityBlockBase(private val blockEntity: (BlockPos, BlockState) -
         }
     }
 
+    @Suppress(
+            "OVERRIDE_DEPRECATION",
+            "DEPRECATION"
+    )
     override fun use(state: BlockState, level: Level, pos: BlockPos, player: Player, hand: InteractionHand, hitResult: BlockHitResult): InteractionResult {
         val be = level.getBlockEntity(pos)
         if (be is IMenued) {
@@ -96,6 +106,10 @@ abstract class EntityBlockBase(private val blockEntity: (BlockPos, BlockState) -
         return super.use(state, level, pos, player, hand, hitResult)
     }
 
+    @Suppress(
+            "OVERRIDE_DEPRECATION",
+            "DEPRECATION"
+    )
     override fun updateShape(state: BlockState, facing: Direction, facingState: BlockState, levelAccessor: LevelAccessor, currentPos: BlockPos, facingPos: BlockPos): BlockState {
         if (this is SimpleWaterloggedBlock && state.getValue(WATERLOGGED))
             levelAccessor.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(levelAccessor))

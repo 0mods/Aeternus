@@ -14,19 +14,6 @@ plugins {
     kotlin("jvm") version "1.9.22" apply false
 }
 
-allprojects {
-    repositories {
-        mavenCentral()
-        maven("https://maven.parchmentmc.org")
-        maven("https://repo.spongepowered.org/repository/maven-public/")
-        maven("https://maven.blamejared.com")
-    }
-
-    tasks.withType<GenerateModuleMetadata> {
-        enabled = false
-    }
-}
-
 subprojects {
     apply(plugin = "java")
 
@@ -36,6 +23,16 @@ subprojects {
         toolchain.languageVersion.set(JavaLanguageVersion.of(javaVersion.toInt()))
         withJavadocJar()
         withSourcesJar()
+    }
+
+    repositories {
+        mavenCentral()
+        maven("https://maven.parchmentmc.org")
+        maven("https://repo.spongepowered.org/repository/maven-public/")
+        maven("https://maven.blamejared.com")
+        maven("https://thedarkcolour.github.io/KotlinForForge/")
+        maven("https://maven.shedaniel.me/")
+        maven("https://maven.terraformersmc.com/releases/")
     }
 
     tasks {
@@ -54,6 +51,17 @@ subprojects {
                         "Build-On-Minecraft" to minecraftVersion
                 )
             }
+        }
+
+        jar {
+            from("LICENSE") {
+                rename { "${it}_${modName}" }
+            }
+        }
+
+        withType<JavaCompile> {
+            options.encoding = "UTF-8"
+            options.release.set(17)
         }
 
         processResources {
@@ -94,7 +102,7 @@ subprojects {
                     "klfVersion" to klfVersion
             )
 
-            from(project(":Common").sourceSets.main.get().resources)
+            from(project(":common").sourceSets.main.get().resources)
 
             filesMatching(listOf("META-INF/mods.toml", "pack.mcmeta", "*.mixins.json", "fabric.mod.json")) {
                 expand(replacement)
@@ -104,8 +112,7 @@ subprojects {
         }
     }
 
-    tasks.withType<JavaCompile> {
-        options.encoding = "UTF-8"
-        options.release.set(17)
+    tasks.withType<GenerateModuleMetadata> {
+        enabled = false
     }
 }

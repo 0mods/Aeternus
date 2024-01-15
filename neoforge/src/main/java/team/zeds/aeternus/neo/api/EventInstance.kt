@@ -1,11 +1,11 @@
 package team.zeds.aeternus.neo.api
 
-import net.minecraftforge.eventbus.api.Event
-import net.minecraftforge.eventbus.api.SubscribeEvent
-import net.minecraftforge.fml.event.IModBusEvent
+import net.neoforged.bus.api.Event
+import net.neoforged.bus.api.SubscribeEvent
+import net.neoforged.fml.event.IModBusEvent
 import org.jetbrains.annotations.ApiStatus.Internal
-import thedarkcolour.kotlinforforge.forge.FORGE_BUS
-import thedarkcolour.kotlinforforge.forge.MOD_BUS
+import thedarkcolour.kotlinforforge.neoforge.forge.FORGE_BUS
+import thedarkcolour.kotlinforforge.neoforge.forge.MOD_BUS
 
 inline fun <reified T: Event> forgeEventAndStop(noinline evt: (T) -> Boolean) {
     val event = ForgeEventInstance(T::class.java, evt)

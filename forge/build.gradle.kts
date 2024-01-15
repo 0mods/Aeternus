@@ -8,8 +8,6 @@ plugins {
     id("org.parchmentmc.librarian.forgegradle") version "1.+"
 }
 
-apply(plugin = "org.spongepowered.mixin")
-
 val minecraftVersion: String by project
 val modName: String by project
 val modAuthor: String by project
@@ -31,24 +29,22 @@ mixin {
 minecraft {
     val parchmentMCVersion: String by project
     val parchmentVersion: String by project
-    mappings("parchment", "${parchmentMCVersion}-$parchmentVersion")
+    mappings("parchment", "$parchmentVersion-$parchmentMCVersion")
 
-    if (file("src/main/resources/META-INF/accesstransformer.cfg").exists()) {
-        // This location is hardcoded in Forge and can not be changed.
-        // https://github.com/MinecraftForge/MinecraftForge/blob/be1698bb1554f9c8fa2f58e32b9ab70bc4385e60/fmlloader/src/main/java/net/minecraftforge/fml/loading/moddiscovery/ModFile.java#L123
+    if (file("src/main/resources/META-INF/accesstransformer.cfg").exists()) 
         accessTransformer(file("src/main/resources/META-INF/accesstransformer.cfg"))
-        project.logger.debug("Forge Access Transformers are enabled for this project.")
-    }
 
     runs {
         create("client") {
             workingDirectory(project.file("run"))
             ideaModule("${rootProject.name}.${project.name}.main")
             taskName("Client")
+            property("mixin.env.remapRefMap", "true")
+            property("mixin.env.refMapRemappingFile", "$projectDir/build/createSrgToMcp/output.srg")
             mods {
                 create(modId) {
                     source(sourceSets.main.get())
-                    source(project(":Common").sourceSets.main.get())
+                    source(project(":common").sourceSets.main.get())
                 }
             }
             jvmArgs("-XX:+AllowEnhancedClassRedefinition")
@@ -58,10 +54,12 @@ minecraft {
             workingDirectory(project.file("run"))
             ideaModule("${rootProject.name}.${project.name}.main")
             taskName("Server")
+            property("mixin.env.remapRefMap", "true")
+            property("mixin.env.refMapRemappingFile", "$projectDir/build/createSrgToMcp/output.srg")
             mods {
                 create(modId) {
                     source(sourceSets.main.get())
-                    source(project(":Common").sourceSets.main.get())
+                    source(project(":common").sourceSets.main.get())
                 }
             }
             jvmArgs("-XX:+AllowEnhancedClassRedefinition")
@@ -72,10 +70,12 @@ minecraft {
             ideaModule("${rootProject.name}.${project.name}.main")
             args("--mod", modId, "--all", "--output", file("src/generated/resources/"), "--existing", file("src/main/resources/"))
             taskName("Data")
+            property("mixin.env.remapRefMap", "true")
+            property("mixin.env.refMapRemappingFile", "$projectDir/build/createSrgToMcp/output.srg")
             mods {
                 create(modId) {
                     source(sourceSets.main.get())
-                    source(project(":Common").sourceSets.main.get())
+                    source(project(":common").sourceSets.main.get())
                 }
             }
         }
@@ -84,31 +84,25 @@ minecraft {
 
 sourceSets.main.get().resources.srcDir("src/generated/resources")
 
-repositories {
-    maven("https://thedarkcolour.github.io/KotlinForForge/")
-}
-
 dependencies {
     val kffVersion: String by project
     val forgeVersion: String by project
 
     minecraft("net.minecraftforge:forge:${minecraftVersion}-${forgeVersion}")
     implementation("thedarkcolour:kotlinforforge:$kffVersion")
-    compileOnly(project(":Common"))
+    compileOnly(project(":common"))
 }
 
 tasks {
-    withType<JavaCompile> {
-        source(project(":Common").sourceSets.main.get().allSource)
-    }
+    withType<JavaCompile> { source(project(":common").sourceSets.main.get().allSource) }
 
-    processResources {
-        from(project(":Common").sourceSets.main.get().resources)
-    }
+    javadoc { source(project(":common").sourceSets.main.get().allJava) }
 
-    jar {
-        finalizedBy("reobfJar")
-    }
+    named("sourcesJar", Jar::class) { from(project(":common").sourceSets.main.get().allSource) }
+
+    processResources { from(project(":common").sourceSets.main.get().resources) }
+
+    jar { finalizedBy("reobfJar") }
 }
 
 publishing {
@@ -116,10 +110,17 @@ publishing {
         register("mavenJava", MavenPublication::class) {
             artifactId = baseArchiveName
             artifact(tasks.jar)
+            fg.component(this)
         }
     }
 
     repositories {
         maven("file://${System.getenv("local_maven")}")
     }
+}
+
+sourceSets.forEach {
+    val dir = layout.buildDirectory.dir("sourceSets/${it.name}")
+    it.output.setResourcesDir(dir)
+    it.java.destinationDirectory.set(dir)
 }
