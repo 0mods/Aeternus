@@ -1,5 +1,6 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
-    java
     idea
     `maven-publish`
     id("fabric-loom") version("1.4.+")
@@ -67,13 +68,11 @@ loom {
 }
 
 tasks {
-    withType<JavaCompile> { source(project(":common").sourceSets.main.get().allSource) }
+    withType<KotlinCompile> { source(project(":common").sourceSets.main.get().allSource) }
 
     javadoc { source(project(":common").sourceSets.main.get().allJava) }
 
-    named("sourcesJar", Jar::class) {
-        from(project(":common").sourceSets.main.get().allSource)
-    }
+    named("sourcesJar", Jar::class) { from(project(":common").sourceSets.main.get().allSource) }
 
     processResources { from(project(":common").sourceSets.main.get().resources) }
 }

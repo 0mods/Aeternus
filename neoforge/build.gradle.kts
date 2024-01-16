@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     `java-library`
     eclipse
@@ -70,7 +72,7 @@ dependencies {
 val notNeoTask: Spec<Task> = Spec { it: Task -> !it.name.startsWith("neo") }
 
 tasks {
-    withType<JavaCompile>().matching(notNeoTask).configureEach { source(project(":common").sourceSets.main.get().allSource) }
+    withType<KotlinCompile>().matching(notNeoTask).configureEach { source(project(":common").sourceSets.main.get().allSource) }
 
     withType<Javadoc>().matching(notNeoTask).configureEach { source(project(":common").sourceSets.main.get().allJava) }
 
