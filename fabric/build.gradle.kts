@@ -38,6 +38,7 @@ dependencies {
         exclude(group = "net.fabricmc.fabric-api")
     }
     modImplementation("net.fabricmc:fabric-language-kotlin:$klfVersion")
+    include("net.fabricmc:fabric-language-kotlin:$klfVersion")
     implementation(project(":common"))
 }
 

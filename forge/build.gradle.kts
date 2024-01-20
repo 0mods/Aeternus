@@ -91,13 +91,14 @@ dependencies {
 
     minecraft("net.minecraftforge:forge:${minecraftVersion}-${forgeVersion}")
     implementation("thedarkcolour:kotlinforforge:$kffVersion")
+    jarJar("thedarkcolour:kotlinforforge:$kffVersion") { jarJar.ranged(this, "[$kffVersion,)") }
     compileOnly(project(":common"))
 }
 
 tasks {
     withType<KotlinCompile> { source(project(":common").sourceSets.main.get().allSource) }
 
-    javadoc { source(project(":common").sourceSets.main.get().allSource) }
+    javadoc { source(project(":common").sourceSets.main.get().allJava) }
 
     named("sourcesJar", Jar::class) { from(project(":common").sourceSets.main.get().allSource) }
 
