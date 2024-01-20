@@ -7,9 +7,12 @@ import java.util.function.Function
 import java.util.function.Supplier
 
 object AeternusItems {
-    val items = mutableMapOf<String, Function<Item.Properties, out Item>>()
+    private val items = mutableMapOf<String, Function<Item.Properties, out Item>>()
 
     val testItem = register("test_item", ::Item)
+
+    @JvmStatic
+    fun getItemsForRegistry() = this.items
 
     private fun <T: Item> register(id: String, obj: (Item.Properties) -> T, props: Item.Properties = Item.Properties()): Supplier<T> {
         if (items.putIfAbsent(id, obj) != null)
