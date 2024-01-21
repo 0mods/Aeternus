@@ -8,8 +8,6 @@ plugins {
     id("net.neoforged.gradle.userdev") version "[7.0,8.0)"
 }
 
-jarJar.enable()
-
 val parchmentMCVersion: String by project
 val parchmentVersion: String by project
 val minecraftVersion: String by project
@@ -68,9 +66,6 @@ dependencies {
 
     implementation("net.neoforged:neoforge:$neoVersion")
     implementation("thedarkcolour:kotlinforforge-neoforge:$kffVersion")
-    jarJar("thedarkcolour:kotlinforforge:$kffVersion") {
-        jarJar.ranged(this, "[$kffVersion,)")
-    }
     compileOnly(project(":common"))
 }
 

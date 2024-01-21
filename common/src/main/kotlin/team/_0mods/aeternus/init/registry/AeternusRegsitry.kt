@@ -13,6 +13,22 @@ import team._0mods.aeternus.init.resloc
 import java.util.function.BiConsumer
 import java.util.function.Supplier
 
+fun <T: Item> register(id: String, obj: (Item.Properties) -> T, props: Item.Properties = Item.Properties()): Supplier<T> {
+    if (AeternusItems.items.putIfAbsent(id, obj) != null)
+        throw IllegalArgumentException("Some bad news... Duplicated id: ${resloc(ModId, id)}")
+    return Supplier { obj.invoke(props) }
+}
+
+fun <T: Block> register(
+    id: String,
+    obj: T
+): T {
+    if (AeternusBlock.blocks.putIfAbsent(id, obj) != null)
+        throw IllegalArgumentException("Some bad news... Duplicated id: ${resloc(ModId, id)}")
+
+    return obj
+}
+
 object AeternusRegsitry {
     val tab = ResourceKey.create(Registries.CREATIVE_MODE_TAB, resloc(ModId, "aeternus"))
 

@@ -8,5 +8,10 @@ const val ModId = "aeternus"
 
 fun resloc(id: String, path: String) = ResourceLocation(id, path)
 
+val String.rl: ResourceLocation
+    get() = ResourceLocation(this)
+
+fun String.toRL(): ResourceLocation = ResourceLocation(this)
+
 @JvmField
 val LOGGER: Logger = LoggerFactory.getLogger("Aeternus") //const

@@ -2,7 +2,6 @@
   "schemaVersion": 1,
   "id": "${modId}",
   "version": "${modVersion}",
-  
   "name": "${modName}",
   "description": "${description}",
   "authors": [
@@ -16,13 +15,13 @@
     "main": [
       {
         "adapter": "kotlin",
-        "value": "team.zeds.aeternus.fabric.AeternusFabric"
+        "value": "team._0mods.${modId}.fabric.AeternusFabric"
       }
     ],
     "client": [
       {
         "adapter": "kotlin",
-        "value": "team.zeds.aeternus.fabric.client.AFClient"
+        "value": "team._0mods.${modId}.fabric.client.AFClient"
       }
     ]
   },
