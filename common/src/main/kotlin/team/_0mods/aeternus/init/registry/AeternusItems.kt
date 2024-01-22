@@ -6,7 +6,7 @@ import java.util.function.Function
 object AeternusItems {
     internal val items = mutableMapOf<String, Function<Item.Properties, out Item>>()
 
-    val testItem = register("test_item", ::Item)
+    val testItem = registerItem("test_item", ::Item)
 
     @JvmStatic
     fun getItemsForRegistry() = this.items
