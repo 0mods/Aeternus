@@ -15,13 +15,13 @@
     "main": [
       {
         "adapter": "kotlin",
-        "value": "team._0mods.${modId}.fabric.AeternusFabric"
+        "value": "team._0mods.${modId}.fabric.AeternusFabricKt::startCommon"
       }
     ],
     "client": [
       {
         "adapter": "kotlin",
-        "value": "team._0mods.${modId}.fabric.client.AFClient"
+        "value": "team._0mods.${modId}.fabric.AeternusFabricKt::startClient"
       }
     ]
   },

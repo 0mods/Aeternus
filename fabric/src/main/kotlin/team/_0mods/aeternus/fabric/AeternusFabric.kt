@@ -1,9 +1,14 @@
 package team._0mods.aeternus.fabric
 
-import net.fabricmc.api.ModInitializer
+import team._0mods.aeternus.fabric.init.ANRegistryHandler
+import team._0mods.aeternus.init.LOGGER
 
-class AeternusFabric: ModInitializer {
-    override fun onInitialize() {
+fun startCommon() {
+    LOGGER.info("Hello Minecraft world from Common side!")
+    ANRegistryHandler.init()
 
-    }
+}
+
+fun startClient() {
+    LOGGER.info("Hello Minecraft world from Client side!")
 }

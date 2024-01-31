@@ -11,6 +11,7 @@ import org.apache.commons.io.IOUtils
 import team._0mods.aeternus.api.gui.widget.BookWidget
 import team._0mods.aeternus.init.LOGGER
 import team._0mods.aeternus.init.ModId
+import team._0mods.aeternus.init.registry.AeternusItems
 import team._0mods.aeternus.init.resloc
 import team._0mods.aeternus.init.toRL
 import java.io.IOException
