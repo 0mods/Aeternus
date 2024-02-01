@@ -1,10 +1,11 @@
-package team._0mods.aeternus.init
+package team._0mods.aeternus
 
 import net.minecraft.resources.ResourceLocation
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 const val ModId = "aeternus"
+const val ModName = "Aeternus"
 
 fun resloc(id: String, path: String) = ResourceLocation(id, path)
 

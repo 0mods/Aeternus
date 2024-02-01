@@ -1,8 +1,7 @@
 package team._0mods.aeternus.api.magic
 
 interface IPlayerEtherium {
-
-    fun getEtherium(etherium: Int)
+    fun getEtheriumCount(): Int
 
     operator fun plus(count: Int)
 

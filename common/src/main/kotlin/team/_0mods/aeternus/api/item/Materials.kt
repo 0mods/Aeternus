@@ -18,7 +18,7 @@ import net.minecraft.world.item.SwordItem
 import net.minecraft.world.item.Tier
 import net.minecraft.world.item.Tiers
 import team._0mods.aeternus.service.ServiceProvider
-import team._0mods.aeternus.init.resloc
+import team._0mods.aeternus.resloc
 
 internal class Materials private constructor(
     private val modId: String,
@@ -258,12 +258,8 @@ internal class Materials private constructor(
             val fullId = props.materialId + iId
 
             props.primaryTabFor.forEach {
-                val id = it.key
-                if (id == fullId) ServiceProvider.tabHelper.addItemToTab(item, it.value)
             }
 
-            if (!props.primaryTabFor.containsKey(fullId) && props.mainTab != null)
-                ServiceProvider.tabHelper.addItemToTab(item, props.mainTab)
         }
 
         private fun <T: Item> registerItem(str: String, obj: T): T = Registry.register(

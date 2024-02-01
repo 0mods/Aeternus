@@ -5,21 +5,20 @@ import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.world.item.BlockItem
 import net.minecraft.world.item.Item
 import net.minecraft.world.level.block.state.BlockBehaviour
-import team._0mods.aeternus.init.ModId
-import team._0mods.aeternus.init.registry.AeternusBlocks
-import team._0mods.aeternus.init.registry.AeternusItems
-import team._0mods.aeternus.init.resloc
+import team._0mods.aeternus.ModId
+import team._0mods.aeternus.init.registry.AeternusRegsitry
+import team._0mods.aeternus.resloc
 
 object ANRegistryHandler {
     fun init() {
-        AeternusBlocks.getBlocksForRegistry().entries.forEach {
+        AeternusRegsitry.getBlocksForRegistry().entries.forEach {
             val rl = resloc(ModId, it.key)
             val blockNotInitialized = it.value
             val block = Registry.register(BuiltInRegistries.BLOCK, rl, blockNotInitialized.apply(BlockBehaviour.Properties.of()))
             Registry.register(BuiltInRegistries.ITEM, rl, BlockItem(block, Item.Properties()))
         }
 
-        AeternusItems.getItemsForRegistry().entries.forEach {
+        AeternusRegsitry.getItemsForRegistry().entries.forEach {
             val rl = resloc(ModId, it.key)
             val iNI = it.value
             Registry.register(BuiltInRegistries.ITEM, rl, iNI.apply(Item.Properties()))

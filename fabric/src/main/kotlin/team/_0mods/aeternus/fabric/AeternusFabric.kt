@@ -1,7 +1,7 @@
 package team._0mods.aeternus.fabric
 
 import team._0mods.aeternus.fabric.init.ANRegistryHandler
-import team._0mods.aeternus.init.LOGGER
+import team._0mods.aeternus.LOGGER
 
 fun startCommon() {
     LOGGER.info("Hello Minecraft world from Common side!")

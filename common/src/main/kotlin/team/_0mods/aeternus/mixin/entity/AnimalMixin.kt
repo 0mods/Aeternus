@@ -10,6 +10,9 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.Level
 import org.spongepowered.asm.mixin.Mixin
 import org.spongepowered.asm.mixin.Unique
+import org.spongepowered.asm.mixin.injection.At
+import org.spongepowered.asm.mixin.injection.Inject
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo
 import team._0mods.aeternus.api.goal.AltakeAttackGoal
 import team._0mods.aeternus.api.goal.AltakeBreakDoorGoal
 import team._0mods.aeternus.api.goal.AltakeNearestAttackableTargetGoal
@@ -27,7 +30,15 @@ abstract class AnimalMixin(
         ) && (it == Difficulty.EASY || it == Difficulty.NORMAL || it == Difficulty.HARD)
     }
 
-    override fun registerGoals() {
+    @Inject(method = ["<init>"], at = [At("TAIL")])
+    fun initInj(type: EntityType<out Animal>, level: Level, ci: CallbackInfo) {
+        if (type != EntityType.PANDA) {
+            aggresiableGoals()
+        }
+    }
+
+    @Unique
+    private fun aggresiableGoals() {
         addGoal(1, AltakeBreakDoorGoal(this, difficultyPredicate))
         addGoal(2, AltakeAttackGoal(this, 1.0, true))
         addGoal(2, AltakeNearestAttackableTargetGoal(this, Player::class.java, false))

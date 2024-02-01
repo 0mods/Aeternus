@@ -5,7 +5,7 @@ import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.MinecraftServer
 import net.minecraft.world.level.biome.Biome
-import team._0mods.aeternus.init.resloc
+import team._0mods.aeternus.resloc
 
 object BiomeRegistryHolder {
     lateinit var biomeRegistry: Registry<Biome>
