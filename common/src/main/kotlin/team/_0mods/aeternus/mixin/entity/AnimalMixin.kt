@@ -31,9 +31,11 @@ abstract class AnimalMixin(
     }
 
     @Inject(method = ["<init>"], at = [At("TAIL")])
-    fun initInj(type: EntityType<out Animal>, level: Level, ci: CallbackInfo) {
-        if (type != EntityType.PANDA) {
-            aggresiableGoals()
+    fun initInj(type: EntityType<out Animal>, level: Level?, ci: CallbackInfo) {
+        if (level != null && !level.isClientSide) {
+            if (type != EntityType.PANDA) {
+                aggresiableGoals()
+            }
         }
     }
 

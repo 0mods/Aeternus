@@ -6,7 +6,6 @@ import team._0mods.aeternus.LOGGER
 fun startCommon() {
     LOGGER.info("Hello Minecraft world from Common side!")
     ANRegistryHandler.init()
-
 }
 
 fun startClient() {

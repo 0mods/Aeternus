@@ -1,11 +1,10 @@
 package team._0mods.aeternus.api.magic.research
 
 interface IPlayerResearch {
-    fun getOpenedResearches(): Array<out IResearch>
+    fun getResearches(): MutableMap<IResearch, Boolean>
 
-    fun hasResearch(research: IResearch): Boolean = this.getOpenedResearches().contains(research)
+    fun hasResearch(research: IResearch): Boolean = this.getResearches().containsKey(research)
+            && (this.getResearches()[research] != null && this.getResearches()[research]!!)
 
-    operator fun plus(research: IResearch)
-
-    operator fun minus(research: IResearch)
+    operator fun set(research: IResearch, have: Boolean)
 }
