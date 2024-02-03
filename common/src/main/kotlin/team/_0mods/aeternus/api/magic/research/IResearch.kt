@@ -2,19 +2,21 @@ package team._0mods.aeternus.api.magic.research
 
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.chat.Component
+import net.minecraft.resources.ResourceLocation
+import org.jetbrains.annotations.ApiStatus
 import team._0mods.aeternus.api.text.TranslationBuilder
 
 interface IResearch {
     companion object {
-        val registriedResearch: List<IResearch> = mutableListOf()
+        val registriedResearch: MutableList<IResearch> = mutableListOf()
     }
 
     /**
      * Research name.
      *
-     * Returns [String]
+     * Returns [ResourceLocation]
      */
-    fun getName(): String
+    fun getName(): ResourceLocation
 
     /**
      * Translatable Research name.
@@ -30,12 +32,12 @@ interface IResearch {
      *
      * Returns [Array] of [IResearch]es
      */
-    fun getRequirementResearches(): Array<out IResearch>
+    fun getRequirementResearches(): MutableMap<ResourceLocation, IResearch>
 
     /**
      * Haven't a javadoc. Sorry! I'm Lazy
      */
-    fun addRequirementResearch(research: IResearch)
+    fun addRequirementResearch(vararg research: IResearch)
 
     /**
      * Count of consuming Etherium size.
@@ -49,9 +51,16 @@ interface IResearch {
      *
      * Returns [Array] of [IResearchTrigger]
      */
-    fun getTriggers(): Array<out IResearchTrigger>
+    fun getTriggers(): MutableMap<ResourceLocation, IResearchTrigger>
+
+    fun addTriggers(vararg trigger: IResearchTrigger)
 
     fun serializeNBT(): CompoundTag
 
     fun deserializeNBT(tag: CompoundTag)
+
+    /**
+     * Don't implement this method! It is automatic registry
+     */
+    fun register() { registriedResearch.add(this) }
 }

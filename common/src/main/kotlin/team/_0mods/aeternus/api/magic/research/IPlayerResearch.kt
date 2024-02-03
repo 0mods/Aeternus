@@ -7,4 +7,6 @@ interface IPlayerResearch {
             && (this.getResearches()[research] != null && this.getResearches()[research]!!)
 
     operator fun set(research: IResearch, have: Boolean)
+
+    operator fun plus(research: IResearch)
 }

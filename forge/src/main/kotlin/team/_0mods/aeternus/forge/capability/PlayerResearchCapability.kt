@@ -20,15 +20,22 @@ class PlayerResearchCapability: IPlayerResearch {
         researchesArray[research] = have
     }
 
+    override fun plus(research: IResearch) {
+        researchesArray[research] = true
+    }
+
     fun save(): CompoundTag {
         val tag = CompoundTag()
+        val researches = CompoundTag()
 
         this.getResearches().entries.forEach {
             val research = it.key
             val isOpened = it.value
 
-            tag.putBoolean(research.getName(), isOpened)
+            researches.putBoolean(research.getName().toString(), isOpened)
         }
+
+        tag.merge(researches)
 
         return tag
     }
@@ -36,7 +43,7 @@ class PlayerResearchCapability: IPlayerResearch {
     fun load(tag: CompoundTag?) {
         if (tag != null) {
             IResearch.registriedResearch.forEach { research ->
-                researchesArray[research] = tag.getBoolean(research.getName())
+                researchesArray[research] = tag.getBoolean(research.getName().toString())
             }
         }
     }
