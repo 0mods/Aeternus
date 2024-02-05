@@ -9,7 +9,7 @@ import team._0mods.aeternus.ModId
 import team._0mods.aeternus.init.registry.AeternusRegsitry
 import team._0mods.aeternus.resloc
 
-object ANRegistryHandler {
+object AFRegistryHandler {
     fun init() {
         AeternusRegsitry.getBlocksForRegistry().entries.forEach {
             val rl = resloc(ModId, it.key)

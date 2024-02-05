@@ -2,6 +2,7 @@ package team._0mods.aeternus.forge.capability
 
 import net.minecraft.core.Direction
 import net.minecraft.nbt.CompoundTag
+import net.minecraft.nbt.ListTag
 import net.minecraftforge.common.capabilities.Capability
 import net.minecraftforge.common.capabilities.ICapabilityProvider
 import net.minecraftforge.common.util.INBTSerializable
@@ -24,31 +25,34 @@ class PlayerResearchCapability: IPlayerResearch {
         researchesArray[research] = true
     }
 
-    fun save(): CompoundTag {
-        val tag = CompoundTag()
-        val researches = CompoundTag()
+    fun save(): ListTag {
+        val tag = ListTag()
+        val compound = CompoundTag()
 
-        this.getResearches().entries.forEach {
-            val research = it.key
-            val isOpened = it.value
-
-            researches.putBoolean(research.getName().toString(), isOpened)
+        this.researchesArray.forEach {
+            compound.putBoolean(it.key.getName().toString(), it.value)
         }
 
-        tag.merge(researches)
+        tag.add(compound)
 
         return tag
     }
 
-    fun load(tag: CompoundTag?) {
+    fun load(tag: ListTag?) {
         if (tag != null) {
-            IResearch.registriedResearch.forEach { research ->
-                researchesArray[research] = tag.getBoolean(research.getName().toString())
+            for (i in 0 ..< tag.size) {
+                IResearch.registriedResearch.forEach {
+                    val compound = tag.getCompound(i)
+
+                    if (compound.contains(it.getName().toString())) {
+                        this.researchesArray[it] = compound.getBoolean(it.getName().toString())
+                    }
+                }
             }
         }
     }
 
-    class Provider: ICapabilityProvider, INBTSerializable<CompoundTag> {
+    class Provider: ICapabilityProvider, INBTSerializable<ListTag> {
         private var cap: PlayerResearchCapability? = null
         private val lazy = lazyOptOf(this::createCap)
 
@@ -66,9 +70,9 @@ class PlayerResearchCapability: IPlayerResearch {
             return emptyLazyOpt()
         }
 
-        override fun serializeNBT(): CompoundTag = createCap().save()
+        override fun serializeNBT(): ListTag = createCap().save()
 
-        override fun deserializeNBT(p0: CompoundTag?) {
+        override fun deserializeNBT(p0: ListTag?) {
             createCap().load(p0)
         }
     }

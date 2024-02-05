@@ -1,9 +1,7 @@
 package team._0mods.aeternus.api.magic.research
 
-import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
-import org.jetbrains.annotations.ApiStatus
 import team._0mods.aeternus.api.text.TranslationBuilder
 
 interface IResearch {
@@ -54,10 +52,6 @@ interface IResearch {
     fun getTriggers(): MutableMap<ResourceLocation, IResearchTrigger>
 
     fun addTriggers(vararg trigger: IResearchTrigger)
-
-    fun serializeNBT(): CompoundTag
-
-    fun deserializeNBT(tag: CompoundTag)
 
     /**
      * Don't implement this method! It is automatic registry

@@ -1,6 +1,5 @@
 package team._0mods.aeternus.api.magic.research
 
-import net.minecraft.nbt.CompoundTag
 import net.minecraft.resources.ResourceLocation
 
 abstract class SimpleResearch(private val id: ResourceLocation): IResearch {
@@ -27,33 +26,5 @@ abstract class SimpleResearch(private val id: ResourceLocation): IResearch {
         trigger.forEach {
             triggers[it.getName()] = it
         }
-    }
-
-    override fun serializeNBT(): CompoundTag {
-        val tag = CompoundTag()
-        val requiredResearches = CompoundTag()
-        val requiredTriggers = CompoundTag()
-
-        tag.putString("AeternusResearchId", this.getName().toString())
-
-        required.forEach {
-            val id = it.key
-            val research = it.value
-            requiredResearches.putString(id.toString(), research.getName().toString())
-        }
-
-        triggers.forEach {
-            val id = it.key
-            val trigger = it.value
-            requiredTriggers.putString(id.toString(), trigger.getName().toString())
-        }
-
-        tag.merge(requiredResearches)
-
-        return tag
-    }
-
-    override fun deserializeNBT(tag: CompoundTag) {
-
     }
 }
