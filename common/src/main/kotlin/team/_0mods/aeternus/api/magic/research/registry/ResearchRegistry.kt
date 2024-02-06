@@ -18,7 +18,7 @@ object ResearchRegistry: IResearchRegistry {
             researchMap[research.name] = research
         else
             LOGGER.atWarn().log(
-                "Oh... Mod: {} trying to register a research with id {}, because it is already registered! Skipping...",
+                "Oh... Mod: {} trying to register a research with id {}, because research with this id is already registered! Skipping...",
                 ServiceProvider.platform.getModNameByModId(research.name.namespace),
                 research.name
             )

@@ -5,7 +5,6 @@ import net.minecraftforge.fml.ModList
 import team._0mods.aeternus.api.AeternusPlugin
 import team._0mods.aeternus.api.IAeternusPlugin
 import team._0mods.aeternus.api.magic.research.registry.ResearchRegistry
-import kotlin.jvm.optionals.getOrNull
 
 object PluginHolder {
     private val logger = LogUtils.getLogger()
@@ -28,8 +27,6 @@ object PluginHolder {
                 }
             }
         }
-
-        ModList.get().getModContainerById("id").getOrNull()?.modId
 
         list.forEach {
             it.registerResearch(ResearchRegistry)

@@ -1,4 +1,4 @@
-package team._0mods.aeternus.forge.capability
+package team._0mods.aeternus.forge.init.capability
 
 import net.minecraft.core.Direction
 import net.minecraft.nbt.ListTag
@@ -7,22 +7,31 @@ import net.minecraftforge.common.capabilities.Capability
 import net.minecraftforge.common.capabilities.ICapabilityProvider
 import net.minecraftforge.common.util.INBTSerializable
 import net.minecraftforge.common.util.LazyOptional
+import team._0mods.aeternus.LOGGER
 import team._0mods.aeternus.api.magic.research.IPlayerResearch
 import team._0mods.aeternus.api.magic.research.IResearch
-import team._0mods.aeternus.api.magic.research.registry.IResearchRegistry
 import team._0mods.aeternus.api.magic.research.registry.ResearchRegistry
 import team._0mods.aeternus.forge.api.emptyLazyOpt
 import team._0mods.aeternus.forge.api.lazyOptOf
 import team._0mods.aeternus.rl
 
 class PlayerResearchCapability: IPlayerResearch {
-    private val researchesArray: MutableList<IResearch> = mutableListOf()
+    private val researchList: MutableList<IResearch> = mutableListOf()
 
     override val researches: List<IResearch>
-        get() = this.researchesArray
+        get() = this.researchList.toList() // Copy from list
 
     override fun addResearch(vararg research: IResearch) {
-        researchesArray.addAll(research)
+        for (researchImpl in research) {
+            if (this.researchList.stream().noneMatch { it.name == researchImpl.name }) researchList.add(researchImpl)
+            else {
+                LOGGER.atWarn().log(
+                    "Player already equals {} research. Why you will try to add it again?",
+                    researchImpl.name
+                )
+                continue
+            }
+        }
     }
 
     fun save(): ListTag {
@@ -40,7 +49,7 @@ class PlayerResearchCapability: IPlayerResearch {
             for (i in 0 ..< tag.size) {
                 val founded = tag.getString(i)
 
-                if (researchesArray.contains(ResearchRegistry.getResearchById(founded.rl)))
+                if (!researches.stream().noneMatch { it.name == founded.rl })
                     continue
                 else {
                     val foundedResearch = ResearchRegistry.getResearchById(founded.rl) ?: continue

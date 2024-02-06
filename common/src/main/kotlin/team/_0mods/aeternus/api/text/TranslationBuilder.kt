@@ -82,5 +82,7 @@ open class TranslationBuilder protected constructor(private var prepend: String 
         )
 
         fun api(key: String) = builder("api.$ModId.$key").build
+
+        fun research(key: String, modId: String) = builder("research.$modId.$key").build
     }
 }

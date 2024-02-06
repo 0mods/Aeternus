@@ -1,9 +1,6 @@
 package team._0mods.aeternus.api.magic.research
 
-import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
-import team._0mods.aeternus.api.text.TranslationBuilder
-import team._0mods.aeternus.rl
 
 interface IResearch {
     /**
@@ -14,34 +11,13 @@ interface IResearch {
     val name: ResourceLocation
 
     /**
-     * Translatable Research name.
-     *
-     * Returns [Component]
-     */
-    val translation: Component
-        get() = TranslationBuilder.api("research.${name}")
-
-    /**
-     * Research texture on book.
-     *
-     * Returns [ResourceLocation]
-     */
-    val icon: ResourceLocation
-        get() = "aeternus:textures/empty".rl
-
-    /**
-     * Array of requirement researches for this research.
+     * List of requirement researches for current research.
      * It could be empty.
      * If previous researches is not opened, this research can't be opened
      *
-     * Returns [Array] of [IResearch]es
+     * Returns [List] of [IResearch]es
      */
     val depends: List<IResearch>
-
-    /**
-     * Haven't a javadoc. Sorry! I'm Lazy
-     */
-    fun addRequirementResearch(vararg research: IResearch)
 
     /**
      * Count of consuming Etherium size.
@@ -54,9 +30,16 @@ interface IResearch {
     /**
      * Triggers, after which it opens current research
      *
-     * Returns [Array] of [IResearchTrigger]
+     * Returns [List] of [IResearchTrigger]
      */
     val triggers: List<IResearchTrigger>
+
+    val bookMetadata: IResearchBookMetadata
+
+    /**
+     * Haven't a javadoc. Sorry! I'm Lazy
+     */
+    fun addRequirementResearch(vararg research: IResearch)
 
     fun addTriggers(vararg trigger: IResearchTrigger)
 }

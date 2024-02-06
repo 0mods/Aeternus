@@ -1,6 +1,8 @@
-package team._0mods.aeternus.api.magic.research
+package team._0mods.aeternus.api.magic.research.impl
 
 import net.minecraft.resources.ResourceLocation
+import team._0mods.aeternus.api.magic.research.IResearch
+import team._0mods.aeternus.api.magic.research.IResearchTrigger
 
 abstract class SimpleResearch(private val id: ResourceLocation): IResearch {
     private val required: MutableList<IResearch> = mutableListOf()
