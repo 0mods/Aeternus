@@ -3,25 +3,31 @@ package team._0mods.aeternus.api.magic.research
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import team._0mods.aeternus.api.text.TranslationBuilder
+import team._0mods.aeternus.rl
 
 interface IResearch {
-    companion object {
-        val registriedResearch: MutableList<IResearch> = mutableListOf()
-    }
-
     /**
      * Research name.
      *
      * Returns [ResourceLocation]
      */
-    fun getName(): ResourceLocation
+    val name: ResourceLocation
 
     /**
      * Translatable Research name.
      *
      * Returns [Component]
      */
-    fun getTranslation(): Component = TranslationBuilder.api("research.${getName()}")
+    val translation: Component
+        get() = TranslationBuilder.api("research.${name}")
+
+    /**
+     * Research texture on book.
+     *
+     * Returns [ResourceLocation]
+     */
+    val icon: ResourceLocation
+        get() = "aeternus:textures/empty".rl
 
     /**
      * Array of requirement researches for this research.
@@ -30,7 +36,7 @@ interface IResearch {
      *
      * Returns [Array] of [IResearch]es
      */
-    fun getRequirementResearches(): MutableMap<ResourceLocation, IResearch>
+    val depends: List<IResearch>
 
     /**
      * Haven't a javadoc. Sorry! I'm Lazy
@@ -42,19 +48,15 @@ interface IResearch {
      *
      * Returns count of needed etherium
      */
-    fun getEtheriumCountForOpen(): Double = 0.0
+    val etheriumNeedValue: Double
+        get() = 0.0
 
     /**
      * Triggers, after which it opens current research
      *
      * Returns [Array] of [IResearchTrigger]
      */
-    fun getTriggers(): MutableMap<ResourceLocation, IResearchTrigger>
+    val triggers: List<IResearchTrigger>
 
     fun addTriggers(vararg trigger: IResearchTrigger)
-
-    /**
-     * Don't implement this method! It is automatic registry
-     */
-    fun register() { registriedResearch.add(this) }
 }

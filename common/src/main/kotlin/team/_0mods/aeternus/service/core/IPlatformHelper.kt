@@ -12,4 +12,6 @@ interface IPlatformHelper {
     fun isPhysicalServer(): Boolean = !isPhysicalClient()
 
     fun isModLoaded(modId: String): Boolean
+
+    fun getModNameByModId(modId: String): String
 }
