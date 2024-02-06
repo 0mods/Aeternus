@@ -1,8 +1,8 @@
-package team._0mods.aeternus.neo.service
+package team._0mods.aeternus.forge.service
 
-import net.neoforged.fml.ModList
-import net.neoforged.fml.loading.FMLEnvironment
-import net.neoforged.fml.util.thread.SidedThreadGroups
+import net.minecraftforge.fml.ModList
+import net.minecraftforge.fml.loading.FMLEnvironment
+import net.minecraftforge.fml.util.thread.SidedThreadGroups
 import team._0mods.aeternus.service.core.IPlatformHelper
 import kotlin.jvm.optionals.getOrNull
 
@@ -14,6 +14,7 @@ class PlatformHelper: IPlatformHelper {
     override fun isPhysicalClient(): Boolean = FMLEnvironment.dist.isClient
 
     override fun isModLoaded(modId: String): Boolean = ModList.get().isLoaded(modId)
+
     override fun getModNameByModId(modId: String): String {
         // yeah, it's very impractical, but sorry, I really want to do it >_<
         val cat = StringBuilder()
