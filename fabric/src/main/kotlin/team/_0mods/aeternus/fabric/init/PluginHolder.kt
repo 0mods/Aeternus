@@ -3,23 +3,21 @@ package team._0mods.aeternus.fabric.init
 import net.fabricmc.loader.api.FabricLoader
 import team._0mods.aeternus.ModId
 import team._0mods.aeternus.api.IAeternusPlugin
-import team._0mods.aeternus.api.magic.research.registry.ResearchRegistry
+import team._0mods.aeternus.api.registry.impl.ResearchRegistry
+import team._0mods.aeternus.api.registry.impl.ResearchTriggerRegistry
 import java.util.stream.Collectors
 
 object PluginHolder {
     fun loadPlugins() {
-        val listOfPlugins = this.getInstances("${ModId}_plugin", IAeternusPlugin::class.java)
-
-        listOfPlugins.forEach {
-            it.registerResearch(ResearchRegistry)
-        }
-    }
-
-    @Suppress("SameParameterValue")
-    private fun <T> getInstances(entrypoint: String, inst: Class<T>): List<T> =
-        FabricLoader.getInstance()
-            .getEntrypointContainers(entrypoint, inst)
+        val listOfPlugins = FabricLoader.getInstance()
+            .getEntrypointContainers("${ModId}_plugin", IAeternusPlugin::class.java)
             .stream()
             .map { it.entrypoint }
             .collect(Collectors.toList())
+
+        listOfPlugins.forEach {
+            it.registerResearch(ResearchRegistry(it.modId))
+            it.registerResearchTriggers(ResearchTriggerRegistry(it.modId))
+        }
+    }
 }

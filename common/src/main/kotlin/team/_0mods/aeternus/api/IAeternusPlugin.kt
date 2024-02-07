@@ -1,9 +1,14 @@
 package team._0mods.aeternus.api
 
-import team._0mods.aeternus.api.magic.research.registry.IResearchRegistry
+import team._0mods.aeternus.api.registry.IResearchRegistry
+import team._0mods.aeternus.api.registry.IResearchTriggerRegistry
 
 annotation class AeternusPlugin
 
 interface IAeternusPlugin {
-    fun registerResearch(reg: IResearchRegistry)
+    val modId: String
+
+    fun registerResearch(reg: IResearchRegistry) {}
+
+    fun registerResearchTriggers(reg: IResearchTriggerRegistry) {}
 }

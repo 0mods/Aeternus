@@ -16,3 +16,16 @@ fun String.toRL(): ResourceLocation = ResourceLocation(this)
 
 @JvmField
 val LOGGER: Logger = LoggerFactory.getLogger("Aeternus") //const
+
+fun <T, X> Map<T, X>.revert(): Map<X, T> {
+    val mutableMap = mutableMapOf<X, T>()
+
+    val keys = this.keys.toList()
+
+    for (key in keys) {
+        val value = this[key] ?: continue
+        mutableMap[value] = key
+    }
+
+    return mutableMap
+}

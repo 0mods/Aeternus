@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -35,6 +36,10 @@ subprojects {
         maven("https://maven.terraformersmc.com/releases/")
     }
 
+    dependencies {
+        compileOnly("org.jetbrains:annotations:24.1.0")
+    }
+
     tasks {
         jar {
             manifest {
@@ -63,6 +68,8 @@ subprojects {
             options.encoding = "UTF-8"
             options.release.set(17)
         }
+
+        withType<KotlinCompile> { compilerOptions.freeCompilerArgs.add("-Xjvm-default=all") }
 
         processResources {
             val modLoader: String by project

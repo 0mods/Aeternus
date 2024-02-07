@@ -1,10 +1,15 @@
 package team._0mods.aeternus.neo.init
 
 import com.mojang.logging.LogUtils
+import net.minecraft.world.InteractionResult
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.Items
 import net.neoforged.fml.ModList
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent
 import team._0mods.aeternus.api.AeternusPlugin
 import team._0mods.aeternus.api.IAeternusPlugin
-import team._0mods.aeternus.api.magic.research.registry.ResearchRegistry
+import team._0mods.aeternus.api.registry.impl.ResearchRegistry
+import team._0mods.aeternus.api.registry.impl.ResearchTriggerRegistry
 
 object PluginHolder {
     private val logger = LogUtils.getLogger()
@@ -19,7 +24,7 @@ object PluginHolder {
                         if (IAeternusPlugin::class.java.isAssignableFrom(clazz)) {
                             val plugin: IAeternusPlugin = clazz.getDeclaredConstructor().newInstance() as IAeternusPlugin
                             list.add(plugin)
-                            logger.info("Registered {} plugin", annot.memberName)
+                            logger.info("Plugin {} has been registered!", annot.memberName)
                         }
                     } catch (e: Exception) {
                         logger.error(LogUtils.FATAL_MARKER, "Error during loading plugin: {}", annot.memberName, e)
@@ -29,7 +34,8 @@ object PluginHolder {
         }
 
         list.forEach {
-            it.registerResearch(ResearchRegistry)
+            it.registerResearch(ResearchRegistry(it.modId))
+            it.registerResearchTriggers(ResearchTriggerRegistry(it.modId))
         }
     }
 }

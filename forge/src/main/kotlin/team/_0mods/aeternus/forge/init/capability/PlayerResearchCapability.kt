@@ -10,9 +10,9 @@ import net.minecraftforge.common.util.LazyOptional
 import team._0mods.aeternus.LOGGER
 import team._0mods.aeternus.api.magic.research.IPlayerResearch
 import team._0mods.aeternus.api.magic.research.IResearch
-import team._0mods.aeternus.api.magic.research.registry.ResearchRegistry
 import team._0mods.aeternus.forge.api.emptyLazyOpt
 import team._0mods.aeternus.forge.api.lazyOptOf
+import team._0mods.aeternus.init.AeternusCorePlugin
 import team._0mods.aeternus.rl
 
 class PlayerResearchCapability: IPlayerResearch {
@@ -22,16 +22,7 @@ class PlayerResearchCapability: IPlayerResearch {
         get() = this.researchList.toList() // Copy from list
 
     override fun addResearch(vararg research: IResearch) {
-        for (researchImpl in research) {
-            if (this.researchList.stream().noneMatch { it.name == researchImpl.name }) researchList.add(researchImpl)
-            else {
-                LOGGER.atWarn().log(
-                    "Player already equals {} research. Why you will try to add it again?",
-                    researchImpl.name
-                )
-                continue
-            }
-        }
+        researchList.addAll(research)
     }
 
     fun save(): ListTag {
@@ -52,7 +43,7 @@ class PlayerResearchCapability: IPlayerResearch {
                 if (!researches.stream().noneMatch { it.name == founded.rl })
                     continue
                 else {
-                    val foundedResearch = ResearchRegistry.getResearchById(founded.rl) ?: continue
+                    val foundedResearch = AeternusCorePlugin.researchRegistry.getResearchById(founded.rl) ?: continue
                     this.addResearch(foundedResearch)
                 }
             }
