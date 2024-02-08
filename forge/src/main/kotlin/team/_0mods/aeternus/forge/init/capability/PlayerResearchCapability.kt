@@ -7,8 +7,7 @@ import net.minecraftforge.common.capabilities.Capability
 import net.minecraftforge.common.capabilities.ICapabilityProvider
 import net.minecraftforge.common.util.INBTSerializable
 import net.minecraftforge.common.util.LazyOptional
-import team._0mods.aeternus.LOGGER
-import team._0mods.aeternus.api.magic.research.IPlayerResearch
+import team._0mods.aeternus.api.magic.research.player.IPlayerResearch
 import team._0mods.aeternus.api.magic.research.IResearch
 import team._0mods.aeternus.forge.api.emptyLazyOpt
 import team._0mods.aeternus.forge.api.lazyOptOf

@@ -1,12 +1,15 @@
 package team._0mods.aeternus.init.registry
 
+import net.minecraft.core.Registry
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
+import net.minecraft.world.item.CreativeModeTab
 import net.minecraft.world.item.Item
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.state.BlockBehaviour
 import net.minecraft.world.level.dimension.DimensionType
 import team._0mods.aeternus.ModId
+import team._0mods.aeternus.api.magic.research.IResearch
 import team._0mods.aeternus.resloc
 import java.util.function.Function
 import java.util.function.Supplier
@@ -36,8 +39,10 @@ fun <T: Block> registerBlock(
 }
 
 object AeternusRegsitry {
-    /* CREATIVE MODE TABS */
-    val tab = ResourceKey.create(Registries.CREATIVE_MODE_TAB, resloc(ModId, "aeternus"))
+    /* RESOURCE KEYS */
+    val tab: ResourceKey<CreativeModeTab> = ResourceKey.create(Registries.CREATIVE_MODE_TAB, resloc(ModId, "aeternus"))
+    /* RESOURCE REGISTRY KEYS */
+    val researchRK: ResourceKey<Registry<IResearch>> = ResourceKey.createRegistryKey(resloc(ModId, "research"))
 
     /* ITEMS */
     val knowledgeBook = registerItem("knowledge_book", ::Item)

@@ -1,7 +1,7 @@
 package team._0mods.aeternus.neo.init.capability
 
 import team._0mods.aeternus.LOGGER
-import team._0mods.aeternus.api.magic.research.IPlayerResearch
+import team._0mods.aeternus.api.magic.research.player.IPlayerResearch
 import team._0mods.aeternus.api.magic.research.IResearch
 
 class PlayerResearchCapability: IPlayerResearch {

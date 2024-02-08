@@ -7,7 +7,7 @@ import net.neoforged.fml.common.Mod
 import net.neoforged.neoforge.capabilities.EntityCapability
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent
 import team._0mods.aeternus.ModId
-import team._0mods.aeternus.api.magic.research.IPlayerResearch
+import team._0mods.aeternus.api.magic.research.player.IPlayerResearch
 import team._0mods.aeternus.rl
 
 @Mod.EventBusSubscriber(modid = ModId, bus = Mod.EventBusSubscriber.Bus.MOD)

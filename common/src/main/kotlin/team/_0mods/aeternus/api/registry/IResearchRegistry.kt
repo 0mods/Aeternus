@@ -19,4 +19,6 @@ interface IResearchRegistry {
     fun register(research: IResearch) = register(research.name.toString(), research)
 
     fun register(id: String, research: IResearch)
+
+    fun getResearchListByIdList(id: List<ResourceLocation>): List<IResearch>
 }

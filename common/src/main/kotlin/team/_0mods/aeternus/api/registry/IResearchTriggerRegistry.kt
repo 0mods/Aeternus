@@ -1,6 +1,7 @@
 package team._0mods.aeternus.api.registry
 
 import net.minecraft.resources.ResourceLocation
+import team._0mods.aeternus.api.magic.research.IResearch
 import team._0mods.aeternus.api.magic.research.IResearchTrigger
 
 interface IResearchTriggerRegistry {
@@ -9,4 +10,6 @@ interface IResearchTriggerRegistry {
     fun getResearchTriggerById(id: ResourceLocation): IResearchTrigger?
 
     fun register(id: String, research: IResearchTrigger)
+
+    fun getResearchTriggerListByIdList(id: List<ResourceLocation>): List<IResearchTrigger>
 }

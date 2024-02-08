@@ -32,7 +32,7 @@ class BookEntry(
 
     companion object {
         val gson = GsonBuilder().registerTypeAdapter(BookEntry::class.java, Deserializer()).excludeFieldsWithoutExposeAnnotation().create()
-        private val pattern = Pattern.compile("\\{.*?\\}")
+        private val pattern = Pattern.compile("\\{.*?}")
 
         fun deserialize(reader: Reader): BookEntry? = GsonHelper.fromJson(gson, reader, BookEntry::class.java)
     }
@@ -46,7 +46,7 @@ class BookEntry(
             val str = Minecraft.getInstance().resourceManager.open(fileRL)
             str.close()
         } catch (e: Exception) {
-            LOGGER.warn("Failed to find language file for current ({}) translation. Using default \"en_us\"")
+            LOGGER.warn("Failed to find language file for current ({}) translation. Using default \"en_us\"", fileRL.toString(), e)
             fileRL = "${bookDirectory}en_us/$file".toRL()
         }
 

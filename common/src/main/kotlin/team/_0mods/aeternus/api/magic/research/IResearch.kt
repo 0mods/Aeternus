@@ -39,7 +39,7 @@ interface IResearch {
     /**
      * Haven't a javadoc. Sorry! I'm Lazy
      */
-    fun addRequirementResearch(vararg research: IResearch)
+    fun addRequirementResearch(vararg research: IResearch) {}
 
-    fun addTriggers(vararg trigger: IResearchTrigger)
+    fun addTriggers(vararg trigger: IResearchTrigger) {}
 }

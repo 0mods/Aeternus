@@ -4,6 +4,7 @@ import net.minecraft.resources.ResourceLocation
 import team._0mods.aeternus.LOGGER
 import team._0mods.aeternus.api.magic.research.IResearch
 import team._0mods.aeternus.api.registry.IResearchRegistry
+import team._0mods.aeternus.fromMapToListByList
 import team._0mods.aeternus.revert
 import team._0mods.aeternus.rl
 import team._0mods.aeternus.service.ServiceProvider
@@ -29,4 +30,6 @@ class ResearchRegistry(private val modId: String): IResearchRegistry {
                 resLocId
             )
     }
+
+    override fun getResearchListByIdList(id: List<ResourceLocation>): List<IResearch> = researchMap.fromMapToListByList(id)
 }

@@ -29,3 +29,15 @@ fun <T, X> Map<T, X>.revert(): Map<X, T> {
 
     return mutableMap
 }
+
+fun List<String>.toRLList(): List<ResourceLocation> {
+    val rlList = mutableListOf<ResourceLocation>()
+    this.forEach { // No secure, but i fix it soon
+        rlList.add(it.rl)
+    }
+    return rlList
+}
+
+fun <T, R> Map<T, R>.fromMapToListByList(from: List<T>): List<R> {
+    TODO("Wait logic")
+}
