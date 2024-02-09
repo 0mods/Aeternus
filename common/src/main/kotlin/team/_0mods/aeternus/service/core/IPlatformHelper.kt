@@ -14,4 +14,8 @@ interface IPlatformHelper {
     fun isModLoaded(modId: String): Boolean
 
     fun getModNameByModId(modId: String): String
+
+    fun isForge(): Boolean = !isFabric()
+
+    fun isFabric(): Boolean = !isForge()
 }

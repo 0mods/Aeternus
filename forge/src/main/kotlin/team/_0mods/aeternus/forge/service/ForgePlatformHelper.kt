@@ -6,7 +6,7 @@ import net.minecraftforge.fml.util.thread.SidedThreadGroups
 import team._0mods.aeternus.service.core.IPlatformHelper
 import kotlin.jvm.optionals.getOrNull
 
-class PlatformHelper: IPlatformHelper {
+class ForgePlatformHelper: IPlatformHelper {
     override fun isProduction(): Boolean = FMLEnvironment.production
 
     override fun isLogicalClient(): Boolean = Thread.currentThread().threadGroup != SidedThreadGroups.SERVER
@@ -30,4 +30,6 @@ class PlatformHelper: IPlatformHelper {
 
         return ModList.get().getModContainerById(modId).getOrNull()?.modId ?: failedName
     }
+
+    override fun isForge(): Boolean = true
 }

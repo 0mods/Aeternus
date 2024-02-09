@@ -9,5 +9,3 @@ const val ModId = "aeternus"
 const val ModName = "Aeternus"
 
 @JvmField val LOGGER: Logger = LoggerFactory.getLogger("Aeternus") //const
-
-

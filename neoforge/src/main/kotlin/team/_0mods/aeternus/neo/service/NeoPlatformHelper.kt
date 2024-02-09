@@ -6,7 +6,7 @@ import net.neoforged.fml.util.thread.SidedThreadGroups
 import team._0mods.aeternus.service.core.IPlatformHelper
 import kotlin.jvm.optionals.getOrNull
 
-class PlatformHelper: IPlatformHelper {
+class NeoPlatformHelper: IPlatformHelper {
     override fun isProduction(): Boolean = FMLEnvironment.production
 
     override fun isLogicalClient(): Boolean = Thread.currentThread().threadGroup != SidedThreadGroups.SERVER
@@ -14,6 +14,7 @@ class PlatformHelper: IPlatformHelper {
     override fun isPhysicalClient(): Boolean = FMLEnvironment.dist.isClient
 
     override fun isModLoaded(modId: String): Boolean = ModList.get().isLoaded(modId)
+
     override fun getModNameByModId(modId: String): String {
         // yeah, it's very impractical, but sorry, I really want to do it >_<
         val cat = StringBuilder()
@@ -29,4 +30,6 @@ class PlatformHelper: IPlatformHelper {
 
         return ModList.get().getModContainerById(modId).getOrNull()?.modId ?: failedName
     }
+
+    override fun isForge(): Boolean = true
 }
