@@ -8,7 +8,7 @@ import net.neoforged.neoforge.capabilities.EntityCapability
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent
 import team._0mods.aeternus.ModId
 import team._0mods.aeternus.api.magic.research.player.IPlayerResearch
-import team._0mods.aeternus.rl
+import team._0mods.aeternus.api.util.rl
 
 @Mod.EventBusSubscriber(modid = ModId, bus = Mod.EventBusSubscriber.Bus.MOD)
 object ANCapabilities {

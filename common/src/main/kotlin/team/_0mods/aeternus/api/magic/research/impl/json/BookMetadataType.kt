@@ -5,7 +5,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import team._0mods.aeternus.api.magic.research.IResearchBookMetadata
-import team._0mods.aeternus.rl
+import team._0mods.aeternus.api.util.rl
 
 @JvmRecord
 data class BookMetadataType(

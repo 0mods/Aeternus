@@ -12,7 +12,7 @@ import team._0mods.aeternus.api.magic.research.IResearch
 import team._0mods.aeternus.forge.api.emptyLazyOpt
 import team._0mods.aeternus.forge.api.lazyOptOf
 import team._0mods.aeternus.init.AeternusCorePlugin
-import team._0mods.aeternus.rl
+import team._0mods.aeternus.api.util.rl
 
 class PlayerResearchCapability: IPlayerResearch {
     private val researchList: MutableList<IResearch> = mutableListOf()

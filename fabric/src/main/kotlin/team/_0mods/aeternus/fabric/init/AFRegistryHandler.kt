@@ -7,7 +7,7 @@ import net.minecraft.world.item.Item
 import net.minecraft.world.level.block.state.BlockBehaviour
 import team._0mods.aeternus.ModId
 import team._0mods.aeternus.init.registry.AeternusRegsitry
-import team._0mods.aeternus.resloc
+import team._0mods.aeternus.api.util.resloc
 
 object AFRegistryHandler {
     fun init() {

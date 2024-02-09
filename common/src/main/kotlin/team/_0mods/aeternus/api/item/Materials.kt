@@ -17,8 +17,7 @@ import net.minecraft.world.item.ShovelItem
 import net.minecraft.world.item.SwordItem
 import net.minecraft.world.item.Tier
 import net.minecraft.world.item.Tiers
-import team._0mods.aeternus.service.ServiceProvider
-import team._0mods.aeternus.resloc
+import team._0mods.aeternus.api.util.resloc
 
 internal class Materials private constructor(
     private val modId: String,

@@ -1,7 +1,6 @@
 package team._0mods.aeternus.api.magic.research.impl.json
 
 import com.mojang.serialization.Codec
-import com.mojang.serialization.codecs.ListCodec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.ExtraCodecs
@@ -9,8 +8,8 @@ import team._0mods.aeternus.api.magic.research.IResearch
 import team._0mods.aeternus.api.magic.research.IResearchBookMetadata
 import team._0mods.aeternus.api.magic.research.IResearchTrigger
 import team._0mods.aeternus.init.AeternusCorePlugin
-import team._0mods.aeternus.toRL
-import team._0mods.aeternus.toRLList
+import team._0mods.aeternus.api.util.toRL
+import team._0mods.aeternus.api.util.toRLList
 
 // Pls, don't touch this class! It needs for JSON registry
 @JvmRecord

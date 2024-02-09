@@ -5,7 +5,7 @@ import net.minecraft.client.gui.screens.Screen
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.packs.resources.Resource
-import team._0mods.aeternus.toRL
+import team._0mods.aeternus.api.util.toRL
 import java.io.IOException
 import java.nio.file.AccessDeniedException
 import java.util.Optional

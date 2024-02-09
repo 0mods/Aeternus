@@ -4,8 +4,8 @@ import net.minecraft.resources.ResourceLocation
 import team._0mods.aeternus.LOGGER
 import team._0mods.aeternus.api.magic.research.IResearchTrigger
 import team._0mods.aeternus.api.registry.IResearchTriggerRegistry
-import team._0mods.aeternus.fromMapToListByList
-import team._0mods.aeternus.rl
+import team._0mods.aeternus.api.util.fromMapToListByList
+import team._0mods.aeternus.api.util.rl
 import team._0mods.aeternus.service.ServiceProvider
 
 class ResearchTriggerRegistry(private val modId: String): IResearchTriggerRegistry {
