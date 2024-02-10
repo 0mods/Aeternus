@@ -11,7 +11,7 @@ abstract class EventHandler protected constructor() {
             isInitialized = true
 
             val platform = ServiceProvider.platform
-            val handlerImpl = ServiceProvider.event.eventHandlerImpl()
+            val handlerImpl = ServiceProvider.event.eventHandler
 
             if (platform.isPhysicalClient()) handlerImpl.registerClient()
             handlerImpl.registerCommon()

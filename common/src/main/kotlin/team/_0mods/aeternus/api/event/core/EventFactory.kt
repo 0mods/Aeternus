@@ -21,18 +21,21 @@ abstract class EventFactory protected constructor() {
     companion object {
         @JvmStatic fun <T> of(function: Function<List<T>, T>): Event<T> = EventImpl(function)
 
+        @JvmStatic
         @SafeVarargs
         fun <T> createLoop(vararg getterType: T): Event<T> {
             if (getterType.isNotEmpty()) throw IllegalStateException("Array must be empty! Founded values: $getterType")
             return createLoop(getterType.javaClass.componentType as Class<T>)
         }
 
+        @JvmStatic
         @Throws(Throwable::class)
         private fun <T, R> invokeMethod(listener: T, method: Method, args: Array<out Any?>): R {
             return MethodHandles.lookup().unreflect(method)
                 .bindTo(listener).invokeWithArguments(*args) as R
         }
 
+        @JvmStatic
         fun <T> createLoop(clazz: Class<T>?): Event<T> = of { listeners ->
             Proxy.newProxyInstance(EventFactory::class.java.classLoader, arrayOf(clazz), object : AbstractInvocationHandler() {
                 @Throws(Throwable::class)
@@ -44,12 +47,14 @@ abstract class EventFactory protected constructor() {
             }) as T
         }
 
+        @JvmStatic
         @SafeVarargs
-        fun <T> createEventResult(vararg typeGetter: T): Event<T> {
+        fun <T> createEventResult(vararg typeGetter: T?): Event<T> {
             if (typeGetter.isNotEmpty()) throw IllegalStateException("Array must be empty! Founded values: $typeGetter")
             return createEventResult(typeGetter.javaClass.componentType as Class<T>)
         }
 
+        @JvmStatic
         fun <T> createEventResult(clazz: Class<T>?): Event<T> = of { listeners ->
             Proxy.newProxyInstance(EventFactory::class.java.classLoader, arrayOf(clazz), object : AbstractInvocationHandler() {
                 @Throws(Throwable::class)
@@ -64,11 +69,14 @@ abstract class EventFactory protected constructor() {
             }) as T
         }
 
+        @JvmStatic
+        @SafeVarargs
         fun <T> createEventResultHolder(vararg typeGetter: T): Event<T> {
             if (typeGetter.isNotEmpty()) throw IllegalStateException("Array must be empty! Founded values: $typeGetter")
             return createEventResult(typeGetter.javaClass.componentType as Class<T>)
         }
 
+        @JvmStatic
         fun <T> createEventResultHolder(clazz: Class<T>?) = of { listeners ->
             Proxy.newProxyInstance(EventFactory::class.java.classLoader, arrayOf(clazz), object : AbstractInvocationHandler() {
                 @Throws(Throwable::class)
@@ -84,16 +92,16 @@ abstract class EventFactory protected constructor() {
         }
 
         private val factory: EventFactory
-            get() = ServiceProvider.event.eventFactoryImpl()
+            get() = ServiceProvider.event.eventFactory
 
-        private val platform: IPlatformHelper
-            get() = ServiceProvider.platform
-
+        @JvmStatic
+        @SafeVarargs
         fun <T> createConsumerLoop(vararg typeGetter: T): Event<Consumer<T>> {
             if (typeGetter.isNotEmpty()) throw IllegalStateException("Array must be empty! Founded values: $typeGetter")
             return createConsumerLoop(typeGetter.javaClass.componentType as Class<T>)
         }
 
+        @JvmStatic
         fun <T> createConsumerLoop(clazz: Class<T>?): Event<Consumer<T>> {
             val event = of { listeners ->
                 Proxy.newProxyInstance(EventFactory::class.java.classLoader, arrayOf(Consumer::class.java), object : AbstractInvocationHandler() {
@@ -120,11 +128,14 @@ abstract class EventFactory protected constructor() {
             return event
         }
 
+        @JvmStatic
+        @SafeVarargs
         fun <T> createEventActorLoop(vararg typeGetter: T): Event<EventActor<T>> {
             if (typeGetter.isNotEmpty()) throw IllegalStateException("Array must be empty! Founded values: $typeGetter")
             return createEventActorLoop(typeGetter.javaClass.componentType as Class<T>)
         }
 
+        @JvmStatic
         fun <T> createEventActorLoop(clazz: Class<T>?): Event<EventActor<T>> {
             val event = of { listeners ->
                 Proxy.newProxyInstance(EventFactory::class.java.classLoader, arrayOf(EventActor::class.java), object : AbstractInvocationHandler() {
