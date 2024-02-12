@@ -11,21 +11,21 @@ import team._0mods.aeternus.api.gui.event.ScreenAccess
 
 interface ClientScreenEvent {
     companion object {
-        @JvmField /* no getter generate */ val RENDER_GUI_OVERLAY = EventFactory.createLoop<PostRenderGuiOverlay>()
+        @JvmField /* no getter generate */ val RENDER_GUI_OVERLAY = EventFactory.createNoResult<PostRenderGuiOverlay>()
 
-        @JvmField val DEBUG_LEFT = EventFactory.createLoop<DebugText>()
-        @JvmField val DEBUG_RIGHT = EventFactory.createLoop<DebugText>()
+        @JvmField val DEBUG_LEFT = EventFactory.createNoResult<DebugText>()
+        @JvmField val DEBUG_RIGHT = EventFactory.createNoResult<DebugText>()
 
         @JvmField val INIT_PRE = EventFactory.createEventResult<ScreenInitPre>()
-        @JvmField val INIT_POST = EventFactory.createLoop<ScreenInitPost>()
+        @JvmField val INIT_POST = EventFactory.createNoResult<ScreenInitPost>()
 
         @JvmField val RENDER_PRE = EventFactory.createEventResult<ScreenRenderPre>()
-        @JvmField val RENDER_POST = EventFactory.createLoop<ScreenRenderPost>()
+        @JvmField val RENDER_POST = EventFactory.createNoResult<ScreenRenderPost>()
 
-        @JvmField val RENDER_CONTAINER_BACKGROUND = EventFactory.createLoop<ContainerMenuRenderBackground>()
-        @JvmField val RENDER_CONTAINER_FOREGROUND = EventFactory.createLoop<ContainerMenuRenderForeground>()
+        @JvmField val RENDER_CONTAINER_BACKGROUND = EventFactory.createNoResult<ContainerMenuRenderBackground>()
+        @JvmField val RENDER_CONTAINER_FOREGROUND = EventFactory.createNoResult<ContainerMenuRenderForeground>()
 
-        @JvmField val SET_SCREEN = EventFactory.createLoop<SetScreen>()
+        @JvmField val SET_SCREEN = EventFactory.createNoResult<SetScreen>()
     }
 
     interface PostRenderGuiOverlay {

@@ -9,7 +9,6 @@ import team._0mods.aeternus.api.event.forge.ForgeEventCancellable
 import team._0mods.aeternus.api.event.result.EventResult
 import team._0mods.aeternus.api.event.result.EventResultHolder
 import team._0mods.aeternus.service.ServiceProvider
-import team._0mods.aeternus.service.core.IPlatformHelper
 import java.lang.invoke.MethodHandles
 import java.lang.reflect.Method
 import java.lang.reflect.Proxy
@@ -23,9 +22,9 @@ abstract class EventFactory protected constructor() {
 
         @JvmStatic
         @SafeVarargs
-        fun <T> createLoop(vararg getterType: T): Event<T> {
+        fun <T> createNoResult(vararg getterType: T): Event<T> {
             if (getterType.isNotEmpty()) throw IllegalStateException("Array must be empty! Founded values: $getterType")
-            return createLoop(getterType.javaClass.componentType as Class<T>)
+            return createNoResult(getterType.javaClass.componentType as Class<T>)
         }
 
         @JvmStatic
@@ -36,7 +35,7 @@ abstract class EventFactory protected constructor() {
         }
 
         @JvmStatic
-        fun <T> createLoop(clazz: Class<T>?): Event<T> = of { listeners ->
+        fun <T> createNoResult(clazz: Class<T>?): Event<T> = of { listeners ->
             Proxy.newProxyInstance(EventFactory::class.java.classLoader, arrayOf(clazz), object : AbstractInvocationHandler() {
                 @Throws(Throwable::class)
                 override fun handleInvocation(proxy: Any, method: Method, args: Array<out Any?>): Any? {
