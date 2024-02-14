@@ -17,6 +17,11 @@ import net.minecraft.world.item.ShovelItem
 import net.minecraft.world.item.SwordItem
 import net.minecraft.world.item.Tier
 import net.minecraft.world.item.Tiers
+import team._0mods.aeternus.impl.item.AxeItemImpl
+import team._0mods.aeternus.impl.item.HoeItemImpl
+import team._0mods.aeternus.impl.item.PickaxeItemImpl
+import team._0mods.aeternus.impl.item.ShovelItemImpl
+import team._0mods.aeternus.impl.item.SwordItemImpl
 import team._0mods.aeternus.api.util.resloc
 
 internal class Materials private constructor(

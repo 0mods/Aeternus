@@ -20,5 +20,14 @@ interface IResearchRegistry {
 
     fun register(id: String, research: IResearch)
 
+    fun registerAll(vararg researches: Pair<String, IResearch>) {
+        for (researchPair in researches) {
+            val id = researchPair.first
+            val research = researchPair.second
+
+            register(id, research)
+        }
+    }
+
     fun getResearchListByIdList(id: List<ResourceLocation>): List<IResearch>
 }

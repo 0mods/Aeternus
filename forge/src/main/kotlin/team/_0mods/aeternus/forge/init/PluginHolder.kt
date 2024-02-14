@@ -3,10 +3,9 @@ package team._0mods.aeternus.forge.init
 import com.mojang.logging.LogUtils
 
 import net.minecraftforge.fml.ModList
-import team._0mods.aeternus.api.AeternusPlugin
-import team._0mods.aeternus.api.IAeternusPlugin
-import team._0mods.aeternus.api.registry.impl.ResearchRegistry
-import team._0mods.aeternus.api.registry.impl.ResearchTriggerRegistry
+import team._0mods.aeternus.api.*
+import team._0mods.aeternus.impl.registry.ResearchRegistry
+import team._0mods.aeternus.impl.registry.ResearchTriggerRegistry
 
 object PluginHolder {
     private val logger = LogUtils.getLogger()

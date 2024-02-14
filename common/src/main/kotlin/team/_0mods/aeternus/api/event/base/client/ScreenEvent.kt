@@ -7,9 +7,9 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen
 import team._0mods.aeternus.api.event.core.EventFactory
 import team._0mods.aeternus.api.event.result.EventResult
 import team._0mods.aeternus.api.event.result.EventResultHolder
-import team._0mods.aeternus.api.gui.event.ScreenAccess
+import team._0mods.aeternus.api.gui.screen.ScreenAccess
 
-interface ClientScreenEvent {
+interface ScreenEvent {
     companion object {
         @JvmField /* no getter generate */ val RENDER_GUI_OVERLAY = EventFactory.createNoResult<PostRenderGuiOverlay>()
 

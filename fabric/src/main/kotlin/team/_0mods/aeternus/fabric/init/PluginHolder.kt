@@ -3,8 +3,8 @@ package team._0mods.aeternus.fabric.init
 import net.fabricmc.loader.api.FabricLoader
 import team._0mods.aeternus.ModId
 import team._0mods.aeternus.api.IAeternusPlugin
-import team._0mods.aeternus.api.registry.impl.ResearchRegistry
-import team._0mods.aeternus.api.registry.impl.ResearchTriggerRegistry
+import team._0mods.aeternus.impl.registry.ResearchRegistry
+import team._0mods.aeternus.impl.registry.ResearchTriggerRegistry
 import java.util.stream.Collectors
 
 object PluginHolder {

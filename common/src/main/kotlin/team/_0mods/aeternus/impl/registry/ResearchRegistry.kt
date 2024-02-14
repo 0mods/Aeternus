@@ -1,4 +1,4 @@
-package team._0mods.aeternus.api.registry.impl
+package team._0mods.aeternus.impl.registry
 
 import net.minecraft.resources.ResourceLocation
 import team._0mods.aeternus.LOGGER

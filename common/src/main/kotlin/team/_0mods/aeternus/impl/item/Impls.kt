@@ -1,4 +1,4 @@
-package team._0mods.aeternus.api.item
+package team._0mods.aeternus.impl.item
 
 import net.minecraft.world.item.*
 

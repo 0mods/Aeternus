@@ -1,15 +1,11 @@
 package team._0mods.aeternus.neo.init
 
 import com.mojang.logging.LogUtils
-import net.minecraft.world.InteractionResult
-import net.minecraft.world.item.ItemStack
-import net.minecraft.world.item.Items
 import net.neoforged.fml.ModList
-import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent
 import team._0mods.aeternus.api.AeternusPlugin
 import team._0mods.aeternus.api.IAeternusPlugin
-import team._0mods.aeternus.api.registry.impl.ResearchRegistry
-import team._0mods.aeternus.api.registry.impl.ResearchTriggerRegistry
+import team._0mods.aeternus.impl.registry.ResearchRegistry
+import team._0mods.aeternus.impl.registry.ResearchTriggerRegistry
 
 object PluginHolder {
     private val logger = LogUtils.getLogger()

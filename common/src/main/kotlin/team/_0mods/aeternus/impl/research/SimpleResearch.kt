@@ -1,4 +1,4 @@
-package team._0mods.aeternus.api.magic.research.impl
+package team._0mods.aeternus.impl.research
 
 import net.minecraft.resources.ResourceLocation
 import team._0mods.aeternus.api.magic.research.IResearch

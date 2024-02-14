@@ -1,4 +1,4 @@
-package team._0mods.aeternus.api.magic.research.impl.json
+package team._0mods.aeternus.impl.research.json
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
@@ -9,9 +9,9 @@ import team._0mods.aeternus.api.util.rl
 
 @JvmRecord
 data class BookMetadataType(
-    val name: Name,
-    val texture: String,
-    val inBookPosition: Position
+        val name: Name,
+        val texture: String,
+        val inBookPosition: Position
 ): IResearchBookMetadata {
     companion object {
         val codec: Codec<BookMetadataType> = RecordCodecBuilder.create {
@@ -39,7 +39,7 @@ data class BookMetadataType(
                 it.group(
                     Codec.INT.fieldOf("x").forGetter(Position::x),
                     Codec.INT.fieldOf("y").forGetter(Position::y)
-                ).apply(it, ::Position)
+                ).apply(it, BookMetadataType::Position)
             }
         }
     }
@@ -50,7 +50,7 @@ data class BookMetadataType(
                 it.group(
                     Codec.STRING.fieldOf("type").orElse("string").forGetter { name -> name.type },
                     Codec.STRING.fieldOf("value").forGetter { name -> name.value }
-                ).apply(it, ::Name)
+                ).apply(it, BookMetadataType::Name)
             }
         }
         // On java: getAsComponent()
