@@ -3,7 +3,7 @@ package team._0mods.aeternus.api.text
 import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
-import team._0mods.aeternus.ModId
+import team._0mods.aeternus.common.ModId
 
 open class TranslationBuilder protected constructor(private var prepend: String = "", private val key: String) {
     private var arguments: Array<Any> = arrayOf()

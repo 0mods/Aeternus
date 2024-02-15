@@ -7,20 +7,20 @@ import net.minecraftforge.common.capabilities.Capability
 import net.minecraftforge.common.capabilities.ICapabilityProvider
 import net.minecraftforge.common.util.INBTSerializable
 import net.minecraftforge.common.util.LazyOptional
-import team._0mods.aeternus.api.magic.research.player.IPlayerResearch
-import team._0mods.aeternus.api.magic.research.IResearch
+import team._0mods.aeternus.api.magic.research.player.PlayerResearch
+import team._0mods.aeternus.api.magic.research.Research
 import team._0mods.aeternus.forge.api.emptyLazyOpt
 import team._0mods.aeternus.forge.api.lazyOptOf
-import team._0mods.aeternus.init.AeternusCorePlugin
+import team._0mods.aeternus.common.init.AeternusCorePlugin
 import team._0mods.aeternus.api.util.rl
 
-class PlayerResearchCapability: IPlayerResearch {
-    private val researchList: MutableList<IResearch> = mutableListOf()
+class PlayerResearchCapability: PlayerResearch {
+    private val researchList: MutableList<Research> = mutableListOf()
 
-    override val researches: List<IResearch>
+    override val researches: List<Research>
         get() = this.researchList.toList() // Copy from list
 
-    override fun addResearch(vararg research: IResearch) {
+    override fun addResearch(vararg research: Research) {
         researchList.addAll(research)
     }
 

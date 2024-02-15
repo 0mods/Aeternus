@@ -18,15 +18,15 @@ interface LifecycleEvent {
         @JvmField val SETUP = EventFactory.createNoResult<Runnable>()
     }
 
-    interface ServerState: InstanceState<MinecraftServer>
+    fun interface ServerState: InstanceState<MinecraftServer>
 
-    interface ServerLevelState: LevelState<ServerLevel>
+    fun interface ServerLevelState: LevelState<ServerLevel>
 
-    interface InstanceState<T> {
+    fun interface InstanceState<T> {
         fun onChanged(instance: T)
     }
 
-    interface LevelState<T: Level> {
+    fun interface LevelState<T: Level> {
         fun onChanged(instance: T)
     }
 }

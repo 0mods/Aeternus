@@ -5,7 +5,7 @@ import net.minecraft.client.multiplayer.ClientLevel
 import net.minecraft.client.multiplayer.ClientLevel as MCClLevel
 import team._0mods.aeternus.api.event.core.EventFactory
 
-interface ClientTickEvent<T> {
+fun interface ClientTickEvent<T> {
     companion object {
         @JvmField val CLIENT_PRE = EventFactory.createNoResult<Client>()
         @JvmField val CLIENT_POST = EventFactory.createNoResult<Client>()
@@ -16,7 +16,7 @@ interface ClientTickEvent<T> {
 
     fun tick(inst: T)
 
-    interface Client: ClientTickEvent<Minecraft>
+    fun interface Client: ClientTickEvent<Minecraft>
 
-    interface ClintLevel: ClientTickEvent<MCClLevel>
+    fun interface ClintLevel: ClientTickEvent<MCClLevel>
 }

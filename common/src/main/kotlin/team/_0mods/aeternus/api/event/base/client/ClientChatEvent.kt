@@ -16,11 +16,11 @@ interface ClientChatEvent {
         val RECEIVED: Event<Received> = createEventResult()
     }
 
-    interface Send {
+    fun interface Send {
         fun send(message: String?, component: Component?): EventResult?
     }
 
-    interface Received {
+    fun interface Received {
         fun process(type: ChatType.Bound?, message: Component?): EventResultHolder<Component?>?
     }
 }

@@ -10,15 +10,15 @@ interface ClientPlayerEvent {
         @JvmField val PLAYER_CLONE = EventFactory.createNoResult<PlayerClone>()
     }
 
-    interface PlayerJoin {
+    fun interface PlayerJoin {
         fun onJoin(player: LocalPlayer)
     }
 
-    interface PlayerLeave {
+    fun interface PlayerLeave {
         fun onLeave(player: LocalPlayer?)
     }
 
-    interface PlayerClone {
+    fun interface PlayerClone {
         fun onClone(old: LocalPlayer, new: LocalPlayer)
     }
 }

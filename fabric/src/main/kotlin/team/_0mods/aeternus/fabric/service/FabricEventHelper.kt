@@ -5,9 +5,9 @@ import team._0mods.aeternus.api.event.core.EventHandler
 import team._0mods.aeternus.api.gui.screen.ScreenHooks
 import team._0mods.aeternus.fabric.api.event.EventFactoryImpl
 import team._0mods.aeternus.fabric.api.event.EventHandlerImpl
-import team._0mods.aeternus.service.core.IEventHelper
+import team._0mods.aeternus.service.core.EventHelper
 
-class FabricEventHelper: IEventHelper {
+class FabricEventHelper: EventHelper {
     override val screenHooks: ScreenHooks
         get() = TODO("Not yet implemented")
 

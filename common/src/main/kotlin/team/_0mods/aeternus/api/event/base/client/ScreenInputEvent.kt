@@ -25,34 +25,34 @@ interface ScreenInputEvent {
         @JvmField val CHAR_TYPED_POST = EventFactory.createEventResult<KeyTyped>()
     }
 
-    interface KeyPressed {
+    fun interface KeyPressed {
         fun onPress(minecraft: Minecraft, key: Int, scanCode: Int, action: Int, modifiers: Int): EventResult
     }
 
-    interface KeyReleased {
+    fun interface KeyReleased {
         fun onRelease(minecraft: Minecraft, key: Int, scanCode: Int, action: Int, modifiers: Int): EventResult
     }
 
-    interface KeyTyped {
+    fun interface KeyTyped {
         fun onPress(minecraft: Minecraft, key: Int, scanCode: Int, action: Int): EventResult
     }
 
-    interface MouseScroll {
+    fun interface MouseScroll {
         fun onScroll(minecraft: Minecraft, amount: Double): EventResult
     }
 
-    interface MouseRelease {
+    fun interface MouseRelease {
         fun onRelease(minecraft: Minecraft, x: Double, y: Double, z: Double, button: Int): EventResult
     }
 
-    interface MouseDrag {
+    fun interface MouseDrag {
         /* (x, y, z)From - Start mouse cursor position
         * x, y, z - end mouse cursor position
         */
         fun onDrag(minecraft: Minecraft, xFrom: Double, yFrom: Double, zFrom: Double, x: Double, y: Double, z: Double): EventResult
     }
 
-    interface MouseClick {
+    fun interface MouseClick {
         fun onClicked(minecraft: Minecraft, button: Int, action: Int, modifiers: Int): EventResult
     }
 }

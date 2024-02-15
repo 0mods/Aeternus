@@ -4,8 +4,7 @@ import com.mojang.logging.LogUtils
 
 import net.minecraftforge.fml.ModList
 import team._0mods.aeternus.api.*
-import team._0mods.aeternus.impl.registry.ResearchRegistry
-import team._0mods.aeternus.impl.registry.ResearchTriggerRegistry
+import team._0mods.aeternus.common.impl.registry.*
 
 object PluginHolder {
     private val logger = LogUtils.getLogger()
@@ -31,8 +30,8 @@ object PluginHolder {
         }
 
         list.forEach {
-            it.registerResearch(ResearchRegistry(it.modId))
-            it.registerResearchTriggers(ResearchTriggerRegistry(it.modId))
+            it.registerResearch(ResearchRegistryImpl(it.modId))
+            it.registerResearchTriggers(ResearchTriggerRegistryImpl(it.modId))
         }
     }
 }

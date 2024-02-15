@@ -3,10 +3,10 @@ package team._0mods.aeternus.neo.service
 import net.neoforged.fml.ModList
 import net.neoforged.fml.loading.FMLEnvironment
 import net.neoforged.fml.util.thread.SidedThreadGroups
-import team._0mods.aeternus.service.core.IPlatformHelper
+import team._0mods.aeternus.service.core.PlatformHelper
 import kotlin.jvm.optionals.getOrNull
 
-class NeoPlatformHelper: IPlatformHelper {
+class NeoPlatformHelper: PlatformHelper {
     override fun isProduction(): Boolean = FMLEnvironment.production
 
     override fun isLogicalClient(): Boolean = Thread.currentThread().threadGroup != SidedThreadGroups.SERVER

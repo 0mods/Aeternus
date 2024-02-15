@@ -14,15 +14,15 @@ interface InputEvent {
         @JvmField val KEY_PRESS = EventFactory.createEventResult<Key>()
     }
 
-    interface Key {
+    fun interface Key {
         fun onPress(minecraft: Minecraft, key: Int, scanCode: Int, action: Int, modifiers: Int): EventResult
     }
 
-    interface MouseScroll {
+    fun interface MouseScroll {
         fun onScroll(minecraft: Minecraft, amount: Double): EventResult
     }
 
-    interface MouseClick {
+    fun interface MouseClick {
         fun onClicked(minecraft: Minecraft, button: Int, action: Int, modifiers: Int): EventResult
     }
 }

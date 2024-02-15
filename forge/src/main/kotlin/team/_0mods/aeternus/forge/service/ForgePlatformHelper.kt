@@ -3,10 +3,10 @@ package team._0mods.aeternus.forge.service
 import net.minecraftforge.fml.ModList
 import net.minecraftforge.fml.loading.FMLEnvironment
 import net.minecraftforge.fml.util.thread.SidedThreadGroups
-import team._0mods.aeternus.service.core.IPlatformHelper
+import team._0mods.aeternus.service.core.PlatformHelper
 import kotlin.jvm.optionals.getOrNull
 
-class ForgePlatformHelper: IPlatformHelper {
+class ForgePlatformHelper: PlatformHelper {
     override fun isProduction(): Boolean = FMLEnvironment.production
 
     override fun isLogicalClient(): Boolean = Thread.currentThread().threadGroup != SidedThreadGroups.SERVER

@@ -28,39 +28,39 @@ interface ScreenEvent {
         @JvmField val SET_SCREEN = EventFactory.createNoResult<SetScreen>()
     }
 
-    interface PostRenderGuiOverlay {
+    fun interface PostRenderGuiOverlay {
         fun render(stack: PoseStack, partialTick: Float)
     }
 
-    interface DebugText {
+    fun interface DebugText {
         fun render(texts: List<String>)
     }
 
-    interface ScreenInitPre {
+    fun interface ScreenInitPre {
         fun init(screen: Screen, access: ScreenAccess): EventResult
     }
 
-    interface ScreenInitPost {
+    fun interface ScreenInitPost {
         fun init(screen: Screen, access: ScreenAccess)
     }
 
-    interface ScreenRenderPre {
+    fun interface ScreenRenderPre {
         fun render(screen: Screen, graphics: GuiGraphics, mouseX: Int, mouseY: Int, partialTick: Float): EventResult
     }
 
-    interface ScreenRenderPost {
+    fun interface ScreenRenderPost {
         fun render(screen: Screen, graphics: GuiGraphics, mouseX: Int, mouseY: Int, partialTick: Float)
     }
 
-    interface ContainerMenuRenderBackground {
+    fun interface ContainerMenuRenderBackground {
         fun render(screen: AbstractContainerScreen<*>, graphics: GuiGraphics, mouseX: Int, mouseY: Int, partialTick: Float)
     }
 
-    interface ContainerMenuRenderForeground {
+    fun interface ContainerMenuRenderForeground {
         fun render(screen: AbstractContainerScreen<*>, graphics: GuiGraphics, mouseX: Int, mouseY: Int, partialTick: Float)
     }
 
-    interface SetScreen {
+    fun interface SetScreen {
         fun setScreen(screen: Screen): EventResultHolder<Screen>
     }
 }

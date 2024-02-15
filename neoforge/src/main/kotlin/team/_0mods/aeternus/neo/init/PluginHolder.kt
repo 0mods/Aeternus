@@ -4,8 +4,7 @@ import com.mojang.logging.LogUtils
 import net.neoforged.fml.ModList
 import team._0mods.aeternus.api.AeternusPlugin
 import team._0mods.aeternus.api.IAeternusPlugin
-import team._0mods.aeternus.impl.registry.ResearchRegistry
-import team._0mods.aeternus.impl.registry.ResearchTriggerRegistry
+import team._0mods.aeternus.common.impl.registry.ResearchRegistryImpl
 
 object PluginHolder {
     private val logger = LogUtils.getLogger()
@@ -30,8 +29,8 @@ object PluginHolder {
         }
 
         list.forEach {
-            it.registerResearch(ResearchRegistry(it.modId))
-            it.registerResearchTriggers(ResearchTriggerRegistry(it.modId))
+            it.registerResearch(ResearchRegistryImpl(it.modId))
+            it.registerResearchTriggers(team._0mods.aeternus.common.impl.registry.ResearchTriggerRegistryImpl(it.modId))
         }
     }
 }

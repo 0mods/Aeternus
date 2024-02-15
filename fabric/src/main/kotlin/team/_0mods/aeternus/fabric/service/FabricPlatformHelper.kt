@@ -3,10 +3,10 @@ package team._0mods.aeternus.fabric.service
 import net.fabricmc.api.EnvType
 import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.client.Minecraft
-import team._0mods.aeternus.service.core.IPlatformHelper
+import team._0mods.aeternus.service.core.PlatformHelper
 import kotlin.jvm.optionals.getOrNull
 
-class FabricPlatformHelper: IPlatformHelper {
+class FabricPlatformHelper: PlatformHelper {
     override fun isProduction(): Boolean = !FabricLoader.getInstance().isDevelopmentEnvironment
 
     override fun isLogicalClient(): Boolean = Minecraft.getInstance().level != null

@@ -1,5 +1,6 @@
 package team._0mods.aeternus.api
 
+import org.jetbrains.annotations.ApiStatus
 import team._0mods.aeternus.api.registry.*
 
 /**
@@ -27,16 +28,28 @@ interface IAeternusPlugin {
     val modId: String
 
     /**
-     * This is research registration.
+     * This is a research registration.
      *
-     * @param [reg] returns [IResearchRegistry] in order to register research
+     * @param [reg] returns [ResearchRegistry] in order to register research
      */
-    fun registerResearch(reg: IResearchRegistry) {}
+    fun registerResearch(reg: ResearchRegistry) {}
 
     /**
-     * This is research trigger registration.
+     * This is a research trigger registration.
      *
-     * @param [reg] returns [IResearchTriggerRegistry] in order to register research trigger
+     * @param [reg] returns [ResearchTriggerRegistry] in order to register research trigger
      */
-    fun registerResearchTriggers(reg: IResearchTriggerRegistry) {}
+    fun registerResearchTriggers(reg: ResearchTriggerRegistry) {}
+
+    /**
+     * This is a material registration
+     *
+     * @param [reg] returns [MaterialRegistry] in order to register material
+     */
+    @ApiStatus.NonExtendable
+    @ApiStatus.Internal
+    @ApiStatus.AvailableSince("1.0")
+    fun registerMaterial(reg: MaterialRegistry) {
+        throw IllegalAccessException("This function is not available in current version. Please, wait realisation!")
+    }
 }

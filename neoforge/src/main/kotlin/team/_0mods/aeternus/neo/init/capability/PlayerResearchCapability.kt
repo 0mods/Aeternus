@@ -1,16 +1,16 @@
 package team._0mods.aeternus.neo.init.capability
 
-import team._0mods.aeternus.LOGGER
-import team._0mods.aeternus.api.magic.research.player.IPlayerResearch
-import team._0mods.aeternus.api.magic.research.IResearch
+import team._0mods.aeternus.common.LOGGER
+import team._0mods.aeternus.api.magic.research.player.PlayerResearch
+import team._0mods.aeternus.api.magic.research.Research
 
-class PlayerResearchCapability: IPlayerResearch {
-    private val researchList: MutableList<IResearch> = mutableListOf()
+class PlayerResearchCapability: PlayerResearch {
+    private val researchList: MutableList<Research> = mutableListOf()
 
-    override val researches: List<IResearch>
+    override val researches: List<Research>
         get() = researchList.toList() // Copy from list
 
-    override fun addResearch(vararg research: IResearch) {
+    override fun addResearch(vararg research: Research) {
         for (researchImpl in research) {
             if (this.researchList.stream().noneMatch { it.name == researchImpl.name }) researchList.add(researchImpl)
             else {

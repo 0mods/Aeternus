@@ -9,7 +9,7 @@ interface ClientSystemMessageEvent {
         @JvmField val RECEIVED = EventFactory.createEventActorLoop<Received>()
     }
 
-    interface Received {
+    fun interface Received {
         fun process(message: Component): EventResultHolder<Component>
     }
 }

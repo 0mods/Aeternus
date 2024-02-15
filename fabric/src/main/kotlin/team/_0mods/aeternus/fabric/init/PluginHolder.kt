@@ -1,10 +1,9 @@
 package team._0mods.aeternus.fabric.init
 
 import net.fabricmc.loader.api.FabricLoader
-import team._0mods.aeternus.ModId
+import team._0mods.aeternus.common.ModId
 import team._0mods.aeternus.api.IAeternusPlugin
-import team._0mods.aeternus.impl.registry.ResearchRegistry
-import team._0mods.aeternus.impl.registry.ResearchTriggerRegistry
+import team._0mods.aeternus.common.impl.registry.ResearchRegistryImpl
 import java.util.stream.Collectors
 
 object PluginHolder {
@@ -16,8 +15,8 @@ object PluginHolder {
             .collect(Collectors.toList())
 
         listOfPlugins.forEach {
-            it.registerResearch(ResearchRegistry(it.modId))
-            it.registerResearchTriggers(ResearchTriggerRegistry(it.modId))
+            it.registerResearch(ResearchRegistryImpl(it.modId))
+            it.registerResearchTriggers(team._0mods.aeternus.common.impl.registry.ResearchTriggerRegistryImpl(it.modId))
         }
     }
 }

@@ -13,7 +13,7 @@ interface ClientLifecycleEvent {
         @JvmField val CLIENT_LEVEL_LOAD = EventFactory.createNoResult<ClientLevelState>()
     }
 
-    interface ClientState: LifecycleEvent.InstanceState<Minecraft>
+    fun interface ClientState: LifecycleEvent.InstanceState<Minecraft>
 
-    interface ClientLevelState: LifecycleEvent.LevelState<ClientLevel>
+    fun interface ClientLevelState: LifecycleEvent.LevelState<ClientLevel>
 }
