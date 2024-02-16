@@ -11,9 +11,10 @@ import team._0mods.aeternus.service.ServiceProvider
 import java.util.concurrent.ConcurrentHashMap
 import java.util.function.Consumer
 
+@ApiStatus.NonExtendable
 @ApiStatus.Internal
-abstract class AbstractRegistryProviderGetter {
-    abstract fun get(modid: String): RegistrarManager.RegistryProvider
+interface AbstractRegistryProvider {
+    fun get(modid: String): RegistrarManager.RegistrarProvider
 }
 
 class RegistrarManager private constructor(private val modId: String) {
@@ -38,7 +39,7 @@ class RegistrarManager private constructor(private val modId: String) {
         }
     }
 
-    private val provider = ServiceProvider.registry.registryProviderGetter.get(modId)
+    private val provider = ServiceProvider.registry.registryProvider.get(modId)
 
     fun <T> get(registry: ResourceKey<Registry<T>>) = provider.get(registry)
 
@@ -53,7 +54,7 @@ class RegistrarManager private constructor(private val modId: String) {
     }
 
     @ApiStatus.Internal
-    interface RegistryProvider {
+    interface RegistrarProvider {
         fun <T> get(key: ResourceKey<Registry<T>>): Registrar<T>
 
         fun <T> get(registry: Registry<T>): Registrar<T>

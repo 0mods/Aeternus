@@ -23,7 +23,7 @@ import java.util.function.Consumer
 import java.util.function.Supplier
 import com.google.common.base.Objects as GoogleObjects
 
-class RegistryProviderImpl: AbstractRegistryProviderGetter() {
+class RegistryProviderImpl: AbstractRegistryProvider {
     companion object {
         private val LISTENERS: Multimap<RegistryEntryId<*>, Consumer<*>> = HashMultimap.create()
         private val LISTENED_REGISTRIES: MutableSet<ResourceKey<*>> = HashSet()
@@ -46,9 +46,10 @@ class RegistryProviderImpl: AbstractRegistryProviderGetter() {
         }
     }
 
-    override fun get(modid: String): RegistrarManager.RegistryProvider = RegistrarProvider(modid)
+    override fun get(modid: String): RegistrarManager.RegistrarProvider = RegistrarProvider(modid)
 
-    class RegistrarProvider(private val modId: String): RegistrarManager.RegistryProvider {
+    class RegistrarProvider(private val modId: String):
+        RegistrarManager.RegistrarProvider {
         override fun <T> get(key: ResourceKey<Registry<T>>): Registrar<T> = RegistrarImpl(
             modId,
             Objects.requireNonNull(BuiltInRegistries.REGISTRY.get(key.registry())) as Registry<T>
