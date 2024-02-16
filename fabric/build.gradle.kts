@@ -12,10 +12,8 @@ val modName: String by project
 val modId: String by project
 val loomVersion: String by project
 
-val baseArchiveName = "${modName}-fabric-${minecraftVersion}"
-
 base {
-    archivesName.set(baseArchiveName)
+    archivesName = "${modName}-fabric-${minecraftVersion}"
 }
 
 dependencies {
@@ -81,8 +79,8 @@ tasks {
 publishing {
     publications {
         register("mavenJava", MavenPublication::class) {
-            artifactId = baseArchiveName
-            from(components["java"])
+            artifactId = base.archivesName.get()
+            from(components["kotlin"])
         }
     }
 

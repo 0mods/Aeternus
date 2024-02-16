@@ -14,15 +14,12 @@ val modName: String by project
 val modAuthor: String by project
 val modId: String by project
 
-val baseArchiveName = "${modName}-forge-${minecraftVersion}"
-
 base {
-    archivesName.set(baseArchiveName)
+    archivesName = "${modName}-forge-${minecraftVersion}"
 }
 
 mixin {
     add(sourceSets.main.get(), "${modId}.refmap.json")
-
     config("${modId}.mixins.json")
     config("${modId}.forge.mixins.json")
 }
@@ -32,8 +29,11 @@ minecraft {
     val parchmentVersion: String by project
     mappings("parchment", "$parchmentVersion-$parchmentMCVersion")
 
-    if (file("src/main/resources/META-INF/accesstransformer.cfg").exists()) 
-        accessTransformer(file("src/main/resources/META-INF/accesstransformer.cfg"))
+    copyIdeResources = true
+
+    val transformerFile = file("src/main/resources/META-INF/accesstransformer.cfg")
+    if (transformerFile.exists())
+        accessTransformer(transformerFile)
 
     runs {
         create("client") {
@@ -43,7 +43,7 @@ minecraft {
             property("mixin.env.remapRefMap", "true")
             property("mixin.env.refMapRemappingFile", "$projectDir/build/createSrgToMcp/output.srg")
             mods {
-                create(modId) {
+                create("modRun") {
                     source(sourceSets.main.get())
                     source(project(":common").sourceSets.main.get())
                 }
@@ -58,7 +58,7 @@ minecraft {
             property("mixin.env.remapRefMap", "true")
             property("mixin.env.refMapRemappingFile", "$projectDir/build/createSrgToMcp/output.srg")
             mods {
-                create(modId) {
+                create("modServerRun") {
                     source(sourceSets.main.get())
                     source(project(":common").sourceSets.main.get())
                 }
@@ -74,7 +74,7 @@ minecraft {
             property("mixin.env.remapRefMap", "true")
             property("mixin.env.refMapRemappingFile", "$projectDir/build/createSrgToMcp/output.srg")
             mods {
-                create(modId) {
+                create("modDataRun") {
                     source(sourceSets.main.get())
                     source(project(":common").sourceSets.main.get())
                 }
@@ -110,7 +110,7 @@ tasks {
 publishing {
     publications {
         register("mavenJava", MavenPublication::class) {
-            artifactId = baseArchiveName
+            artifactId = base.archivesName.get()
             artifact(tasks.jar)
             fg.component(this)
         }
@@ -124,5 +124,5 @@ publishing {
 sourceSets.forEach {
     val dir = layout.buildDirectory.dir("sourceSets/${it.name}")
     it.output.setResourcesDir(dir)
-    it.java.destinationDirectory.set(dir)
+    it.kotlin.destinationDirectory.set(dir)
 }

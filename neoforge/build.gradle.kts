@@ -15,14 +15,13 @@ val modName: String by project
 val modAuthor: String by project
 val modId: String by project
 
-val baseArchiveName = "${modName}-neo-${minecraftVersion}"
-
 base {
-    archivesName.set(baseArchiveName)
+    archivesName = "${modName}-neo-${minecraftVersion}"
 }
 
-if (file("src/main/resources/META-INF/accesstransformer.cfg").exists())
-    minecraft.accessTransformers.file(file("src/main/resources/META-INF/accesstransformer.cfg"))
+val transformerFile = file("src/main/resources/META-INF/accesstransformer.cfg")
+if (transformerFile.exists())
+    minecraft.accessTransformers.file(transformerFile)
 
 subsystems.parchment {
     minecraftVersion(parchmentMCVersion)
@@ -84,7 +83,7 @@ tasks {
 publishing {
     publications {
         register("mavenJava", MavenPublication::class) {
-            artifactId = baseArchiveName
+            artifactId = base.archivesName.get()
             artifact(tasks.jar)
         }
     }

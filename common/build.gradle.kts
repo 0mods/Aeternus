@@ -1,47 +1,34 @@
 plugins {
     java
     `maven-publish`
-    id("org.spongepowered.gradle.vanilla") version "0.2.1-SNAPSHOT"
     kotlin("jvm")
+    id("org.spongepowered.gradle.vanilla") version "0.2.1-SNAPSHOT"
 }
 
 val minecraftVersion: String by project
-val commonRunsEnabled: String by project
-val commonClientRunName: String? by project
-val commonServerRunName: String? by project
 val modName: String by project
 val modId: String by project
 
-val baseArchiveName = "${modName}-common-${minecraftVersion}"
-
 base {
-    archivesName.set(baseArchiveName)
+    archivesName = "${modName}-common-${minecraftVersion}"
 }
 
 minecraft {
     version(minecraftVersion)
-    runs {
-        if (commonRunsEnabled == "true") {
-            client(commonClientRunName ?: "vanilla_client") {
-                workingDirectory(project.file("run"))
-            }
-            server(commonServerRunName ?: "vanilla_server") {
-                workingDirectory(project.file("run"))
-            }
-        }
-    }
-    accessWideners("src/main/resources/aeternus.accesswidener")
+    if (file("src/main/resources/${modId}.accesswidener").exists())
+        accessWideners("src/main/resources/${modId}.accesswidener")
 }
 
 dependencies {
     compileOnly("org.spongepowered:mixin:0.8.5")
+    implementation("com.google.code.findbugs:jsr305:3.0.1")
 }
 
 publishing {
     publications {
         register("mavenJava", MavenPublication::class) {
-            artifactId = baseArchiveName
-            from(components["java"])
+            artifactId = base.archivesName.get()
+            from(components["kotlin"])
         }
     }
 
