@@ -35,7 +35,7 @@ interface Registrar<T>: Iterable<T> {
 
     fun contains(id: ResourceLocation): Boolean
 
-    fun containsValue(obj: T)
+    fun containsValue(obj: T): Boolean
 
     fun getIds(): Set<ResourceLocation>
 
