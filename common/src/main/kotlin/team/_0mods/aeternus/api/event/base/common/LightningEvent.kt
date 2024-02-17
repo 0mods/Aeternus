@@ -10,23 +10,18 @@
 
 package team._0mods.aeternus.api.event.base.common
 
-import net.minecraft.nbt.CompoundTag
-import net.minecraft.server.level.ServerLevel
-import net.minecraft.world.level.chunk.ChunkAccess
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.LightningBolt
+import net.minecraft.world.level.Level
+import net.minecraft.world.phys.Vec3
 import team._0mods.aeternus.api.event.core.EventFactory
 
-interface ChunkEvent {
+interface LightningEvent {
     companion object {
-        @JvmField val SAVE_DATA = EventFactory.createNoResult<SaveData>()
-
-        @JvmField val LOAD_DATA = EventFactory.createNoResult<LoadData>()
+        @JvmField val STRIKE = EventFactory.createNoResult<Strike>()
     }
 
-    fun interface SaveData {
-        fun save(chunk: ChunkAccess, level: ServerLevel, tag: CompoundTag)
-    }
-
-    fun interface LoadData {
-        fun load(chunk: ChunkAccess, level: ServerLevel?, tag: CompoundTag)
+    fun interface Strike {
+        fun onStrike(bolt: LightningBolt, level: Level, pos: Vec3, toStrike: List<Entity>)
     }
 }

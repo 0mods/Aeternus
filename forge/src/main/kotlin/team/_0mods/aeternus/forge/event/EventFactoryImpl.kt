@@ -11,6 +11,7 @@
 package team._0mods.aeternus.forge.event
 
 import net.minecraftforge.common.MinecraftForge
+import net.minecraftforge.eventbus.api.Event as ForgeEvent
 import org.jetbrains.annotations.ApiStatus
 import team._0mods.aeternus.api.event.base.Event
 import team._0mods.aeternus.api.event.core.EventActor
@@ -23,7 +24,7 @@ internal object EventFactoryImpl: EventFactory() {
     @ApiStatus.Internal
     override fun <T> attachToForge(evt: Event<Consumer<T>>): Event<Consumer<T>> {
         evt.register {
-            if (it !is net.minecraftforge.eventbus.api.Event)
+            if (it !is ForgeEvent)
                 throw ClassCastException("${it!!::class.java} is not an instance of forge Event!")
             MinecraftForge.EVENT_BUS.post(it)
         }
@@ -33,7 +34,7 @@ internal object EventFactoryImpl: EventFactory() {
     @ApiStatus.Internal
     override fun <T> attachToForgeEventActor(evt: Event<EventActor<T>>): Event<EventActor<T>> {
         evt.register {
-            if (it !is net.minecraftforge.eventbus.api.Event)
+            if (it !is ForgeEvent)
                 throw ClassCastException("${it!!::class.java} is not an instance of forge Event!")
             if (!it.isCancelable) throw ClassCastException("${it!!::class.java} is not cancellable Event!")
             return@register pass()
@@ -45,7 +46,7 @@ internal object EventFactoryImpl: EventFactory() {
     @ApiStatus.Internal
     override fun <T> attachToForgeEventActorCancellable(evt: Event<EventActor<T>>): Event<EventActor<T>> {
         evt.register {
-            if (it !is net.minecraftforge.eventbus.api.Event)
+            if (it !is ForgeEvent)
                 throw ClassCastException("${it!!::class.java} is not an instance of forge Event!")
             if (!it.isCancelable) throw ClassCastException("${it!!::class.java} is not cancellable Event!")
             if (MinecraftForge.EVENT_BUS.post(it))

@@ -17,21 +17,21 @@ import team._0mods.aeternus.api.registry.ResearchTriggerRegistry
 
 /**
  * Starts registration of the current plugin.
- * Works only on (Neo)Forge(d) Mod Loader and only with [IAeternusPlugin]
+ * Works only on (Neo)Forge(d) Mod Loader and only with [AeternusPlugin]
  */
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.CLASS)
 @MustBeDocumented
-annotation class AeternusPlugin
+annotation class AeternusPluginInit
 
 /**
  * Plugin base interface. For registry your plugin:
  *
  * On Fabric use entrypoint with "aeternus_plugin". [About entrypoints read there](https://fabricmc.net/wiki/documentation:entrypoint)
  *
- * On (Neo)Forge(d) use [AeternusPlugin] above plugin class
+ * On (Neo)Forge(d) use [AeternusPluginInit] above plugin class
  */
-interface IAeternusPlugin {
+interface AeternusPlugin {
     /**
      * Plugin's mod id for registry initialization
      *

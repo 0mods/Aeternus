@@ -10,23 +10,27 @@
 
 package team._0mods.aeternus.api.event.base.common
 
-import net.minecraft.nbt.CompoundTag
-import net.minecraft.server.level.ServerLevel
-import net.minecraft.world.level.chunk.ChunkAccess
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.level.storage.loot.LootDataManager
+import net.minecraft.world.level.storage.loot.LootPool
+import org.jetbrains.annotations.ApiStatus
 import team._0mods.aeternus.api.event.core.EventFactory
 
-interface ChunkEvent {
+interface LootEvent {
     companion object {
-        @JvmField val SAVE_DATA = EventFactory.createNoResult<SaveData>()
-
-        @JvmField val LOAD_DATA = EventFactory.createNoResult<LoadData>()
+        @JvmField val MODIFY_LOOT_TABLE = EventFactory.createNoResult<Modify>()
     }
 
-    fun interface SaveData {
-        fun save(chunk: ChunkAccess, level: ServerLevel, tag: CompoundTag)
+    fun interface Modify {
+        fun modifyLootTable(dataMgr: LootDataManager?, id: ResourceLocation, ctx: LootTableModificationContext, builtIn: Boolean)
     }
 
-    fun interface LoadData {
-        fun load(chunk: ChunkAccess, level: ServerLevel?, tag: CompoundTag)
+    @ApiStatus.NonExtendable
+    interface LootTableModificationContext {
+        fun addPool(pool: LootPool)
+
+        fun addPool(pool: LootPool.Builder) {
+            addPool(pool.build())
+        }
     }
 }

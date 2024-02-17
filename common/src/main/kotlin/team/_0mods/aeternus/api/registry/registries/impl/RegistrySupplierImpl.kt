@@ -24,6 +24,7 @@ import java.util.stream.Stream
 interface RegistrySupplierImpl<T>: RegistrySupplier<T> {
     val holder: Holder<T>?
 
+    @Suppress("WRONG_NULLABILITY_FOR_JAVA_OVERRIDE")
     override fun value(): T? = get()
 
     override fun isBound(): Boolean = isPresent

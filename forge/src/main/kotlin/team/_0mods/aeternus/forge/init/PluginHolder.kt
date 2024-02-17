@@ -18,17 +18,17 @@ import team._0mods.aeternus.common.impl.registry.*
 
 object PluginHolder {
     private val logger = LogUtils.getLogger()
-    private val list: MutableList<IAeternusPlugin> = mutableListOf()
+    private val list: MutableList<AeternusPlugin> = mutableListOf()
 
     fun loadPlugins() {
         ModList.get().allScanData.forEach { data ->
             data.annotations.forEach { annot ->
-                if (annot.annotationType.className.equals(AeternusPlugin::class.java)) {
+                if (annot.annotationType.className.equals(AeternusPluginInit::class.java)) {
                     try {
                         val clazz = Class.forName(annot.memberName)
-                        if (IAeternusPlugin::class.java.isAssignableFrom(clazz)) {
-                            val plugin: IAeternusPlugin =
-                                clazz.getDeclaredConstructor().newInstance() as IAeternusPlugin
+                        if (AeternusPlugin::class.java.isAssignableFrom(clazz)) {
+                            val plugin: AeternusPlugin =
+                                clazz.getDeclaredConstructor().newInstance() as AeternusPlugin
                             list.add(plugin)
                             logger.info("Plugin {} has been registered!", annot.memberName)
                         }

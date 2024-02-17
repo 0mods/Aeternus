@@ -10,18 +10,30 @@
 
 package team._0mods.aeternus.forge.event
 
+import net.minecraftforge.api.distmarker.Dist
+import net.minecraftforge.api.distmarker.OnlyIn
+import net.minecraftforge.common.MinecraftForge
 import team._0mods.aeternus.api.event.core.EventHandler
+import team._0mods.aeternus.common.ModId
+import team._0mods.aeternus.forge.api.bus.ForgeEventBusHelper
+import team._0mods.aeternus.forge.api.event.ClientEventsHandler
+import team._0mods.aeternus.forge.api.event.CommonEventsHandler
 
 object EventHandlerImpl: EventHandler() {
+    @OnlyIn(Dist.CLIENT)
     override fun registerClient() {
-
+        MinecraftForge.EVENT_BUS.register(ClientEventsHandler::class.java)
+        ForgeEventBusHelper.whenAvailable(ModId) {
+            it.register(ClientEventsHandler::class.java)
+        }
     }
 
     override fun registerCommon() {
-
+        MinecraftForge.EVENT_BUS.register(CommonEventsHandler::class.java)
+        ForgeEventBusHelper.whenAvailable(ModId) {
+            it.register(CommonEventsHandler::class.java)
+        }
     }
 
-    override fun registerServer() {
-
-    }
+    override fun registerServer() {}
 }

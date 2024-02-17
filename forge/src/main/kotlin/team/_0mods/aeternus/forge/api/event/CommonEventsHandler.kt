@@ -8,13 +8,7 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package team._0mods.aeternus.api.forge
+package team._0mods.aeternus.forge.api.event
 
-import java.util.*
-import java.util.function.Consumer
-
-interface EventBusHelper<T> {
-    fun whenAvailable(modId: String, bus: Consumer<T>)
-
-    fun getModEventBus(modId: String): Optional<T>
+class CommonEventsHandler {
 }

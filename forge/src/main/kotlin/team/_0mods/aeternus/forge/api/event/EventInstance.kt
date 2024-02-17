@@ -8,12 +8,11 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package team._0mods.aeternus.forge.api
+package team._0mods.aeternus.forge.api.event
 
 import net.minecraftforge.eventbus.api.Event
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.event.IModBusEvent
-import org.jetbrains.annotations.ApiStatus.Internal
 import thedarkcolour.kotlinforforge.forge.FORGE_BUS
 import thedarkcolour.kotlinforforge.forge.MOD_BUS
 
