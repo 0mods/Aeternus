@@ -8,9 +8,9 @@ import net.minecraft.world.item.Item
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.state.BlockBehaviour
 import net.minecraft.world.level.dimension.DimensionType
-import team._0mods.aeternus.common.ModId
 import team._0mods.aeternus.api.magic.research.Research
 import team._0mods.aeternus.api.util.resloc
+import team._0mods.aeternus.common.ModId
 import java.util.function.Function
 import java.util.function.Supplier
 

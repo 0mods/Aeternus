@@ -2,8 +2,8 @@ package team._0mods.aeternus.api.event.base.client
 
 import net.minecraft.client.Minecraft
 import net.minecraft.client.multiplayer.ClientLevel
-import net.minecraft.client.multiplayer.ClientLevel as MCClLevel
 import team._0mods.aeternus.api.event.core.EventFactory
+import net.minecraft.client.multiplayer.ClientLevel as MCClLevel
 
 fun interface ClientTickEvent<T> {
     companion object {

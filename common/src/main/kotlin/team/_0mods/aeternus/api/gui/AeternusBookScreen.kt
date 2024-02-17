@@ -8,7 +8,7 @@ import net.minecraft.server.packs.resources.Resource
 import team._0mods.aeternus.api.util.toRL
 import java.io.IOException
 import java.nio.file.AccessDeniedException
-import java.util.Optional
+import java.util.*
 
 open class AeternusBookScreen(text: Component) : Screen(text) {
     protected fun readBookEntry(rl: ResourceLocation): BookEntry? {

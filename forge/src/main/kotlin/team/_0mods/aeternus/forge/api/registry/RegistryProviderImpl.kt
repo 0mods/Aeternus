@@ -1,4 +1,3 @@
-@file:Suppress("UNUSED", "UNUSED_PARAMETER")
 package team._0mods.aeternus.forge.api.registry
 
 import com.google.common.base.Suppliers
@@ -15,19 +14,26 @@ import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.registries.*
 import org.slf4j.LoggerFactory
 import team._0mods.aeternus.api.registry.registries.*
+import team._0mods.aeternus.api.registry.registries.impl.RegistrySupplierImpl
+import team._0mods.aeternus.api.registry.registries.option.DefaultIdRegistrarOption
 import team._0mods.aeternus.api.registry.registries.option.RegistrarOption
+import team._0mods.aeternus.api.registry.registries.option.StandardRegistrarOption
 import team._0mods.aeternus.common.ModName
 import team._0mods.aeternus.forge.api.bus.ForgeEventBusHelper
 import java.util.*
 import java.util.function.Consumer
 import java.util.function.Supplier
-import kotlin.collections.LinkedHashMap
-
+import com.google.common.base.Objects as GoogleObjects
 
 class RegistryProviderImpl: AbstractRegistryProvider {
     companion object {
         private val logger = LoggerFactory.getLogger("${ModName}Registry")
         private val LISTENERS = HashMultimap.create<RegistryEntryId<*>, Consumer<*>>()
+
+        @JvmStatic
+        private fun listen(resourceKey: ResourceKey<*>, id: ResourceLocation, listener: Consumer<*>) {
+            LISTENERS.put(RegistryEntryId(resourceKey, id), listener)
+        }
     }
 
     override fun get(modid: String): RegistrarManager.RegistrarProvider = RegistrarProviderImpl(modid)
@@ -36,7 +42,7 @@ class RegistryProviderImpl: AbstractRegistryProvider {
         internal var registered = false
         internal val objs: MutableMap<ResourceLocation, Supplier<out T>> = LinkedHashMap()
 
-        fun registerForForge(registry: IForgeRegistry<T>, loc: ResourceLocation, objArr: Array<Any>, reference: Supplier<out T>) {
+        fun registerForForge(registry: IForgeRegistry<T>, loc: ResourceLocation, objArr: Array<Any?>, reference: Supplier<out T>) {
             if (!registered)
                 objs[loc] = Supplier {
                     val value = reference.get()
@@ -85,7 +91,7 @@ class RegistryProviderImpl: AbstractRegistryProvider {
         companion object {
             internal val customRegs: MutableMap<ResourceKey<Registry<*>>, Registrar<*>> = hashMapOf()
         }
-        internal val eventBus: Supplier<IEventBus>
+        private val eventBus: Supplier<IEventBus>
         internal val registry: MutableMap<ResourceKey<out Registry<*>>, Data<*>> = hashMapOf()
         internal val listeners: Multimap<ResourceKey<Registry<*>>, Consumer<Registrar<*>>> = HashMultimap.create()
 
@@ -114,26 +120,27 @@ class RegistryProviderImpl: AbstractRegistryProvider {
                     return get(reg)
                 val customReg = customRegs[(key as ResourceKey<Registry<*>>)]
                 if (customReg != null) return customReg as Registrar<T>
-                throw IllegalArgumentException("Registry $reg doesn't exist!")
+                throw IllegalArgumentException("Registry $key doesn't exist!")
             }
             return get(key)
         }
 
         fun <T> get(registry: IForgeRegistry<T>): Registrar<T> {
-            TODO()
+            updateBus()
+            return ForgeRegistrar(modId, this.registry, registry)
         }
 
         override fun <T> get(registry: Registry<T>): Registrar<T> {
-            TODO("Not yet implemented")
+            updateBus()
+            return VanillaRegistrar(modId, this.registry, registry)
         }
 
         override fun <T> forRegistry(key: ResourceKey<Registry<T>>, consumer: Consumer<Registrar<T>>) {
             this.listeners.put(key as ResourceKey<Registry<*>>, consumer as Consumer<Registrar<*>>)
         }
 
-        override fun <T> builder(type: Class<T>, registryKey: ResourceLocation): RegistrarBuilder<T> {
-            TODO("Not yet implemented")
-        }
+        override fun <T> builder(type: Class<T>, registryKey: ResourceLocation): RegistrarBuilder<T> =
+            RegistryBuilderWrapper(this, RegistryBuilder<T>().setName(registryKey), registryKey)
 
         inner class Listener {
             @SubscribeEvent
@@ -239,7 +246,7 @@ class RegistryProviderImpl: AbstractRegistryProvider {
                 throw IllegalStateException("Cannot create registries when registries are already aggregated!")
             val registrarRef = arrayOfNulls<Registrar<*>>(1)
             val reg = DelegatedRegistrar(provider.modId, {
-                Objects.requireNonNull(registrarRef[0], "")!!
+                Objects.requireNonNull(registrarRef[0], "Registry not yet initialized!")!!
             }, registryId) as DelegatedRegistrar<T>
             val entry = RegistrarProviderImpl.RegistryBuilderEntry(builder) {
                 registrarRef[0] = provider.get(it)
@@ -251,71 +258,272 @@ class RegistryProviderImpl: AbstractRegistryProvider {
         }
 
         override fun option(option: RegistrarOption): RegistrarBuilder<T> {
+            if (option == StandardRegistrarOption.SYNC_TO_CLIENTS)
+                this.syncToClients = true
+            else if (option is DefaultIdRegistrarOption)
+                this.builder.setDefaultKey(option.defaultId)
             return this
         }
     }
 
-    class DelegatedRegistrar<T>(private val modId: String, private val delegate: Supplier<Registrar<T>>, private val registryId: ResourceLocation): Registrar<T> {
-        fun onRegister() {}
-
+    class VanillaRegistrar<T>(private val modId: String, private var registry: MutableMap<ResourceKey<out Registry<*>>, Data<*>>, private var delegate: Registry<T>): Registrar<T> {
         override fun delegate(id: ResourceLocation): RegistrySupplier<T> {
-            TODO("Not yet implemented")
+            val value = Suppliers.memoize { get(id) }
+            val registrar = this
+            return object : RegistrySupplierImpl<T> {
+                var holderField: Holder<T>? = null
+
+                override val holder: Holder<T>?
+                    get() {
+                        if (holderField != null) return holderField
+                        holderField = registrar.getHolder(id)
+                        return holderField
+                    }
+                override val registrarManager: RegistrarManager = RegistrarManager.get(modId)
+
+                override val registrar: Registrar<T> = registrar
+
+                override val registryId: ResourceLocation = delegate.key().location()
+
+                override val id: ResourceLocation = id
+
+                override val isPresent: Boolean = contains(id)
+
+                override fun get(): T? = value.get()
+
+                override fun hashCode(): Int {
+                    return GoogleObjects.hashCode(registryId, this.id)
+                }
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) return true
+                    if (javaClass != other?.javaClass) return false
+                    other as RegistrySupplier<*>
+                    return other.registryId == registryId && other.id == this.id
+                }
+
+                override fun toString(): String = "$registryId@$id"
+            }
         }
 
-        override fun get(id: ResourceLocation): T? {
-            TODO("Not yet implemented")
-        }
+        override fun get(id: ResourceLocation): T? = delegate.get(id)
 
-        override fun byRawId(id: Int): T {
-            TODO("Not yet implemented")
-        }
+        override fun byRawId(id: Int): T = delegate.byId(id)!!
 
-        override fun contains(id: ResourceLocation): Boolean {
-            TODO("Not yet implemented")
-        }
+        override fun contains(id: ResourceLocation): Boolean = delegate.keySet().contains(id)
 
-        override fun getIds(): Set<ResourceLocation> {
-            TODO("Not yet implemented")
-        }
+        override fun getIds(): Set<ResourceLocation> = delegate.keySet()
 
-        override fun entrySet(): Set<Map.Entry<ResourceKey<T>, T>> {
-            TODO("Not yet implemented")
-        }
+        override fun entrySet(): Set<Map.Entry<ResourceKey<T>, T>> = delegate.entrySet()
 
-        override fun key(): ResourceKey<out Registry<T>> {
-            TODO("Not yet implemented")
-        }
+        override fun key(): ResourceKey<out Registry<T>> = delegate.key()
 
         override fun listen(id: ResourceLocation, consumer: Consumer<T>) {
-            TODO("Not yet implemented")
+            if (contains(id)) consumer.accept(get(id)!!)
+            else listen(key(), id, consumer)
         }
 
-        override fun getHolder(key: ResourceKey<T>): Holder<T>? {
-            TODO("Not yet implemented")
-        }
+        override fun getHolder(key: ResourceKey<T>): Holder<T>? = delegate.getHolder(key).orElse(null)
 
-        override fun containsValue(obj: T): Boolean {
-            TODO("Not yet implemented")
-        }
+        override fun containsValue(obj: T): Boolean = delegate.getResourceKey(obj).isPresent
 
-        override fun getKey(obj: T): Optional<ResourceKey<T>> {
-            TODO("Not yet implemented")
-        }
+        override fun getKey(obj: T): Optional<ResourceKey<T>> = delegate.getResourceKey(obj)
 
-        override fun getRawId(obj: T): Int {
-            TODO("Not yet implemented")
-        }
+        override fun getRawId(obj: T): Int = delegate.getId(obj)
 
-        override fun getId(obj: T): ResourceLocation? {
-            TODO("Not yet implemented")
-        }
+        override fun getId(obj: T): ResourceLocation? = delegate.getKey(obj)
 
         override fun <E : T> register(id: ResourceLocation, supplier: Supplier<E>): RegistrySupplier<E> {
-            TODO("Not yet implemented")
+            val data = registry.computeIfAbsent(key()) { Data<T>() } as Data<T>
+            data.register(delegate, id, supplier)
+            return delegate(id) as RegistrySupplier<E>
         }
 
-        override fun iterator(): Iterator<T> {
-            TODO("Not yet implemented")
+        override fun iterator(): Iterator<T> = delegate.iterator()
+    }
+
+    class ForgeRegistrar<T>(private val modId: String, private var registry: MutableMap<ResourceKey<out Registry<*>>, Data<*>>, private var delegate: IForgeRegistry<T>): Registrar<T> {
+        override fun delegate(id: ResourceLocation): RegistrySupplier<T> {
+            val value = Suppliers.memoize { get(id) }
+            val registrar = this
+            return object : RegistrySupplierImpl<T> {
+                var holderField: Holder<T>? = null
+
+                override val holder: Holder<T>?
+                    get() {
+                        if (holderField != null) return holderField
+                        holderField = registrar.getHolder(id)
+                        return holderField
+                    }
+                override val registrarManager: RegistrarManager = RegistrarManager.get(modId)
+
+                override val registrar: Registrar<T> = registrar
+
+                override val registryId: ResourceLocation = delegate.registryName
+
+                override val id: ResourceLocation = id
+
+                override val isPresent: Boolean = contains(id)
+
+                override fun get(): T? = value.get()
+
+                override fun hashCode(): Int {
+                    return GoogleObjects.hashCode(registryId, this.id)
+                }
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) return true
+                    if (javaClass != other?.javaClass) return false
+                    other as RegistrySupplier<*>
+                    return other.registryId == registryId && other.id == this.id
+                }
+
+                override fun toString(): String = "$registryId@$id"
+            }
         }
+
+        override fun get(id: ResourceLocation): T? = delegate.getValue(id)
+
+        override fun byRawId(id: Int): T? = (delegate as ForgeRegistry<T>).getValue(id)
+
+        override fun contains(id: ResourceLocation): Boolean = delegate.containsKey(id)
+
+        override fun getIds(): Set<ResourceLocation> = delegate.keys
+
+        override fun entrySet(): Set<Map.Entry<ResourceKey<T>, T>> = delegate.entries
+
+        override fun key(): ResourceKey<out Registry<T>> = ResourceKey.createRegistryKey(delegate.registryName)
+
+        override fun listen(id: ResourceLocation, consumer: Consumer<T>) {
+            if (contains(id)) consumer.accept(get(id)!!)
+            else listen(key(), id, consumer)
+        }
+
+        override fun getHolder(key: ResourceKey<T>): Holder<T>? = delegate.getHolder(key).orElse(null)
+
+        override fun containsValue(obj: T): Boolean = delegate.containsValue(obj)
+
+        override fun getKey(obj: T): Optional<ResourceKey<T>> = Optional.ofNullable(getId(obj)).map { ResourceKey.create(key(), it) }
+
+        override fun getRawId(obj: T): Int = (delegate as ForgeRegistry<T>).getID(obj)
+
+        override fun getId(obj: T): ResourceLocation? = delegate.getKey(obj)
+
+        override fun <E : T> register(id: ResourceLocation, supplier: Supplier<E>): RegistrySupplier<E> {
+            val objArray = arrayOf<Any?>(null)
+            val data = registry.computeIfAbsent(key()) { Data<T>() } as Data<T>
+            data.registerForForge(delegate, id, objArray, supplier)
+            val registrar = this
+            return object : RegistrySupplierImpl<E> {
+                var holderField: Holder<E>? = null
+                
+                override val holder: Holder<E>?
+                    get() {
+                        if (holderField != null) return holderField
+                        holderField = this.registrar.getHolder(this.id)
+                        return holderField
+                    }
+                override val registrarManager: RegistrarManager = RegistrarManager.get(modId)
+
+                override val registrar: Registrar<E> = registrar as Registrar<E>
+
+                override val registryId: ResourceLocation = delegate.registryName
+
+                override val id: ResourceLocation = id
+
+                override val isPresent: Boolean = objArray[0] != null
+
+                override fun get(): E {
+                    val value = objArray[0] as E ?: throw NullPointerException("Value missing: ${this.id}@$registryId.")
+                    return value
+                }
+
+                override fun hashCode(): Int {
+                    return GoogleObjects.hashCode(registryId, this.id)
+                }
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) return true
+                    if (javaClass != other?.javaClass) return false
+                    other as RegistrySupplier<*>
+                    return other.registryId == registryId && other.id == this.id
+                }
+
+                override fun toString(): String = "$registryId@$id"
+            }
+        }
+
+        override fun iterator(): Iterator<T> = delegate.iterator()
+    }
+
+    class DelegatedRegistrar<T>(private val modId: String, private val delegate: Supplier<Registrar<T>>, private val registryId: ResourceLocation): Registrar<T> {
+        private var onRegister: MutableList<Runnable>? = arrayListOf()
+        val isReady = onRegister == null
+
+        fun onRegister() {
+            if (onRegister != null) {
+                for (run in onRegister!!) run.run()
+            } else onRegister = null
+        }
+
+        override fun delegate(id: ResourceLocation): RegistrySupplier<T> {
+            if (isReady) return delegate.get().delegate(id)
+            return object : RegistrySupplierImpl<T> {
+                var holderField: Holder<T>? = null
+
+                override val holder: Holder<T>?
+                    get() {
+                        if (holderField != null || !isReady) return holderField
+                        holderField = delegate.get().getHolder(id)
+                        return holderField
+                    }
+                override val registrarManager: RegistrarManager = RegistrarManager.get(modId)
+
+                override val registrar: Registrar<T> = this@DelegatedRegistrar
+
+                override val registryId: ResourceLocation = this@DelegatedRegistrar.key().location()
+
+                override val id: ResourceLocation = id
+
+                override val isPresent: Boolean = isReady && contains(id)
+
+                override fun get(): T? = if (isReady) delegate.get().get(id)!! else null
+            }
+        }
+
+        override fun get(id: ResourceLocation): T? = if (!isReady) null else delegate.get().get(id)
+
+        override fun byRawId(id: Int): T? = if (!isReady) null else delegate.get().byRawId(id)
+
+        override fun contains(id: ResourceLocation): Boolean = isReady && delegate.get().contains(id)
+
+        override fun getIds(): Set<ResourceLocation> = if (isReady) delegate.get().getIds() else Collections.emptySet()
+
+        override fun entrySet(): Set<Map.Entry<ResourceKey<T>, T>> = if (isReady) delegate.get().entrySet() else Collections.emptySet()
+
+        override fun key(): ResourceKey<out Registry<T>> = if (isReady) delegate.get().key() else ResourceKey.createRegistryKey(registryId)
+
+        override fun listen(id: ResourceLocation, consumer: Consumer<T>) {
+            if (isReady) delegate.get().listen(id, consumer)
+            else onRegister!!.add { delegate.get().listen(id, consumer) }
+        }
+
+        override fun getHolder(key: ResourceKey<T>): Holder<T>? = if (isReady) delegate.get().getHolder(key) else null
+
+        override fun containsValue(obj: T): Boolean = isReady && delegate.get().containsValue(obj)
+
+        override fun getKey(obj: T): Optional<ResourceKey<T>> = if (!isReady) Optional.empty() else delegate.get().getKey(obj)
+
+        override fun getRawId(obj: T): Int = if (!isReady) -1 else delegate.get().getRawId(obj)
+
+        override fun getId(obj: T): ResourceLocation? = if (!isReady) null else delegate.get().getId(obj)
+
+        override fun <E : T> register(id: ResourceLocation, supplier: Supplier<E>): RegistrySupplier<E> {
+            if (isReady) /* checks if onRegister == null */ return delegate.get().register(id, supplier)
+            onRegister!!/* non-null cast. check the comment above it */.add { delegate.get().register(id, supplier) }
+            return delegate(id) as RegistrySupplier<E>
+        }
+
+        override fun iterator(): Iterator<T> = if (isReady) delegate.get().iterator() else Collections.emptyIterator()
     }
 }

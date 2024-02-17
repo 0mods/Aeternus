@@ -1,6 +1,6 @@
 package team._0mods.aeternus.api.forge
 
-import java.util.Optional
+import java.util.*
 import java.util.function.Consumer
 
 interface EventBusHelper<T> {

@@ -9,8 +9,7 @@ import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
 import team._0mods.aeternus.api.registry.registries.impl.RegistrySupplierImpl
 import team._0mods.aeternus.api.util.rl
-import java.util.Collections
-import java.util.Objects
+import java.util.*
 import java.util.function.Supplier
 
 class DeferredRegister<T> private constructor(
@@ -71,7 +70,7 @@ class DeferredRegister<T> private constructor(
             get() = if (this::lateinitValue.isInitialized) lateinitValue.isPresent else false
 
         override fun get(): R {
-            if (isPresent) return lateinitValue.get()
+            if (isPresent) return lateinitValue.get()!!
             throw NullPointerException("Registry Object not present: " + this.id)
         }
 

@@ -1,7 +1,9 @@
 package team._0mods.aeternus.api
 
 import org.jetbrains.annotations.ApiStatus
-import team._0mods.aeternus.api.registry.*
+import team._0mods.aeternus.api.registry.MaterialRegistry
+import team._0mods.aeternus.api.registry.ResearchRegistry
+import team._0mods.aeternus.api.registry.ResearchTriggerRegistry
 
 /**
  * Starts registration of the current plugin.

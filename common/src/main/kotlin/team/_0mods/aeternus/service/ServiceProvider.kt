@@ -5,7 +5,7 @@ import team._0mods.aeternus.service.core.EtheriumHelper
 import team._0mods.aeternus.service.core.EventHelper
 import team._0mods.aeternus.service.core.PlatformHelper
 import team._0mods.aeternus.service.core.RegistryHelper
-import java.util.ServiceLoader
+import java.util.*
 import kotlin.reflect.KClass
 
 object ServiceProvider {

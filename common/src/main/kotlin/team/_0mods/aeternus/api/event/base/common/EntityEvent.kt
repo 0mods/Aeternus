@@ -1,10 +1,14 @@
 package team._0mods.aeternus.api.event.base.common
 
 import net.minecraft.world.damagesource.DamageSource
-import net.minecraft.world.entity.*
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.MobSpawnType
 import net.minecraft.world.entity.animal.Animal
 import net.minecraft.world.entity.player.Player
-import net.minecraft.world.level.*
+import net.minecraft.world.level.BaseSpawner
+import net.minecraft.world.level.Level
+import net.minecraft.world.level.LevelAccessor
 import team._0mods.aeternus.api.event.core.EventFactory
 import team._0mods.aeternus.api.event.result.EventResult
 

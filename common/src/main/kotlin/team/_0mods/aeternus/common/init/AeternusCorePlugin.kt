@@ -1,11 +1,11 @@
 package team._0mods.aeternus.common.init
 
-import team._0mods.aeternus.common.LOGGER
-import team._0mods.aeternus.common.ModId
 import team._0mods.aeternus.api.AeternusPlugin
 import team._0mods.aeternus.api.IAeternusPlugin
 import team._0mods.aeternus.api.registry.ResearchRegistry
 import team._0mods.aeternus.api.registry.ResearchTriggerRegistry
+import team._0mods.aeternus.common.LOGGER
+import team._0mods.aeternus.common.ModId
 
 @AeternusPlugin
 class AeternusCorePlugin: IAeternusPlugin {

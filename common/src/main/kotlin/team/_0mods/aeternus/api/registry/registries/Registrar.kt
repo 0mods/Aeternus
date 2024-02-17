@@ -6,7 +6,7 @@ import net.minecraft.core.Holder
 import net.minecraft.core.Registry
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
-import java.util.Optional
+import java.util.*
 import java.util.function.Consumer
 import java.util.function.Supplier
 
@@ -31,7 +31,7 @@ interface Registrar<T>: Iterable<T> {
 
     fun get(id: ResourceLocation): T?
 
-    fun byRawId(id: Int): T
+    fun byRawId(id: Int): T?
 
     fun contains(id: ResourceLocation): Boolean
 

@@ -8,9 +8,9 @@ import org.jetbrains.annotations.ApiStatus
 import team._0mods.aeternus.api.magic.research.Research
 import team._0mods.aeternus.api.magic.research.ResearchBookMetadata
 import team._0mods.aeternus.api.magic.research.ResearchTrigger
-import team._0mods.aeternus.common.init.AeternusCorePlugin
 import team._0mods.aeternus.api.util.toRL
 import team._0mods.aeternus.api.util.toRLList
+import team._0mods.aeternus.common.init.AeternusCorePlugin
 
 @ApiStatus.Internal
 @JvmRecord

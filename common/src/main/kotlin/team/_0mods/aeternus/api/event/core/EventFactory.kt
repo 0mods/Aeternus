@@ -12,7 +12,7 @@ import team._0mods.aeternus.service.ServiceProvider
 import java.lang.invoke.MethodHandles
 import java.lang.reflect.Method
 import java.lang.reflect.Proxy
-import java.util.Objects
+import java.util.*
 import java.util.function.Consumer
 import java.util.function.Function
 

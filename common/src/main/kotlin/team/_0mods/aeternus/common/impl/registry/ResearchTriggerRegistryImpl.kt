@@ -1,11 +1,11 @@
 package team._0mods.aeternus.common.impl.registry
 
 import net.minecraft.resources.ResourceLocation
-import team._0mods.aeternus.common.LOGGER
 import team._0mods.aeternus.api.magic.research.ResearchTrigger
 import team._0mods.aeternus.api.registry.ResearchTriggerRegistry
 import team._0mods.aeternus.api.util.fromMapToListByList
 import team._0mods.aeternus.api.util.rl
+import team._0mods.aeternus.common.LOGGER
 import team._0mods.aeternus.service.ServiceProvider
 
 class ResearchTriggerRegistryImpl(private val modId: String): ResearchTriggerRegistry {
