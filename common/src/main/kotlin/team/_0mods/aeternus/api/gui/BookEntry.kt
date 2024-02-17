@@ -8,8 +8,8 @@ import com.google.gson.annotations.Expose
 import net.minecraft.client.Minecraft
 import net.minecraft.util.GsonHelper
 import org.apache.commons.io.IOUtils
-import team._0mods.aeternus.LOGGER
-import team._0mods.aeternus.ModId
+import team._0mods.aeternus.common.LOGGER
+import team._0mods.aeternus.common.ModId
 import team._0mods.aeternus.api.gui.widget.BookWidget
 import team._0mods.aeternus.api.util.toRL
 import java.io.IOException
