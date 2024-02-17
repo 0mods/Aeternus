@@ -1,3 +1,13 @@
+/*
+ * All Rights Received
+ * Copyright (c) 2024 AlgorithmLX & 0mods.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+ * WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+ * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
 package team._0mods.aeternus.api.block
 
 import net.minecraft.core.BlockPos
@@ -31,7 +41,6 @@ import team._0mods.aeternus.api.block.blockentity.IStorable
 import team._0mods.aeternus.api.block.blockentity.ITickBlockEntity
 
 abstract class EntityBlockBase(private val blockEntity: (BlockPos, BlockState) -> BlockEntity, properties: Properties): BaseEntityBlock(properties) {
-
     override fun newBlockEntity(p0: BlockPos, p1: BlockState): BlockEntity = blockEntity.invoke(p0, p1)
 
     @Suppress(
