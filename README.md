@@ -1,6 +1,6 @@
 <div align="center"> <img src=https://github.com/0mods/AncientMagic/assets/46783751/c9157710-3806-42c7-af2b-c97830bc4299 alt="logo"> </div>
 
-# <div align="center"> Ethernal - a small magic mod that adds new leveling mechanics, items, etc...</div>
+# <div align="center"> Aeternus - a small magic mod that adds new leveling mechanics, items, etc...</div>
 
 ## <div align="center"> <img src=https://i.imgur.com/rtdRDCS.png alt="logo"> </div>
 
