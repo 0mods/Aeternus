@@ -10,5 +10,11 @@
 
 package team._0mods.aeternus.neo.api.registry
 
-class RegistryProviderImpl {
+import team._0mods.aeternus.api.registry.registries.AbstractRegistryProvider
+import team._0mods.aeternus.api.registry.registries.RegistrarManager
+
+class RegistryProviderImpl: AbstractRegistryProvider {
+    override fun get(modid: String): RegistrarManager.RegistrarProvider {
+        TODO("Not yet implemented")
+    }
 }
