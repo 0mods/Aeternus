@@ -21,17 +21,6 @@ import team._0mods.aeternus.common.init.registry.AeternusRegsitry
 
 object AFRegistryHandler {
     fun init() {
-        AeternusRegsitry.getBlocksForRegistry().entries.forEach {
-            val rl = resloc(ModId, it.key)
-            val blockNotInitialized = it.value
-            val block = Registry.register(BuiltInRegistries.BLOCK, rl, blockNotInitialized.apply(BlockBehaviour.Properties.of()))
-            Registry.register(BuiltInRegistries.ITEM, rl, BlockItem(block, Item.Properties()))
-        }
 
-        AeternusRegsitry.getItemsForRegistry().entries.forEach {
-            val rl = resloc(ModId, it.key)
-            val iNI = it.value
-            Registry.register(BuiltInRegistries.ITEM, rl, iNI.apply(Item.Properties()))
-        }
     }
 }

@@ -14,8 +14,13 @@ package team._0mods.aeternus.common
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import team._0mods.aeternus.common.init.registry.AeternusRegsitry
 
 const val ModId = "aeternus"
 const val ModName = "Aeternus"
 
 @JvmField val LOGGER: Logger = LoggerFactory.getLogger("Aeternus") //const
+
+fun commonInit() {
+    AeternusRegsitry.init()
+}

@@ -58,6 +58,17 @@ class DeferredRegister<T> private constructor(
         return entry as RegistrySupplier<R>
     }
 
+    fun register() {
+        if (registered)
+            throw IllegalStateException("Cannot register a deferred register twice!")
+
+        registered = true
+        val reg = this.registrar
+        for (e in entries) {
+            e.lateinitValue = reg.register(e.id, e.supplier)
+        }
+    }
+
     override fun iterator(): Iterator<RegistrySupplier<T>> = entryView.iterator()
 
     private inner class RegistryEntry<R>(override val id: ResourceLocation, internal val supplier: Supplier<R>): RegistrySupplierImpl<R> {

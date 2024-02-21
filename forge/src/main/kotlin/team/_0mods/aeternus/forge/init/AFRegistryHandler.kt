@@ -24,18 +24,7 @@ object AFRegistryHandler {
     private val blocks = DeferredRegister.create(ForgeRegistries.BLOCKS, ModId)
 
     init {
-        AeternusRegsitry.getBlocksForRegistry().entries.forEach {
-            val id = it.key
-            val block = it.value
-            val reg = blocks.register(id) { block.apply(BlockBehaviour.Properties.of()) }
-            items.register(id) { BlockItem(reg.get(), Item.Properties()) }
-        }
 
-        AeternusRegsitry.getItemsForRegistry().entries.forEach {
-            val id = it.key
-            val item = it.value
-            items.register(id) { item.apply(Item.Properties()) }
-        }
     }
 
     fun init(bus: IEventBus) {
