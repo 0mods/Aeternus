@@ -21,7 +21,7 @@ minecraft {
 
 dependencies {
     compileOnly("org.spongepowered:mixin:0.8.5")
-    implementation("com.google.code.findbugs:jsr305:3.0.1")
+//    implementation("com.google.code.findbugs:jsr305:3.0.1")
 }
 
 publishing {

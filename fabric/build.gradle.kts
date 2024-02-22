@@ -80,7 +80,7 @@ publishing {
     publications {
         register("mavenJava", MavenPublication::class) {
             artifactId = base.archivesName.get()
-            from(components["kotlin"])
+            from(components["java"])
         }
     }
 

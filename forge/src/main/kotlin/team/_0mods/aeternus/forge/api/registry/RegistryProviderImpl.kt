@@ -28,6 +28,7 @@ import team._0mods.aeternus.api.registry.registries.impl.RegistrySupplierImpl
 import team._0mods.aeternus.api.registry.registries.option.DefaultIdRegistrarOption
 import team._0mods.aeternus.api.registry.registries.option.RegistrarOption
 import team._0mods.aeternus.api.registry.registries.option.StandardRegistrarOption
+import team._0mods.aeternus.api.util.set
 import team._0mods.aeternus.common.ModName
 import team._0mods.aeternus.forge.api.bus.ForgeEventBusHelper
 import java.util.*
@@ -42,7 +43,7 @@ class RegistryProviderImpl: AbstractRegistryProvider {
 
         @JvmStatic
         private fun listen(resourceKey: ResourceKey<*>, id: ResourceLocation, listener: Consumer<*>) {
-            LISTENERS.put(RegistryEntryId(resourceKey, id), listener)
+            LISTENERS[RegistryEntryId(resourceKey, id)] = listener
         }
     }
 
@@ -79,7 +80,7 @@ class RegistryProviderImpl: AbstractRegistryProvider {
                 objs[loc] = reference
             else {
                 val value = reference.get()
-                Registry.register(registry, loc, value)
+                Registry.register(registry, loc, value!!)
 
                 val regEntry = RegistryEntryId(registry.key(), loc)
                 LISTENERS.get(regEntry).forEach {
@@ -157,7 +158,7 @@ class RegistryProviderImpl: AbstractRegistryProvider {
             fun handleEvent(event: RegisterEvent) {
                 this@RegistrarProviderImpl.registry.entries.forEach {
                     if (it.key.equals(event.registryKey))
-                        registerFor(event, it.key as ResourceKey<out Registry<Any>>, it.value as Data<Any>)
+                        registerFor(event, it.key as ResourceKey<Registry<Any>>, it.value as Data<Any>)
                 }
             }
 
@@ -335,13 +336,13 @@ class RegistryProviderImpl: AbstractRegistryProvider {
 
         override fun getHolder(key: ResourceKey<T>): Holder<T>? = delegate.getHolder(key).orElse(null)
 
-        override fun containsValue(obj: T): Boolean = delegate.getResourceKey(obj).isPresent
+        override fun containsValue(obj: T): Boolean = delegate.getResourceKey(obj!!).isPresent
 
-        override fun getKey(obj: T): Optional<ResourceKey<T>> = delegate.getResourceKey(obj)
+        override fun getKey(obj: T): Optional<ResourceKey<T>> = delegate.getResourceKey(obj!!)
 
         override fun getRawId(obj: T): Int = delegate.getId(obj)
 
-        override fun getId(obj: T): ResourceLocation? = delegate.getKey(obj)
+        override fun getId(obj: T): ResourceLocation? = delegate.getKey(obj!!)
 
         override fun <E : T> register(id: ResourceLocation, supplier: Supplier<E>): RegistrySupplier<E> {
             val data = registry.computeIfAbsent(key()) { Data<T>() } as Data<T>

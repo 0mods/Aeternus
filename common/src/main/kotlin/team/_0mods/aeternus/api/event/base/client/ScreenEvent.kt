@@ -10,7 +10,6 @@
 
 package team._0mods.aeternus.api.event.base.client
 
-import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen
@@ -39,7 +38,7 @@ interface ScreenEvent {
     }
 
     fun interface PostRenderGuiOverlay {
-        fun render(stack: PoseStack, partialTick: Float)
+        fun render(stack: GuiGraphics, partialTick: Float)
     }
 
     fun interface DebugText {

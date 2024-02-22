@@ -12,6 +12,7 @@
 
 package team._0mods.aeternus.api.util
 
+import com.google.common.collect.Multimap
 import net.minecraft.resources.ResourceLocation
 import org.jetbrains.annotations.ApiStatus
 
@@ -52,4 +53,8 @@ fun <T, R> Map<T, R>.fromMapToListByList(from: List<T>): List<R> {
     }
 
     return listOfR.toList()
+}
+
+operator fun <K, V> Multimap<K, V>.set(key: K, value: V) {
+    this.put(key, value)
 }

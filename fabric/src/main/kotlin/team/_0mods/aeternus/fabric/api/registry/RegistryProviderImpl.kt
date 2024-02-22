@@ -28,6 +28,7 @@ import team._0mods.aeternus.api.registry.registries.impl.RegistrySupplierImpl
 import team._0mods.aeternus.api.registry.registries.option.DefaultIdRegistrarOption
 import team._0mods.aeternus.api.registry.registries.option.RegistrarOption
 import team._0mods.aeternus.api.registry.registries.option.StandardRegistrarOption
+import team._0mods.aeternus.api.util.set
 import java.util.*
 import java.util.function.Consumer
 import java.util.function.Supplier
@@ -52,7 +53,7 @@ class RegistryProviderImpl: AbstractRegistryProvider {
                 }
             }
 
-            LISTENERS.put(RegistryEntryId(resourceKey, id), listener)
+            LISTENERS[RegistryEntryId(resourceKey, id)] = listener
         }
     }
 
@@ -168,16 +169,16 @@ class RegistryProviderImpl: AbstractRegistryProvider {
 
         override fun getHolder(key: ResourceKey<T>): Holder<T>? = delegate.getHolder(key).orElse(null)
 
-        override fun containsValue(obj: T): Boolean = delegate.getResourceKey(obj).isPresent
+        override fun containsValue(obj: T): Boolean = delegate.getResourceKey(obj!!).isPresent
 
-        override fun getKey(obj: T): Optional<ResourceKey<T>> = delegate.getResourceKey(obj)
+        override fun getKey(obj: T): Optional<ResourceKey<T>> = delegate.getResourceKey(obj!!)
 
         override fun getRawId(obj: T): Int = delegate.getId(obj)
 
-        override fun getId(obj: T): ResourceLocation? = delegate.getKey(obj)
+        override fun getId(obj: T): ResourceLocation? = delegate.getKey(obj!!)
 
         override fun <E : T> register(id: ResourceLocation, supplier: Supplier<E>): RegistrySupplier<E> {
-            Registry.register(delegate, id, supplier.get())
+            Registry.register(delegate, id, supplier.get()!!)
             return delegate(id) as RegistrySupplier<E>
         }
 

@@ -22,6 +22,7 @@ object ForgeEventBusHelper: EventBusHelper<IEventBus> {
     private val eventBusMap: MutableMap<String, IEventBus> = Collections.synchronizedMap(hashMapOf())
     private val onRegistered: Multimap<String, Consumer<IEventBus>> = Multimaps.synchronizedMultimap(LinkedListMultimap.create())
 
+    @JvmStatic
     fun registerModEvent(modId: String, bus: IEventBus) {
         if (eventBusMap.putIfAbsent(modId, bus) != null)
             throw IllegalStateException("Can't register event bus for mod '$modId' because it was previously registered!")
