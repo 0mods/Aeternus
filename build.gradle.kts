@@ -72,41 +72,20 @@ subprojects {
         withType<KotlinCompile> { compilerOptions.freeCompilerArgs.add("-Xjvm-default=all") }
 
         processResources {
-            val modLoader: String by project
-            val mlVersion: String by project
-            val license: String by project
-            val credits: String by project
-            val modAuthor: String by project
-            val mcRange: String by project
-            val modName: String by project
-            val modId: String by project
-            val description: String by project
-            val version: String by project
-            val kffRange: String by project
-            val fabricLoaderVersion: String by project
-            val clothVersion: String by project
-            val forgeVersionRange: String by project
-            val neoVersionRange: String by project
+            val modLoader: String by project; val mlVersion: String by project; val license: String by project
+            val credits: String by project; val modAuthor: String by project; val mcRange: String by project
+            val modName: String by project; val modId: String by project; val description: String by project
+            val version: String by project; val kffRange: String by project; val fabricLoaderVersion: String by project
+            val clothVersion: String by project; val forgeVersionRange: String by project; val neoVersionRange: String by project
             val klfVersion: String by project
 
             val replacement = mapOf(
-                    "modloader" to modLoader,
-                    "mlVersion" to mlVersion,
-                    "license" to license,
-                    "modId" to modId,
-                    "modVersion" to version,
-                    "modName" to modName,
-                    "credits" to credits,
-                    "modAuthor" to modAuthor,
-                    "description" to description,
-                    "mcRange" to mcRange,
-                    "kffRange" to kffRange,
-                    "fabricLoaderVersion" to fabricLoaderVersion,
-                    "clothVersion" to clothVersion,
-                    "minecraftVersion" to minecraftVersion,
-                    "forgeVersionRange" to forgeVersionRange,
-                    "neoVersionRange" to neoVersionRange,
-                    "klfVersion" to klfVersion
+                    "modloader" to modLoader, "mlVersion" to mlVersion, "license" to license, "modId" to modId,
+                    "modVersion" to version, "modName" to modName, "credits" to credits,"modAuthor" to modAuthor,
+                    "description" to description, "mcRange" to mcRange, "kffRange" to kffRange,
+                    "fabricLoaderVersion" to fabricLoaderVersion, "clothVersion" to clothVersion,
+                    "minecraftVersion" to minecraftVersion, "forgeVersionRange" to forgeVersionRange,
+                    "neoVersionRange" to neoVersionRange, "klfVersion" to klfVersion
             )
 
             from(project(":common").sourceSets.main.get().resources)

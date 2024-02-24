@@ -27,4 +27,7 @@ plugins {
 }
 
 rootProject.name = "Aeternus"
-include("common", "fabric", "forge", "neoforge")
+include(
+        "common", "fabric", "forge", "neoforge",
+        "multilib_common", "multilib_fabric", "multilib_forge", "multilib_neoforge"
+)

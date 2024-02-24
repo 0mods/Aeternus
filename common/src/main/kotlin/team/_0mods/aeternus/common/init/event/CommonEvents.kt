@@ -38,7 +38,6 @@ object CommonEvents {
                         val droppedItem = level?.let { ItemEntity(it, player.x, player.y, player.z, stackOfKNBook) }
                         droppedItem?.setNoPickUpDelay()
                         level?.addFreshEntity(droppedItem!!)
-
                         ServiceProvider.etheriumHelper.consume(player, random.nextInt())
                     }
                 }

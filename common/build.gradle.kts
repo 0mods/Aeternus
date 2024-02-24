@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     java
     `maven-publish`
@@ -21,7 +23,18 @@ minecraft {
 
 dependencies {
     compileOnly("org.spongepowered:mixin:0.8.5")
+    compileOnly(project(":multilib_common"))
 //    implementation("com.google.code.findbugs:jsr305:3.0.1")
+}
+
+tasks {
+    withType<KotlinCompile> { source(project(":multilib_common").sourceSets.main.get().allSource) }
+
+    javadoc { source(project(":multilib_common").sourceSets.main.get().allJava) }
+
+    named("sourcesJar", Jar::class) { from(project(":multilib_common").sourceSets.main.get().allSource) }
+
+    processResources { from(project(":multilib_common").sourceSets.main.get().resources) }
 }
 
 publishing {

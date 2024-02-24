@@ -9,6 +9,8 @@ plugins {
     id("org.parchmentmc.librarian.forgegradle") version "1.+"
 }
 
+jarJar.enable()
+
 val minecraftVersion: String by project
 val modName: String by project
 val modAuthor: String by project
@@ -93,16 +95,26 @@ dependencies {
     implementation("thedarkcolour:kotlinforforge:$kffVersion")
     jarJar("thedarkcolour:kotlinforforge:$kffVersion") { jarJar.ranged(this, "[$kffVersion,)") }
     compileOnly(project(":common"))
+    compileOnly(project(":multilib_forge"))
+    jarJar(project(":multilib_forge"))
 }
 
 tasks {
-    withType<KotlinCompile> { source(project(":common").sourceSets.main.get().allSource) }
+    withType<KotlinCompile> {
+        source(project(":common").sourceSets.main.get().allSource)
+    }
 
-    javadoc { source(project(":common").sourceSets.main.get().allJava) }
+    javadoc {
+        source(project(":common").sourceSets.main.get().allJava)
+    }
 
-    named("sourcesJar", Jar::class) { from(project(":common").sourceSets.main.get().allSource) }
+    named("sourcesJar", Jar::class) {
+        from(project(":common").sourceSets.main.get().allSource)
+    }
 
-    processResources { from(project(":common").sourceSets.main.get().resources) }
+    processResources {
+        from(project(":common").sourceSets.main.get().resources)
+    }
 
     jar { finalizedBy("reobfJar") }
 }

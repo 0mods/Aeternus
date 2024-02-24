@@ -38,6 +38,8 @@ dependencies {
     modImplementation("net.fabricmc:fabric-language-kotlin:$klfVersion")
     include("net.fabricmc:fabric-language-kotlin:$klfVersion")
     compileOnly(project(":common"))
+    compileOnly(project(":multilib_fabric"))
+    include(project(":multilib_fabric"))
 }
 
 loom {
@@ -67,13 +69,21 @@ loom {
 }
 
 tasks {
-    withType<KotlinCompile> { source(project(":common").sourceSets.main.get().allSource) }
+    withType<KotlinCompile> {
+        source(project(":common").sourceSets.main.get().allSource)
+    }
 
-    javadoc { source(project(":common").sourceSets.main.get().allJava) }
+    javadoc {
+        source(project(":common").sourceSets.main.get().allJava)
+    }
 
-    named("sourcesJar", Jar::class) { from(project(":common").sourceSets.main.get().allSource) }
+    named("sourcesJar", Jar::class) {
+        from(project(":common").sourceSets.main.get().allSource)
+    }
 
-    processResources { from(project(":common").sourceSets.main.get().resources) }
+    processResources {
+        from(project(":common").sourceSets.main.get().resources)
+    }
 }
 
 publishing {
