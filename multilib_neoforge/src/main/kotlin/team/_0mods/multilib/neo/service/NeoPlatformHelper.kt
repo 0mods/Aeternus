@@ -33,8 +33,6 @@ import kotlin.jvm.optionals.getOrNull
 class NeoPlatformHelper: PlatformHelper {
     override fun isProduction(): Boolean = FMLEnvironment.production
 
-    override fun isLogicalClient(): Boolean = Thread.currentThread().threadGroup != SidedThreadGroups.SERVER
-
     override fun isPhysicalClient(): Boolean = FMLEnvironment.dist.isClient
 
     override fun isModLoaded(modId: String): Boolean = ModList.get().isLoaded(modId)

@@ -22,20 +22,21 @@
  * SOFTWARE.
  */
 
-package team._0mods.multilib.forge.service
+package team._0mods.multilib.fabric.service
 
-import net.minecraftforge.fml.ModList
-import net.minecraftforge.fml.loading.FMLEnvironment
-import net.minecraftforge.fml.util.thread.SidedThreadGroups
+import net.fabricmc.api.EnvType
+import net.fabricmc.loader.api.FabricLoader
 import team._0mods.multilib.service.core.PlatformHelper
 import kotlin.jvm.optionals.getOrNull
 
-class ForgePlatformHelper: PlatformHelper {
-    override fun isProduction(): Boolean = FMLEnvironment.production
+class FabricPlatform: PlatformHelper {
+    private val fabricInstance = FabricLoader.getInstance()
 
-    override fun isPhysicalClient(): Boolean = FMLEnvironment.dist.isClient
+    override fun isProduction(): Boolean = !fabricInstance.isDevelopmentEnvironment
 
-    override fun isModLoaded(modId: String): Boolean = ModList.get().isLoaded(modId)
+    override fun isPhysicalClient(): Boolean = fabricInstance.environmentType.equals(EnvType.CLIENT)
+
+    override fun isModLoaded(modId: String): Boolean = fabricInstance.isModLoaded(modId)
 
     override fun getModNameByModId(modId: String): String {
         // yeah, it's very impractical, but sorry, I really want to do it >_<
@@ -50,8 +51,8 @@ class ForgePlatformHelper: PlatformHelper {
         val builtCat = cat.toString()
         val failedName = "Mod Name for Mod ID: $modId is not loaded! It is so sad :($builtCat"
 
-        return ModList.get().getModContainerById(modId).getOrNull()?.modId ?: failedName
+        return fabricInstance.getModContainer(modId).getOrNull()?.metadata?.name ?: failedName
     }
 
-    override fun isForge(): Boolean = true
+    override fun isFabric(): Boolean = true
 }

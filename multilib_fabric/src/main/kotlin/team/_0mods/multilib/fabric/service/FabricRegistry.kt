@@ -22,20 +22,7 @@
  * SOFTWARE.
  */
 
-package team._0mods.multilib.service.core
+package team._0mods.multilib.fabric.service
 
-interface PlatformHelper {
-    fun isProduction(): Boolean
-
-    fun isPhysicalClient(): Boolean
-
-    fun isPhysicalServer(): Boolean = !isPhysicalClient()
-
-    fun isModLoaded(modId: String): Boolean
-
-    fun getModNameByModId(modId: String): String
-
-    fun isForge(): Boolean = !isFabric()
-
-    fun isFabric(): Boolean = !isForge()
+class FabricRegistry {
 }
