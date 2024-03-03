@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package team._0mods.multilib
+package team._0mods.multilib.fabric.registry
 
 import com.google.common.base.Suppliers
 import com.google.common.collect.HashMultimap

@@ -24,5 +24,10 @@
 
 package team._0mods.multilib.fabric.service
 
-class FabricRegistry {
+import team._0mods.multilib.fabric.registry.RegistryProviderImpl
+import team._0mods.multilib.registries.AbstractRegistryProvider
+import team._0mods.multilib.service.core.RegistryHelper
+
+class FabricRegistry : RegistryHelper {
+    override val registryProvider: AbstractRegistryProvider = RegistryProviderImpl()
 }
