@@ -10,7 +10,6 @@
 
 package team._0mods.aeternus.forge
 
-import net.minecraftforge.event.entity.player.PlayerInteractEvent
 import net.minecraftforge.fml.common.Mod
 import team._0mods.aeternus.common.ModId
 import team._0mods.aeternus.common.commonInit

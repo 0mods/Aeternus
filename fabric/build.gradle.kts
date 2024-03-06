@@ -38,8 +38,8 @@ dependencies {
     modImplementation("net.fabricmc:fabric-language-kotlin:$klfVersion")
     include("net.fabricmc:fabric-language-kotlin:$klfVersion")
     compileOnly(project(":common"))
-    compileOnly(project(":multilib_fabric"))
-    include(project(":multilib_fabric"))
+    compileOnly(project(":MultiLib:fabric"))
+    include(project(":MultiLib:fabric"))
 }
 
 loom {

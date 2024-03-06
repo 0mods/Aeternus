@@ -68,8 +68,8 @@ dependencies {
     implementation("net.neoforged:neoforge:$neoVersion")
     implementation("thedarkcolour:kotlinforforge-neoforge:$kffVersion")
     compileOnly(project(":common"))
-    compileOnly(project(":multilib_neoforge"))
-    jarJar(project(":multilib_neoforge"))
+    compileOnly(project(":MultiLib:neoforge"))
+    jarJar(project(":MultiLib:neoforge"))
 }
 
 val notNeoTask: Spec<Task> = Spec { it: Task -> !it.name.startsWith("neo") }

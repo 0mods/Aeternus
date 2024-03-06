@@ -37,13 +37,13 @@ dependencies {
     }
     modImplementation("net.fabricmc:fabric-language-kotlin:$klfVersion")
     include("net.fabricmc:fabric-language-kotlin:$klfVersion")
-    compileOnly(project(":multilib_common"))
+    compileOnly(project(":common"))
 }
 
 loom {
 
-    if (project(":multilib_common").file("src/main/resources/${modId}.accesswidener").exists())
-        accessWidenerPath.set(project(":multilib_common").file("src/main/resources/${modId}.accesswidener"))
+    if (project(":common").file("src/main/resources/${modId}.accesswidener").exists())
+        accessWidenerPath.set(project(":common").file("src/main/resources/${modId}.accesswidener"))
 
     @Suppress("UnstableApiUsage")
     mixin { defaultRefmapName.set("${modId}.refmap.json") }
@@ -67,13 +67,13 @@ loom {
 }
 
 tasks {
-    withType<KotlinCompile> { source(project(":multilib_common").sourceSets.main.get().allSource) }
+    withType<KotlinCompile> { source(project(":common").sourceSets.main.get().allSource) }
 
-    javadoc { source(project(":multilib_common").sourceSets.main.get().allJava) }
+    javadoc { source(project(":common").sourceSets.main.get().allJava) }
 
-    named("sourcesJar", Jar::class) { from(project(":multilib_common").sourceSets.main.get().allSource) }
+    named("sourcesJar", Jar::class) { from(project(":common").sourceSets.main.get().allSource) }
 
-    processResources { from(project(":multilib_common").sourceSets.main.get().resources) }
+    processResources { from(project(":common").sourceSets.main.get().resources) }
 }
 
 publishing {

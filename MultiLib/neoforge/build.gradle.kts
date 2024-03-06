@@ -65,19 +65,19 @@ dependencies {
 
     implementation("net.neoforged:neoforge:$neoVersion")
     implementation("thedarkcolour:kotlinforforge-neoforge:$kffVersion")
-    compileOnly(project(":multilib_common"))
+    compileOnly(project(":common"))
 }
 
 val notNeoTask: Spec<Task> = Spec { it: Task -> !it.name.startsWith("neo") }
 
 tasks {
-    withType<KotlinCompile>().matching(notNeoTask).configureEach { source(project(":multilib_common").sourceSets.main.get().allSource) }
+    withType<KotlinCompile>().matching(notNeoTask).configureEach { source(project(":common").sourceSets.main.get().allSource) }
 
-    withType<Javadoc>().matching(notNeoTask).configureEach { source(project(":multilib_common").sourceSets.main.get().allJava) }
+    withType<Javadoc>().matching(notNeoTask).configureEach { source(project(":common").sourceSets.main.get().allJava) }
 
-    named("sourcesJar", Jar::class) { from(project(":multilib_common").sourceSets.main.get().allSource) }
+    named("sourcesJar", Jar::class) { from(project(":common").sourceSets.main.get().allSource) }
 
-    processResources { from(project(":multilib_common").sourceSets.main.get().resources) }
+    processResources { from(project(":common").sourceSets.main.get().resources) }
 }
 
 publishing {
