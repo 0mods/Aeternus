@@ -23,18 +23,18 @@ minecraft {
 
 dependencies {
     compileOnly("org.spongepowered:mixin:0.8.5")
-    compileOnly(project(":MultiLib:common"))
+    compileOnly(project(":MultiLib:ml_common"))
 //    implementation("com.google.code.findbugs:jsr305:3.0.1")
 }
 
 tasks {
-    withType<KotlinCompile> { source(project(":MultiLib:common").sourceSets.main.get().allSource) }
+    withType<KotlinCompile> { source(project(":MultiLib:ml_common").sourceSets.main.get().allSource) }
 
-    javadoc { source(project(":MultiLib:common").sourceSets.main.get().allJava) }
+    javadoc { source(project(":MultiLib:ml_common").sourceSets.main.get().allJava) }
 
-    named("sourcesJar", Jar::class) { from(project(":MultiLib:common").sourceSets.main.get().allSource) }
+    named("sourcesJar", Jar::class) { from(project(":MultiLib:ml_common").sourceSets.main.get().allSource) }
 
-    processResources { from(project(":MultiLib:common").sourceSets.main.get().resources) }
+    processResources { from(project(":MultiLib:ml_common").sourceSets.main.get().resources) }
 }
 
 publishing {

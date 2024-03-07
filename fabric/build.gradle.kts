@@ -38,8 +38,8 @@ dependencies {
     modImplementation("net.fabricmc:fabric-language-kotlin:$klfVersion")
     include("net.fabricmc:fabric-language-kotlin:$klfVersion")
     compileOnly(project(":common"))
-    compileOnly(project(":MultiLib:fabric"))
-    include(project(":MultiLib:fabric"))
+    compileOnly(project(":MultiLib:ml_fabric"))
+    include(project(":MultiLib:ml_fabric"))
 }
 
 loom {
@@ -53,14 +53,14 @@ loom {
     runs {
         named("client") {
             client()
-            configName = "Fabric Client"
+            configName = "Fabric: Client (Aeternus)"
             ideConfigGenerated(true)
             runDir("run")
             vmArg("-XX:+AllowEnhancedClassRedefinition")
         }
         named("server") {
             server()
-            configName = "Fabric Server"
+            configName = "Fabric: Server (Aeternus)"
             ideConfigGenerated(true)
             runDir("run")
             vmArg("-XX:+AllowEnhancedClassRedefinition")

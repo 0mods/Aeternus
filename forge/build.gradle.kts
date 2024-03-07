@@ -39,6 +39,7 @@ minecraft {
 
     runs {
         create("client") {
+            taskName = "Forge: Client (Aeternus)"
             workingDirectory(project.file("run"))
             ideaModule("${rootProject.name}.${project.name}.main")
             taskName("Client")
@@ -54,6 +55,7 @@ minecraft {
         }
 
         create("server") {
+            taskName = "Forge: Server (Aeternus)"
             workingDirectory(project.file("run"))
             ideaModule("${rootProject.name}.${project.name}.main")
             taskName("Server")
@@ -69,6 +71,7 @@ minecraft {
         }
 
         create("data") {
+            taskName = "Forge: Data (Aeternus)"
             workingDirectory(project.file("run"))
             ideaModule("${rootProject.name}.${project.name}.main")
             args("--mod", modId, "--all", "--output", file("src/generated/resources/"), "--existing", file("src/main/resources/"))
@@ -95,8 +98,8 @@ dependencies {
     implementation("thedarkcolour:kotlinforforge:$kffVersion")
     jarJar("thedarkcolour:kotlinforforge:$kffVersion") { jarJar.ranged(this, "[$kffVersion,)") }
     compileOnly(project(":common"))
-    compileOnly(project(":MultiLib:forge"))
-    jarJar(project(":MultiLib:forge"))
+    compileOnly(project(":MultiLib:ml_forge"))
+    jarJar(project(":MultiLib:ml_forge"))
 }
 
 tasks {

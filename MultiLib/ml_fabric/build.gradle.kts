@@ -51,14 +51,14 @@ loom {
     runs {
         named("client") {
             client()
-            configName = "Fabric Client"
+            configName = "Fabric: Client (MultiLib)"
             ideConfigGenerated(true)
             runDir("run")
             vmArg("-XX:+AllowEnhancedClassRedefinition")
         }
         named("server") {
             server()
-            configName = "Fabric Server"
+            configName = "Fabric: Server (MultiLib)"
             ideConfigGenerated(true)
             runDir("run")
             vmArg("-XX:+AllowEnhancedClassRedefinition")

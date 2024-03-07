@@ -33,7 +33,7 @@ subsystems.parchment {
 runs {
     configureEach { modSource(project.sourceSets.main.get()) }
 
-    create("client") { 
+    create("client") {
         systemProperty("neoforge.enableGameTestNamespace", modId) 
         jvmArguments("-XX:+AllowEnhancedClassRedefinition")
     }
@@ -44,7 +44,7 @@ runs {
         jvmArguments("-XX:+AllowEnhancedClassRedefinition")
     }
 
-    create("gameTestServer") { 
+    create("gameTestServer") {
         systemProperty("neoforge.enabledGameTestNamespaces", modId)
         jvmArguments("-XX:+AllowEnhancedClassRedefinition")
     }
@@ -68,8 +68,8 @@ dependencies {
     implementation("net.neoforged:neoforge:$neoVersion")
     implementation("thedarkcolour:kotlinforforge-neoforge:$kffVersion")
     compileOnly(project(":common"))
-    compileOnly(project(":MultiLib:neoforge"))
-    jarJar(project(":MultiLib:neoforge"))
+    compileOnly(project(":MultiLib:ml_neoforge"))
+    jarJar(project(":MultiLib:ml_neoforge"))
 }
 
 val notNeoTask: Spec<Task> = Spec { it: Task -> !it.name.startsWith("neo") }

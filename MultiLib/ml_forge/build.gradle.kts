@@ -37,6 +37,7 @@ minecraft {
 
     runs {
         create("client") {
+            taskName = "Forge: Client (MultiLib)"
             workingDirectory(project.file("run"))
             ideaModule("${rootProject.name}.${project.name}.main")
             taskName("Client")
@@ -52,6 +53,7 @@ minecraft {
         }
 
         create("server") {
+            taskName = "Forge: Server (MultiLib)"
             workingDirectory(project.file("run"))
             ideaModule("${rootProject.name}.${project.name}.main")
             taskName("Server")
@@ -67,6 +69,7 @@ minecraft {
         }
 
         create("data") {
+            taskName = "Forge: Data (MultiLib)"
             workingDirectory(project.file("run"))
             ideaModule("${rootProject.name}.${project.name}.main")
             args("--mod", modId, "--all", "--output", file("src/generated/resources/"), "--existing", file("src/main/resources/"))

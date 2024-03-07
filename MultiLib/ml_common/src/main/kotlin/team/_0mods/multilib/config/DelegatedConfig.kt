@@ -24,15 +24,20 @@
 
 package team._0mods.multilib.config
 
-import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
-class DelegatedConfig<T>(private val cfgFile: String, private val fieldName: String, private val value: () -> T): ReadWriteProperty<String, T> {
-    override fun getValue(thisRef: String, property: KProperty<*>): T {
-        TODO("Not yet implemented")
-    }
+class ConfigSettings {
+    var fileName: String = "config"
+}
 
-    override fun setValue(thisRef: String, property: KProperty<*>, value: T) {
-        TODO("Not yet implemented")
+abstract class DelegatedConfig<T: BaseValue<*>>(private var value: (ConfigSettings) -> T) {
+    private val config by lazy { ConfigSettings() }
+
+    operator fun getValue(thisRef: String, property: KProperty<*>) = value(config)
+
+    operator fun setValue(thisRef: String, property: KProperty<*>, value: T) {
+        this.value = { value }
     }
 }
+
+class ConfigDelegate<T: BaseValue<*>>(val cfg: (ConfigSettings) -> DelegatedConfig<T>) : (ConfigSettings) -> DelegatedConfig<T> by cfg

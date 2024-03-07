@@ -31,8 +31,8 @@ subsystems.parchment {
 runs {
     configureEach { modSource(project.sourceSets.main.get()) }
 
-    create("client") { 
-        systemProperty("neoforge.enableGameTestNamespace", modId) 
+    create("client") {
+        systemProperty("neoforge.enableGameTestNamespace", modId)
         jvmArguments("-XX:+AllowEnhancedClassRedefinition")
     }
 
@@ -42,7 +42,7 @@ runs {
         jvmArguments("-XX:+AllowEnhancedClassRedefinition")
     }
 
-    create("gameTestServer") { 
+    create("gameTestServer") {
         systemProperty("neoforge.enabledGameTestNamespaces", modId)
         jvmArguments("-XX:+AllowEnhancedClassRedefinition")
     }
