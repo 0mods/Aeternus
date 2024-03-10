@@ -46,7 +46,7 @@ minecraft {
             mods {
                 create("modRun") {
                     source(sourceSets.main.get())
-                    source(project(":common").sourceSets.main.get())
+                    source(project(":MultiLib:ml_common").sourceSets.main.get())
                 }
             }
             jvmArgs("-XX:+AllowEnhancedClassRedefinition")
@@ -62,7 +62,7 @@ minecraft {
             mods {
                 create("modServerRun") {
                     source(sourceSets.main.get())
-                    source(project(":common").sourceSets.main.get())
+                    source(project(":MultiLib:ml_common").sourceSets.main.get())
                 }
             }
             jvmArgs("-XX:+AllowEnhancedClassRedefinition")
@@ -79,7 +79,7 @@ minecraft {
             mods {
                 create("modDataRun") {
                     source(sourceSets.main.get())
-                    source(project(":common").sourceSets.main.get())
+                    source(project(":MultiLib:ml_common").sourceSets.main.get())
                 }
             }
         }
@@ -95,17 +95,17 @@ dependencies {
     minecraft("net.minecraftforge:forge:${minecraftVersion}-${forgeVersion}")
     implementation("thedarkcolour:kotlinforforge:$kffVersion")
     jarJar("thedarkcolour:kotlinforforge:$kffVersion") { jarJar.ranged(this, "[$kffVersion,)") }
-    compileOnly(project(":common"))
+    compileOnly(project(":MultiLib:ml_common"))
 }
 
 tasks {
-    withType<KotlinCompile> { source(project(":common").sourceSets.main.get().allSource) }
+    withType<KotlinCompile> { source(project(":MultiLib:ml_common").sourceSets.main.get().allSource) }
 
-    javadoc { source(project(":common").sourceSets.main.get().allJava) }
+    javadoc { source(project(":MultiLib:ml_common").sourceSets.main.get().allJava) }
 
-    named("sourcesJar", Jar::class) { from(project(":common").sourceSets.main.get().allSource) }
+    named("sourcesJar", Jar::class) { from(project(":MultiLib:ml_common").sourceSets.main.get().allSource) }
 
-    processResources { from(project(":common").sourceSets.main.get().resources) }
+    processResources { from(project(":MultiLib:ml_common").sourceSets.main.get().resources) }
 
     jar { finalizedBy("reobfJar") }
 }

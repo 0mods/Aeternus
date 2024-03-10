@@ -34,7 +34,7 @@ import team._0mods.multilib.client.hooks.ScreenAccess
 
 interface ScreenEvent {
     companion object {
-        @JvmField /* no getter generate */ val RENDER_GUI_OVERLAY = EventFactory.createNoResult<PostRenderGuiOverlay>()
+        @JvmField val RENDER_HUD = EventFactory.createNoResult<RenderHud>()
 
         @JvmField val DEBUG_LEFT = EventFactory.createNoResult<DebugText>()
         @JvmField val DEBUG_RIGHT = EventFactory.createNoResult<DebugText>()
@@ -51,7 +51,7 @@ interface ScreenEvent {
         @JvmField val SET_SCREEN = EventFactory.createNoResult<SetScreen>()
     }
 
-    fun interface PostRenderGuiOverlay {
+    fun interface RenderHud {
         fun render(stack: GuiGraphics, partialTick: Float)
     }
 

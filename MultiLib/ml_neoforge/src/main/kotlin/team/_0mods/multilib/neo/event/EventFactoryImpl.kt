@@ -22,10 +22,10 @@
  * SOFTWARE.
  */
 
-package team._0mods.multilib.forge.event
+package team._0mods.multilib.neo.event
 
-import net.minecraftforge.common.MinecraftForge
-import net.minecraftforge.eventbus.api.Event as ForgeEvent
+import net.neoforged.bus.api.ICancellableEvent
+import net.neoforged.bus.api.Event as ForgeEvent
 import org.jetbrains.annotations.ApiStatus
 import team._0mods.multilib.event.base.Event
 import team._0mods.multilib.event.core.*
@@ -37,7 +37,7 @@ internal object EventFactoryImpl: EventFactory() {
     override fun <T> attachToForge(evt: Event<Consumer<T>>): Event<Consumer<T>> {
         evt.register {
             if (it !is ForgeEvent) throw ClassCastException("${it!!::class.java} is not an instance of forge Event!")
-            MinecraftForge.EVENT_BUS.post(it)
+            NeoForge.EVENT_BUS.post(it)
         }
         return evt
     }
@@ -46,7 +46,7 @@ internal object EventFactoryImpl: EventFactory() {
     override fun <T> attachToForgeEventActor(evt: Event<EventActor<T>>): Event<EventActor<T>> {
         evt.register {
             if (it !is ForgeEvent) throw ClassCastException("${it!!::class.java} is not an instance of forge Event!")
-            if (!it.isCancelable) throw ClassCastException("${it!!::class.java} is not cancellable Event!")
+            if (it !is ICancellableEvent) throw ClassCastException("${it!!::class.java} is not cancellable Event!")
             return@register EventResult.pass()
         }
         return evt
@@ -56,8 +56,8 @@ internal object EventFactoryImpl: EventFactory() {
     override fun <T> attachToForgeEventActorCancellable(evt: Event<EventActor<T>>): Event<EventActor<T>> {
         evt.register {
             if (it !is ForgeEvent) throw ClassCastException("${it!!::class.java} is not an instance of forge Event!")
-            if (!it.isCancelable) throw ClassCastException("${it!!::class.java} is not cancellable Event!")
-            if (MinecraftForge.EVENT_BUS.post(it)) return@register EventResult.result(false)
+            if (it !is ICancellableEvent) throw ClassCastException("${it!!::class.java} is not cancellable Event!")
+            if (NeoForge.EVENT_BUS.post(it).isCanceled) return@register EventResult.result(false)
             return@register EventResult.pass()
         }
         return evt

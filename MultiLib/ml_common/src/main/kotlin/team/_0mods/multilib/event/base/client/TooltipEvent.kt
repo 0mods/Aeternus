@@ -36,10 +36,10 @@ import team._0mods.multilib.impl.TooltipAdditionalContext
 
 interface TooltipEvent {
     companion object {
-        @JvmField val ITEM = EventFactory.createNoResult<team._0mods.multilib.event.base.client.TooltipEvent.Item>()
-        @JvmField val RENDER_PRE = EventFactory.createEventResult<team._0mods.multilib.event.base.client.TooltipEvent.Render>()
-        @JvmField val RENDER_MODIFY_POS = EventFactory.createNoResult<team._0mods.multilib.event.base.client.TooltipEvent.RenderModifyPosition>()
-        @JvmField val RENDER_MODIFY_COLOR = EventFactory.createNoResult<team._0mods.multilib.event.base.client.TooltipEvent.RenderModifyColor>()
+        @JvmField val ITEM = EventFactory.createNoResult<Item>()
+        @JvmField val RENDER_PRE = EventFactory.createEventResult<Render>()
+        @JvmField val RENDER_MODIFY_POS = EventFactory.createNoResult<RenderModifyPosition>()
+        @JvmField val RENDER_MODIFY_COLOR = EventFactory.createNoResult<RenderModifyColor>()
 
         @JvmStatic fun additionalContext() = TooltipAdditionalContext.get()
     }
@@ -50,7 +50,7 @@ interface TooltipEvent {
     }
 
     fun interface Item {
-        fun append(stack: ItemStack, lines: List<Component>, flag: TooltipFlag)
+        fun append(stack: ItemStack, flag: TooltipFlag, lines: List<Component>)
     }
 
     fun interface Render {
@@ -58,11 +58,11 @@ interface TooltipEvent {
     }
 
     fun interface RenderModifyPosition {
-        fun renderTooltip(graphics: GuiGraphics, context: team._0mods.multilib.event.base.client.TooltipEvent.PositionContext)
+        fun renderTooltip(graphics: GuiGraphics, context: PositionContext)
     }
 
     fun interface RenderModifyColor {
-        fun renderTooltip(graphics: GuiGraphics, x: Int, y: Int, context: team._0mods.multilib.event.base.client.TooltipEvent.ColorContext)
+        fun renderTooltip(graphics: GuiGraphics, x: Int, y: Int, context: ColorContext)
     }
 
     interface PositionContext {

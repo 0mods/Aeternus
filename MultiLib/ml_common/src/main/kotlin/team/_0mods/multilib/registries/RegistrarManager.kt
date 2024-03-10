@@ -41,7 +41,7 @@ interface AbstractRegistryProvider {
     fun get(modid: String): RegistrarManager.RegistrarProvider
 }
 
-class RegistrarManager private constructor(private val modId: String) {
+class RegistrarManager private constructor(modId: String) {
     companion object {
         private val MANAGER = ConcurrentHashMap<String, RegistrarManager>()
 

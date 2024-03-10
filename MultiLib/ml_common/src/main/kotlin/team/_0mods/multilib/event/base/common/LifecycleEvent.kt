@@ -31,20 +31,20 @@ import team._0mods.multilib.event.core.EventFactory
 
 interface LifecycleEvent {
     companion object {
-        @JvmField val SERVER_ABOUT_TO_START = EventFactory.createNoResult<team._0mods.multilib.event.base.common.LifecycleEvent.ServerState>()
-        @JvmField val SERVER_STARTING = EventFactory.createNoResult<team._0mods.multilib.event.base.common.LifecycleEvent.ServerState>()
-        @JvmField val SERVER_STARTED = EventFactory.createNoResult<team._0mods.multilib.event.base.common.LifecycleEvent.ServerState>()
-        @JvmField val SERVER_STOPPING = EventFactory.createNoResult<team._0mods.multilib.event.base.common.LifecycleEvent.ServerState>()
-        @JvmField val SERVER_STOPPED = EventFactory.createNoResult<team._0mods.multilib.event.base.common.LifecycleEvent.ServerState>()
-        @JvmField val SERVER_LEVEL_LOAD = EventFactory.createNoResult<team._0mods.multilib.event.base.common.LifecycleEvent.ServerLevelState>()
-        @JvmField val SERVER_LEVEL_UNLOAD = EventFactory.createNoResult<team._0mods.multilib.event.base.common.LifecycleEvent.ServerLevelState>()
-        @JvmField val SERVER_LEVEL_SAVE = EventFactory.createNoResult<team._0mods.multilib.event.base.common.LifecycleEvent.ServerLevelState>()
+        @JvmField val SERVER_ABOUT_TO_START = EventFactory.createNoResult<ServerState>()
+        @JvmField val SERVER_STARTING = EventFactory.createNoResult<ServerState>()
+        @JvmField val SERVER_STARTED = EventFactory.createNoResult<ServerState>()
+        @JvmField val SERVER_STOPPING = EventFactory.createNoResult<ServerState>()
+        @JvmField val SERVER_STOPPED = EventFactory.createNoResult<ServerState>()
+        @JvmField val SERVER_LEVEL_LOAD = EventFactory.createNoResult<ServerLevelState>()
+        @JvmField val SERVER_LEVEL_UNLOAD = EventFactory.createNoResult<ServerLevelState>()
+        @JvmField val SERVER_LEVEL_SAVE = EventFactory.createNoResult<ServerLevelState>()
         @JvmField val SETUP = EventFactory.createNoResult<Runnable>()
     }
 
-    fun interface ServerState: team._0mods.multilib.event.base.common.LifecycleEvent.InstanceState<MinecraftServer>
+    fun interface ServerState: InstanceState<MinecraftServer>
 
-    fun interface ServerLevelState: team._0mods.multilib.event.base.common.LifecycleEvent.LevelState<ServerLevel>
+    fun interface ServerLevelState: LevelState<ServerLevel>
 
     fun interface InstanceState<T> {
         fun onChanged(instance: T)

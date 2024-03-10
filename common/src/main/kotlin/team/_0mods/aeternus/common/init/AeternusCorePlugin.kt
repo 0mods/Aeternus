@@ -34,5 +34,6 @@ class AeternusCorePlugin: AeternusPlugin {
 
     override fun registerResearchTriggers(reg: ResearchTriggerRegistry) {
         triggerRegistry = reg
+        LOGGER.info("Research Triggers Registry is initialized")
     }
 }

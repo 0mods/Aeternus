@@ -8,19 +8,19 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package team._0mods.multilib.forge.event
+package team._0mods.multilib.neo.event
 
 import net.minecraft.client.Minecraft
 import net.minecraft.client.multiplayer.ClientLevel
-import net.minecraftforge.client.event.ClientChatEvent as ForgeChat
-import net.minecraftforge.client.event.*
-import net.minecraftforge.client.event.InputEvent as ForgeInput
-import net.minecraftforge.event.TickEvent as Formultilibick
-import net.minecraftforge.client.event.ScreenEvent as ForgeScreen
-import net.minecraftforge.event.entity.player.*
-import net.minecraftforge.event.level.*
-import net.minecraftforge.eventbus.api.*
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
+import net.neoforged.neoforge.client.event.ClientChatEvent as ForgeChat
+import net.neoforged.neoforge.client.event.*
+import net.neoforged.neoforge.client.event.InputEvent as ForgeInput
+import net.neoforged.neoforge.event.TickEvent as ForgeTick
+import net.neoforged.neoforge.client.event.ScreenEvent as ForgeScreen
+import net.neoforged.neoforge.event.entity.player.*
+import net.neoforged.neoforge.event.level.*
+import net.neoforged.bus.api.*
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent
 import team._0mods.multilib.client.screen.ScreenAccessImpl
 import team._0mods.multilib.event.base.client.*
 import team._0mods.multilib.event.base.common.InteractionEvent
@@ -35,10 +35,10 @@ class ClientEventsHandler {
     }
 
     @SubscribeEvent(priority = EventPriority.HIGH)
-    fun tick(event: Formultilibick.ClientTickEvent) {
-        if (event.phase == Formultilibick.Phase.START)
+    fun tick(event: ForgeTick.ClientTickEvent) {
+        if (event.phase == ForgeTick.Phase.START)
             ClientTickEvent.CLIENT_PRE.event.tick(Minecraft.getInstance())
-        else if (event.phase == Formultilibick.Phase.END) ClientTickEvent.CLIENT_POST.event.tick(Minecraft.getInstance())
+        else if (event.phase == ForgeTick.Phase.END) ClientTickEvent.CLIENT_POST.event.tick(Minecraft.getInstance())
     }
 
     @SubscribeEvent(priority = EventPriority.HIGH)
@@ -182,13 +182,13 @@ class ClientEventsHandler {
 
     @SubscribeEvent(priority = EventPriority.HIGH)
     fun mousePreScroll(e: ForgeScreen.MouseScrolled.Pre) {
-        if (ScreenInputEvent.MOUSE_SCROLLED_PRE.event.onScroll(Minecraft.getInstance(), e.screen, e.mouseX, e.mouseY, e.deltaX, e.deltaY).isFalse)
+        if (ScreenInputEvent.MOUSE_SCROLLED_PRE.event.onScroll(Minecraft.getInstance(), e.screen, e.mouseX, e.mouseY, e.scrollDeltaX, e.scrollDeltaY).isFalse)
             e.isCanceled = true
     }
 
     @SubscribeEvent(priority = EventPriority.HIGH)
     fun mousePostScroll(e: ForgeScreen.MouseScrolled.Post) {
-        ScreenInputEvent.MOUSE_SCROLLED_POST.event.onScroll(Minecraft.getInstance(), e.screen, e.mouseX, e.mouseY, e.deltaX, e.deltaY)
+        ScreenInputEvent.MOUSE_SCROLLED_POST.event.onScroll(Minecraft.getInstance(), e.screen, e.mouseX, e.mouseY, e.scrollDeltaX, e.scrollDeltaY)
     }
 
     @SubscribeEvent(priority = EventPriority.HIGH)
@@ -259,7 +259,7 @@ class ClientEventsHandler {
 
     @SubscribeEvent(priority = EventPriority.HIGH)
     fun input(e: ForgeInput.MouseScrollingEvent) {
-        if (InputEvent.MOUSE_SCROLL.event.onScroll(Minecraft.getInstance(), e.deltaX, e.deltaY).isFalse)
+        if (InputEvent.MOUSE_SCROLL.event.onScroll(Minecraft.getInstance(), e.scrollDeltaX, e.scrollDeltaY).isFalse)
             e.isCanceled = true
     }
 

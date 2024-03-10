@@ -20,6 +20,7 @@ import team._0mods.aeternus.api.magic.research.Research
 import team._0mods.multilib.registries.DeferredRegister
 import team._0mods.multilib.util.resloc
 import team._0mods.aeternus.common.ModId
+import team._0mods.multilib.registries.reg
 
 object AeternusRegsitry {
     private val items = DeferredRegister.create(Registries.ITEM, ModId)
@@ -30,7 +31,7 @@ object AeternusRegsitry {
     val researchRK: ResourceKey<Registry<Research>> = ResourceKey.createRegistryKey(resloc(ModId, "research"))
 
     /* ITEMS */
-    val knowledgeBook = items.register("knowledge_book") { Item(Item.Properties()) }
+    val knowledgeBook by items.reg("knowledge_book") { Item(Item.Properties()) }
 
     /* BLOCKS */
 

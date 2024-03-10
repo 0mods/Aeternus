@@ -37,8 +37,8 @@ import java.util.*
 import java.util.function.Supplier
 
 class DeferredRegister<T> private constructor(
-    private val regSup: Supplier<RegistrarManager>,
-    private val key: ResourceKey<Registry<T>>,
+    regSup: Supplier<RegistrarManager>,
+    key: ResourceKey<Registry<T>>,
     private var modId: String?
 ): Iterable<RegistrySupplier<T>> {
     companion object {
@@ -61,6 +61,7 @@ class DeferredRegister<T> private constructor(
         return register("$modId:$id".rl, supplier)
     }
 
+    @Deprecated("Want to move to private")
     fun <R: T> register(id: ResourceLocation, supplier: Supplier<out R>): RegistrySupplier<R> {
         val entry = RegistryEntry(id, supplier as Supplier<T>)
         this.entries.add(entry)
@@ -73,8 +74,7 @@ class DeferredRegister<T> private constructor(
     }
 
     fun register() {
-        if (registered)
-            throw IllegalStateException("Cannot register a deferred register twice!")
+        if (registered) throw IllegalStateException("Cannot register a deferred register twice!")
 
         registered = true
         val reg = this.registrar
