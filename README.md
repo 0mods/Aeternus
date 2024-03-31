@@ -7,4 +7,4 @@
 <div align="center">I want to note that the mod will add the mechanics of "character leveling", which will make the mod more difficult. The level will be obtained through various rituals. Also, I want to add that without a certain level, you will not be able to use this or that item or block until you reach it. For example: You have an item that requires the "Pre-High" level, and you have the "Medium" level - you will not be able to use this item until you reach the "Pre-High" level, but if you have "High" level, you can use item</div>
 
 ## <div align="center"> <img src=https://i.imgur.com/GGP7BvT.png alt="logo"> </div>
-## <div align="center"> No compact at ths time... </div>
+## <div align="center"> No compact at this time... </div>

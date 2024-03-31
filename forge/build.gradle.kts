@@ -98,8 +98,6 @@ dependencies {
     implementation("thedarkcolour:kotlinforforge:$kffVersion")
     jarJar("thedarkcolour:kotlinforforge:$kffVersion") { jarJar.ranged(this, "[$kffVersion,)") }
     compileOnly(project(":common"))
-    compileOnly(project(":MultiLib:ml_forge"))
-    jarJar(project(":MultiLib:ml_forge"))
 }
 
 tasks {

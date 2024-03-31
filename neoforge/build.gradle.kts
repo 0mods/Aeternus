@@ -18,7 +18,7 @@ val modAuthor: String by project
 val modId: String by project
 
 base {
-    archivesName = "${modName}-neo-${minecraftVersion}"
+    archivesName.set("${modName}-neo-${minecraftVersion}")
 }
 
 val transformerFile = file("src/main/resources/META-INF/accesstransformer.cfg")
@@ -68,8 +68,6 @@ dependencies {
     implementation("net.neoforged:neoforge:$neoVersion")
     implementation("thedarkcolour:kotlinforforge-neoforge:$kffVersion")
     compileOnly(project(":common"))
-    compileOnly(project(":MultiLib:ml_neoforge"))
-    jarJar(project(":MultiLib:ml_neoforge"))
 }
 
 val notNeoTask: Spec<Task> = Spec { it: Task -> !it.name.startsWith("neo") }

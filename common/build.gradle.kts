@@ -12,7 +12,7 @@ val modName: String by project
 val modId: String by project
 
 base {
-    archivesName = "${modName}-common-${minecraftVersion}"
+    archivesName.set("${modName}-common-${minecraftVersion}")
 }
 
 minecraft {
@@ -23,18 +23,7 @@ minecraft {
 
 dependencies {
     compileOnly("org.spongepowered:mixin:0.8.5")
-    compileOnly(project(":MultiLib:ml_common"))
 //    implementation("com.google.code.findbugs:jsr305:3.0.1")
-}
-
-tasks {
-    withType<KotlinCompile> { source(project(":MultiLib:ml_common").sourceSets.main.get().allSource) }
-
-    javadoc { source(project(":MultiLib:ml_common").sourceSets.main.get().allJava) }
-
-    named("sourcesJar", Jar::class) { from(project(":MultiLib:ml_common").sourceSets.main.get().allSource) }
-
-    processResources { from(project(":MultiLib:ml_common").sourceSets.main.get().resources) }
 }
 
 publishing {
