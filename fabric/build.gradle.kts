@@ -41,9 +41,11 @@ dependencies {
 }
 
 loom {
-
-    if (project(":common").file("src/main/resources/${modId}.accesswidener").exists())
-        accessWidenerPath.set(project(":common").file("src/main/resources/${modId}.accesswidener"))
+    val fileAW = project(":common").file("src/main/resources/${modId}.accesswidener")
+    if (fileAW.exists()) {
+        println("Common AccessWidener is founded")
+        accessWidenerPath.set(fileAW)
+    }
 
     @Suppress("UnstableApiUsage")
     mixin { defaultRefmapName.set("${modId}.refmap.json") }

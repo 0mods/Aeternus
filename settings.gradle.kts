@@ -6,7 +6,7 @@ pluginManagement {
         maven("https://maven.parchmentmc.org")
         maven("https://maven.fabricmc.net/")
         maven("https://repo.spongepowered.org/repository/maven-public/")
-        maven("https://maven.neoforged.net/releases/")
+        maven("https://maven.neoforged.net/")
     }
     resolutionStrategy {
         eachPlugin {
@@ -27,4 +27,4 @@ plugins {
 }
 
 rootProject.name = "Aeternus"
-include("common", "fabric"/*, "neoforge"*/, "forge")
+include("common", "fabric", "neoforge", "forge")

@@ -15,22 +15,23 @@
     "main": [
       {
         "adapter": "kotlin",
-        "value": "team._0mods.${modId}.fabric.AeternusFabric::startCommon"
+        "value": "team._0mods.${modId}.fabric.${modName}Fabric::startCommon"
       }
     ],
     "client": [
       {
         "adapter": "kotlin",
-        "value": "team._0mods.${modId}.fabric.AeternusFabric::startClient"
+        "value": "team._0mods.${modId}.fabric.${modName}Fabric::startClient"
       }
     ],
-    "aeternus_plugin": [
+    "${modId}_plugin": [
       "team._0mods.${modId}.init.AeternusCorePlugin"
     ]
   },
   "mixins": [
     "${modId}.mixins.json",
-    "${modId}.fabric.mixins.json"
+    "${modId}.fabric.mixins.json",
+    "multilib.fabric.mixins.json"
   ],
 
   "depends": {

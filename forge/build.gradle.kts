@@ -34,9 +34,10 @@ minecraft {
     copyIdeResources = true
 
     val transformerFile = file("src/main/resources/META-INF/accesstransformer.cfg")
-    if (transformerFile.exists())
+    if (transformerFile.exists()) {
+        println("Founded Forge assets transformer!")
         accessTransformer(transformerFile)
-
+    }
     runs {
         create("client") {
             taskName = "Forge: Client (Aeternus)"

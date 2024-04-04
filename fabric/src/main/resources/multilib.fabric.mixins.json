@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "team._0mods.multilib.fabric.mixin",
+  "refmap": "${modId}.refmap.json",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "BiomeAccessor"
+  ],
+  "client": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

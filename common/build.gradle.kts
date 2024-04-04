@@ -17,8 +17,10 @@ base {
 
 minecraft {
     version(minecraftVersion)
-    if (file("src/main/resources/${modId}.accesswidener").exists())
+    if (file("src/main/resources/${modId}.accesswidener").exists()) {
+        println("Common AccessWidener is founded")
         accessWideners("src/main/resources/${modId}.accesswidener")
+    }
 }
 
 dependencies {

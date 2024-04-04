@@ -29,11 +29,12 @@ import team._0mods.multilib.event.core.EventHandler
 import team._0mods.multilib.client.hooks.ScreenHooks
 import team._0mods.multilib.forge.event.EventFactoryImpl
 import team._0mods.multilib.forge.event.EventHandlerImpl
+import team._0mods.multilib.forge.screen.ScreenHooksImpl
 import team._0mods.multilib.service.core.EventHelper
 
 class ForgeEventHelper: EventHelper {
     override val screenHooks: ScreenHooks
-        get() = TODO("Not yet implemented")
+        get() = ScreenHooksImpl()
 
     override val eventHandler: EventHandler
         get() = EventHandlerImpl

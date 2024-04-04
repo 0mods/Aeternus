@@ -10,25 +10,25 @@
 
 package team._0mods.multilib.neo.event
 
-import net.minecraftforge.api.distmarker.Dist
-import net.minecraftforge.api.distmarker.OnlyIn
-import net.minecraftforge.common.MinecraftForge
+import net.neoforged.api.distmarker.Dist
+import net.neoforged.api.distmarker.OnlyIn
+import net.neoforged.neoforge.common.NeoForge
 import team._0mods.multilib.ModId
 import team._0mods.multilib.event.core.EventHandler
-import team._0mods.multilib.forge.bus.ForgeEventBusHelper
+import team._0mods.multilib.neo.bus.NeoEventBusHelper
 
 object EventHandlerImpl: EventHandler() {
     @OnlyIn(Dist.CLIENT)
     override fun registerClient() {
-        MinecraftForge.EVENT_BUS.register(ClientEventsHandler::class.java)
-        ForgeEventBusHelper.whenAvailable(ModId) {
+        NeoForge.EVENT_BUS.register(ClientEventsHandler::class.java)
+        NeoEventBusHelper.whenAvailable(ModId) {
             it.register(ClientEventsHandler.ModEventHandler::class.java)
         }
     }
 
     override fun registerCommon() {
-        MinecraftForge.EVENT_BUS.register(CommonEventsHandler::class.java)
-        ForgeEventBusHelper.whenAvailable(ModId) {
+        NeoForge.EVENT_BUS.register(CommonEventsHandler::class.java)
+        NeoEventBusHelper.whenAvailable(ModId) {
             it.register(CommonEventsHandler.ModEventHandler::class.java)
         }
     }

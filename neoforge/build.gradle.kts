@@ -5,10 +5,8 @@ plugins {
     eclipse
     `maven-publish`
     kotlin("jvm")
-    id("net.neoforged.gradle.userdev") version "[7.0,8.0)"
+    id("net.neoforged.gradle.userdev") version "7.0.97"
 }
-
-jarJar.enable()
 
 val parchmentMCVersion: String by project
 val parchmentVersion: String by project
@@ -22,8 +20,10 @@ base {
 }
 
 val transformerFile = file("src/main/resources/META-INF/accesstransformer.cfg")
-if (transformerFile.exists())
+if (transformerFile.exists()) {
+    println("Founded NeoForge assets transformer!")
     minecraft.accessTransformers.file(transformerFile)
+}
 
 subsystems.parchment {
     minecraftVersion(parchmentMCVersion)
@@ -70,7 +70,7 @@ dependencies {
     compileOnly(project(":common"))
 }
 
-val notNeoTask: Spec<Task> = Spec { it: Task -> !it.name.startsWith("neo") }
+val notNeoTask: Spec<Task> = Spec { !it.name.startsWith("neo") }
 
 tasks {
     withType<KotlinCompile>().matching(notNeoTask).configureEach {

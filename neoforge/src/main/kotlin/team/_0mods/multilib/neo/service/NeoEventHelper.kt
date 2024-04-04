@@ -24,18 +24,19 @@
 
 package team._0mods.multilib.neo.service
 
-import team._0mods.multilib.event.core.EventFactory
-import team._0mods.multilib.event.core.EventHandler
+import team._0mods.multilib.event.core.*
 import team._0mods.multilib.client.hooks.ScreenHooks
+import team._0mods.multilib.neo.event.*
+import team._0mods.multilib.neo.screen.ScreenHooksImpl
 import team._0mods.multilib.service.core.EventHelper
 
 class NeoEventHelper: EventHelper {
     override val screenHooks: ScreenHooks
-        get() = TODO("Not yet implemented")
+        get() = ScreenHooksImpl()
 
     override val eventHandler: EventHandler
-        get() = TODO("Not yet implemented")
+        get() = EventHandlerImpl
 
     override val eventFactory: EventFactory
-        get() = TODO("Not yet implemented")
+        get() = EventFactoryImpl
 }
