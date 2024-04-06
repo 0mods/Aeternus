@@ -23,13 +23,13 @@ import net.minecraftforge.eventbus.api.IEventBus
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.registries.*
 import org.slf4j.LoggerFactory
+import team._0mods.multilib.forge.bus.ForgeEventBusHelper
 import team._0mods.multilib.registries.*
 import team._0mods.multilib.registries.impl.RegistrySupplierImpl
 import team._0mods.multilib.registries.option.DefaultIdRegistrarOption
 import team._0mods.multilib.registries.option.RegistrarOption
 import team._0mods.multilib.registries.option.StandardRegistrarOption
 import team._0mods.multilib.util.set
-import team._0mods.multilib.forge.bus.ForgeEventBusHelper
 import java.util.*
 import java.util.function.Consumer
 import java.util.function.Supplier

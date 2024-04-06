@@ -24,9 +24,11 @@
 
 package team._0mods.multilib.neo.service
 
-import team._0mods.multilib.event.core.*
 import team._0mods.multilib.client.hooks.ScreenHooks
-import team._0mods.multilib.neo.event.*
+import team._0mods.multilib.event.core.EventFactory
+import team._0mods.multilib.event.core.EventHandler
+import team._0mods.multilib.neo.event.EventFactoryImpl
+import team._0mods.multilib.neo.event.EventHandlerImpl
 import team._0mods.multilib.neo.screen.ScreenHooksImpl
 import team._0mods.multilib.service.core.EventHelper
 

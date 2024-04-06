@@ -12,9 +12,9 @@
 
 package team._0mods.aeternus.fabric
 
-import team._0mods.aeternus.fabric.init.AFRegistryHandler
 import team._0mods.aeternus.common.LOGGER
 import team._0mods.aeternus.common.commonInit
+import team._0mods.aeternus.fabric.init.AFRegistryHandler
 import team._0mods.aeternus.fabric.init.PluginHolder
 
 fun startCommon() {

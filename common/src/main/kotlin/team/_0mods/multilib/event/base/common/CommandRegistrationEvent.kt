@@ -32,7 +32,7 @@ import team._0mods.multilib.event.core.EventFactory
 
 fun interface CommandRegistrationEvent {
     companion object {
-        @JvmField val EVENT = EventFactory.createNoResult<team._0mods.multilib.event.base.common.CommandRegistrationEvent>()
+        @JvmField val EVENT = EventFactory.createNoResult<CommandRegistrationEvent>()
     }
 
     fun register(dispatcher: CommandDispatcher<CommandSourceStack>, registry: CommandBuildContext, selection: CommandSelection)

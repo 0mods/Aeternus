@@ -10,8 +10,8 @@
 
 package team._0mods.aeternus.common.init
 
-import team._0mods.aeternus.api.AeternusPluginInit
 import team._0mods.aeternus.api.AeternusPlugin
+import team._0mods.aeternus.api.AeternusPluginInit
 import team._0mods.aeternus.api.registry.ResearchRegistry
 import team._0mods.aeternus.api.registry.ResearchTriggerRegistry
 import team._0mods.aeternus.common.LOGGER

@@ -12,8 +12,8 @@ package team._0mods.aeternus.neo.init
 
 import com.mojang.logging.LogUtils
 import net.neoforged.fml.ModList
-import team._0mods.aeternus.api.AeternusPluginInit
 import team._0mods.aeternus.api.AeternusPlugin
+import team._0mods.aeternus.api.AeternusPluginInit
 import team._0mods.aeternus.common.impl.registry.ResearchRegistryImpl
 
 object PluginHolder {

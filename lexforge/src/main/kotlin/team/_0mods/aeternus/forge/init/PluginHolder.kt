@@ -11,10 +11,11 @@
 package team._0mods.aeternus.forge.init
 
 import com.mojang.logging.LogUtils
-
 import net.minecraftforge.fml.ModList
-import team._0mods.aeternus.api.*
-import team._0mods.aeternus.common.impl.registry.*
+import team._0mods.aeternus.api.AeternusPlugin
+import team._0mods.aeternus.api.AeternusPluginInit
+import team._0mods.aeternus.common.impl.registry.ResearchRegistryImpl
+import team._0mods.aeternus.common.impl.registry.ResearchTriggerRegistryImpl
 
 object PluginHolder {
     private val logger = LogUtils.getLogger()

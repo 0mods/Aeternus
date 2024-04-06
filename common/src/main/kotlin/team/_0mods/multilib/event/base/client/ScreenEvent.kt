@@ -27,10 +27,10 @@ package team._0mods.multilib.event.base.client
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen
+import team._0mods.multilib.client.hooks.ScreenAccess
 import team._0mods.multilib.event.core.EventFactory
 import team._0mods.multilib.event.result.EventResult
 import team._0mods.multilib.event.result.EventResultHolder
-import team._0mods.multilib.client.hooks.ScreenAccess
 
 interface ScreenEvent {
     companion object {

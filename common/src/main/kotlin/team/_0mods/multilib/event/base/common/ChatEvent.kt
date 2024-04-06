@@ -31,12 +31,12 @@ import team._0mods.multilib.event.result.EventResult
 
 interface ChatEvent {
     companion object {
-        @JvmField val DECORATE = EventFactory.createNoResult<team._0mods.multilib.event.base.common.ChatEvent.Decorate>()
-        @JvmField val RECEIVED = EventFactory.createEventResult<team._0mods.multilib.event.base.common.ChatEvent.Received>()
+        @JvmField val DECORATE = EventFactory.createNoResult<Decorate>()
+        @JvmField val RECEIVED = EventFactory.createEventResult<Received>()
     }
 
     fun interface Decorate {
-        fun decode(player: ServerPlayer, component: team._0mods.multilib.event.base.common.ChatEvent.ChatComponent)
+        fun decode(player: ServerPlayer, component: ChatComponent)
     }
 
     fun interface Received {

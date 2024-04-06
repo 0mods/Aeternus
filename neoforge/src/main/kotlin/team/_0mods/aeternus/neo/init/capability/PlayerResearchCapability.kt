@@ -10,9 +10,9 @@
 
 package team._0mods.aeternus.neo.init.capability
 
-import team._0mods.aeternus.common.LOGGER
-import team._0mods.aeternus.api.magic.research.player.PlayerResearch
 import team._0mods.aeternus.api.magic.research.Research
+import team._0mods.aeternus.api.magic.research.player.PlayerResearch
+import team._0mods.aeternus.common.LOGGER
 
 class PlayerResearchCapability: PlayerResearch {
     private val researchList: MutableList<Research> = mutableListOf()

@@ -26,7 +26,6 @@ package team._0mods.multilib.forge.service
 
 import net.minecraftforge.fml.ModList
 import net.minecraftforge.fml.loading.FMLEnvironment
-import net.minecraftforge.fml.util.thread.SidedThreadGroups
 import team._0mods.multilib.service.core.PlatformHelper
 import kotlin.jvm.optionals.getOrNull
 

@@ -36,9 +36,9 @@ import team._0mods.multilib.util.IntValue
 
 interface BlockEvent {
     companion object {
-        @JvmField val BREAK = EventFactory.createEventResult<team._0mods.multilib.event.base.common.BlockEvent.Break>()
-        @JvmField val PLACE = EventFactory.createEventResult<team._0mods.multilib.event.base.common.BlockEvent.Place>()
-        @JvmField val FALLING_LAND = EventFactory.createNoResult<team._0mods.multilib.event.base.common.BlockEvent.FallingLand>()
+        @JvmField val BREAK = EventFactory.createEventResult<Break>()
+        @JvmField val PLACE = EventFactory.createEventResult<Place>()
+        @JvmField val FALLING_LAND = EventFactory.createNoResult<FallingLand>()
     }
 
     fun interface Break {

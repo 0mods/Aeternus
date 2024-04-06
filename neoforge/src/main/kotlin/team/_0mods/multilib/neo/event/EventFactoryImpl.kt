@@ -26,12 +26,13 @@ package team._0mods.multilib.neo.event
 
 import net.neoforged.bus.api.ICancellableEvent
 import net.neoforged.neoforge.common.NeoForge
-import net.neoforged.bus.api.Event as ForgeEvent
 import org.jetbrains.annotations.ApiStatus
 import team._0mods.multilib.event.base.Event
-import team._0mods.multilib.event.core.*
+import team._0mods.multilib.event.core.EventActor
+import team._0mods.multilib.event.core.EventFactory
 import team._0mods.multilib.event.result.EventResult
 import java.util.function.Consumer
+import net.neoforged.bus.api.Event as ForgeEvent
 
 internal object EventFactoryImpl: EventFactory() {
     @ApiStatus.Internal

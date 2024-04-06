@@ -38,16 +38,16 @@ import team._0mods.multilib.event.result.EventResult
 
 interface EntityEvent {
     companion object {
-        @JvmField val DEATH = EventFactory.createEventResult<team._0mods.multilib.event.base.common.EntityEvent.LivingDeath>()
-        @JvmField val HURT = EventFactory.createEventResult<team._0mods.multilib.event.base.common.EntityEvent.LivingHurt>()
-        @JvmField val CHECK_SPAWN = EventFactory.createEventResult<team._0mods.multilib.event.base.common.EntityEvent.LivingCheckSpawn>()
-        @JvmField val JOIN_WORLD = EventFactory.createEventResult<team._0mods.multilib.event.base.common.EntityEvent.JoinWorld>()
-        @JvmField val ENTER_SECTION = EventFactory.createNoResult<team._0mods.multilib.event.base.common.EntityEvent.EnterSection>()
-        @JvmField val ANIMAL_TAME = EventFactory.createEventResult<team._0mods.multilib.event.base.common.EntityEvent.AnimalTame>()
+        @JvmField val LIVING_DEATH = EventFactory.createEventResult<LivingDeath>()
+        @JvmField val HURT = EventFactory.createEventResult<LivingHurt>()
+        @JvmField val CHECK_SPAWN = EventFactory.createEventResult<LivingCheckSpawn>()
+        @JvmField val JOIN_WORLD = EventFactory.createEventResult<JoinWorld>()
+        @JvmField val ENTER_SECTION = EventFactory.createNoResult<EnterSection>()
+        @JvmField val ANIMAL_TAME = EventFactory.createEventResult<AnimalTame>()
     }
 
     fun interface LivingDeath {
-        fun die(entity: LivingEntity, source: DamageSource)
+        fun die(entity: LivingEntity, source: DamageSource): EventResult
     }
 
     fun interface LivingHurt {

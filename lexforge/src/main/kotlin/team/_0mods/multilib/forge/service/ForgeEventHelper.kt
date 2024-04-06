@@ -24,9 +24,9 @@
 
 package team._0mods.multilib.forge.service
 
+import team._0mods.multilib.client.hooks.ScreenHooks
 import team._0mods.multilib.event.core.EventFactory
 import team._0mods.multilib.event.core.EventHandler
-import team._0mods.multilib.client.hooks.ScreenHooks
 import team._0mods.multilib.forge.event.EventFactoryImpl
 import team._0mods.multilib.forge.event.EventHandlerImpl
 import team._0mods.multilib.forge.screen.ScreenHooksImpl

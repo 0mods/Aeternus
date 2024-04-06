@@ -11,7 +11,7 @@
 package team._0mods.aeternus.service
 
 import team._0mods.aeternus.common.LOGGER
-import team._0mods.aeternus.service.core.*
+import team._0mods.aeternus.service.core.EtheriumHelper
 import java.util.*
 import kotlin.reflect.KClass
 

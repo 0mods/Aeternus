@@ -31,9 +31,9 @@ import team._0mods.multilib.event.core.EventFactory
 
 interface ChunkEvent {
     companion object {
-        @JvmField val SAVE_DATA = EventFactory.createNoResult<team._0mods.multilib.event.base.common.ChunkEvent.SaveData>()
+        @JvmField val SAVE_DATA = EventFactory.createNoResult<SaveData>()
 
-        @JvmField val LOAD_DATA = EventFactory.createNoResult<team._0mods.multilib.event.base.common.ChunkEvent.LoadData>()
+        @JvmField val LOAD_DATA = EventFactory.createNoResult<LoadData>()
     }
 
     fun interface SaveData {

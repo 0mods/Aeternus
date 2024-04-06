@@ -25,7 +25,6 @@
 package team._0mods.multilib.event.base.client
 
 import net.minecraft.client.Minecraft
-import net.minecraft.client.gui.screens.Screen
 import team._0mods.multilib.event.core.EventFactory
 import team._0mods.multilib.event.result.EventResult
 

@@ -24,11 +24,11 @@
 
 package team._0mods.multilib.fabric.service
 
+import team._0mods.multilib.client.hooks.ScreenHooks
 import team._0mods.multilib.event.core.EventFactory
 import team._0mods.multilib.event.core.EventHandler
 import team._0mods.multilib.fabric.event.EventFactoryImpl
 import team._0mods.multilib.fabric.event.EventHandlerImpl
-import team._0mods.multilib.client.hooks.ScreenHooks
 import team._0mods.multilib.service.core.EventHelper
 
 class FabricEvent: EventHelper {

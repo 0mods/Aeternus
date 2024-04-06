@@ -17,12 +17,12 @@ import net.minecraftforge.common.capabilities.Capability
 import net.minecraftforge.common.capabilities.ICapabilityProvider
 import net.minecraftforge.common.util.INBTSerializable
 import net.minecraftforge.common.util.LazyOptional
-import team._0mods.aeternus.api.magic.research.player.PlayerResearch
 import team._0mods.aeternus.api.magic.research.Research
+import team._0mods.aeternus.api.magic.research.player.PlayerResearch
+import team._0mods.aeternus.api.util.rl
+import team._0mods.aeternus.common.init.AeternusCorePlugin
 import team._0mods.aeternus.forge.api.emptyLazyOpt
 import team._0mods.aeternus.forge.api.lazyOptOf
-import team._0mods.aeternus.common.init.AeternusCorePlugin
-import team._0mods.aeternus.api.util.rl
 
 class PlayerResearchCapability: PlayerResearch {
     private val researchList: MutableList<Research> = mutableListOf()

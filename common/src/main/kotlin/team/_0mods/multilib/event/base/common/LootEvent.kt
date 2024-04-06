@@ -32,11 +32,11 @@ import team._0mods.multilib.event.core.EventFactory
 
 interface LootEvent {
     companion object {
-        @JvmField val MODIFY_LOOT_TABLE = EventFactory.createNoResult<team._0mods.multilib.event.base.common.LootEvent.Modify>()
+        @JvmField val MODIFY_LOOT_TABLE = EventFactory.createNoResult<Modify>()
     }
 
     fun interface Modify {
-        fun modifyLootTable(dataMgr: LootDataManager?, id: ResourceLocation, ctx: team._0mods.multilib.event.base.common.LootEvent.LootTableModificationContext, builtIn: Boolean)
+        fun modifyLootTable(dataMgr: LootDataManager?, id: ResourceLocation, ctx: LootTableModificationContext, builtIn: Boolean)
     }
 
     @ApiStatus.NonExtendable

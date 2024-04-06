@@ -44,35 +44,35 @@ import team._0mods.multilib.event.result.EventResultHolder
 
 interface PlayerEvent {
     companion object {
-        @JvmField val PLAYER_JOIN: Event<team._0mods.multilib.event.base.common.PlayerEvent.PlayerJoin> = EventFactory.createNoResult()
+        @JvmField val PLAYER_JOIN: Event<PlayerJoin> = EventFactory.createNoResult()
 
-        @JvmField val PLAYER_QUIT: Event<team._0mods.multilib.event.base.common.PlayerEvent.PlayerQuit> = EventFactory.createNoResult()
+        @JvmField val PLAYER_QUIT: Event<PlayerQuit> = EventFactory.createNoResult()
 
-        @JvmField val PLAYER_RESPAWN: Event<team._0mods.multilib.event.base.common.PlayerEvent.PlayerRespawn> = EventFactory.createNoResult()
+        @JvmField val PLAYER_RESPAWN: Event<PlayerRespawn> = EventFactory.createNoResult()
 
-        @JvmField val PLAYER_ADVANCEMENT: Event<team._0mods.multilib.event.base.common.PlayerEvent.PlayerAdvancement> = EventFactory.createNoResult()
+        @JvmField val PLAYER_ADVANCEMENT: Event<PlayerAdvancement> = EventFactory.createNoResult()
 
-        @JvmField val PLAYER_CLONE: Event<team._0mods.multilib.event.base.common.PlayerEvent.PlayerClone> = EventFactory.createNoResult()
+        @JvmField val PLAYER_CLONE: Event<PlayerClone> = EventFactory.createNoResult()
 
-        @JvmField val CRAFT_ITEM: Event<team._0mods.multilib.event.base.common.PlayerEvent.CraftItem> = EventFactory.createNoResult()
+        @JvmField val CRAFT_ITEM: Event<CraftItem> = EventFactory.createNoResult()
 
-        @JvmField val SMELT_ITEM: Event<team._0mods.multilib.event.base.common.PlayerEvent.SmeltItem> = EventFactory.createNoResult()
+        @JvmField val SMELT_ITEM: Event<SmeltItem> = EventFactory.createNoResult()
         
-        @JvmField val PICKUP_ITEM_PRE: Event<team._0mods.multilib.event.base.common.PlayerEvent.PickupItemPredicate> = EventFactory.createEventResult()
+        @JvmField val PICKUP_ITEM_PRE: Event<PickupItemPredicate> = EventFactory.createEventResult()
 
-        @JvmField val PICKUP_ITEM_POST: Event<team._0mods.multilib.event.base.common.PlayerEvent.PickupItem> = EventFactory.createNoResult()
+        @JvmField val PICKUP_ITEM_POST: Event<PickupItem> = EventFactory.createNoResult()
 
-        @JvmField val CHANGE_DIMENSION: Event<team._0mods.multilib.event.base.common.PlayerEvent.ChangeDimension> = EventFactory.createNoResult()
+        @JvmField val CHANGE_DIMENSION: Event<ChangeDimension> = EventFactory.createNoResult()
 
-        @JvmField val DROP_ITEM: Event<team._0mods.multilib.event.base.common.PlayerEvent.DropItem> = EventFactory.createEventResult()
+        @JvmField val DROP_ITEM: Event<DropItem> = EventFactory.createEventResult()
 
-        @JvmField val OPEN_MENU: Event<team._0mods.multilib.event.base.common.PlayerEvent.OpenMenu> = EventFactory.createNoResult()
+        @JvmField val OPEN_MENU: Event<OpenMenu> = EventFactory.createNoResult()
 
-        @JvmField val CLOSE_MENU: Event<team._0mods.multilib.event.base.common.PlayerEvent.CloseMenu> = EventFactory.createNoResult()
+        @JvmField val CLOSE_MENU: Event<CloseMenu> = EventFactory.createNoResult()
 
-        @JvmField val FILL_BUCKET: Event<team._0mods.multilib.event.base.common.PlayerEvent.FillBucket> = EventFactory.createEventResultHolder()
+        @JvmField val FILL_BUCKET: Event<FillBucket> = EventFactory.createEventResultHolder()
 
-        @JvmField val ATTACK_ENTITY: Event<team._0mods.multilib.event.base.common.PlayerEvent.AttackEntity> = EventFactory.createEventResult()
+        @JvmField val ATTACK_ENTITY: Event<AttackEntity> = EventFactory.createEventResult()
     }
 
     fun interface PlayerJoin {

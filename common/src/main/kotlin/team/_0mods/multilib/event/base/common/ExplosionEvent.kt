@@ -32,8 +32,8 @@ import team._0mods.multilib.event.result.EventResult
 
 interface ExplosionEvent {
     companion object {
-        @JvmField val PRE = EventFactory.createEventResult<team._0mods.multilib.event.base.common.ExplosionEvent.Pre>()
-        @JvmField val DETONATE = EventFactory.createNoResult<team._0mods.multilib.event.base.common.ExplosionEvent.Detonate>()
+        @JvmField val PRE = EventFactory.createEventResult<Pre>()
+        @JvmField val DETONATE = EventFactory.createNoResult<Detonate>()
     }
 
     fun interface Pre {

@@ -32,7 +32,7 @@ import team._0mods.multilib.event.core.EventFactory
 
 interface LightningEvent {
     companion object {
-        @JvmField val STRIKE = EventFactory.createNoResult<team._0mods.multilib.event.base.common.LightningEvent.Strike>()
+        @JvmField val STRIKE = EventFactory.createNoResult<Strike>()
     }
 
     fun interface Strike {

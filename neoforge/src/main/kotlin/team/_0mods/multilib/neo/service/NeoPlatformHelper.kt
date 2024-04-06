@@ -26,7 +26,6 @@ package team._0mods.multilib.neo.service
 
 import net.neoforged.fml.ModList
 import net.neoforged.fml.loading.FMLEnvironment
-import net.neoforged.fml.util.thread.SidedThreadGroups
 import team._0mods.multilib.service.core.PlatformHelper
 import kotlin.jvm.optionals.getOrNull
 

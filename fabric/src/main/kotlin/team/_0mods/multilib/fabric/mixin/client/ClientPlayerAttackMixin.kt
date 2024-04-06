@@ -15,7 +15,8 @@ import team._0mods.multilib.event.base.common.EntityEvent
 class ClientPlayerAttackMixin {
     @Inject(method = ["hurt"], at = [At("HEAD")], cancellable = true)
     fun hurt(source: DamageSource, f: Float, cir: CallbackInfoReturnable<Boolean>) {
-        if (EntityEvent.HURT.event.hurt(((this as Any) as LivingEntity), source, f).isFalse && (this as Any) is Player) {
+        val entObj = this as Any
+        if (EntityEvent.HURT.event.hurt(entObj as LivingEntity, source, f).isFalse && entObj is Player) {
             cir.returnValue = false
         }
     }

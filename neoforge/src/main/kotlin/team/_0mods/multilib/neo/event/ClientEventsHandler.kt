@@ -12,19 +12,25 @@ package team._0mods.multilib.neo.event
 
 import net.minecraft.client.Minecraft
 import net.minecraft.client.multiplayer.ClientLevel
-import net.neoforged.neoforge.client.event.ClientChatEvent as ForgeChat
-import net.neoforged.neoforge.client.event.*
-import net.neoforged.neoforge.client.event.InputEvent as ForgeInput
-import net.neoforged.neoforge.event.TickEvent as ForgeTick
-import net.neoforged.neoforge.client.event.ScreenEvent as ForgeScreen
-import net.neoforged.neoforge.event.entity.player.*
-import net.neoforged.neoforge.event.level.*
-import net.neoforged.bus.api.*
+import net.neoforged.bus.api.EventPriority
+import net.neoforged.bus.api.SubscribeEvent
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent
+import net.neoforged.neoforge.client.event.*
+import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent
+import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent
+import net.neoforged.neoforge.event.level.LevelEvent
 import team._0mods.multilib.client.screen.ScreenAccessImpl
 import team._0mods.multilib.event.base.client.*
+import team._0mods.multilib.event.base.client.ClientChatEvent
+import team._0mods.multilib.event.base.client.InputEvent
+import team._0mods.multilib.event.base.client.ScreenEvent
 import team._0mods.multilib.event.base.common.InteractionEvent
-import team._0mods.multilib.impl.*
+import team._0mods.multilib.impl.TooltipColorContext
+import team._0mods.multilib.impl.TooltipPositionContext
+import net.neoforged.neoforge.client.event.ClientChatEvent as ForgeChat
+import net.neoforged.neoforge.client.event.InputEvent as ForgeInput
+import net.neoforged.neoforge.client.event.ScreenEvent as ForgeScreen
+import net.neoforged.neoforge.event.TickEvent as ForgeTick
 
 class ClientEventsHandler {
     private val positionCtx = ThreadLocal.withInitial(::TooltipPositionContext)

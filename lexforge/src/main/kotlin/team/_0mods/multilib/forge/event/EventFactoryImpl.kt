@@ -25,12 +25,13 @@
 package team._0mods.multilib.forge.event
 
 import net.minecraftforge.common.MinecraftForge
-import net.minecraftforge.eventbus.api.Event as ForgeEvent
 import org.jetbrains.annotations.ApiStatus
 import team._0mods.multilib.event.base.Event
-import team._0mods.multilib.event.core.*
+import team._0mods.multilib.event.core.EventActor
+import team._0mods.multilib.event.core.EventFactory
 import team._0mods.multilib.event.result.EventResult
 import java.util.function.Consumer
+import net.minecraftforge.eventbus.api.Event as ForgeEvent
 
 internal object EventFactoryImpl: EventFactory() {
     @ApiStatus.Internal

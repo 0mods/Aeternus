@@ -25,22 +25,33 @@
 package team._0mods.multilib.neo.registry
 
 import com.google.common.base.Suppliers
-import com.google.common.base.Objects as GoogleObjects
-import com.google.common.collect.*
-import net.minecraft.core.*
+import com.google.common.collect.HashMultimap
+import com.google.common.collect.Multimap
+import net.minecraft.core.Holder
+import net.minecraft.core.Registry
 import net.minecraft.core.registries.BuiltInRegistries
-import net.minecraft.resources.*
-import net.neoforged.bus.api.*
-import net.neoforged.neoforge.registries.*
-import org.apache.commons.lang3.mutable.*
+import net.minecraft.resources.ResourceKey
+import net.minecraft.resources.ResourceLocation
+import net.neoforged.bus.api.EventPriority
+import net.neoforged.bus.api.SubscribeEvent
+import net.neoforged.neoforge.registries.NewRegistryEvent
+import net.neoforged.neoforge.registries.RegisterEvent
+import net.neoforged.neoforge.registries.RegistryBuilder
+import org.apache.commons.lang3.mutable.Mutable
+import org.apache.commons.lang3.mutable.MutableObject
 import org.slf4j.LoggerFactory
+import team._0mods.multilib.neo.bus.NeoEventBusHelper
 import team._0mods.multilib.registries.*
 import team._0mods.multilib.registries.impl.RegistrySupplierImpl
-import team._0mods.multilib.registries.option.*
+import team._0mods.multilib.registries.option.DefaultIdRegistrarOption
+import team._0mods.multilib.registries.option.RegistrarOption
+import team._0mods.multilib.registries.option.StandardRegistrarOption
 import team._0mods.multilib.util.set
-import team._0mods.multilib.neo.bus.NeoEventBusHelper
 import java.util.*
-import java.util.function.*
+import java.util.function.BooleanSupplier
+import java.util.function.Consumer
+import java.util.function.Supplier
+import com.google.common.base.Objects as GoogleObjects
 
 class RegistryProviderImpl: AbstractRegistryProvider {
     companion object {

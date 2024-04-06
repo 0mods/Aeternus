@@ -12,19 +12,25 @@ package team._0mods.multilib.forge.event
 
 import net.minecraft.client.Minecraft
 import net.minecraft.client.multiplayer.ClientLevel
-import net.minecraftforge.client.event.ClientChatEvent as ForgeChat
 import net.minecraftforge.client.event.*
-import net.minecraftforge.client.event.InputEvent as ForgeInput
-import net.minecraftforge.event.TickEvent as Formultilibick
-import net.minecraftforge.client.event.ScreenEvent as ForgeScreen
-import net.minecraftforge.event.entity.player.*
-import net.minecraftforge.event.level.*
-import net.minecraftforge.eventbus.api.*
+import net.minecraftforge.event.entity.player.ItemTooltipEvent
+import net.minecraftforge.event.entity.player.PlayerInteractEvent
+import net.minecraftforge.event.level.LevelEvent
+import net.minecraftforge.eventbus.api.EventPriority
+import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
 import team._0mods.multilib.client.screen.ScreenAccessImpl
 import team._0mods.multilib.event.base.client.*
+import team._0mods.multilib.event.base.client.ClientChatEvent
+import team._0mods.multilib.event.base.client.InputEvent
+import team._0mods.multilib.event.base.client.ScreenEvent
 import team._0mods.multilib.event.base.common.InteractionEvent
-import team._0mods.multilib.impl.*
+import team._0mods.multilib.impl.TooltipColorContext
+import team._0mods.multilib.impl.TooltipPositionContext
+import net.minecraftforge.client.event.ClientChatEvent as ForgeChat
+import net.minecraftforge.client.event.InputEvent as ForgeInput
+import net.minecraftforge.client.event.ScreenEvent as ForgeScreen
+import net.minecraftforge.event.TickEvent as Formultilibick
 
 class ClientEventsHandler {
     private val positionCtx = ThreadLocal.withInitial(::TooltipPositionContext)

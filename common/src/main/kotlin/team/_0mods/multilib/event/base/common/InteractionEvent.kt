@@ -38,13 +38,13 @@ import team._0mods.multilib.event.result.EventResultHolder
 
 interface InteractionEvent {
     companion object {
-        @JvmField val LEFT_CLICK_BLOCK = EventFactory.createEventResult<team._0mods.multilib.event.base.common.InteractionEvent.LeftClickBlock>()
-        @JvmField val RIGHT_CLICK_BLOCK = EventFactory.createEventResult<team._0mods.multilib.event.base.common.InteractionEvent.RightClickBlock>()
-        @JvmField val RIGHT_CLICK_ITEM = EventFactory.createEventResultHolder<team._0mods.multilib.event.base.common.InteractionEvent.RightClickItem>()
-        @JvmField val CLIENT_LEFT_CLICK_AIR = EventFactory.createNoResult<team._0mods.multilib.event.base.common.InteractionEvent.LeftClickEmpty>()
-        @JvmField val CLIENT_RIGHT_CLICK_AIR = EventFactory.createNoResult<team._0mods.multilib.event.base.common.InteractionEvent.RightClickEmpty>()
-        @JvmField val INTERACT_ENTITY = EventFactory.createEventResult<team._0mods.multilib.event.base.common.InteractionEvent.InteractEntity>()
-        @JvmField val FARMLAND_TRAMPLE = EventFactory.createEventResult<team._0mods.multilib.event.base.common.InteractionEvent.FarmlandTrample>()
+        @JvmField val LEFT_CLICK_BLOCK = EventFactory.createEventResult<LeftClickBlock>()
+        @JvmField val RIGHT_CLICK_BLOCK = EventFactory.createEventResult<RightClickBlock>()
+        @JvmField val RIGHT_CLICK_ITEM = EventFactory.createEventResultHolder<RightClickItem>()
+        @JvmField val CLIENT_LEFT_CLICK_AIR = EventFactory.createNoResult<LeftClickEmpty>()
+        @JvmField val CLIENT_RIGHT_CLICK_AIR = EventFactory.createNoResult<RightClickEmpty>()
+        @JvmField val INTERACT_ENTITY = EventFactory.createEventResult<InteractEntity>()
+        @JvmField val FARMLAND_TRAMPLE = EventFactory.createEventResult<FarmlandTrample>()
     }
 
     fun interface RightClickBlock {

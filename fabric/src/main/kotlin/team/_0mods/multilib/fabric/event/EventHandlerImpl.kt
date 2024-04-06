@@ -10,13 +10,22 @@
 
 package team._0mods.multilib.fabric.event
 
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.*
-import net.fabricmc.fabric.api.client.item.v1.*
-import net.fabricmc.fabric.api.client.rendering.v1.*
-import net.fabricmc.fabric.api.command.v2.*
-import net.fabricmc.fabric.api.event.lifecycle.v1.*
-import net.fabricmc.fabric.api.event.player.*
-import team._0mods.multilib.event.base.client.*
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
+import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback
+import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents
+import net.fabricmc.fabric.api.event.player.AttackBlockCallback
+import net.fabricmc.fabric.api.event.player.AttackEntityCallback
+import net.fabricmc.fabric.api.event.player.UseBlockCallback
+import net.fabricmc.fabric.api.event.player.UseItemCallback
+import team._0mods.multilib.event.base.client.ClientLifecycleEvent
+import team._0mods.multilib.event.base.client.ClientTickEvent
+import team._0mods.multilib.event.base.client.ScreenEvent
+import team._0mods.multilib.event.base.client.TooltipEvent
 import team._0mods.multilib.event.base.common.*
 import team._0mods.multilib.event.core.EventHandler
 
