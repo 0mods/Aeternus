@@ -5,6 +5,7 @@ plugins {
     eclipse
     `maven-publish`
     kotlin("jvm")
+    kotlin("plugin.serialization")
     id("net.neoforged.gradle.userdev") version "7.0.97"
 }
 

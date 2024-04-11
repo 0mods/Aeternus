@@ -2,6 +2,7 @@ plugins {
     java
     `maven-publish`
     kotlin("jvm")
+    kotlin("plugin.serialization")
     id("org.spongepowered.gradle.vanilla") version "0.2.1-SNAPSHOT"
 }
 

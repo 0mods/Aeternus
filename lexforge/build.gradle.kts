@@ -5,6 +5,7 @@ plugins {
     id("net.minecraftforge.gradle") version "[6.0,6.2)"
     `maven-publish`
     kotlin("jvm")
+    kotlin("plugin.serialization")
     id("org.spongepowered.mixin") version "0.7.38"
     id("org.parchmentmc.librarian.forgegradle") version "1.+"
 }
