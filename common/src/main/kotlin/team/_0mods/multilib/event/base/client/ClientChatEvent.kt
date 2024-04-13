@@ -43,6 +43,6 @@ interface ClientChatEvent {
     }
 
     fun interface Received {
-        fun process(type: ChatType.Bound, message: Component): EventResultHolder<Component>
+        fun process(type: ChatType.Bound?, message: Component): EventResultHolder<Component>
     }
 }

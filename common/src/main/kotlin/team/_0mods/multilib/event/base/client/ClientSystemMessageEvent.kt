@@ -30,7 +30,7 @@ import team._0mods.multilib.event.result.EventResultHolder
 
 interface ClientSystemMessageEvent {
     companion object {
-        @JvmField val RECEIVED = EventFactory.createEventActorLoop<Received>()
+        @JvmField val RECEIVED = EventFactory.createEventResultHolder<Received>()
     }
 
     fun interface Received {

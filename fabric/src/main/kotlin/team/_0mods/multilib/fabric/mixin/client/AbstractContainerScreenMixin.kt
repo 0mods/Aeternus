@@ -12,11 +12,23 @@ import team._0mods.multilib.event.base.client.ScreenEvent
 
 @Mixin(AbstractContainerScreen::class)
 abstract class AbstractContainerScreenMixin(title: Component) : Screen(title) {
-    @Inject(method = ["renderBackground"],
+    @Inject(
+        method = ["renderBackground"],
         at = [At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;renderBg(Lnet/minecraft/client/gui/GuiGraphics;FII)V",
-            ordinal = 0, shift = At.Shift.AFTER)])
+            ordinal = 0, shift = At.Shift.AFTER)]
+    )
     fun renderBg(graphics: GuiGraphics, mouseX: Int, mouseY: Int, partialTick: Float, ci: CallbackInfo) {
         val obj = this as Any
         ScreenEvent.RENDER_CONTAINER_BACKGROUND.event.render(obj as AbstractContainerScreen<*>, graphics, mouseX, mouseY, partialTick)
+    }
+
+    @Inject(
+        method = ["render"],
+        at = [At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;renderLabels(Lnet/minecraft/client/gui/GuiGraphics;II)V",
+            ordinal = 0, shift = At.Shift.AFTER)]
+    )
+    fun render(gp: GuiGraphics, mouseX: Int, mouseY: Int, partialTick: Float, ci: CallbackInfo) {
+        val obj = this as Any
+        ScreenEvent.RENDER_CONTAINER_FOREGROUND.event.render(obj as AbstractContainerScreen<*>, gp, mouseX, mouseY, partialTick)
     }
 }
