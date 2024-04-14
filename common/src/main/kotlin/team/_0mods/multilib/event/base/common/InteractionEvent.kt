@@ -72,6 +72,6 @@ interface InteractionEvent {
     }
 
     fun interface FarmlandTrample {
-        fun trample(level: Level, pos: BlockPos, state: BlockState, distance: Float, entity: Entity): EventResult
+        fun trample(level: Level, pos: BlockPos, state: BlockState, distance: Float, entity: Entity?): EventResult
     }
 }

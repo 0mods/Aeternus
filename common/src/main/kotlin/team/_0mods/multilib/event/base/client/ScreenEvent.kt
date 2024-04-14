@@ -84,6 +84,6 @@ interface ScreenEvent {
     }
 
     fun interface SetScreen {
-        fun setScreen(screen: Screen): EventResultHolder<Screen>
+        fun setScreen(screen: Screen?): EventResultHolder<Screen>
     }
 }

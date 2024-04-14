@@ -31,6 +31,6 @@ import team._0mods.multilib.event.core.EventFactory
 
 class CommandPerformEvent(var results: ParseResults<CommandSourceStack>, var throwable: Throwable?) {
     companion object {
-        @JvmField val EVENT = EventFactory.createEventActorLoop<EventActor<CommandPerformEvent>>()
+        @JvmField val EVENT = EventFactory.createEventActorLoop<CommandPerformEvent>()
     }
 }
