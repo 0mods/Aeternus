@@ -16,7 +16,7 @@ import team._0mods.multilib.extension.ItemExtension
 class InventoryMixin {
     @Shadow
     @Final
-    var armor: NonNullList<ItemStack>? = null
+    lateinit var armor: NonNullList<ItemStack>
 
     @Shadow
     @Final
@@ -24,7 +24,7 @@ class InventoryMixin {
 
     @Inject(method = ["tick"], at = [At("RETURN")])
     private fun updateItems(ci: CallbackInfo) {
-        for (stack in armor!!) {
+        for (stack in armor) {
             val item = stack.item
             if (item is ItemExtension) {
                 item.tickArmor(stack, player!!)

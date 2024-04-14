@@ -40,7 +40,8 @@ class LevelMixin {
         blockInteraction: Explosion.BlockInteraction,
         explosion: Explosion
     ) {
-        if (ExplosionEvent.PRE.event.explode(this as Level, explosion).isFalse) {
+        val obj = this as Any
+        if (ExplosionEvent.PRE.event.explode(obj as Level, explosion).isFalse) {
             cir.setReturnValue(explosion)
         }
     }

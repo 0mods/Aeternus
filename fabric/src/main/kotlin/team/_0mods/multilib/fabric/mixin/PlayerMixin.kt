@@ -19,12 +19,14 @@ import team._0mods.multilib.event.base.common.TickEvent
 class PlayerMixin {
     @Inject(method = ["tick"], at = [At("HEAD")])
     private fun preTick(ci: CallbackInfo) {
-        TickEvent.PLAYER_PRE.event.tick(this as Player)
+        val obj = this as Any
+        TickEvent.PLAYER_PRE.event.tick(obj as Player)
     }
 
     @Inject(method = ["tick"], at = [At("RETURN")])
     private fun postTick(ci: CallbackInfo) {
-        TickEvent.PLAYER_POST.event.tick(this as Player)
+        val obj = this as Any
+        TickEvent.PLAYER_POST.event.tick(obj as Player)
     }
 
     @Inject(
@@ -33,7 +35,8 @@ class PlayerMixin {
         cancellable = true
     )
     private fun drop(itemStack: ItemStack, bl: Boolean, bl2: Boolean, cir: CallbackInfoReturnable<ItemEntity?>) {
-        if (cir.returnValue != null && PlayerEvent.DROP_ITEM.event.drop(this as Player, cir.returnValue!!).isFalse) {
+        val obj = this as Any
+        if (cir.returnValue != null && PlayerEvent.DROP_ITEM.event.drop(obj as Player, cir.returnValue!!).isFalse) {
             cir.setReturnValue(null)
         }
     }
@@ -52,7 +55,8 @@ class PlayerMixin {
         interactionHand: InteractionHand,
         cir: CallbackInfoReturnable<InteractionResult>
     ) {
-        val result = InteractionEvent.INTERACT_ENTITY.event.interact(this as Player, entity, interactionHand)
+        val obj = this as Any
+        val result = InteractionEvent.INTERACT_ENTITY.event.interact(obj as Player, entity, interactionHand)
         if (result.isPresent) {
             cir.setReturnValue(result.asInteractionResult)
         }

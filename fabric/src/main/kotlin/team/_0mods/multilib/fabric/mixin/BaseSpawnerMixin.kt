@@ -21,8 +21,9 @@ class BaseSpawnerMixin {
         )
     )
     private fun checkSpawnerSpawn(mob: Mob, level: LevelAccessor, type: MobSpawnType): Boolean {
+        val obj = this as Any
         val result = EntityEvent.CHECK_SPAWN.event
-            .canSpawn(mob, level, mob.x, mob.y, mob.z, type, this as BaseSpawner)
+            .canSpawn(mob, level, mob.x, mob.y, mob.z, type, obj as BaseSpawner)
         if (result.value != null) {
             return result.value!!
         }

@@ -51,11 +51,12 @@ abstract class GuiGraphicsMixin {
             colorContext.reset()
             val positionContext = tooltipPositionContext.get()
             positionContext.reset(x, y)
-            if (TooltipEvent.RENDER_PRE.event.renderTooltip(this as GuiGraphics, list, x, y).isFalse) {
+            val obj = this as Any
+            if (TooltipEvent.RENDER_PRE.event.renderTooltip(obj as GuiGraphics, list, x, y).isFalse) {
                 ci.cancel()
             } else {
-                TooltipEvent.RENDER_MODIFY_COLOR.event.renderTooltip(this as GuiGraphics, x, y, colorContext)
-                TooltipEvent.RENDER_MODIFY_POS.event.renderTooltip(this as GuiGraphics, positionContext)
+                TooltipEvent.RENDER_MODIFY_COLOR.event.renderTooltip(obj, x, y, colorContext)
+                TooltipEvent.RENDER_MODIFY_POS.event.renderTooltip(obj, positionContext)
             }
         }
     }

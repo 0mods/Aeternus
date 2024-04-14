@@ -16,11 +16,11 @@ import team._0mods.multilib.event.base.common.PlayerEvent
 class ResultSlotMixin {
     @Shadow
     @Final
-    private val player: Player? = null
+    private lateinit var player: Player
 
     @Shadow
     @Final
-    private val craftSlots: CraftingContainer? = null
+    private lateinit var craftSlots: CraftingContainer
 
     @Inject(
         method = ["checkTakeAchievements"],
@@ -31,6 +31,6 @@ class ResultSlotMixin {
         )]
     )
     private fun craft(itemStack: ItemStack, ci: CallbackInfo) {
-        PlayerEvent.CRAFT_ITEM.event.craft(player!!, itemStack, craftSlots!!)
+        PlayerEvent.CRAFT_ITEM.event.craft(player, itemStack, craftSlots)
     }
 }

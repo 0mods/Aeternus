@@ -12,8 +12,9 @@ import team._0mods.multilib.event.base.common.LifecycleEvent
 class DedicatedServerMixin {
     @Inject(method = ["initServer"], at = [At("RETURN")], cancellable = true)
     private fun initServer(cir: CallbackInfoReturnable<Boolean>) {
+        val obj = this as Any
         if (cir.returnValueZ) {
-            LifecycleEvent.SERVER_STARTING.event.onChanged(this as MinecraftServer)
+            LifecycleEvent.SERVER_STARTING.event.onChanged(obj as MinecraftServer)
         }
     }
 }

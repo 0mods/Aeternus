@@ -20,15 +20,14 @@ import team._0mods.multilib.event.base.client.ClientPlayerEvent
 import team._0mods.multilib.event.base.client.ScreenEvent
 import team._0mods.multilib.event.base.common.InteractionEvent
 
-
 @Unique
 @Mixin(Minecraft::class)
 abstract class MinecraftMixin {
     @Shadow
-    var player: LocalPlayer? = null
+    lateinit var player: LocalPlayer
 
     @Shadow
-    var hitResult: HitResult? = null
+    lateinit var hitResult: HitResult
 
     @Shadow
     abstract fun setScreen(screen: Screen?)
@@ -57,8 +56,8 @@ abstract class MinecraftMixin {
         interactionHand: InteractionHand,
         itemStack: ItemStack
     ) {
-        if (itemStack.isEmpty && (this.hitResult == null || hitResult!!.type == HitResult.Type.MISS)) {
-            InteractionEvent.CLIENT_RIGHT_CLICK_AIR.event.click(player!!, interactionHand)
+        if (itemStack.isEmpty && (this.hitResult == null || hitResult.type == HitResult.Type.MISS)) {
+            InteractionEvent.CLIENT_RIGHT_CLICK_AIR.event.click(player, interactionHand)
         }
     }
 
@@ -71,7 +70,7 @@ abstract class MinecraftMixin {
         )]
     )
     private fun leftClickAir(ci: CallbackInfoReturnable<Boolean>) {
-        InteractionEvent.CLIENT_LEFT_CLICK_AIR.event.click(player!!, InteractionHand.MAIN_HAND)
+        InteractionEvent.CLIENT_LEFT_CLICK_AIR.event.click(player, InteractionHand.MAIN_HAND)
     }
 
     @ModifyVariable(
@@ -95,7 +94,7 @@ abstract class MinecraftMixin {
                 return old
             } else {
                 screen = event.obj
-                if (old != null && screen !== old) {
+                if (old != null && screen != old) {
                     old.removed()
                 }
             }

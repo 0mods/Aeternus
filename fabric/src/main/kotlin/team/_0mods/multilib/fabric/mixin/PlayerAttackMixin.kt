@@ -14,7 +14,7 @@ class PlayerAttackMixin {
     @Inject(method = ["hurt"], at = [At("HEAD")], cancellable = true)
     private fun hurt(damageSource: DamageSource, f: Float, cir: CallbackInfoReturnable<Boolean>) {
         val obj = this as Any
-        if (EntityEvent.HURT.event.hurt(this as LivingEntity, damageSource, f).isFalse && obj is Player) {
+        if (EntityEvent.HURT.event.hurt(obj as LivingEntity, damageSource, f).isFalse && obj is Player) {
             cir.setReturnValue(false)
         }
     }

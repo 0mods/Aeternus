@@ -29,7 +29,7 @@ abstract class ClientPacketListenerMixin(minecraft: Minecraft,
 ) : ClientCommonPacketListenerImpl(minecraft, connection, commonListenerCookie) {
     @Shadow
     @Final
-    private var recipeManager: RecipeManager? = null
+    private lateinit var recipeManager: RecipeManager
 
     @Unique
     private var tmpPlayer: LocalPlayer? = null
@@ -65,7 +65,7 @@ abstract class ClientPacketListenerMixin(minecraft: Minecraft,
 
     @Inject(method = ["handleUpdateRecipes"], at = [At("RETURN")])
     private fun handleUpdateRecipes(clientboundUpdateRecipesPacket: ClientboundUpdateRecipesPacket, ci: CallbackInfo) {
-        ClientRecipeUpdateEvent.EVENT.event.update(recipeManager!!)
+        ClientRecipeUpdateEvent.EVENT.event.update(recipeManager)
     }
 
     @Inject(method = ["sendChat(Ljava/lang/String;)V"], at = [At(value = "HEAD")], cancellable = true)

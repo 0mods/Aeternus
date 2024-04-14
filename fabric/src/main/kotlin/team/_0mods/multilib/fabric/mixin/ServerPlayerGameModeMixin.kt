@@ -18,11 +18,11 @@ import team._0mods.multilib.event.base.common.BlockEvent
 @Mixin(ServerPlayerGameMode::class)
 class ServerPlayerGameModeMixin {
     @Shadow
-    protected var level: ServerLevel? = null
+    protected lateinit var level: ServerLevel
 
     @Shadow
     @Final
-    protected var player: ServerPlayer? = null
+    protected lateinit var player: ServerPlayer
 
     @Inject(
         method = ["destroyBlock"],
@@ -41,8 +41,8 @@ class ServerPlayerGameModeMixin {
         state: BlockState
     ) {
         if (BlockEvent.BREAK.event.breakBlock(
-                this.level!!, blockPos, state,
-                this.player!!, null
+                this.level, blockPos, state,
+                this.player, null
             ).isFalse
         ) {
             cir.setReturnValue(false)

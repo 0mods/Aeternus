@@ -17,7 +17,7 @@ import team._0mods.multilib.event.base.common.ExplosionEvent
 class ExplosionMixin {
     @Shadow
     @Final
-    private val level: Level? = null
+    private lateinit var level: Level
 
     @Inject(
         method = ["explode"],
@@ -37,9 +37,11 @@ class ExplosionMixin {
         w: Int,
         list: List<Entity>
     ) {
+        val obj = this as Any
+
         ExplosionEvent.DETONATE.event.explode(
-            level!!,
-            this as Explosion, list
+            level,
+            obj as Explosion, list
         )
     }
 }

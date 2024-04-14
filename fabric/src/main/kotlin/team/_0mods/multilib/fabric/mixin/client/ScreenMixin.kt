@@ -23,17 +23,19 @@ abstract class ScreenMixin: ScreenInputDelegate {
 
     @Unique
     private fun getAccess(): ScreenAccess {
+        val obj = this as Any
         if (access == null) {
-            return ScreenAccessImpl(this as Screen).also { access = it }
+            return ScreenAccessImpl(obj as Screen).also { access = it }
         }
 
-        access!!.screen = this as Screen
+        access!!.screen = obj as Screen
         return access!!
     }
 
     override fun ml_delInputs(): Screen {
+        val obj = this as Any
         if (inputDelegate == null) {
-            inputDelegate = DelegateScreen(this as Screen)
+            inputDelegate = DelegateScreen(obj as Screen)
         }
         return inputDelegate!!
     }
@@ -44,7 +46,8 @@ abstract class ScreenMixin: ScreenInputDelegate {
         cancellable = true
     )
     private fun preInit(minecraft: Minecraft, width: Int, height: Int, ci: CallbackInfo) {
-        if (ScreenEvent.INIT_PRE.event.init(this as Screen, getAccess()).isFalse) {
+        val obj = this as Any
+        if (ScreenEvent.INIT_PRE.event.init(obj as Screen, getAccess()).isFalse) {
             ci.cancel()
         }
     }
@@ -54,7 +57,8 @@ abstract class ScreenMixin: ScreenInputDelegate {
         at = [At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/Screen;init()V", shift = At.Shift.AFTER)]
     )
     private fun postInit(ci: CallbackInfo) {
-        ScreenEvent.INIT_POST.event.init(this as Screen, getAccess())
+        val obj = this as Any
+        ScreenEvent.INIT_POST.event.init(obj as Screen, getAccess())
     }
 
     @Inject(
@@ -63,7 +67,8 @@ abstract class ScreenMixin: ScreenInputDelegate {
         cancellable = true
     )
     private fun preInit2(ci: CallbackInfo) {
-        if (ScreenEvent.INIT_PRE.event.init(this as Screen, getAccess()).isFalse) {
+        val obj = this as Any
+        if (ScreenEvent.INIT_PRE.event.init(obj as Screen, getAccess()).isFalse) {
             ci.cancel()
         }
     }
@@ -73,6 +78,7 @@ abstract class ScreenMixin: ScreenInputDelegate {
         at = [At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/Screen;init()V", shift = At.Shift.AFTER)]
     )
     private fun postInit2(ci: CallbackInfo) {
-        ScreenEvent.INIT_POST.event.init(this as Screen, getAccess())
+        val obj = this as Any
+        ScreenEvent.INIT_POST.event.init(obj as Screen, getAccess())
     }
 }

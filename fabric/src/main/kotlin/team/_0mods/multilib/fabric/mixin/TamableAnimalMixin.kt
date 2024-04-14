@@ -13,7 +13,8 @@ import team._0mods.multilib.event.base.common.EntityEvent
 class TamableAnimalMixin {
     @Inject(method = ["tame"], at = [At(value = "HEAD")], cancellable = true)
     private fun tame(player: Player, ci: CallbackInfo) {
-        if (EntityEvent.ANIMAL_TAME.event.tame(this as Animal, player).isFalse) {
+        val obj = this as Any
+        if (EntityEvent.ANIMAL_TAME.event.tame(obj as Animal, player).isFalse) {
             ci.cancel()
         }
     }

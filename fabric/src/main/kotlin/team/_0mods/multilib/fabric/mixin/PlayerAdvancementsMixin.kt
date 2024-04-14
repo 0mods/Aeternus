@@ -13,7 +13,7 @@ import team._0mods.multilib.event.base.common.PlayerEvent
 @Mixin(PlayerAdvancements::class)
 class PlayerAdvancementsMixin {
     @Shadow
-    private val player: ServerPlayer? = null
+    private lateinit var player: ServerPlayer
 
     @Inject(
         method = ["award"],
@@ -24,6 +24,6 @@ class PlayerAdvancementsMixin {
         )]
     )
     private fun award(advancement: AdvancementHolder, string: String, cir: CallbackInfoReturnable<Boolean>) {
-        PlayerEvent.PLAYER_ADVANCEMENT.event.award(player!!, advancement)
+        PlayerEvent.PLAYER_ADVANCEMENT.event.award(player, advancement)
     }
 }

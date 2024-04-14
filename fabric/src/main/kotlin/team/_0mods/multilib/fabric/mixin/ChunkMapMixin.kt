@@ -19,7 +19,7 @@ import team._0mods.multilib.event.base.common.ChunkEvent
 class ChunkMapMixin {
     @Shadow
     @Final
-    var level: ServerLevel? = null
+    lateinit var level: ServerLevel
 
     @Inject(
         method = ["save"],
@@ -37,6 +37,6 @@ class ChunkMapMixin {
         chunkStatus: ChunkStatus,
         nbt: CompoundTag
     ) {
-        ChunkEvent.SAVE_DATA.event.save(chunkAccess, this.level!!, nbt)
+        ChunkEvent.SAVE_DATA.event.save(chunkAccess, this.level, nbt)
     }
 }

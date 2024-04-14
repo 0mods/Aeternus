@@ -19,7 +19,7 @@ import team._0mods.multilib.event.base.common.BlockEvent
 abstract class FallingBlockEntityMixin(entityType: EntityType<*>, level: Level) : Entity(entityType, level) {
 
     @Shadow
-    private val blockState: BlockState? = null
+    private lateinit var blockState: BlockState
 
     @Inject(
         method = ["tick"],
@@ -38,10 +38,12 @@ abstract class FallingBlockEntityMixin(entityType: EntityType<*>, level: Level) 
         d: Double,
         blockState: BlockState
     ) {
+        val obj = this as Any
+
         BlockEvent.FALLING_LAND.event.onLand(
             this.level(), blockPos2,
-            this.blockState!!, blockState,
-            this as FallingBlockEntity
+            this.blockState, blockState,
+            obj as FallingBlockEntity
         )
     }
 }

@@ -17,27 +17,30 @@ import java.util.*
 class ServerPlayerMixin {
     @Inject(method = ["restoreFrom"], at = [At("RETURN")])
     private fun restoreFrom(serverPlayer: ServerPlayer, bl: Boolean, ci: CallbackInfo) {
+        val obj = this as Any
         PlayerEvent.PLAYER_CLONE.event.clone(
             serverPlayer,
-            this as ServerPlayer, bl
+            obj as ServerPlayer, bl
         )
     }
 
     @Inject(method = ["openMenu"], at = [At("RETURN")])
     private fun openMenu(menuProvider: MenuProvider, cir: CallbackInfoReturnable<OptionalInt>) {
+        val obj = this as Any
         if (cir.returnValue.isPresent) {
             PlayerEvent.OPEN_MENU.event.open(
-                this as ServerPlayer,
-                (this as ServerPlayer).containerMenu
+                obj as ServerPlayer,
+                obj.containerMenu
             )
         }
     }
 
     @Inject(method = ["openHorseInventory"], at = [At("RETURN")])
     private fun openHorseInventory(abstractHorse: AbstractHorse, container: Container, ci: CallbackInfo) {
+        val obj = this as Any
         PlayerEvent.OPEN_MENU.event.open(
-            this as ServerPlayer,
-            (this as ServerPlayer).containerMenu
+            obj as ServerPlayer,
+            obj.containerMenu
         )
     }
 
@@ -50,17 +53,19 @@ class ServerPlayerMixin {
         )]
     )
     private fun doCloseContainer(ci: CallbackInfo) {
+        val obj = this as Any
         PlayerEvent.CLOSE_MENU.event.close(
-            this as ServerPlayer,
-            (this as ServerPlayer).containerMenu
+            obj as ServerPlayer,
+            obj.containerMenu
         )
     }
 
     @Inject(method = ["triggerDimensionChangeTriggers"], at = [At("HEAD")])
     private fun changeDimension(serverLevel: ServerLevel, ci: CallbackInfo) {
+        val obj = this as Any
         PlayerEvent.CHANGE_DIMENSION.event.change(
-            this as ServerPlayer, serverLevel.dimension(),
-            (this as ServerPlayer).level().dimension()
+            obj as ServerPlayer, serverLevel.dimension(),
+            obj.level().dimension()
         )
     }
 }

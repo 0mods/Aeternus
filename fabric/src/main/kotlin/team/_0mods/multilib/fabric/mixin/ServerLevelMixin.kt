@@ -18,14 +18,15 @@ import team._0mods.multilib.fabric.hooks.PersistentEntitySectionManagerHooks
 class ServerLevelMixin {
     @Shadow
     @Final
-    private val entityManager: PersistentEntitySectionManager<Entity>? = null
+    private lateinit var entityManager: PersistentEntitySectionManager<Entity>
 
     @Inject(
         method = ["save"],
         at = [At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerChunkCache;save(Z)V")]
     )
     private fun save(progressListener: ProgressListener, bl: Boolean, bl2: Boolean, ci: CallbackInfo) {
-        LifecycleEvent.SERVER_LEVEL_SAVE.event.onChanged(this as ServerLevel)
+        val obj = this as Any
+        LifecycleEvent.SERVER_LEVEL_SAVE.event.onChanged(obj as ServerLevel)
     }
 
     @Inject(
@@ -37,6 +38,7 @@ class ServerLevelMixin {
         cancellable = true
     )
     private fun addEntity(entity: Entity, cir: CallbackInfoReturnable<Boolean>) {
-        (entityManager as PersistentEntitySectionManagerHooks).mlAttachLevel(this as ServerLevel)
+        val obj = this as Any
+        (entityManager as PersistentEntitySectionManagerHooks).mlAttachLevel(obj as ServerLevel)
     }
 }

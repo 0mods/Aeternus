@@ -24,7 +24,7 @@ import java.util.function.Consumer
 class GameRendererMixin {
     @Shadow
     @Final
-    private var minecraft: Minecraft? = null
+    private lateinit var minecraft: Minecraft
 
     @Inject(
         method = ["render(FJZ)V"],
@@ -50,9 +50,7 @@ class GameRendererMixin {
         matrices: PoseStack,
         graphics: GuiGraphics
     ) {
-        if (ScreenEvent.RENDER_PRE.event
-                .render(minecraft!!.screen!!, graphics, mouseX, mouseY, minecraft!!.deltaFrameTime).isFalse
-        ) {
+        if (ScreenEvent.RENDER_PRE.event.render(minecraft.screen!!, graphics, mouseX, mouseY, minecraft.deltaFrameTime).isFalse) {
             ci.cancel()
         }
     }
@@ -82,7 +80,7 @@ class GameRendererMixin {
         graphics: GuiGraphics
     ) {
         ScreenEvent.RENDER_POST.event
-            .render(minecraft!!.screen!!, graphics, mouseX, mouseY, minecraft!!.deltaFrameTime)
+            .render(minecraft.screen!!, graphics, mouseX, mouseY, minecraft.deltaFrameTime)
     }
 
     @Inject(

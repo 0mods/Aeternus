@@ -15,10 +15,10 @@ import team._0mods.multilib.event.base.common.PlayerEvent
 class FurnaceResultSlotMixin {
     @Shadow
     @Final
-    private val player: Player? = null
+    private lateinit var player: Player
 
     @Inject(method = ["checkTakeAchievements"], at = [At("RETURN")])
     private fun checkTakeAchievements(itemStack: ItemStack, ci: CallbackInfo) {
-        PlayerEvent.SMELT_ITEM.event.smelt(player!!, itemStack)
+        PlayerEvent.SMELT_ITEM.event.smelt(player, itemStack)
     }
 }

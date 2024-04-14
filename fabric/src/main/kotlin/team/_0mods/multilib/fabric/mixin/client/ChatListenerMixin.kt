@@ -20,7 +20,7 @@ import java.util.Objects
 @Mixin(ChatListener::class)
 class ChatListenerMixin {
     @Unique
-    private var boundChatType: ChatType.Bound? = null
+    private var boundChatType: Bound? = null
 
     @Unique
     private var cancelNextChat: ThreadLocal<Component> = ThreadLocal()
@@ -32,7 +32,7 @@ class ChatListenerMixin {
         method = ["handlePlayerChatMessage"],
         at = [At(value = "INVOKE", target = "Ljava/time/Instant;now()Ljava/time/Instant;")]
     )
-    private fun handlePlayerChatMsg(chatMsg: PlayerChatMessage, gp: GameProfile, bound: ChatType.Bound, ci: CallbackInfo) {
+    private fun handlePlayerChatMsg(chatMsg: PlayerChatMessage, gp: GameProfile, bound: Bound, ci: CallbackInfo) {
         this.boundChatType = bound
     }
 

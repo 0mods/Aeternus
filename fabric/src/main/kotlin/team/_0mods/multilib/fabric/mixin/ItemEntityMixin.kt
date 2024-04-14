@@ -25,10 +25,11 @@ abstract class ItemEntityMixin {
         cancellable = true
     )
     private fun prePickup(player: Player, ci: CallbackInfo) {
+        val obj = this as Any
         cache = getItem().copy()
         val canPickUp = PlayerEvent.PICKUP_ITEM_PRE.event.canPickup(
             player,
-            this as ItemEntity, getItem()
+            obj as ItemEntity, getItem()
         )
         if (canPickUp.isFalse) {
             ci.cancel()
@@ -43,10 +44,11 @@ abstract class ItemEntityMixin {
         )]
     )
     private fun pickup(player: Player, ci: CallbackInfo) {
+        val obj = this as Any
         if (cache != null) {
             PlayerEvent.PICKUP_ITEM_POST.event.pickup(
                 player,
-                this as ItemEntity, cache!!
+                obj as ItemEntity, cache!!
             )
         }
 

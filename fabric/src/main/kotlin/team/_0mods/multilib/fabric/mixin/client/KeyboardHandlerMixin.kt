@@ -21,7 +21,7 @@ import team._0mods.multilib.fabric.hooks.ScreenInputDelegate
 class KeyboardHandlerMixin {
     @Shadow
     @Final
-    private val minecraft: Minecraft? = null
+    private lateinit var minecraft: Minecraft
 
     @ModifyVariable(method = ["method_1458", "lambda\$charTyped\$5"], at = At("HEAD"), ordinal = 0, argsOnly = true)
     private fun wrapCharTypedFirst(screen: GuiEventListener): GuiEventListener {
@@ -53,12 +53,12 @@ class KeyboardHandlerMixin {
             if (int_3 != 1 && int_3 != 2) {
                 if (int_3 == 0) {
                     val result = ScreenInputEvent.KEY_RELEASED_PRE.event
-                        .onRelease(minecraft!!, minecraft.screen!!, int_1, int_2, int_4)
+                        .onRelease(minecraft, minecraft.screen!!, int_1, int_2, int_4)
                     if (result.isPresent) info.cancel()
                 }
             } else {
                 val result = ScreenInputEvent.KEY_PRESSED_PRE.event
-                    .onPress(minecraft!!, minecraft.screen!!, int_1, int_2, int_4)
+                    .onPress(minecraft, minecraft.screen!!, int_1, int_2, int_4)
                 if (result.isPresent) info.cancel()
             }
         }
@@ -88,9 +88,9 @@ class KeyboardHandlerMixin {
     ) {
         if (!info.isCancelled && !bls[0]) {
             val result: EventResult = if (int_3 != 1 && int_3 != 2) {
-                ScreenInputEvent.KEY_RELEASED_POST.event.onRelease(minecraft!!, screen, int_1, int_2, int_4)
+                ScreenInputEvent.KEY_RELEASED_POST.event.onRelease(minecraft, screen, int_1, int_2, int_4)
             } else {
-                ScreenInputEvent.KEY_PRESSED_POST.event.onPress(minecraft!!, screen, int_1, int_2, int_4)
+                ScreenInputEvent.KEY_PRESSED_POST.event.onPress(minecraft, screen, int_1, int_2, int_4)
             }
             if (result.isPresent) info.cancel()
         }
@@ -98,7 +98,7 @@ class KeyboardHandlerMixin {
 
     @Inject(method = ["keyPress"], at = [At("RETURN")], cancellable = true)
     fun onRawKey(handle: Long, key: Int, scanCode: Int, action: Int, modifiers: Int, info: CallbackInfo) {
-        if (handle == minecraft!!.window.window) {
+        if (handle == minecraft.window.window) {
             val result =
                 InputEvent.KEY_PRESS.event.onPress(minecraft, key, scanCode, action, modifiers)
             if (result.isPresent) info.cancel()

@@ -11,6 +11,7 @@ import team._0mods.multilib.fabric.hooks.FabricEntityHooks
 class EntityMixin {
     @ModifyVariable(method = ["setLevelCallback"], argsOnly = true, ordinal = 0, at = At("HEAD"))
     fun modifyLevelCallbackSetLevelCallback(callback: EntityInLevelCallback?): EntityInLevelCallback? {
-        return FabricEntityHooks.wrapEntityInLevelCallback(this as Entity, callback)
+        val obj = this as Any
+        return FabricEntityHooks.wrapEntityInLevelCallback(obj as Entity, callback)
     }
 }

@@ -18,16 +18,16 @@ import team._0mods.multilib.event.base.client.ScreenInputEvent
 class MouseHandlerMixin {
     @Shadow
     @Final
-    private val minecraft: Minecraft? = null
+    private lateinit var minecraft: Minecraft
 
     @Shadow
-    private val activeButton = 0
+    private var activeButton = 0
 
     @Shadow
-    private val xpos = 0.0
+    private var xpos = 0.0
 
     @Shadow
-    private val ypos = 0.0
+    private var ypos = 0.0
 
     @Inject(
         method = ["onScroll"],
@@ -53,7 +53,7 @@ class MouseHandlerMixin {
     ) {
         if (!info.isCancelled) {
             val result = ScreenInputEvent.MOUSE_SCROLLED_PRE.event
-                .onScroll(minecraft!!, minecraft.screen!!, x, y, amountX, amountY)
+                .onScroll(minecraft, minecraft.screen!!, x, y, amountX, amountY)
             if (result.isPresent) info.cancel()
         }
     }
@@ -83,7 +83,7 @@ class MouseHandlerMixin {
     ) {
         if (!info.isCancelled) {
             val result = ScreenInputEvent.MOUSE_SCROLLED_POST.event
-                .onScroll(minecraft!!, minecraft.screen!!, x, y, amountX, amountY)
+                .onScroll(minecraft, minecraft.screen!!, x, y, amountX, amountY)
         }
     }
 
@@ -104,7 +104,7 @@ class MouseHandlerMixin {
         doubleY: Double
     ) {
         if (!info.isCancelled) {
-            val result = InputEvent.MOUSE_SCROLL.event.onScroll(minecraft!!, amountX, doubleY)
+            val result = InputEvent.MOUSE_SCROLL.event.onScroll(minecraft, amountX, doubleY)
             if (result.isPresent) info.cancel()
         }
     }
@@ -161,7 +161,7 @@ class MouseHandlerMixin {
     fun onRawMouseClicked(handle: Long, button: Int, action: Int, mods: Int, info: CallbackInfo) {
         if (!info.isCancelled) {
             val result =
-                InputEvent.MOUSE_CLICK_PRE.event.onClicked(minecraft!!, button, action, mods)
+                InputEvent.MOUSE_CLICK_PRE.event.onClicked(minecraft, button, action, mods)
             if (result.isPresent) info.cancel()
         }
     }
