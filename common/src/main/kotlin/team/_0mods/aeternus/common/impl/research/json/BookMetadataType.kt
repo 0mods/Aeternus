@@ -19,21 +19,23 @@ import team._0mods.multilib.util.rl
 
 @JvmRecord
 data class BookMetadataType(
-        val name: Name,
-        val texture: String,
-        val inBookPosition: Position
+    val name: Name,
+    val descText: Description,
+    val texture: String,
+    val inBookPosition: Position
 ): ResearchBookMetadata {
     companion object {
         val codec: Codec<BookMetadataType> = RecordCodecBuilder.create {
             it.group(
                 Name.codec.fieldOf("name").forGetter(BookMetadataType::name),
+                Description.codec.fieldOf("desc").forGetter(BookMetadataType::descText),
                 Codec.STRING.fieldOf("texture").orElse("aeternus:textures/empty_icon").forGetter(BookMetadataType::texture),
                 Position.codec.fieldOf("position").orElse(Position(0, 0)).forGetter(BookMetadataType::inBookPosition)
             ).apply(it, ::BookMetadataType)
         }
     }
 
-    override val translation: Component
+    override val title: Component
         get() = this.name.asComponent
 
     override val icon: ResourceLocation
@@ -41,6 +43,9 @@ data class BookMetadataType(
 
     override val position: Pair<Int, Int>
         get() = inBookPosition.x to inBookPosition.y
+
+    override val desc: Component
+        get() = descText.asComponent
 
     @JvmRecord
     data class Position(val x: Int, val y: Int) {
@@ -61,6 +66,23 @@ data class BookMetadataType(
                     Codec.STRING.fieldOf("type").orElse("string").forGetter { name -> name.type },
                     Codec.STRING.fieldOf("value").forGetter { name -> name.value }
                 ).apply(it, BookMetadataType::Name)
+            }
+        }
+        // On java: getAsComponent()
+        val asComponent: Component
+            get() {
+                return if (this.type == "string") Component.literal(this.value)
+                else Component.translatable(this.value)
+            }
+    }
+
+    data class Description(val type: String, val value: String) {
+        companion object {
+            val codec: Codec<Description> = RecordCodecBuilder.create {
+                it.group(
+                    Codec.STRING.fieldOf("type").orElse("string").forGetter { name -> name.type },
+                    Codec.STRING.fieldOf("value").forGetter { name -> name.value }
+                ).apply(it, BookMetadataType::Description)
             }
         }
         // On java: getAsComponent()

@@ -15,9 +15,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.util.ExtraCodecs
 import org.jetbrains.annotations.ApiStatus
-import team._0mods.aeternus.api.magic.research.Research
-import team._0mods.aeternus.api.magic.research.ResearchBookMetadata
-import team._0mods.aeternus.api.magic.research.ResearchTrigger
+import team._0mods.aeternus.api.magic.research.*
 import team._0mods.aeternus.common.init.AeternusCorePlugin
 import team._0mods.multilib.util.toRL
 import team._0mods.multilib.util.toRLList
@@ -49,15 +47,15 @@ data class ResearchType(
     override val name: ResourceLocation
         get() = id.toRL()
 
-    override val depends: List<Research>
-        get() = AeternusCorePlugin.researchRegistry.getResearchListByIdList(dependList.toRLList()).toList()
-
     override val etheriumNeedValue: Double
         get() = etheriumCount
-
-    override val triggers: List<ResearchTrigger>
-        get() = AeternusCorePlugin.triggerRegistry.getResearchTriggerListByIdList(triggerList.toRLList()).toList()
-
+    
     override val bookMetadata: ResearchBookMetadata
         get() = metadata
+
+    override val settings: ResearchSettings
+        get() = ResearchSettings.of(
+            AeternusCorePlugin.triggerRegistry.getResearchTriggerListByIdList(triggerList.toRLList()).toList(),
+            AeternusCorePlugin.researchRegistry.getResearchListByIdList(dependList.toRLList()).toList()
+        )
 }

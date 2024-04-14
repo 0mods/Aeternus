@@ -24,7 +24,7 @@ interface ResearchRegistry {
     @ApiStatus.ScheduledForRemoval
     @Deprecated("Deprecated.",
         level = DeprecationLevel.ERROR,
-        replaceWith = ReplaceWith("register(if (research.name == null) \"null\" else research.name.toString(), research)")
+        replaceWith = ReplaceWith("register(research.name.toString(), research)")
     )
     fun register(research: Research) = register(research.name.toString(), research)
 

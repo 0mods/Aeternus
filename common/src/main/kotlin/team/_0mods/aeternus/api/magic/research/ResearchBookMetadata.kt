@@ -14,12 +14,21 @@ import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 
 interface ResearchBookMetadata {
+    companion object
+
     /**
      * Translatable Research name.
      *
      * Returns [Component]
      */
-    val translation: Component
+    val title: Component
+
+    /**
+     * Translatable Research description.
+     *
+     * Returns [Component]
+     */
+    val desc: Component
 
     /**
      * Research texture.
@@ -29,7 +38,7 @@ interface ResearchBookMetadata {
     val icon: ResourceLocation
 
     /**
-     * Research position on book
+     * Research position on a book
      *
      * Returns [Pair] of Integer and Integer, where first Integer - x pos, but second Integer - y pos.
      */

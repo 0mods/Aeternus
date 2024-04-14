@@ -29,15 +29,6 @@ interface Research {
     val name: ResourceLocation get() = AeternusCorePlugin.researchRegistry.getIdByResearch(this)
 
     /**
-     * List of requirement researches for current research.
-     * It could be empty.
-     * If previous researches are not opened, this research can't be opened
-     *
-     * Returns [List] of [Research]es
-     */
-    val depends: List<Research>
-
-    /**
      * Count of consuming Etherium size.
      *
      * Returns count of needed etherium
@@ -45,19 +36,7 @@ interface Research {
     val etheriumNeedValue: Double
         get() = 0.0
 
-    /**
-     * Triggers, after which it opens current research
-     *
-     * Returns [List] of [ResearchTrigger]
-     */
-    val triggers: List<ResearchTrigger>
-
     val bookMetadata: ResearchBookMetadata
 
-    /**
-     * Haven't a javadoc. Sorry! I'm Lazy
-     */
-    fun addRequirementResearch(vararg research: Research) {}
-
-    fun addTriggers(vararg trigger: ResearchTrigger) {}
+    val settings: ResearchSettings
 }

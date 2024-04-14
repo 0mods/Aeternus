@@ -19,29 +19,40 @@ import net.minecraft.world.level.Level
 import team._0mods.aeternus.common.ModName
 import team._0mods.aeternus.common.init.registry.AeternusRegsitry
 import team._0mods.aeternus.service.ServiceProvider
+import team._0mods.multilib.event.base.common.InteractionEvent
+import team._0mods.multilib.event.base.common.PlayerEvent
+import team._0mods.multilib.event.result.EventResult
+import team._0mods.multilib.event.result.EventResultHolder
 import kotlin.random.Random
 
 object CommonEvents {
     private const val PLAYER_UUID_ITEM = "${ModName}PlayerCheckUUID"
 
-    fun onPlayerInteract(player: Player, hand: InteractionHand, level: Level?) {
-        if (hand == InteractionHand.MAIN_HAND) {
-            val stack = player.getItemInHand(hand)
-            if (stack.`is`(Items.BOOK)) {
-                val stackOfKNBook = ItemStack(AeternusRegsitry.knowledgeBook)
-                if (!player.inventory.contains(stack)) {
-                    val etheriumCount = ServiceProvider.etheriumHelper.getCountForPlayer(player)
-                    val random = Random(35)
-                    if (etheriumCount >= 35) {
-                        player.getItemInHand(hand).shrink(1)
-                        stackOfKNBook.orCreateTag.putUUID(PLAYER_UUID_ITEM, player.uuid)
-                        val droppedItem = level?.let { ItemEntity(it, player.x, player.y, player.z, stackOfKNBook) }
-                        droppedItem?.setNoPickUpDelay()
-                        level?.addFreshEntity(droppedItem!!)
-                        ServiceProvider.etheriumHelper.consume(player, random.nextInt())
+    fun events() {
+        InteractionEvent.RIGHT_CLICK_ITEM.register { player, hand ->
+            val level = player.level()
+            if (hand == InteractionHand.MAIN_HAND) {
+                val stack = player.getItemInHand(hand)
+                if (stack.`is`(Items.BOOK)) {
+                    val stackOfKNBook = ItemStack(AeternusRegsitry.knowledgeBook)
+                    if (!player.inventory.contains(stackOfKNBook)) {
+                        val etheriumCount = ServiceProvider.etheriumHelper.getCountForPlayer(player)
+                        val random = Random(35)
+                        if (etheriumCount >= 35) {
+                            player.getItemInHand(hand).shrink(1)
+                            stackOfKNBook.orCreateTag.putUUID(PLAYER_UUID_ITEM, player.uuid)
+                            val droppedItem = ItemEntity(level, player.x, player.y, player.z, stackOfKNBook)
+                            droppedItem.setNoPickUpDelay()
+                            level.addFreshEntity(droppedItem)
+                            ServiceProvider.etheriumHelper.consume(player, random.nextInt())
+                            return@register EventResultHolder(EventResult.resultTrue(), stack)
+                        } else {
+                            return@register EventResultHolder(EventResult.resultFalse(), stack)
+                        }
                     }
                 }
             }
+            return@register EventResultHolder.pass()
         }
     }
 }
