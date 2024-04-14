@@ -15,9 +15,7 @@ import team._0mods.aeternus.api.magic.research.Research
 import team._0mods.aeternus.api.registry.ResearchRegistry
 import team._0mods.aeternus.common.LOGGER
 import team._0mods.multilib.service.ServiceProvider
-import team._0mods.multilib.util.fromMapToListByList
-import team._0mods.multilib.util.revert
-import team._0mods.multilib.util.rl
+import team._0mods.multilib.util.*
 
 class ResearchRegistryImpl(private val modId: String): ResearchRegistry {
     private val researchMap: MutableMap<ResourceLocation, Research> = linkedMapOf()
@@ -27,7 +25,9 @@ class ResearchRegistryImpl(private val modId: String): ResearchRegistry {
 
     override fun getResearchById(id: ResourceLocation): Research? = researchMap[id]
 
-    override fun getIdByResearch(research: Research): ResourceLocation? = researchMap.revert()[research]
+    override fun getIdByResearch(research: Research): ResourceLocation {
+        return researchMap.revert()[research] ?: throw NullPointerException("Research $research is not have an identifier. Why?")
+    }
 
     override fun register(id: String, research: Research) {
         val resLocId = "${this.modId}:$id".rl

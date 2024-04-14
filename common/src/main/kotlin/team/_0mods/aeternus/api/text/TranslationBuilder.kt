@@ -58,18 +58,12 @@ open class TranslationBuilder protected constructor(private var prepend: String 
     val string: String = this.build.string
 
     companion object {
-        @JvmField
-        val SHIFT = msg("shift")
-        @JvmField
-        val ALT = msg("alt")
-        @JvmField
-        val CTRL = msg("ctrl")
-        @JvmField
-        val SHIFT_ALT = msg("shift_alt")
-        @JvmField
-        val SHIFT_CTRL = msg("shift_ctrl")
-        @JvmField
-        val ALT_CTRL = msg("alt_ctrl")
+        @JvmField val SHIFT = msg("shift")
+        @JvmField val ALT = msg("alt")
+        @JvmField val CTRL = msg("ctrl")
+        @JvmField val SHIFT_ALT = msg("shift_alt")
+        @JvmField val SHIFT_CTRL = msg("shift_ctrl")
+        @JvmField val ALT_CTRL = msg("alt_ctrl")
 
         fun builder(key: String): TranslationBuilder = TranslationBuilder(key)
 

@@ -11,6 +11,8 @@
 package team._0mods.aeternus.api.magic.research
 
 import net.minecraft.resources.ResourceLocation
+import org.jetbrains.annotations.ApiStatus
+import team._0mods.aeternus.common.init.AeternusCorePlugin
 
 interface Research {
     /**
@@ -18,12 +20,18 @@ interface Research {
      *
      * Returns [ResourceLocation]
      */
-    val name: ResourceLocation
+    @get:ApiStatus.ScheduledForRemoval
+    @get:Deprecated("Deprecated as unused.",
+        ReplaceWith(
+            "AeternusCorePlugin.researchRegistry.getIdByResearch(this)",
+            "team._0mods.aeternus.common.init.AeternusCorePlugin"
+        ), level = DeprecationLevel.WARNING)
+    val name: ResourceLocation get() = AeternusCorePlugin.researchRegistry.getIdByResearch(this)
 
     /**
      * List of requirement researches for current research.
      * It could be empty.
-     * If previous researches is not opened, this research can't be opened
+     * If previous researches are not opened, this research can't be opened
      *
      * Returns [List] of [Research]es
      */

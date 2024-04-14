@@ -34,7 +34,7 @@ class ToolMaterialCreation private constructor(
     override fun getRepairIngredient(): Ingredient = this.ingredient
 
     companion object {
-        val builder = Builder()
+        internal val builder = Builder()
     }
 
     class Builder {

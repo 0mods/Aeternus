@@ -19,12 +19,14 @@ import net.minecraftforge.common.util.INBTSerializable
 import net.minecraftforge.common.util.LazyOptional
 import team._0mods.aeternus.api.magic.research.Research
 import team._0mods.aeternus.api.magic.research.player.PlayerResearch
-import team._0mods.aeternus.api.util.rl
+import team._0mods.multilib.util.rl
 import team._0mods.aeternus.common.init.AeternusCorePlugin
 import team._0mods.aeternus.forge.api.emptyLazyOpt
 import team._0mods.aeternus.forge.api.lazyOptOf
 
 class PlayerResearchCapability: PlayerResearch {
+    private val resReg = AeternusCorePlugin.researchRegistry
+
     private val researchList: MutableList<Research> = mutableListOf()
 
     override val researches: List<Research>
@@ -38,7 +40,8 @@ class PlayerResearchCapability: PlayerResearch {
         val tag = ListTag()
 
         this.researches.forEach {
-            tag.add(StringTag.valueOf(it.name.toString()))
+            val research = resReg.getIdByResearch(it)
+            tag.add(StringTag.valueOf(research.toString()))
         }
 
         return tag
@@ -49,12 +52,10 @@ class PlayerResearchCapability: PlayerResearch {
             for (i in 0 ..< tag.size) {
                 val founded = tag.getString(i)
 
-                if (!researches.stream().noneMatch { it.name == founded.rl })
-                    continue
-                else {
-                    val foundedResearch = AeternusCorePlugin.researchRegistry.getResearchById(founded.rl) ?: continue
+                if (!researches.stream().noneMatch { resReg.getIdByResearch(it) == founded.rl }) {
+                    val foundedResearch = resReg.getResearchById(founded.rl)!!
                     this.addResearch(foundedResearch)
-                }
+                } else continue
             }
         }
     }

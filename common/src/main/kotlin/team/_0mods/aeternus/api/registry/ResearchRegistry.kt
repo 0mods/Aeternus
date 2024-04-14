@@ -19,12 +19,12 @@ interface ResearchRegistry {
 
     fun getResearchById(id: ResourceLocation): Research?
 
-    fun getIdByResearch(research: Research): ResourceLocation?
+    fun getIdByResearch(research: Research): ResourceLocation
 
     @ApiStatus.ScheduledForRemoval
     @Deprecated("Deprecated.",
-        ReplaceWith("register(ResourceLocation, Research)"),
-        level = DeprecationLevel.ERROR
+        level = DeprecationLevel.ERROR,
+        replaceWith = ReplaceWith("register(if (research.name == null) \"null\" else research.name.toString(), research)")
     )
     fun register(research: Research) = register(research.name.toString(), research)
 
