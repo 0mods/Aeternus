@@ -21,7 +21,7 @@ import org.apache.commons.io.IOUtils
 import team._0mods.aeternus.api.gui.widget.BookWidget
 import team._0mods.aeternus.common.LOGGER
 import team._0mods.aeternus.common.ModId
-import team._0mods.multilib.util.toRL
+import team._0mods.multilib.util.rl
 import java.io.IOException
 import java.io.Reader
 import java.lang.reflect.Type
@@ -51,13 +51,13 @@ class BookEntry(
 
     private fun rawTxtFromFile(file: String, screen: AeternusBookScreen, maxLineSize: Int) {
         val lang: String = Minecraft.getInstance().languageManager.selected.lowercase()
-        var fileRL = "$bookDirectory$lang/$file".toRL()
+        var fileRL = "$bookDirectory$lang/$file".rl
         try {
             val str = Minecraft.getInstance().resourceManager.open(fileRL)
             str.close()
         } catch (e: Exception) {
             LOGGER.warn("Failed to find language file for current ({}) translation. Using default \"en_us\"", fileRL.toString(), e)
-            fileRL = "${bookDirectory}en_us/$file".toRL()
+            fileRL = "${bookDirectory}en_us/$file".rl
         }
 
         val strings = arrayListOf<String>()

@@ -10,10 +10,19 @@
 
 package team._0mods.aeternus.api.goal
 
+import net.minecraft.core.BlockPos
+import net.minecraft.core.Direction
+import net.minecraft.tags.BlockTags
 import net.minecraft.world.Difficulty
+import net.minecraft.world.InteractionHand
 import net.minecraft.world.entity.Mob
+import net.minecraft.world.entity.TamableAnimal
 import net.minecraft.world.entity.ai.goal.BreakDoorGoal
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.level.block.DoorBlock
 import team._0mods.aeternus.common.init.registry.AeternusRegsitry
+import team._0mods.multilib.event.base.common.InteractionEvent
+import team._0mods.multilib.event.result.EventResult
 import java.util.function.Predicate
 
 class AltakeBreakDoorGoal(
@@ -28,6 +37,29 @@ class AltakeBreakDoorGoal(
             this(mob, -1, validDifficulties)
 
     override fun canUse(): Boolean {
-        return if (this.isAltake && this.isNight) super.canUse() else true
+        val tame = mob
+        if (tame is TamableAnimal) {
+            if (tame.owner != null) {
+                val owner = tame.owner
+                var returnValue = false
+                if (owner is Player) {
+                    InteractionEvent.LEFT_CLICK_BLOCK.register { player, hand, pos, direction ->
+                        if (owner == player) {
+                            val level = player.level()
+                            val block = level.getBlockState(pos).block
+
+                            if (block is DoorBlock) {
+                                returnValue = true
+                            }
+                        }
+
+                        return@register EventResult.pass()
+                    }
+                    return returnValue
+                }
+            }
+        }
+
+        return if (this.isAltake && this.isNight) super.canUse() else false
     }
 }

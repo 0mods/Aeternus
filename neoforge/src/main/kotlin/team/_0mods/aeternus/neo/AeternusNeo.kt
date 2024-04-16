@@ -1,6 +1,6 @@
 /*
  * All Rights Received
- * Copyright (c) 2024 AlgorithmLX & 0mods.
+ * Copyright (c) 2024.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
  * WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
@@ -16,10 +16,15 @@ import team._0mods.aeternus.common.ModId
 import team._0mods.aeternus.common.commonInit
 import team._0mods.aeternus.neo.init.ANRegistryHandler
 import team._0mods.aeternus.neo.init.PluginHolder
+import team._0mods.multilib.event.core.EventHandler
 
 @Mod(ModId)
 class AeternusNeo(bus: IEventBus) {
     init {
+        // MULTILIB START
+        EventHandler.init()
+        // MULTILIB END
+
         ANRegistryHandler.init(bus)
         commonInit()
         PluginHolder.loadPlugins()

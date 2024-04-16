@@ -19,6 +19,7 @@ import team._0mods.multilib.util.resloc
 
 object BiomeRegistryHolder {
     lateinit var biomeRegistry: Registry<Biome>
+        private set // not settable
 
     @JvmStatic
     fun loadBiomeReg(server: MinecraftServer) {

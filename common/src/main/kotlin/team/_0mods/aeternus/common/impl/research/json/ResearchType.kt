@@ -17,7 +17,7 @@ import net.minecraft.util.ExtraCodecs
 import org.jetbrains.annotations.ApiStatus
 import team._0mods.aeternus.api.magic.research.*
 import team._0mods.aeternus.common.init.AeternusCorePlugin
-import team._0mods.multilib.util.toRL
+import team._0mods.multilib.util.rl
 import team._0mods.multilib.util.toRLList
 
 @ApiStatus.Internal
@@ -45,7 +45,7 @@ data class ResearchType(
     }
 
     override val name: ResourceLocation
-        get() = id.toRL()
+        get() = id.rl
 
     override val etheriumNeedValue: Double
         get() = etheriumCount

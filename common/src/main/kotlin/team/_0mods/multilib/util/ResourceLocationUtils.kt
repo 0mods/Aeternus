@@ -27,10 +27,12 @@
 package team._0mods.multilib.util
 
 import net.minecraft.resources.ResourceLocation
+import team._0mods.aeternus.common.ModId
 
 fun resloc(id: String, path: String) = ResourceLocation(id, path)
 
+val String.aRl: ResourceLocation
+    get() = "$ModId:$this".rl
+
 val String.rl: ResourceLocation
     get() = ResourceLocation(this)
-
-fun String.toRL(): ResourceLocation = ResourceLocation(this)

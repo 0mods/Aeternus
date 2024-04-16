@@ -11,15 +11,22 @@
 package team._0mods.aeternus.forge
 
 import net.minecraftforge.fml.common.Mod
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
 import team._0mods.aeternus.common.ModId
 import team._0mods.aeternus.common.commonInit
 import team._0mods.aeternus.forge.init.AFRegistryHandler
 import team._0mods.aeternus.forge.init.PluginHolder
+import team._0mods.multilib.event.core.EventHandler
+import team._0mods.multilib.forge.bus.ForgeEventBusHelper
 import thedarkcolour.kotlinforforge.forge.MOD_BUS
 
 @Mod(ModId)
 class AeternusForge {
     init {
+        // MULTILIB START
+        ForgeEventBusHelper.registerModEvent(team._0mods.multilib.ModId, FMLJavaModLoadingContext.get().modEventBus)
+        EventHandler.init()
+        // MULTILIB END
         AFRegistryHandler.init(MOD_BUS)
         commonInit()
         PluginHolder.loadPlugins()

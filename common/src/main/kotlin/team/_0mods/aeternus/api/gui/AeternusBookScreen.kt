@@ -15,14 +15,14 @@ import net.minecraft.client.gui.screens.Screen
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.packs.resources.Resource
-import team._0mods.multilib.util.toRL
+import team._0mods.multilib.util.rl
 import java.io.IOException
 import java.nio.file.AccessDeniedException
 import java.util.*
 
 open class AeternusBookScreen(text: Component) : Screen(text) {
     protected fun readBookEntry(rl: ResourceLocation): BookEntry? {
-        var resource: Optional<Resource>? = null
+        val resource: Optional<Resource>?
         var page: BookEntry? = null
 
         try {
@@ -41,7 +41,7 @@ open class AeternusBookScreen(text: Component) : Screen(text) {
     }
 
     fun isVisibleEntry(lTo: String): Boolean {
-        val rl = "${bookDirectory}$lTo".toRL()
+        val rl = "${bookDirectory}$lTo".rl
         val entry = readBookEntry(rl)
         return entry != null && entry.isUnlocked(this) || Minecraft.getInstance().player != null && Minecraft.getInstance().player!!.isCreative
     }

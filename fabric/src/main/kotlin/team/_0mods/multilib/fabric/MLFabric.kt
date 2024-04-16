@@ -26,6 +26,19 @@
 
 package team._0mods.multilib.fabric
 
-fun commonSetup() {}
+import net.minecraft.client.Minecraft
+import team._0mods.multilib.event.base.client.ClientLifecycleEvent
+import team._0mods.multilib.event.base.common.LifecycleEvent
 
-fun clientSetup() {}
+fun commonSetup() {
+
+}
+
+fun serverSetup() {
+    LifecycleEvent.SETUP.event.run()
+}
+
+fun clientSetup() {
+    LifecycleEvent.SETUP.event.run()
+    ClientLifecycleEvent.CLIENT_SETUP.event.onChanged(Minecraft.getInstance())
+}

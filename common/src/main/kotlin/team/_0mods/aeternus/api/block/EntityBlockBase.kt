@@ -38,13 +38,11 @@ import net.minecraft.world.phys.BlockHitResult
 import team._0mods.aeternus.api.block.blockentity.IBlockEntity
 import team._0mods.aeternus.api.block.blockentity.IMenued
 import team._0mods.aeternus.api.block.blockentity.IStorable
-import team._0mods.aeternus.api.block.blockentity.ITickBlockEntity
 
 abstract class EntityBlockBase(private val blockEntity: (BlockPos, BlockState) -> BlockEntity, properties: Properties): BaseEntityBlock(properties) {
     override fun newBlockEntity(p0: BlockPos, p1: BlockState): BlockEntity = blockEntity.invoke(p0, p1)
 
     @Suppress(
-            "DEPRECATION",
             "UNCHECKED_CAST"
     )
     override fun <T : BlockEntity?> getTicker(
@@ -52,10 +50,10 @@ abstract class EntityBlockBase(private val blockEntity: (BlockPos, BlockState) -
             state: BlockState,
             type: BlockEntityType<T>
     ): BlockEntityTicker<T>? = BlockEntityTicker { lvl, blockPos, blockState, entity ->
-        if (entity is ITickBlockEntity<*>) {
+        if (entity is IBlockEntity<*>) {
             if (lvl.isClientSide())
-                (entity as ITickBlockEntity<T>).tickOnClient(lvl, blockPos, blockState, entity)
-            else (entity as ITickBlockEntity<T>).tickOnServer(lvl, blockPos, blockState, entity)
+                (entity as IBlockEntity<T>).tickOnClient(lvl, blockPos, blockState, entity)
+            else (entity as IBlockEntity<T>).tickOnServer(lvl, blockPos, blockState, entity)
         }
     }
 
