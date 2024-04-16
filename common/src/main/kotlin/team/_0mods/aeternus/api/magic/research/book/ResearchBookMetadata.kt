@@ -1,6 +1,6 @@
 /*
  * All Rights Received
- * Copyright (c) 2024 AlgorithmLX & 0mods.
+ * Copyright (c) 2024.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
  * WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
@@ -8,7 +8,7 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package team._0mods.aeternus.api.magic.research
+package team._0mods.aeternus.api.magic.research.book
 
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
@@ -38,9 +38,24 @@ interface ResearchBookMetadata {
     val icon: ResourceLocation
 
     /**
-     * Research position on a book
+     * Research offset on a book
      *
      * Returns [Pair] of Integer and Integer, where first Integer - x pos, but second Integer - y pos.
      */
-    val position: Pair<Int, Int>
+    val offset: Pair<Int, Int>
+        get() = 0 to 0
+    /**
+     * Research alignment on a book
+     *
+     * Returns [ResearchAlignment]
+     */
+    val alignment: ResearchAlignment
+
+    /**
+     * Research shape on a book
+     *
+     * Returns [ResearchShape]
+     */
+    val shape: ResearchShape
+        get() = ResearchShape.CIRCLE
 }

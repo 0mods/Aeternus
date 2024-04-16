@@ -12,6 +12,7 @@ package team._0mods.aeternus.api.magic.research
 
 import net.minecraft.resources.ResourceLocation
 import org.jetbrains.annotations.ApiStatus
+import team._0mods.aeternus.api.magic.research.book.ResearchBookMetadata
 import team._0mods.aeternus.common.init.AeternusCorePlugin
 
 interface Research {

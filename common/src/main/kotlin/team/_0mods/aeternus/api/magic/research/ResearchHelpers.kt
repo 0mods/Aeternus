@@ -2,6 +2,9 @@ package team._0mods.aeternus.api.magic.research
 
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
+import team._0mods.aeternus.api.magic.research.book.ResearchAlignment
+import team._0mods.aeternus.api.magic.research.book.ResearchBookMetadata
+import team._0mods.aeternus.api.magic.research.book.ResearchShape
 import team._0mods.aeternus.common.impl.research.ResearchBookMetadataImpl
 import team._0mods.aeternus.common.impl.research.ResearchSettingsImpl
 import team._0mods.multilib.util.rl
@@ -32,14 +35,94 @@ fun ResearchSettings.Companion.of(vararg triggers: ResearchTrigger) = this.of(tr
 fun ResearchSettings.Companion.of(triggers: Array<ResearchTrigger>) = this.of(triggers.toList())
 
 // Research Metadata
-fun ResearchBookMetadata.Companion.of(title: Component, desc: Component, icon: ResourceLocation, pos: Pair<Int, Int>): ResearchBookMetadata =
-    ResearchBookMetadataImpl(title, desc, icon, pos)
+fun ResearchBookMetadata.Companion.of(
+    title: Component,
+    desc: Component,
+    icon: ResourceLocation,
+    pos: Pair<Int, Int>,
+    align: ResearchAlignment,
+    shape: ResearchShape
+): ResearchBookMetadata = ResearchBookMetadataImpl(title, desc, icon, pos, align, shape)
 
-fun ResearchBookMetadata.Companion.of(title: Component, desc: Component, icon: String, pos: Pair<Int, Int>): ResearchBookMetadata =
-    this.of(title, desc, icon.rl, pos)
+fun ResearchBookMetadata.Companion.of(
+    title: Component,
+    desc: Component,
+    icon: String,
+    pos: Pair<Int, Int>,
+    align: ResearchAlignment,
+    shape: ResearchShape
+): ResearchBookMetadata = this.of(title, desc, icon.rl, pos, align, shape)
 
-fun ResearchBookMetadata.Companion.of(title: Component, desc: Component, icon: ResourceLocation, x: Int, y: Int): ResearchBookMetadata =
-    this.of(title, desc, icon, x to y)
+fun ResearchBookMetadata.Companion.of(
+    title: Component,
+    desc: Component,
+    icon: ResourceLocation,
+    pos: Pair<Int, Int>,
+    align: ResearchAlignment
+): ResearchBookMetadata = this.of(title, desc, icon, pos, align, ResearchShape.SQUARE)
 
-fun ResearchBookMetadata.Companion.of(title: Component, desc: Component, icon: String, x: Int, y: Int): ResearchBookMetadata =
-    this.of(title, desc, icon, x to y)
+fun ResearchBookMetadata.Companion.of(
+    title: Component,
+    desc: Component,
+    icon: String,
+    pos: Pair<Int, Int>,
+    align: ResearchAlignment
+): ResearchBookMetadata = this.of(title, desc, icon.rl, pos, align)
+
+fun ResearchBookMetadata.Companion.of(
+    title: Component,
+    desc: Component,
+    icon: ResourceLocation,
+    x: Int,
+    y: Int,
+    align: ResearchAlignment,
+    shape: ResearchShape
+): ResearchBookMetadata = this.of(title, desc, icon, x to y, align, shape)
+
+fun ResearchBookMetadata.Companion.of(
+    title: Component,
+    desc: Component,
+    icon: ResourceLocation,
+    x: Int,
+    y: Int,
+    align: ResearchAlignment
+): ResearchBookMetadata = this.of(title, desc, icon, x, y, align, ResearchShape.SQUARE)
+
+fun ResearchBookMetadata.Companion.of(
+    title: Component,
+    desc: Component,
+    icon: String,
+    x: Int,
+    y: Int,
+    align: ResearchAlignment
+): ResearchBookMetadata = this.of(title, desc, icon.rl, x, y, align)
+
+fun ResearchBookMetadata.Companion.of(
+    title: Component,
+    desc: Component,
+    icon: ResourceLocation,
+    align: ResearchAlignment,
+    shape: ResearchShape
+): ResearchBookMetadata = this.of(title, desc, icon, 0 to 0, align, shape)
+
+fun ResearchBookMetadata.Companion.of(
+    title: Component,
+    desc: Component,
+    icon: String,
+    align: ResearchAlignment,
+    shape: ResearchShape
+): ResearchBookMetadata = this.of(title, desc, icon, 0 to 0, align, shape)
+
+fun ResearchBookMetadata.Companion.of(
+    title: Component,
+    desc: Component,
+    icon: ResourceLocation,
+    align: ResearchAlignment,
+): ResearchBookMetadata = this.of(title, desc, icon, 0 to 0, align, ResearchShape.SQUARE)
+
+fun ResearchBookMetadata.Companion.of(
+    title: Component,
+    desc: Component,
+    icon: String,
+    align: ResearchAlignment
+): ResearchBookMetadata = this.of(title, desc, icon, 0 to 0, align, ResearchShape.SQUARE)

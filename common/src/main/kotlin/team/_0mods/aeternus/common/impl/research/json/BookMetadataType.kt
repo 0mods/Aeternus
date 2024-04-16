@@ -14,7 +14,9 @@ import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
-import team._0mods.aeternus.api.magic.research.ResearchBookMetadata
+import team._0mods.aeternus.api.magic.research.book.ResearchAlignment
+import team._0mods.aeternus.api.magic.research.book.ResearchBookMetadata
+import team._0mods.aeternus.api.magic.research.book.ResearchShape
 import team._0mods.multilib.util.rl
 
 @JvmRecord
@@ -22,7 +24,9 @@ data class BookMetadataType(
     val name: Name,
     val descText: Description,
     val texture: String,
-    val inBookPosition: Position
+    val inBookPosition: Position,
+    val alignId: Int,
+    val shapeId: Int
 ): ResearchBookMetadata {
     companion object {
         val codec: Codec<BookMetadataType> = RecordCodecBuilder.create {
@@ -30,7 +34,9 @@ data class BookMetadataType(
                 Name.codec.fieldOf("name").forGetter(BookMetadataType::name),
                 Description.codec.fieldOf("desc").forGetter(BookMetadataType::descText),
                 Codec.STRING.fieldOf("texture").orElse("aeternus:textures/empty_icon").forGetter(BookMetadataType::texture),
-                Position.codec.fieldOf("position").orElse(Position(0, 0)).forGetter(BookMetadataType::inBookPosition)
+                Position.codec.fieldOf("position").orElse(Position(0, 0)).forGetter(BookMetadataType::inBookPosition),
+                Codec.INT.fieldOf("alignment").orElse(0).forGetter(BookMetadataType::alignId),
+                Codec.INT.fieldOf("shape").orElse(0).forGetter(BookMetadataType::shapeId)
             ).apply(it, ::BookMetadataType)
         }
     }
@@ -41,11 +47,17 @@ data class BookMetadataType(
     override val icon: ResourceLocation
         get() = texture.rl
 
-    override val position: Pair<Int, Int>
+    override val offset: Pair<Int, Int>
         get() = inBookPosition.x to inBookPosition.y
 
     override val desc: Component
         get() = descText.asComponent
+
+    override val alignment: ResearchAlignment
+        get() = ResearchAlignment.getById(alignId)
+
+    override val shape: ResearchShape
+        get() = ResearchShape.getById(shapeId)
 
     @JvmRecord
     data class Position(val x: Int, val y: Int) {
@@ -68,7 +80,7 @@ data class BookMetadataType(
                 ).apply(it, BookMetadataType::Name)
             }
         }
-        // On java: getAsComponent()
+
         val asComponent: Component
             get() {
                 return if (this.type == "string") Component.literal(this.value)
@@ -85,7 +97,7 @@ data class BookMetadataType(
                 ).apply(it, BookMetadataType::Description)
             }
         }
-        // On java: getAsComponent()
+
         val asComponent: Component
             get() {
                 return if (this.type == "string") Component.literal(this.value)

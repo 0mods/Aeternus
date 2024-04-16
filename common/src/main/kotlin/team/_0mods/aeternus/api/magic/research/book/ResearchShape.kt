@@ -1,6 +1,6 @@
 /*
  * All Rights Received
- * Copyright (c) 2024 AlgorithmLX & 0mods.
+ * Copyright (c) 2024.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
  * WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
@@ -8,13 +8,18 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package team._0mods.aeternus.common.impl.research
+package team._0mods.aeternus.api.magic.research.book
 
-import net.minecraft.resources.ResourceLocation
-import team._0mods.aeternus.api.magic.research.Research
-import team._0mods.aeternus.api.magic.research.ResearchSettings
+enum class ResearchShape {
+    SQUARE,
+    CIRCLE;
 
-abstract class SimpleResearch(private val id: ResourceLocation, override val settings: ResearchSettings): Research {
-    override val name: ResourceLocation
-        get() = this.id
+    companion object {
+        fun getById(id: Int): ResearchShape {
+            val values = entries.toTypedArray().size - 1
+            if (id > values) throw IllegalStateException("Research shape id '$id' is larger than $values")
+
+            return ResearchShape.entries[id]
+        }
+    }
 }
