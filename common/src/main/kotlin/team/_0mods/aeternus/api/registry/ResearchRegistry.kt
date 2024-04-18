@@ -15,11 +15,20 @@ import org.jetbrains.annotations.ApiStatus
 import team._0mods.aeternus.api.magic.research.Research
 
 interface ResearchRegistry {
+    /**
+     * List of registered researches.
+     * Is not mutable!
+     *
+     * Returns [List] of [Research]es
+     */
     val researches: List<Research>
 
-    fun getResearchById(id: ResourceLocation): Research?
+
+    fun getResearchById(id: ResourceLocation): Research
 
     fun getIdByResearch(research: Research): ResourceLocation
+
+    fun getIdByResearch(id: Int, research: Research): ResourceLocation
 
     @ApiStatus.ScheduledForRemoval
     @Deprecated("Deprecated.",

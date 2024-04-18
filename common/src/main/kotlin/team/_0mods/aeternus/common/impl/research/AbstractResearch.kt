@@ -14,7 +14,7 @@ import net.minecraft.resources.ResourceLocation
 import team._0mods.aeternus.api.magic.research.Research
 import team._0mods.aeternus.api.magic.research.ResearchSettings
 
-abstract class SimpleResearch(private val id: ResourceLocation, override val settings: ResearchSettings): Research {
+abstract class AbstractResearch(private val rlId: ResourceLocation, override val settings: ResearchSettings): Research {
     override val name: ResourceLocation
-        get() = this.id
+        get() = this.rlId
 }

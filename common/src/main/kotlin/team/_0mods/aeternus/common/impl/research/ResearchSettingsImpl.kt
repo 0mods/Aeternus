@@ -19,6 +19,6 @@ internal class ResearchSettingsImpl(
     }
 
     override fun addTriggers(vararg trigger: ResearchTrigger) {
-        TODO("Not yet implemented")
+
     }
 }
