@@ -14,9 +14,11 @@ import net.minecraft.resources.ResourceLocation
 import org.jetbrains.annotations.ApiStatus
 import team._0mods.aeternus.api.magic.research.Research
 import team._0mods.aeternus.api.registry.ResearchRegistry
+import team._0mods.aeternus.api.util.fromMapToListByList
+import team._0mods.aeternus.api.util.revert
+import team._0mods.aeternus.api.util.rl
 import team._0mods.aeternus.common.LOGGER
-import team._0mods.multilib.service.ServiceProvider
-import team._0mods.multilib.util.*
+import team._0mods.aeternus.service.ServiceProvider
 
 @ApiStatus.Internal
 class ResearchRegistryImpl(private val modId: String): ResearchRegistry {

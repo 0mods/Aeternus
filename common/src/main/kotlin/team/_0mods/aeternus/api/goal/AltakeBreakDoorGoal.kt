@@ -10,19 +10,15 @@
 
 package team._0mods.aeternus.api.goal
 
-import net.minecraft.core.BlockPos
-import net.minecraft.core.Direction
-import net.minecraft.tags.BlockTags
+import dev.architectury.event.EventResult
+import dev.architectury.event.events.common.InteractionEvent
 import net.minecraft.world.Difficulty
-import net.minecraft.world.InteractionHand
 import net.minecraft.world.entity.Mob
 import net.minecraft.world.entity.TamableAnimal
 import net.minecraft.world.entity.ai.goal.BreakDoorGoal
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.level.block.DoorBlock
 import team._0mods.aeternus.common.init.registry.AeternusRegsitry
-import team._0mods.multilib.event.base.common.InteractionEvent
-import team._0mods.multilib.event.result.EventResult
 import java.util.function.Predicate
 
 class AltakeBreakDoorGoal(

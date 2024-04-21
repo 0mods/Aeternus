@@ -19,7 +19,7 @@ import net.minecraftforge.common.util.INBTSerializable
 import net.minecraftforge.common.util.LazyOptional
 import team._0mods.aeternus.api.magic.research.Research
 import team._0mods.aeternus.api.magic.research.player.PlayerResearch
-import team._0mods.multilib.util.rl
+import team._0mods.aeternus.api.util.rl
 import team._0mods.aeternus.common.init.AeternusCorePlugin
 import team._0mods.aeternus.forge.api.emptyLazyOpt
 import team._0mods.aeternus.forge.api.lazyOptOf

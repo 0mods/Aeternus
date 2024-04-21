@@ -1,6 +1,6 @@
 /*
  * All Rights Received
- * Copyright (c) 2024 AlgorithmLX & 0mods.
+ * Copyright (c) 2024.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
  * WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
@@ -8,17 +8,20 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package team._0mods.aeternus.forge
+package team._0mods.aeternus.service.core
 
-import net.minecraftforge.fml.common.Mod
-import team._0mods.aeternus.common.ModId
-import team._0mods.aeternus.common.commonInit
-import team._0mods.aeternus.forge.init.PluginHolder
+interface PlatformHelper {
+    fun isProduction(): Boolean
 
-@Mod(ModId)
-class AeternusForge {
-    init {
-        commonInit()
-        PluginHolder.loadPlugins()
-    }
+    fun isPhysicalClient(): Boolean
+
+    fun isPhysicalServer(): Boolean = !isPhysicalClient()
+
+    fun isModLoaded(modId: String): Boolean
+
+    fun getModNameByModId(modId: String): String
+
+    fun isForge(): Boolean = !isFabric()
+
+    fun isFabric(): Boolean = !isForge()
 }

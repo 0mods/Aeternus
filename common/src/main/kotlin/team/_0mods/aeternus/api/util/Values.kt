@@ -8,18 +8,27 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package team._0mods.aeternus.neo
+package team._0mods.aeternus.api.util
 
-import net.neoforged.bus.api.IEventBus
-import net.neoforged.fml.common.Mod
-import team._0mods.aeternus.common.ModId
-import team._0mods.aeternus.common.commonInit
-import team._0mods.aeternus.neo.init.PluginHolder
+import com.google.common.base.Supplier
+import java.util.function.Consumer
+import java.util.function.IntConsumer
+import java.util.function.IntSupplier
 
-@Mod(ModId)
-class AeternusNeo(bus: IEventBus) {
-    init {
-        commonInit()
-        PluginHolder.loadPlugins()
+fun interface FloatSupplier {
+    fun getAsFloat(): Float
+}
+
+interface Value<T>: Supplier<T>, Consumer<T>
+
+interface BaseNumberValue<T: Number>: Value<T> {
+    var asT: T
+}
+
+interface IntValue: BaseNumberValue<Int>, IntSupplier, IntConsumer {
+    override fun getAsInt(): Int = this.asT
+
+    override fun accept(p0: Int) {
+        this.asT = p0
     }
 }

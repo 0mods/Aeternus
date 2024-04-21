@@ -23,7 +23,6 @@ interface ResearchRegistry {
      */
     val researches: List<Research>
 
-
     fun getResearchById(id: ResourceLocation): Research
 
     fun getIdByResearch(research: Research): ResourceLocation

@@ -17,7 +17,7 @@ import net.minecraft.resources.ResourceLocation
 import team._0mods.aeternus.api.magic.research.book.ResearchAlignment
 import team._0mods.aeternus.api.magic.research.book.ResearchBookMetadata
 import team._0mods.aeternus.api.magic.research.book.ResearchShape
-import team._0mods.multilib.util.rl
+import team._0mods.aeternus.api.util.rl
 
 @JvmRecord
 data class BookMetadataType(

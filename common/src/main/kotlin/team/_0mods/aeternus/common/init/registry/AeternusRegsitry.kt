@@ -19,8 +19,8 @@ import net.minecraft.world.item.Item
 import net.minecraft.world.level.dimension.DimensionType
 import team._0mods.aeternus.api.magic.research.Research
 import team._0mods.aeternus.common.ModId
-import team._0mods.multilib.registries.reg
-import team._0mods.multilib.util.resloc
+import team._0mods.aeternus.api.registry.delegate.reg
+import team._0mods.aeternus.api.util.resloc
 
 object AeternusRegsitry {
     private val items = DeferredRegister.create(ModId, Registries.ITEM)

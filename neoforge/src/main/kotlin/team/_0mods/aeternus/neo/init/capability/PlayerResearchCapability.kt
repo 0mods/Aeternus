@@ -26,8 +26,7 @@ class PlayerResearchCapability: PlayerResearch {
     override fun addResearch(vararg research: Research) {
         for (researchImpl in research) {
             if (
-                resReg.getIdByResearch(researchImpl) != null &&
-                this.researchList.stream().noneMatch { resReg.getIdByResearch(it) != null && resReg.getIdByResearch(it) == resReg.getIdByResearch(researchImpl) }
+                this.researchList.stream().noneMatch { resReg.getIdByResearch(it) == resReg.getIdByResearch(researchImpl) }
             ) researchList.add(researchImpl)
             else {
                 LOGGER.atWarn().log(

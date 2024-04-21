@@ -10,19 +10,16 @@
 
 package team._0mods.aeternus.common.init.event
 
+import dev.architectury.event.CompoundEventResult
+import dev.architectury.event.EventResult
+import dev.architectury.event.events.common.InteractionEvent
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.entity.item.ItemEntity
-import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
-import net.minecraft.world.level.Level
 import team._0mods.aeternus.common.ModName
 import team._0mods.aeternus.common.init.registry.AeternusRegsitry
 import team._0mods.aeternus.service.ServiceProvider
-import team._0mods.multilib.event.base.common.InteractionEvent
-import team._0mods.multilib.event.base.common.PlayerEvent
-import team._0mods.multilib.event.result.EventResult
-import team._0mods.multilib.event.result.EventResultHolder
 import kotlin.random.Random
 
 object CommonEvents {
@@ -45,14 +42,14 @@ object CommonEvents {
                             droppedItem.setNoPickUpDelay()
                             level.addFreshEntity(droppedItem)
                             ServiceProvider.etheriumHelper.consume(player, random.nextInt())
-                            return@register EventResultHolder(EventResult.resultTrue(), stack)
+                            return@register CompoundEventResult.interruptTrue(stack)
                         } else {
-                            return@register EventResultHolder(EventResult.resultFalse(), stack)
+                            return@register CompoundEventResult.pass()
                         }
                     }
                 }
             }
-            return@register EventResultHolder.pass()
+            return@register CompoundEventResult.pass()
         }
     }
 }

@@ -7,7 +7,7 @@ import team._0mods.aeternus.api.magic.research.book.ResearchBookMetadata
 import team._0mods.aeternus.api.magic.research.book.ResearchShape
 import team._0mods.aeternus.common.impl.research.ResearchBookMetadataImpl
 import team._0mods.aeternus.common.impl.research.ResearchSettingsImpl
-import team._0mods.multilib.util.rl
+import team._0mods.aeternus.api.util.rl
 
 // Research Settings
 fun ResearchSettings.Companion.of(vararg researchSettings: Pair<ResearchTrigger, Research>): ResearchSettings {

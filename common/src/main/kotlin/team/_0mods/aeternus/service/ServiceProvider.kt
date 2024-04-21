@@ -12,10 +12,12 @@ package team._0mods.aeternus.service
 
 import team._0mods.aeternus.common.LOGGER
 import team._0mods.aeternus.service.core.EtheriumHelper
+import team._0mods.aeternus.service.core.PlatformHelper
 import java.util.*
 import kotlin.reflect.KClass
 
 object ServiceProvider {
+    val platform: PlatformHelper = initPlatformed(PlatformHelper::class)
     val etheriumHelper: EtheriumHelper = initPlatformed(EtheriumHelper::class)
 
     fun <T> initPlatformed(clazz: KClass<T>): T where T: Any {

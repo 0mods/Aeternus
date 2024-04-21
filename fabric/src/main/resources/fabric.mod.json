@@ -30,9 +30,7 @@
   },
   "mixins": [
     "${modId}.mixins.json",
-    "${modId}.fabric.mixins.json",
-    "multilib.fabric.mixins.json",
-    "multilib.mixins.json"
+    "${modId}.fabric.mixins.json"
   ],
 
   "depends": {

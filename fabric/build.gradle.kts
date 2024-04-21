@@ -34,6 +34,7 @@ dependencies {
     val fabricVersion: String by rootProject
     val architecturyApiVersion: String by rootProject
     val clothVersion: String by rootProject
+    val klfVersion: String by rootProject
 
     modImplementation("net.fabricmc:fabric-loader:$fabricLoaderVersion")
     modImplementation("net.fabricmc.fabric-api:fabric-api:$fabricVersion")
@@ -43,8 +44,11 @@ dependencies {
         exclude(group = "net.fabricmc.fabric-api")
     }
 
-    common(project(path = ":common", configuration = "namedElements")) { isTransitive = false }
+    modImplementation("net.fabricmc:fabric-language-kotlin:$klfVersion")
+    include("net.fabricmc:fabric-language-kotlin:$klfVersion")
 
+    compileOnly(project(":common"))
+    common(project(path = ":common", configuration = "namedElements")) { isTransitive = false }
     shadowBundle(project(path = ":common", configuration = "transformProductionFabric"))
 }
 

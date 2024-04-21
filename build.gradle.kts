@@ -71,9 +71,6 @@ subprojects {
     }
 
     dependencies {
-        val kffVersion: String by rootProject
-        val klfVersion: String by rootProject
-
         compileOnly("org.jetbrains:annotations:24.1.0")
         minecraft("com.mojang:minecraft:$minecraftVersion")
         @Suppress("UnstableApiUsage")
@@ -88,13 +85,6 @@ subprojects {
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:${coroutines_version}")
         implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:${serialization_version}")
         implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${serialization_version}")
-
-        if (project == project(":forge") || project == project(":neoforge")) {
-            api("thedarkcolour:kotlinforforge:$kffVersion")
-        } else if (project == project(":fabric")) {
-            modImplementation("net.fabricmc:fabric-language-kotlin:$klfVersion")
-            include("net.fabricmc:fabric-language-kotlin:$klfVersion")
-        }
     }
 
     tasks {
