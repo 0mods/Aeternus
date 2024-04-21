@@ -8,6 +8,8 @@ val modId: String by rootProject
 
 loom {
     forge {
+        convertAccessWideners = true
+        extraAccessWideners.add(loom.accessWidenerPath.get().asFile.name)
         mixinConfigs("$modId.mixins.json")
     }
 }

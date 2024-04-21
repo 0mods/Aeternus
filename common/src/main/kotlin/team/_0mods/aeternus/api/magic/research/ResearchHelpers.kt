@@ -30,9 +30,9 @@ fun ResearchSettings.Companion.of(triggers: Array<ResearchTrigger>, parents: Arr
 
 fun ResearchSettings.Companion.of(triggers: List<ResearchTrigger>) = this.of(triggers, listOf())
 
-fun ResearchSettings.Companion.of(vararg triggers: ResearchTrigger) = this.of(triggers.toList())
+//fun ResearchSettings.Companion.of(vararg triggers: ResearchTrigger) = this.of(triggers.toList())
 
-fun ResearchSettings.Companion.of(triggers: Array<ResearchTrigger>) = this.of(triggers.toList())
+//fun ResearchSettings.Companion.of(triggers: Array<ResearchTrigger>) = this.of(triggers.toList())
 
 // Research Metadata
 fun ResearchBookMetadata.Companion.of(

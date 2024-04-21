@@ -10,6 +10,8 @@ val serialization_version: String by project
 val parchmentMCVersion: String by project
 val parchmentVersion: String by project
 val modId: String by project
+val version: String by project
+val modGroup: String by project
 
 plugins {
     java
@@ -17,15 +19,45 @@ plugins {
     id("org.jetbrains.gradle.plugin.idea-ext") version "1.1.7"
     id("architectury-plugin") version "3.4-SNAPSHOT"
     id("dev.architectury.loom") version "1.4-SNAPSHOT"
+    id("io.github.pacifistmc.forgix") version "1.2.6"
     kotlin("jvm") version "1.9.23" apply false
     kotlin("plugin.serialization") version "1.9.23" apply false
 }
+
+forgix {
+    val fullPath = "$modGroup.$modId"
+    group = fullPath
+    mergedJarName = "$modName-$version.jar"
+
+    if (project == findProject(":fabric")) {
+        val fabric = FabricContainer()
+        fabric.jarLocation = "build/libs/$modName-fabric-$version.jar"
+        fabricContainer = fabric
+    }
+
+    if (project == findProject(":forge")) {
+        val forge = ForgeContainer()
+        forge.jarLocation = "build/libs/$modName-fabric-$version.jar"
+        forgeContainer = forge
+    }
+
+    if (project == findProject(":neoforge")) {
+        val neo = CustomContainer()
+        neo.projectName = "neoforge"
+        neo.jarLocation = "build/libs/$modName-fabric-$version.jar"
+        customContainers.add(neo)
+    }
+
+    removeDuplicate(fullPath)
+}
+
 // ################## NOT USED/BUG FIX CRUNCH #######################
 architectury {
     minecraft = minecraftVersion
 }
 
 loom {
+    accessWidenerPath.set(project(":common").file("src/main/resources/$modId.accesswidener"))
     silentMojangMappingsLicense()
 }
 
@@ -35,6 +67,7 @@ dependencies {
 }
 // ##################### END #######################
 subprojects {
+    apply(plugin = "io.github.pacifistmc.forgix")
     apply(plugin = "architectury-plugin")
     apply(plugin = "dev.architectury.loom")
     apply(plugin = "java")
@@ -42,6 +75,10 @@ subprojects {
     apply(plugin = "org.jetbrains.kotlin.plugin.serialization")
 
     val javaVersion: String by project
+
+    base {
+        archivesName.set(modName)
+    }
 
     architectury {
         minecraft = minecraftVersion
@@ -141,6 +178,9 @@ subprojects {
 
             inputs.properties(replacement)
         }
+
+        build { finalizedBy(mergeJars) }
+        assemble { finalizedBy(mergeJars) }
     }
 
     tasks.withType<GenerateModuleMetadata> {
