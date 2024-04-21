@@ -11,12 +11,14 @@
 package team._0mods.aeternus.common.impl.registry
 
 import net.minecraft.resources.ResourceLocation
+import org.jetbrains.annotations.ApiStatus
 import team._0mods.aeternus.api.magic.research.Research
 import team._0mods.aeternus.api.registry.ResearchRegistry
 import team._0mods.aeternus.common.LOGGER
 import team._0mods.multilib.service.ServiceProvider
 import team._0mods.multilib.util.*
 
+@ApiStatus.Internal
 class ResearchRegistryImpl(private val modId: String): ResearchRegistry {
     private val researchMap: MutableMap<ResourceLocation, Research> = linkedMapOf()
 

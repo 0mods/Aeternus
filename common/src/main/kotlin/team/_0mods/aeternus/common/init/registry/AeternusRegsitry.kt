@@ -10,6 +10,7 @@
 
 package team._0mods.aeternus.common.init.registry
 
+import dev.architectury.registry.registries.DeferredRegister
 import net.minecraft.core.Registry
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
@@ -18,12 +19,11 @@ import net.minecraft.world.item.Item
 import net.minecraft.world.level.dimension.DimensionType
 import team._0mods.aeternus.api.magic.research.Research
 import team._0mods.aeternus.common.ModId
-import team._0mods.multilib.registries.DeferredRegister
 import team._0mods.multilib.registries.reg
 import team._0mods.multilib.util.resloc
 
 object AeternusRegsitry {
-    private val items = DeferredRegister.create(Registries.ITEM, ModId)
+    private val items = DeferredRegister.create(ModId, Registries.ITEM)
 
     /* RESOURCE KEYS */
     val tab: ResourceKey<CreativeModeTab> = ResourceKey.create(Registries.CREATIVE_MODE_TAB, resloc(ModId, "aeternus"))

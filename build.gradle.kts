@@ -7,18 +7,51 @@ val modName: String by project
 val modAuthor: String by project
 val coroutines_version: String by project
 val serialization_version: String by project
+val parchmentMCVersion: String by project
+val parchmentVersion: String by project
+val modId: String by project
 
 plugins {
-    id("org.jetbrains.gradle.plugin.idea-ext") version "1.1.7"
     java
     idea
-    kotlin("jvm") version "1.9.22" apply false
+    id("org.jetbrains.gradle.plugin.idea-ext") version "1.1.7"
+    id("architectury-plugin") version "3.4-SNAPSHOT"
+    id("dev.architectury.loom") version "1.4-SNAPSHOT"
+    kotlin("jvm") version "1.9.23" apply false
+    kotlin("plugin.serialization") version "1.9.23" apply false
+}
+// ################## NOT USED/BUG FIX CRUNCH #######################
+architectury {
+    minecraft = minecraftVersion
 }
 
+loom {
+    silentMojangMappingsLicense()
+}
+
+dependencies {
+    minecraft("com.mojang:minecraft:$minecraftVersion")
+    mappings(loom.officialMojangMappings())
+}
+// ##################### END #######################
 subprojects {
+    apply(plugin = "architectury-plugin")
+    apply(plugin = "dev.architectury.loom")
     apply(plugin = "java")
+    apply(plugin = "org.jetbrains.kotlin.jvm")
+    apply(plugin = "org.jetbrains.kotlin.plugin.serialization")
 
     val javaVersion: String by project
+
+    architectury {
+        minecraft = minecraftVersion
+    }
+
+    loom {
+        silentMojangMappingsLicense()
+        val fileAW = project(":common").file("src/main/resources/$modId.accesswidener")
+        if (fileAW.exists()) accessWidenerPath.set(fileAW)
+    }
 
     extensions.configure<JavaPluginExtension> {
         toolchain.languageVersion.set(JavaLanguageVersion.of(javaVersion.toInt()))
@@ -33,11 +66,35 @@ subprojects {
         maven("https://maven.blamejared.com")
         maven("https://thedarkcolour.github.io/KotlinForForge/")
         maven("https://maven.shedaniel.me/")
+        maven("https://maven.architectury.dev/")
         maven("https://maven.terraformersmc.com/releases/")
     }
 
     dependencies {
+        val kffVersion: String by rootProject
+        val klfVersion: String by rootProject
+
         compileOnly("org.jetbrains:annotations:24.1.0")
+        minecraft("com.mojang:minecraft:$minecraftVersion")
+        @Suppress("UnstableApiUsage")
+        mappings(loom.layered {
+            this.officialMojangMappings()
+            parchment("org.parchmentmc.data:parchment-${parchmentMCVersion}:${parchmentVersion}@zip")
+        })
+
+        implementation(kotlin("reflect"))
+        implementation(kotlin("stdlib"))
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutines_version}")
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:${coroutines_version}")
+        implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:${serialization_version}")
+        implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${serialization_version}")
+
+        if (project == project(":forge") || project == project(":neoforge")) {
+            api("thedarkcolour:kotlinforforge:$kffVersion")
+        } else if (project == project(":fabric")) {
+            modImplementation("net.fabricmc:fabric-language-kotlin:$klfVersion")
+            include("net.fabricmc:fabric-language-kotlin:$klfVersion")
+        }
     }
 
     tasks {
@@ -56,9 +113,7 @@ subprojects {
                         "Build-On-Minecraft" to minecraftVersion
                 )
             }
-        }
 
-        jar {
             from("LICENSE") {
                 rename { "${it}_${modName}" }
             }

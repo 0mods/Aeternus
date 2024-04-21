@@ -3,10 +3,12 @@ pluginManagement {
     repositories {
         mavenCentral()
         gradlePluginPortal()
+        maven("https://plugins.gradle.org/m2/")
         maven("https://maven.parchmentmc.org")
         maven("https://maven.fabricmc.net/")
         maven("https://repo.spongepowered.org/repository/maven-public/")
         maven("https://maven.neoforged.net/")
+        maven("https://maven.architectury.dev")
     }
     resolutionStrategy {
         eachPlugin {
@@ -27,4 +29,9 @@ plugins {
 }
 
 rootProject.name = "Aeternus"
-include("common", "fabric", "neoforge", "lexforge")
+include(
+    "common",
+    "fabric",
+    "neoforge",
+    "forge"
+)
