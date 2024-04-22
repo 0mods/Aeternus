@@ -39,14 +39,4 @@ abstract class CursedBlockCondition {
             return resHelp.hasResearch(player, research)
         }
     }
-
-    fun init() {
-        autoBuild("Амогус", "АХВХАХВАХВХАВХАХВХАХВ")
-        autoBuild("ИмяФамиля", "пшел нахуй", 1234, 4321)
-    }
-
-    fun autoBuild(name: String, text: String, nameColor: Int = 123, textColor: Int = 123) = "[$name]".mcText.withColor(nameColor)
-        .append(
-            text.mcText.withColor(textColor)
-        )
 }
