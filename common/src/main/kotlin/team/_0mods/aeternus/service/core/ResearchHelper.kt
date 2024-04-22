@@ -1,6 +1,6 @@
 /*
  * All Rights Received
- * Copyright (c) 2024 AlgorithmLX & 0mods.
+ * Copyright (c) 2024.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
  * WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
@@ -8,16 +8,11 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package team._0mods.aeternus.api.magic.research.player
+package team._0mods.aeternus.service.core
 
+import net.minecraft.world.entity.player.Player
 import team._0mods.aeternus.api.magic.research.Research
 
-interface PlayerResearch {
-    val researches: List<Research>
-
-    fun hasResearch(research: Research): Boolean = this.researches.contains(research)
-
-    fun addResearch(vararg research: Research)
-
-    fun canOpen(): Boolean = false // TODO: Not work at current time
+interface ResearchHelper {
+    fun hasResearch(player: Player, research: Research): Boolean
 }
