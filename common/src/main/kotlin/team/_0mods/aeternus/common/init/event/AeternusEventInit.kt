@@ -36,7 +36,7 @@ import kotlin.random.Random
 object AeternusEventsInit {
     private const val PLAYER_UUID_ITEM = "${ModName}PlayerCheckUUID"
 
-    fun initClientEvents() {
+    fun initServerEvents() {
         InteractionEvent.RIGHT_CLICK_ITEM.register { player, hand ->
             val level = player.level()
             if (hand == InteractionHand.MAIN_HAND) {
@@ -64,7 +64,7 @@ object AeternusEventsInit {
         }
     }
 
-    fun initServerEvents() {
+    fun initClientEvents() {
         AddPackEvent.ASSETS.register { adder, creator ->
             val automaticResources = AutomaticPackResources.packInstance()
             adder.accept(creator.create(
@@ -79,7 +79,8 @@ object AeternusEventsInit {
                     listOf()
                 ),
                 Pack.Position.TOP,
-                true, PackSource.BUILT_IN
+                true,
+                PackSource.BUILT_IN
             ))
             return@register EventResult.interruptTrue()
         }
