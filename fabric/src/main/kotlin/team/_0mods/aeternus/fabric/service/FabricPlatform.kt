@@ -12,6 +12,8 @@ package team._0mods.aeternus.fabric.service
 
 import net.fabricmc.api.EnvType
 import net.fabricmc.loader.api.FabricLoader
+import team._0mods.aeternus.api.plugin.PluginHolder
+import team._0mods.aeternus.fabric.init.FabricPluginHolder
 import team._0mods.aeternus.service.core.PlatformHelper
 import kotlin.jvm.optionals.getOrNull
 
@@ -41,4 +43,6 @@ class FabricPlatform: PlatformHelper {
     }
 
     override fun isFabric(): Boolean = true
+
+    override fun getPluginHolder(): PluginHolder = FabricPluginHolder()
 }

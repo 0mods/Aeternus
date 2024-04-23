@@ -14,6 +14,7 @@ package team._0mods.aeternus.common
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import team._0mods.aeternus.api.plugin.PluginHolder
 import team._0mods.aeternus.common.init.AeternusEventsInit
 import team._0mods.aeternus.common.init.registry.AeternusRegsitry
 
@@ -25,6 +26,7 @@ const val ModName = "Aeternus"
 fun commonInit() {
     AeternusRegsitry.init()
     AeternusEventsInit.initServerEvents()
+    PluginHolder.instance.loadPlugins()
 }
 
 fun clientInit() {

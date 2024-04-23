@@ -12,6 +12,8 @@ package team._0mods.aeternus.neo.service
 
 import net.neoforged.fml.ModList
 import net.neoforged.fml.loading.FMLEnvironment
+import team._0mods.aeternus.api.plugin.PluginHolder
+import team._0mods.aeternus.neo.init.NeoPluginHolder
 import team._0mods.aeternus.service.core.PlatformHelper
 import kotlin.jvm.optionals.getOrNull
 
@@ -39,4 +41,6 @@ class NeoPlatform: PlatformHelper {
     }
 
     override fun isForge(): Boolean = true
+
+    override fun getPluginHolder(): PluginHolder = NeoPluginHolder()
 }

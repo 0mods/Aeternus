@@ -32,8 +32,9 @@ class PlayerResearchCapability: PlayerResearch {
     override val researches: List<Research>
         get() = this.researchList.toList() // Copy from list
 
-    override fun addResearch(vararg research: Research) {
+    override fun addResearch(vararg research: Research): Boolean {
         researchList.addAll(research)
+        return true
     }
 
     fun save(): ListTag {

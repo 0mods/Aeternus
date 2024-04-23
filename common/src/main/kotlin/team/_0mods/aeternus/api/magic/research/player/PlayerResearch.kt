@@ -17,7 +17,7 @@ interface PlayerResearch {
 
     fun hasResearch(research: Research): Boolean = this.researches.contains(research)
 
-    fun addResearch(vararg research: Research)
+    fun addResearch(vararg research: Research): Boolean
 
-    fun canOpen(): Boolean = false // TODO: Not work at current time
+    fun canOpen(research: Research): Boolean = false // TODO: Not work at current time
 }

@@ -11,8 +11,16 @@
 package team._0mods.aeternus.service.core
 
 import net.minecraft.world.entity.player.Player
+import org.jetbrains.annotations.ApiStatus
 import team._0mods.aeternus.api.magic.research.Research
 
+@ApiStatus.Internal
 interface ResearchHelper {
+    fun getResearches(player: Player): List<Research>
+
     fun hasResearch(player: Player, research: Research): Boolean
+
+    fun addResearch(player: Player, vararg research: Research): Boolean
+
+    fun canOpen(player: Player, research: Research): Boolean = false // TODO: Not work at current time
 }

@@ -13,12 +13,11 @@ package team._0mods.aeternus.forge
 import net.minecraftforge.fml.common.Mod
 import team._0mods.aeternus.common.ModId
 import team._0mods.aeternus.common.commonInit
-import team._0mods.aeternus.forge.init.PluginHolder
+import team._0mods.aeternus.forge.init.ForgePluginHolder
 
 @Mod(ModId)
 class AeternusForge {
     init {
         commonInit()
-        PluginHolder.loadPlugins()
     }
 }

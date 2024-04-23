@@ -14,7 +14,6 @@ import net.minecraft.world.effect.MobEffect
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import team._0mods.aeternus.api.magic.research.Research
-import team._0mods.aeternus.api.util.mcText
 import team._0mods.aeternus.service.ServiceProvider
 
 abstract class CursedBlockCondition {

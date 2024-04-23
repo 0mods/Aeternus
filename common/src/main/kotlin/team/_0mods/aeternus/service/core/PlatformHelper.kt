@@ -10,6 +10,8 @@
 
 package team._0mods.aeternus.service.core
 
+import team._0mods.aeternus.api.plugin.PluginHolder
+
 interface PlatformHelper {
     fun isProduction(): Boolean
 
@@ -24,4 +26,6 @@ interface PlatformHelper {
     fun isForge(): Boolean = !isFabric()
 
     fun isFabric(): Boolean = !isForge()
+
+    fun getPluginHolder(): PluginHolder
 }

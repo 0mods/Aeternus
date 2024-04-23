@@ -12,6 +12,8 @@ package team._0mods.aeternus.forge.service
 
 import net.minecraftforge.fml.ModList
 import net.minecraftforge.fml.loading.FMLEnvironment
+import team._0mods.aeternus.api.plugin.PluginHolder
+import team._0mods.aeternus.forge.init.ForgePluginHolder
 import team._0mods.aeternus.service.core.PlatformHelper
 import kotlin.jvm.optionals.getOrNull
 
@@ -39,4 +41,6 @@ class ForgePlatform: PlatformHelper {
     }
 
     override fun isForge(): Boolean = true
+
+    override fun getPluginHolder(): PluginHolder = ForgePluginHolder()
 }

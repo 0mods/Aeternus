@@ -12,12 +12,13 @@ package team._0mods.aeternus.fabric.init
 
 import net.fabricmc.loader.api.FabricLoader
 import team._0mods.aeternus.api.AeternusPlugin
+import team._0mods.aeternus.api.plugin.PluginHolder
 import team._0mods.aeternus.common.ModId
 import team._0mods.aeternus.common.impl.registry.ResearchRegistryImpl
 import java.util.stream.Collectors
 
-object PluginHolder {
-    fun loadPlugins() {
+class FabricPluginHolder: PluginHolder {
+    override fun loadPlugins() {
         val listOfPlugins = FabricLoader.getInstance()
             .getEntrypointContainers("${ModId}_plugin", AeternusPlugin::class.java)
             .stream()

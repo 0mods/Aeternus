@@ -14,12 +14,11 @@ import net.neoforged.bus.api.IEventBus
 import net.neoforged.fml.common.Mod
 import team._0mods.aeternus.common.ModId
 import team._0mods.aeternus.common.commonInit
-import team._0mods.aeternus.neo.init.PluginHolder
+import team._0mods.aeternus.neo.init.NeoPluginHolder
 
 @Mod(ModId)
 class AeternusNeo(bus: IEventBus) {
     init {
         commonInit()
-        PluginHolder.loadPlugins()
     }
 }

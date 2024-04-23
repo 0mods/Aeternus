@@ -23,7 +23,7 @@ class PlayerResearchCapability: PlayerResearch {
     override val researches: List<Research>
         get() = researchList.toList() // Copy from a list
 
-    override fun addResearch(vararg research: Research) {
+    override fun addResearch(vararg research: Research): Boolean {
         for (researchImpl in research) {
             if (
                 this.researchList.stream().noneMatch { resReg.getIdByResearch(it) == resReg.getIdByResearch(researchImpl) }
@@ -36,5 +36,7 @@ class PlayerResearchCapability: PlayerResearch {
                 continue
             }
         }
+
+        return true
     }
 }
