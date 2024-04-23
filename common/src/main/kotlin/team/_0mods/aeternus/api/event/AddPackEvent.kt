@@ -21,12 +21,12 @@ import java.util.function.Consumer
 
 fun interface AddPackEvent {
     companion object {
-        @JvmField val ASSETS: Event<ClientPack> = EventFactory.createEventResult()
+        @JvmField val ASSETS: Event<ClientPack> = EventFactory.createLoop()
 
-        @JvmField val DATA: Event<ServerPack> = EventFactory.createEventResult()
+        @JvmField val DATA: Event<ServerPack> = EventFactory.createLoop()
     }
 
-    fun onAdd(source: Consumer<Pack>, creator: PackCreator): EventResult
+    fun onAdd(source: Consumer<Pack>, creator: PackCreator)
 
     fun interface ClientPack: AddPackEvent
 

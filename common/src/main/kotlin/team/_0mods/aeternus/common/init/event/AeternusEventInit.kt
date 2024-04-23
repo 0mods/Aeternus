@@ -82,7 +82,6 @@ object AeternusEventsInit {
                 true,
                 PackSource.BUILT_IN
             ))
-            return@register EventResult.interruptTrue()
         }
     }
 }
