@@ -124,7 +124,7 @@ class AutomaticPackResources: PackResources {
         if (deserializer.metadataSectionName.equals("pack")) {
             val obj = JsonObject()
             val supportedFormats = JsonArray()
-            val allValues = (6..22)
+            val allValues = 6..22
             allValues.forEach(supportedFormats::add)
             obj.addProperty("pack_format", allValues.last)
             obj.add("supported_formats", supportedFormats)

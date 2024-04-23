@@ -1,3 +1,9 @@
+@file:Suppress("UNCHECKED_CAST")
+
+import groovy.lang.Closure
+import io.github.pacifistmc.forgix.plugin.ForgixMergeExtension.CustomContainer
+import io.github.pacifistmc.forgix.plugin.ForgixMergeExtension.FabricContainer
+import io.github.pacifistmc.forgix.plugin.ForgixMergeExtension.ForgeContainer
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.text.SimpleDateFormat
 import java.util.*
@@ -16,12 +22,11 @@ val modGroup: String by project
 plugins {
     java
     idea
-    id("org.jetbrains.gradle.plugin.idea-ext") version "1.1.7"
     id("architectury-plugin") version "3.4-SNAPSHOT"
     id("dev.architectury.loom") version "1.4-SNAPSHOT"
     id("io.github.pacifistmc.forgix") version "1.2.6"
-    kotlin("jvm") version "1.9.23" apply false
-    kotlin("plugin.serialization") version "1.9.23" apply false
+    kotlin("jvm") version "1.9.23"
+    kotlin("plugin.serialization") version "1.9.23"
 }
 
 forgix {
@@ -30,22 +35,21 @@ forgix {
     mergedJarName = "$modName-${version}_$minecraftVersion.jar"
 
     if (project == findProject(":fabric")) {
-        val fabric = FabricContainer()
-        fabric.jarLocation = "build/libs/$modName-fabric-$version.jar"
-        fabricContainer = fabric
+        val fabricClosure = closureOf<FabricContainer> { jarLocation = "build/libs/$modName-fabric-$version.jar" } as Closure<FabricContainer>
+        fabric(fabricClosure)
     }
 
     if (project == findProject(":forge")) {
-        val forge = ForgeContainer()
-        forge.jarLocation = "build/libs/$modName-fabric-$version.jar"
-        forgeContainer = forge
+        val forgeClosure = closureOf<ForgeContainer> { jarLocation = "build/libs/$modName-fabric-$version.jar" } as Closure<ForgeContainer>
+        forge(forgeClosure)
     }
 
     if (project == findProject(":neoforge")) {
-        val neo = CustomContainer()
-        neo.projectName = "neoforge"
-        neo.jarLocation = "build/libs/$modName-fabric-$version.jar"
-        customContainers.add(neo)
+        val neoClosure = closureOf<CustomContainer> {
+            projectName = "neoforge"
+            jarLocation = "build/libs/$modName-fabric-$version.jar"
+        } as Closure<CustomContainer>
+        custom(neoClosure)
     }
 
     removeDuplicate(fullPath)
@@ -66,8 +70,8 @@ dependencies {
     mappings(loom.officialMojangMappings())
 }
 // ##################### END #######################
+
 subprojects {
-    apply(plugin = "io.github.pacifistmc.forgix")
     apply(plugin = "architectury-plugin")
     apply(plugin = "dev.architectury.loom")
     apply(plugin = "java")
@@ -181,6 +185,10 @@ subprojects {
 
         build { finalizedBy(mergeJars) }
         assemble { finalizedBy(mergeJars) }
+
+        compileKotlin {
+            useDaemonFallbackStrategy.set(false)
+        }
     }
 
     tasks.withType<GenerateModuleMetadata> {
