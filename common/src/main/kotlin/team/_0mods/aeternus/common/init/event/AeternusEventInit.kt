@@ -1,6 +1,6 @@
 /*
  * All Rights Received
- * Copyright (c) 2024 AlgorithmLX & 0mods.
+ * Copyright (c) 2024 0mods.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
  * WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
@@ -11,7 +11,6 @@
 package team._0mods.aeternus.common.init.event
 
 import dev.architectury.event.CompoundEventResult
-import dev.architectury.event.EventResult
 import dev.architectury.event.events.common.InteractionEvent
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.entity.item.ItemEntity
@@ -22,10 +21,10 @@ import team._0mods.aeternus.common.init.registry.AeternusRegsitry
 import team._0mods.aeternus.service.ServiceProvider
 import kotlin.random.Random
 
-object CommonEvents {
+object AeternusEventsInit {
     private const val PLAYER_UUID_ITEM = "${ModName}PlayerCheckUUID"
 
-    fun events() {
+    fun initClientEvents() {
         InteractionEvent.RIGHT_CLICK_ITEM.register { player, hand ->
             val level = player.level()
             if (hand == InteractionHand.MAIN_HAND) {
@@ -51,5 +50,8 @@ object CommonEvents {
             }
             return@register CompoundEventResult.pass()
         }
+    }
+
+    fun initServerEvents() {
     }
 }
