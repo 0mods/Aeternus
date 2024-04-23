@@ -27,7 +27,7 @@ plugins {
 forgix {
     val fullPath = "$modGroup.$modId"
     group = fullPath
-    mergedJarName = "$modName-$version.jar"
+    mergedJarName = "$modName-${version}_$minecraftVersion.jar"
 
     if (project == findProject(":fabric")) {
         val fabric = FabricContainer()

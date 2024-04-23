@@ -6,8 +6,6 @@ plugins {
     kotlin("plugin.serialization")
 }
 
-apply(plugin = "com.github.johnrengelman.shadow")
-
 val modName: String by rootProject
 
 architectury {
