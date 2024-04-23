@@ -12,13 +12,19 @@ package team._0mods.aeternus.neo
 
 import net.neoforged.bus.api.IEventBus
 import net.neoforged.fml.common.Mod
-import team._0mods.aeternus.common.ModId
-import team._0mods.aeternus.common.commonInit
-import team._0mods.aeternus.neo.init.NeoPluginHolder
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent
+import team._0mods.aeternus.common.*
+import team._0mods.aeternus.neo.event.AddPackHandler
 
 @Mod(ModId)
 class AeternusNeo(bus: IEventBus) {
     init {
+        AddPackHandler.init(bus)
         commonInit()
+        bus.addListener(this::initClient)
+    }
+
+    private fun initClient(e: FMLClientSetupEvent) {
+        clientInit()
     }
 }

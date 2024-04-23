@@ -11,14 +11,26 @@
 package team._0mods.aeternus.common.init.event
 
 import dev.architectury.event.CompoundEventResult
+import dev.architectury.event.EventResult
 import dev.architectury.event.events.common.InteractionEvent
+import net.minecraft.network.chat.Component
+import net.minecraft.server.packs.PackType
+import net.minecraft.server.packs.metadata.pack.PackMetadataSection
+import net.minecraft.server.packs.repository.Pack
+import net.minecraft.server.packs.repository.PackCompatibility
+import net.minecraft.server.packs.repository.PackSource
+import net.minecraft.util.InclusiveRange
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.entity.item.ItemEntity
+import net.minecraft.world.flag.FeatureFlagSet
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
+import team._0mods.aeternus.api.client.AutomaticPackResources
+import team._0mods.aeternus.api.event.AddPackEvent
 import team._0mods.aeternus.common.ModName
 import team._0mods.aeternus.common.init.registry.AeternusRegsitry
 import team._0mods.aeternus.service.ServiceProvider
+import java.util.*
 import kotlin.random.Random
 
 object AeternusEventsInit {
@@ -53,5 +65,23 @@ object AeternusEventsInit {
     }
 
     fun initServerEvents() {
+        AddPackEvent.ASSETS.register { adder, creator ->
+            val automaticResources = AutomaticPackResources.packInstance()
+            adder.accept(creator.create(
+                automaticResources.packId(),
+                Component.literal(automaticResources.packId()),
+                true,
+                automaticResources.resourceSupplier(),
+                Pack.Info(
+                    Component.literal(automaticResources.packId()),
+                    PackCompatibility.TOO_NEW,
+                    FeatureFlagSet.of(),
+                    listOf()
+                ),
+                Pack.Position.TOP,
+                true, PackSource.BUILT_IN
+            ))
+            return@register EventResult.interruptTrue()
+        }
     }
 }

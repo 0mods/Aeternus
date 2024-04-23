@@ -11,13 +11,20 @@
 package team._0mods.aeternus.forge
 
 import net.minecraftforge.fml.common.Mod
-import team._0mods.aeternus.common.ModId
-import team._0mods.aeternus.common.commonInit
-import team._0mods.aeternus.forge.init.ForgePluginHolder
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
+import team._0mods.aeternus.common.*
+import team._0mods.aeternus.forge.event.AddPackHandler
+import thedarkcolour.kotlinforforge.forge.MOD_BUS
 
 @Mod(ModId)
 class AeternusForge {
     init {
+        AddPackHandler.init()
         commonInit()
+        MOD_BUS.addListener(this::initClient)
+    }
+
+    private fun initClient(e: FMLClientSetupEvent) {
+        clientInit()
     }
 }
