@@ -1,0 +1,36 @@
+modLoader="${modloader}"
+loaderVersion="${mlVersion}"
+license="${license}"
+[[mods]]
+modId="${modId}"
+version="${modVersion}"
+displayName="${modName}"
+credits="${credits}"
+authors="${modAuthor}"
+description='''
+        ${description}
+    '''
+[[dependencies.${modId}]]
+    modId="forge"
+    mandatory=true
+    versionRange="${forgeVersionRange}"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.${modId}]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="${mcRange}"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.${modId}]]
+    modId="kotlinforforge"
+    mandatory=true
+    versionRange="${kffRange}"
+    ordering="NONE"
+    side="BOTH"
+[[dependencies.${modId}]]
+    modId="architectury"
+    mandatory=true
+    versionRange="[${architecturyApiVersion},)"
+    ordering="AFTER"
+

@@ -1,4 +1,4 @@
-plugins {
+plugins{
     kotlin("jvm")
     kotlin("plugin.serialization")
     id("com.github.johnrengelman.shadow") version "8.1.1"
@@ -14,7 +14,7 @@ base {
     val modName: String by rootProject
     val minecraftVersion: String by rootProject
 
-    archivesName.set("$modName-neo-${modVersion}_$minecraftVersion")
+    archivesName.set("$modName-neo-${minecraftVersion}_$modVersion")
 }
 
 val common: Configuration by configurations.creating {

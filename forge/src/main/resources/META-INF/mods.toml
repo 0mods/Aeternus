@@ -2,14 +2,14 @@ modLoader="${modloader}"
 loaderVersion="${mlVersion}"
 license="${license}"
 [[mods]]
-modId="${modId}"
-version="${modVersion}"
-displayName="${modName}"
-credits="${credits}"
-authors="${modAuthor}"
-description='''
-${description}
-'''
+    modId="${modId}"
+    version="${modVersion}"
+    displayName="${modName}"
+    credits="${credits}"
+    authors="${modAuthor}"
+    description='''
+        ${description}
+    '''
 [[dependencies.${modId}]]
     modId="forge"
     mandatory=true
@@ -28,3 +28,8 @@ ${description}
     versionRange="${kffRange}"
     ordering="NONE"
     side="BOTH"
+[[dependencies.${modId}]]
+    modId="architectury"
+    mandatory=true
+    versionRange="[${architecturyApiVersion},)"
+    ordering="AFTER"

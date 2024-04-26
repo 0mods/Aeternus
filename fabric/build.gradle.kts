@@ -1,10 +1,7 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
-    idea
-    `maven-publish`
     kotlin("jvm")
     kotlin("plugin.serialization")
+    id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 val modName: String by rootProject
@@ -19,7 +16,23 @@ base {
     val modName: String by rootProject
     val minecraftVersion: String by rootProject
 
-    archivesName.set("$modName-fabric-${modVersion}_$minecraftVersion")
+    archivesName.set("$modName-fabric-${minecraftVersion}_$modVersion")
+}
+
+val common: Configuration by configurations.creating {
+    isCanBeResolved = true
+    isCanBeConsumed = false
+}
+
+val shadowBundle: Configuration by configurations.creating {
+    isCanBeResolved = true
+    isCanBeConsumed = false
+}
+
+configurations {
+    compileClasspath { extendsFrom(common) }
+    runtimeClasspath { extendsFrom(common) }
+    named("developmentFabric") { extendsFrom(common) }
 }
 
 dependencies {
@@ -29,38 +42,27 @@ dependencies {
     val clothVersion: String by rootProject
     val klfVersion: String by rootProject
 
-    modImplementation("net.fabricmc:fabric-loader:$fabricLoaderVersion")
-    modImplementation("net.fabricmc.fabric-api:fabric-api:$fabricVersion")
-    modImplementation("dev.architectury:architectury-fabric:$architecturyApiVersion")
-    modImplementation("net.fabricmc:fabric-language-kotlin:$klfVersion")
+    modImplementation("net.fabricmc:fabric-loader:$fabricLoaderVersion") { include(this) }
+    modImplementation("net.fabricmc.fabric-api:fabric-api:$fabricVersion") { include(this) }
+    modImplementation("dev.architectury:architectury-fabric:$architecturyApiVersion") { include(this) }
+    modImplementation("net.fabricmc:fabric-language-kotlin:$klfVersion") { include(this) }
 
     modApi("me.shedaniel.cloth:cloth-config-fabric:$clothVersion") {
         exclude(group = "net.fabricmc.fabric-api")
+        include(this)
     }
 
-    include("net.fabricmc.fabric-api:fabric-api:$fabricVersion")
-    include("dev.architectury:architectury-fabric:$architecturyApiVersion")
-    include("net.fabricmc:fabric-language-kotlin:$klfVersion")
-    include("me.shedaniel.cloth:cloth-config-fabric:$clothVersion")
-
-    compileOnly(project(":common"))
+    common(project(path = ":common", configuration = "namedElements")) { isTransitive = false }
+    shadowBundle(project(path = ":common", configuration = "transformProductionFabric"))
 }
 
 tasks {
-    withType<KotlinCompile> {
-        source(project(":common").sourceSets.main.get().allSource)
+    shadowJar {
+        configurations = listOf(shadowBundle)
+        archiveClassifier = "dev-shadow"
     }
 
-    javadoc {
-        source(project(":common").sourceSets.main.get().allJava)
-    }
-
-    named("sourcesJar", Jar::class) {
-        from(project(":common").sourceSets.main.get().allSource)
-    }
-
-    processResources {
-        from(project(":common").sourceSets.main.get().resources)
+    remapJar {
+        inputFile.set(shadowJar.get().archiveFile)
     }
 }
-

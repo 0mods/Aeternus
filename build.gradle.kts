@@ -2,8 +2,6 @@
 
 import groovy.lang.Closure
 import io.github.pacifistmc.forgix.plugin.ForgixMergeExtension.*
-import java.text.SimpleDateFormat
-import java.util.*
 
 val minecraftVersion: String by project
 val modName: String by project
@@ -13,7 +11,6 @@ val serialization_version: String by project
 val parchmentMCVersion: String by project
 val parchmentVersion: String by project
 val modId: String by project
-val version: String by project
 val modGroup: String by project
 
 plugins {
@@ -25,6 +22,35 @@ plugins {
     id("com.github.johnrengelman.shadow") version "8.1.1" apply false
     kotlin("jvm") version "1.9.23"
     kotlin("plugin.serialization") version "1.9.23"
+}
+
+forgix {
+    val modVersion: String by project
+    val fullPath = "$modGroup.$modId"
+    group = fullPath
+    mergedJarName = "$modName-${minecraftVersion}_$modVersion.jar"
+
+    outputDir = "build/libs"
+
+    if (project == findProject(":fabric")) {
+        val fabricClosure = closureOf<FabricContainer> { jarLocation = "build/libs/$modName-fabric-${minecraftVersion}_$modVersion.jar" } as Closure<FabricContainer>
+        fabric(fabricClosure)
+    }
+
+    if (project == findProject(":forge")) {
+        val forgeClosure = closureOf<ForgeContainer> { jarLocation = "build/libs/$modName-forge-${minecraftVersion}_$modVersion.jar" } as Closure<ForgeContainer>
+        forge(forgeClosure)
+    }
+
+    if (project == findProject(":neoforge")) {
+        val neoClosure = closureOf<CustomContainer> {
+            projectName = "neoforge"
+            jarLocation = "build/libs/$modName-neo-${minecraftVersion}_$modVersion.jar"
+        } as Closure<CustomContainer>
+        custom(neoClosure)
+    }
+
+//    removeDuplicate(fullPath)
 }
 
 // ################## NOT USED/BUG FIX CRUNCH #######################
@@ -47,38 +73,10 @@ subprojects {
     apply(plugin = "architectury-plugin")
     apply(plugin = "dev.architectury.loom")
     apply(plugin = "java")
-    apply(plugin = "io.github.pacifistmc.forgix")
     apply(plugin = "org.jetbrains.kotlin.jvm")
     apply(plugin = "org.jetbrains.kotlin.plugin.serialization")
 
     val javaVersion: String by project
-
-    forgix {
-        val modVersion: String by project
-        val fullPath = "$modGroup.$modId"
-        group = fullPath
-        mergedJarName = "$modName-${modVersion}_$minecraftVersion.jar"
-
-        if (project == findProject(":fabric")) {
-            val fabricClosure = closureOf<FabricContainer> { jarLocation = "build/libs/$modName-fabric-${modVersion}_$minecraftVersion.jar" } as Closure<FabricContainer>
-            fabric(fabricClosure)
-        }
-
-        if (project == findProject(":forge")) {
-            val forgeClosure = closureOf<ForgeContainer> { jarLocation = "build/libs/$modName-forge-${modVersion}_$minecraftVersion.jar" } as Closure<ForgeContainer>
-            forge(forgeClosure)
-        }
-
-        if (project == findProject(":neoforge")) {
-            val neoClosure = closureOf<CustomContainer> {
-                projectName = "neoforge"
-                jarLocation = "build/libs/$modName-neo-${modVersion}_$minecraftVersion.jar"
-            } as Closure<CustomContainer>
-            custom(neoClosure)
-        }
-
-        removeDuplicate(fullPath)
-    }
 
     base {
         archivesName.set(modName)
@@ -149,17 +147,18 @@ subprojects {
             val modLoader: String by project; val mlVersion: String by project; val license: String by project
             val credits: String by project; val modAuthor: String by project; val mcRange: String by project
             val modName: String by project; val modId: String by project; val description: String by project
-            val version: String by project; val kffRange: String by project; val fabricLoaderVersion: String by project
+            val modVersion: String by project; val kffRange: String by project; val fabricLoaderVersion: String by project
             val clothVersion: String by project; val forgeVersionRange: String by project; val neoVersionRange: String by project
-            val klfVersion: String by project
+            val klfVersion: String by project; val architecturyApiVersion: String by project
 
             val replacement = mapOf(
                     "modloader" to modLoader, "mlVersion" to mlVersion, "license" to license, "modId" to modId,
-                    "modVersion" to version, "modName" to modName, "credits" to credits,"modAuthor" to modAuthor,
+                    "modVersion" to modVersion, "modName" to modName, "credits" to credits,"modAuthor" to modAuthor,
                     "description" to description, "mcRange" to mcRange, "kffRange" to kffRange,
                     "fabricLoaderVersion" to fabricLoaderVersion, "clothVersion" to clothVersion,
                     "minecraftVersion" to minecraftVersion, "forgeVersionRange" to forgeVersionRange,
-                    "neoVersionRange" to neoVersionRange, "klfVersion" to klfVersion
+                    "neoVersionRange" to neoVersionRange, "klfVersion" to klfVersion,
+                    "architecturyApiVersion" to architecturyApiVersion
             )
 
             from(project(":common").sourceSets.main.get().resources)
@@ -170,12 +169,14 @@ subprojects {
 
             inputs.properties(replacement)
         }
-
-        build { finalizedBy(mergeJars) }
-        assemble { finalizedBy(mergeJars) }
     }
 
     tasks.withType<GenerateModuleMetadata> {
         enabled = false
     }
+}
+
+tasks {
+    build { finalizedBy(mergeJars) }
+    assemble { finalizedBy(mergeJars) }
 }

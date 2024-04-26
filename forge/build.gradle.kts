@@ -24,7 +24,7 @@ base {
     val modName: String by rootProject
     val minecraftVersion: String by rootProject
 
-    archivesName.set("$modName-forge-${modVersion}_$minecraftVersion")
+    archivesName.set("$modName-forge-${minecraftVersion}_$modVersion")
 }
 
 val common: Configuration by configurations.creating {
@@ -51,12 +51,14 @@ dependencies {
 
     forge("net.minecraftforge:forge:$minecraftVersion-$forgeVersion")
 
-    modImplementation("dev.architectury:architectury-fabric:$architecturyApiVersion") {
+    modImplementation("dev.architectury:architectury-forge:$architecturyApiVersion") {
         include(this)
     }
     implementation("thedarkcolour:kotlinforforge:$kffVersion") {
         include(this)
     }
+
+    include(project(":neoforge"))
 
     common(project(path = ":common", configuration = "namedElements")) { isTransitive = false }
     shadowBundle(project(path = ":common", configuration = "transformProductionForge"))

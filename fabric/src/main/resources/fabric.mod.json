@@ -25,7 +25,7 @@
       }
     ],
     "${modId}_plugin": [
-      "team._0mods.${modId}.init.AeternusCorePlugin"
+      "team._0mods.${modId}.init.${modName}CorePlugin"
     ]
   },
   "mixins": [
@@ -39,7 +39,8 @@
     "fabric": "*",
     "minecraft": "${minecraftVersion}",
     "java": ">=17",
-    "fabric-language-kotlin": ">=${klfVersion}"
+    "fabric-language-kotlin": ">=${klfVersion}",
+    "architectury": ">=${architecturyApiVersion}"
   },
   "accessWidener": "${modId}.accesswidener"
 }
