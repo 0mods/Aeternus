@@ -65,23 +65,23 @@ object AeternusEventsInit {
     }
 
     fun initClientEvents() {
-        AddPackEvent.ASSETS.register { adder, creator ->
-            val automaticResources = AutomaticPackResources.packInstance()
-            adder.accept(creator.create(
-                automaticResources.packId(),
-                Component.literal(automaticResources.packId()),
-                true,
-                automaticResources.resourceSupplier(),
-                Pack.Info(
-                    Component.literal(automaticResources.packId()),
-                    PackCompatibility.TOO_NEW,
-                    FeatureFlagSet.of(),
-                    listOf()
-                ),
-                Pack.Position.TOP,
-                true,
-                PackSource.BUILT_IN
-            ))
-        }
+//        AddPackEvent.ASSETS.register { adder, creator ->
+//            val automaticResources = AutomaticPackResources.packInstance()
+//            adder.accept(creator.create(
+//                automaticResources.packId(),
+//                Component.literal(automaticResources.packId()),
+//                true,
+//                automaticResources.resourceSupplier(),
+//                Pack.Info(
+//                    Component.literal(automaticResources.packId()),
+//                    PackCompatibility.TOO_NEW,
+//                    FeatureFlagSet.of(),
+//                    listOf()
+//                ),
+//                Pack.Position.TOP,
+//                true,
+//                PackSource.BUILT_IN
+//            ))
+//        }
     }
 }

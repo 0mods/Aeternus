@@ -1,10 +1,7 @@
 @file:Suppress("UNCHECKED_CAST")
 
 import groovy.lang.Closure
-import io.github.pacifistmc.forgix.plugin.ForgixMergeExtension.CustomContainer
-import io.github.pacifistmc.forgix.plugin.ForgixMergeExtension.FabricContainer
-import io.github.pacifistmc.forgix.plugin.ForgixMergeExtension.ForgeContainer
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import io.github.pacifistmc.forgix.plugin.ForgixMergeExtension.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -25,34 +22,9 @@ plugins {
     id("architectury-plugin") version "3.4-SNAPSHOT"
     id("dev.architectury.loom") version "1.4-SNAPSHOT"
     id("io.github.pacifistmc.forgix") version "1.2.6"
+    id("com.github.johnrengelman.shadow") version "8.1.1" apply false
     kotlin("jvm") version "1.9.23"
     kotlin("plugin.serialization") version "1.9.23"
-}
-
-forgix {
-    val fullPath = "$modGroup.$modId"
-    group = fullPath
-    mergedJarName = "$modName-${version}_$minecraftVersion.jar"
-
-    if (project == findProject(":fabric")) {
-        val fabricClosure = closureOf<FabricContainer> { jarLocation = "build/libs/$modName-fabric-$version.jar" } as Closure<FabricContainer>
-        fabric(fabricClosure)
-    }
-
-    if (project == findProject(":forge")) {
-        val forgeClosure = closureOf<ForgeContainer> { jarLocation = "build/libs/$modName-fabric-$version.jar" } as Closure<ForgeContainer>
-        forge(forgeClosure)
-    }
-
-    if (project == findProject(":neoforge")) {
-        val neoClosure = closureOf<CustomContainer> {
-            projectName = "neoforge"
-            jarLocation = "build/libs/$modName-fabric-$version.jar"
-        } as Closure<CustomContainer>
-        custom(neoClosure)
-    }
-
-    removeDuplicate(fullPath)
 }
 
 // ################## NOT USED/BUG FIX CRUNCH #######################
@@ -75,10 +47,38 @@ subprojects {
     apply(plugin = "architectury-plugin")
     apply(plugin = "dev.architectury.loom")
     apply(plugin = "java")
+    apply(plugin = "io.github.pacifistmc.forgix")
     apply(plugin = "org.jetbrains.kotlin.jvm")
     apply(plugin = "org.jetbrains.kotlin.plugin.serialization")
 
     val javaVersion: String by project
+
+    forgix {
+        val modVersion: String by project
+        val fullPath = "$modGroup.$modId"
+        group = fullPath
+        mergedJarName = "$modName-${modVersion}_$minecraftVersion.jar"
+
+        if (project == findProject(":fabric")) {
+            val fabricClosure = closureOf<FabricContainer> { jarLocation = "build/libs/$modName-fabric-${modVersion}_$minecraftVersion.jar" } as Closure<FabricContainer>
+            fabric(fabricClosure)
+        }
+
+        if (project == findProject(":forge")) {
+            val forgeClosure = closureOf<ForgeContainer> { jarLocation = "build/libs/$modName-forge-${modVersion}_$minecraftVersion.jar" } as Closure<ForgeContainer>
+            forge(forgeClosure)
+        }
+
+        if (project == findProject(":neoforge")) {
+            val neoClosure = closureOf<CustomContainer> {
+                projectName = "neoforge"
+                jarLocation = "build/libs/$modName-neo-${modVersion}_$minecraftVersion.jar"
+            } as Closure<CustomContainer>
+            custom(neoClosure)
+        }
+
+        removeDuplicate(fullPath)
+    }
 
     base {
         archivesName.set(modName)
@@ -130,21 +130,6 @@ subprojects {
 
     tasks {
         jar {
-            manifest {
-                attributes(
-                        "Specification-Title" to modName,
-                        "Specification-Vendor" to modAuthor,
-                        "Specification-Version" to archiveVersion,
-                        "Implementation-Title" to project.name,
-                        "Implementation-Version" to archiveVersion,
-                        "Implementation-Vendor" to modAuthor,
-                        "Implementation-Timestamp" to SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").format(Date()),
-                        "Timestamp" to System.currentTimeMillis(),
-                        "Built-On-Java" to "${System.getProperty("java.vm.version")} (${System.getProperty("java.vm.vendor")})",
-                        "Build-On-Minecraft" to minecraftVersion
-                )
-            }
-
             from("LICENSE") {
                 rename { "${it}_${modName}" }
             }
@@ -155,7 +140,10 @@ subprojects {
             options.release.set(17)
         }
 
-        withType<KotlinCompile> { compilerOptions.freeCompilerArgs.add("-Xjvm-default=all") }
+        compileKotlin {
+            useDaemonFallbackStrategy.set(false)
+            compilerOptions.freeCompilerArgs.add("-Xjvm-default=all")
+        }
 
         processResources {
             val modLoader: String by project; val mlVersion: String by project; val license: String by project
@@ -185,10 +173,6 @@ subprojects {
 
         build { finalizedBy(mergeJars) }
         assemble { finalizedBy(mergeJars) }
-
-        compileKotlin {
-            useDaemonFallbackStrategy.set(false)
-        }
     }
 
     tasks.withType<GenerateModuleMetadata> {

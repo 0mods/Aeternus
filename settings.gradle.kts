@@ -7,8 +7,9 @@ pluginManagement {
         maven("https://maven.parchmentmc.org")
         maven("https://maven.fabricmc.net/")
         maven("https://repo.spongepowered.org/repository/maven-public/")
-        maven("https://maven.neoforged.net/")
+        maven("https://maven.neoforged.net/releases")
         maven("https://maven.architectury.dev")
+        maven("https://maven.minecraftforge.net")
     }
     resolutionStrategy {
         eachPlugin {

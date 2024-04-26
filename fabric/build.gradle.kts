@@ -14,6 +14,13 @@ architectury {
     fabric()
 }
 
+base {
+    val modVersion: String by rootProject
+    val modName: String by rootProject
+    val minecraftVersion: String by rootProject
+
+    archivesName.set("$modName-fabric-${modVersion}_$minecraftVersion")
+}
 
 dependencies {
     val fabricLoaderVersion: String by rootProject
@@ -25,13 +32,16 @@ dependencies {
     modImplementation("net.fabricmc:fabric-loader:$fabricLoaderVersion")
     modImplementation("net.fabricmc.fabric-api:fabric-api:$fabricVersion")
     modImplementation("dev.architectury:architectury-fabric:$architecturyApiVersion")
+    modImplementation("net.fabricmc:fabric-language-kotlin:$klfVersion")
 
     modApi("me.shedaniel.cloth:cloth-config-fabric:$clothVersion") {
         exclude(group = "net.fabricmc.fabric-api")
     }
 
-    modImplementation("net.fabricmc:fabric-language-kotlin:$klfVersion")
+    include("net.fabricmc.fabric-api:fabric-api:$fabricVersion")
+    include("dev.architectury:architectury-fabric:$architecturyApiVersion")
     include("net.fabricmc:fabric-language-kotlin:$klfVersion")
+    include("me.shedaniel.cloth:cloth-config-fabric:$clothVersion")
 
     compileOnly(project(":common"))
 }
