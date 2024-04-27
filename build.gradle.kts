@@ -1,7 +1,9 @@
 @file:Suppress("UNCHECKED_CAST")
 
+import dev.architectury.plugin.ArchitectPluginExtension
 import groovy.lang.Closure
 import io.github.pacifistmc.forgix.plugin.ForgixMergeExtension.*
+import net.fabricmc.loom.api.LoomGradleExtensionAPI
 
 val minecraftVersion: String by project
 val modName: String by project
@@ -16,10 +18,9 @@ val modGroup: String by project
 plugins {
     java
     idea
-    id("architectury-plugin") version "3.4-SNAPSHOT"
-    id("dev.architectury.loom") version "1.4-SNAPSHOT"
+    id("architectury-plugin") version "3.4-SNAPSHOT" apply false
+    id("dev.architectury.loom") version "1.4-SNAPSHOT" apply false
     id("io.github.pacifistmc.forgix") version "1.2.6"
-    id("com.github.johnrengelman.shadow") version "8.1.1" apply false
     kotlin("jvm") version "1.9.23"
     kotlin("plugin.serialization") version "1.9.23"
 }
@@ -53,28 +54,14 @@ forgix {
 //    removeDuplicate(fullPath)
 }
 
-// ################## NOT USED/BUG FIX CRUNCH #######################
-architectury {
-    minecraft = minecraftVersion
-}
-
-loom {
-    accessWidenerPath.set(project(":common").file("src/main/resources/$modId.accesswidener"))
-    silentMojangMappingsLicense()
-}
-
-dependencies {
-    minecraft("com.mojang:minecraft:$minecraftVersion")
-    mappings(loom.officialMojangMappings())
-}
-// ##################### END #######################
-
 subprojects {
-    apply(plugin = "architectury-plugin")
-    apply(plugin = "dev.architectury.loom")
-    apply(plugin = "java")
-    apply(plugin = "org.jetbrains.kotlin.jvm")
-    apply(plugin = "org.jetbrains.kotlin.plugin.serialization")
+    apply {
+        plugin("architectury-plugin")
+        plugin("dev.architectury.loom")
+        plugin("java")
+        plugin("org.jetbrains.kotlin.jvm")
+        plugin("org.jetbrains.kotlin.plugin.serialization")
+    }
 
     val javaVersion: String by project
 
@@ -86,7 +73,7 @@ subprojects {
         minecraft = minecraftVersion
     }
 
-    loom {
+    configure<LoomGradleExtensionAPI> {
         silentMojangMappingsLicense()
         val fileAW = project(":common").file("src/main/resources/$modId.accesswidener")
         if (fileAW.exists()) accessWidenerPath.set(fileAW)
@@ -180,3 +167,13 @@ tasks {
     build { finalizedBy(mergeJars) }
     assemble { finalizedBy(mergeJars) }
 }
+
+val Project.loom: LoomGradleExtensionAPI get() = (this as ExtensionAware).extensions.getByName("loom") as LoomGradleExtensionAPI
+
+inline fun Project.architectury(noinline conf: ArchitectPluginExtension.() -> Unit) = configure<ArchitectPluginExtension>(conf)
+
+inline fun Project.loom(noinline conf: LoomGradleExtensionAPI.() -> Unit) = configure(conf)
+
+fun DependencyHandler.minecraft(depAnnot: Any): Dependency? = add("minecraft", depAnnot)
+
+fun DependencyHandler.mappings(depAnnot: Any): Dependency? = add("mappings", depAnnot)
