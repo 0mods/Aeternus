@@ -25,43 +25,35 @@ plugins {
     kotlin("plugin.serialization") version "1.9.23"
 }
 
-forgix {
-    val modVersion: String by project
-    val fullPath = "$modGroup.$modId"
-    group = fullPath
-    mergedJarName = "$modName-${minecraftVersion}_$modVersion.jar"
-
-    outputDir = "build/libs"
-
-    if (project == findProject(":fabric")) {
-        val fabricClosure = closureOf<FabricContainer> { jarLocation = "build/libs/$modName-fabric-${minecraftVersion}_$modVersion.jar" } as Closure<FabricContainer>
-        fabric(fabricClosure)
-    }
-
-    if (project == findProject(":forge")) {
-        val forgeClosure = closureOf<ForgeContainer> { jarLocation = "build/libs/$modName-forge-${minecraftVersion}_$modVersion.jar" } as Closure<ForgeContainer>
-        forge(forgeClosure)
-    }
-
-    if (project == findProject(":neoforge")) {
-        val neoClosure = closureOf<CustomContainer> {
-            projectName = "neoforge"
-            jarLocation = "build/libs/$modName-neo-${minecraftVersion}_$modVersion.jar"
-        } as Closure<CustomContainer>
-        custom(neoClosure)
-    }
-
-//    removeDuplicate(fullPath)
-}
+//forgix {
+//    val modVersion: String by project
+//    val fullPath = "$modGroup.$modId"
+//    group = fullPath
+//    mergedJarName = "$modName-${minecraftVersion}_$modVersion.jar"
+//
+//    outputDir = "build/libs"
+//
+//    if (project == findProject(":fabric")) {
+//        val fabricClosure = closureOf<FabricContainer> { jarLocation = "build/libs/$modName-fabric-${minecraftVersion}_$modVersion.jar" } as Closure<FabricContainer>
+//        fabric(fabricClosure)
+//    }
+//
+//    if (project == findProject(":forge")) {
+//        val forgeClosure = closureOf<ForgeContainer> {
+//            jarLocation = "build/libs/$modName-forge-${minecraftVersion}_$modVersion.jar"
+//        } as Closure<ForgeContainer>
+//        forge(forgeClosure)
+//    }
+//
+////    removeDuplicate(fullPath)
+//}
 
 subprojects {
-    apply {
-        plugin("architectury-plugin")
-        plugin("dev.architectury.loom")
-        plugin("java")
-        plugin("org.jetbrains.kotlin.jvm")
-        plugin("org.jetbrains.kotlin.plugin.serialization")
-    }
+    apply(plugin = "architectury-plugin")
+    apply(plugin = "dev.architectury.loom")
+    apply(plugin = "java")
+    apply(plugin = "org.jetbrains.kotlin.jvm")
+    apply(plugin = "org.jetbrains.kotlin.plugin.serialization")
 
     val javaVersion: String by project
 
@@ -73,7 +65,7 @@ subprojects {
         minecraft = minecraftVersion
     }
 
-    configure<LoomGradleExtensionAPI> {
+    loom {
         silentMojangMappingsLicense()
         val fileAW = project(":common").file("src/main/resources/$modId.accesswidener")
         if (fileAW.exists()) accessWidenerPath.set(fileAW)
@@ -163,10 +155,10 @@ subprojects {
     }
 }
 
-tasks {
-    build { finalizedBy(mergeJars) }
-    assemble { finalizedBy(mergeJars) }
-}
+//tasks {
+//    build { finalizedBy(mergeJars) }
+//    assemble { finalizedBy(mergeJars) }
+//}
 
 val Project.loom: LoomGradleExtensionAPI get() = (this as ExtensionAware).extensions.getByName("loom") as LoomGradleExtensionAPI
 
