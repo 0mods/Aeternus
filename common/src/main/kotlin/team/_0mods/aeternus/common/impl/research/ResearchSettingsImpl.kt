@@ -29,6 +29,6 @@ internal class ResearchSettingsImpl(
     }
 
     override fun addTriggers(vararg trigger: ResearchTrigger) {
-
+        triggerList.addAll(trigger)
     }
 }

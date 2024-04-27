@@ -16,7 +16,7 @@ plugins {
     idea
     id("architectury-plugin") version "3.4-SNAPSHOT" apply false
     id("dev.architectury.loom") version "1.4-SNAPSHOT" apply false
-    id("io.github.pacifistmc.forgix") version "1.2.6"
+//    id("io.github.pacifistmc.forgix") version "1.2.6"
     kotlin("jvm") version "1.9.23"
     kotlin("plugin.serialization") version "1.9.23"
 }

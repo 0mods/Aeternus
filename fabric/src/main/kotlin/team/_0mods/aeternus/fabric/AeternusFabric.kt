@@ -13,16 +13,13 @@
 package team._0mods.aeternus.fabric
 
 import team._0mods.aeternus.common.*
-import team._0mods.aeternus.fabric.event.AddPackHandler
 
 fun startCommon() {
     LOGGER.info("Hello Minecraft world from Common side!")
-    AddPackHandler.server()
     commonInit()
 }
 
 fun startClient() {
     LOGGER.info("Hello Minecraft world from Client side!")
-    AddPackHandler.client()
     clientInit()
 }

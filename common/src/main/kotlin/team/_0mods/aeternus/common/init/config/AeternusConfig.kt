@@ -14,12 +14,17 @@ import team._0mods.aeternus.common.LOGGER
 
 class AeternusConfig {
     interface Client
-    interface Common
+    interface Common {
+        // CATEGORY: EXPERIMENTAL FEATURES
+        val enableExperimentalFeatures: Boolean
+
+        val butterMechanic: Boolean
+    }
 
     var clientConfig: Client? = null
         set(value) {
             if (field != null) {
-                LOGGER.warn("Client config was replaced! Old: {}, New: {}", field!!.javaClass.name, value?.javaClass?.name)
+                warn(field!!.javaClass.name, value?.javaClass?.name)
             }
 
             field = value
@@ -28,9 +33,14 @@ class AeternusConfig {
     var commonConfig: Common? = null
         set(value) {
             if (field != null) {
-                LOGGER.warn("Client config was replaced! Old: {}, New: {}", field!!.javaClass.name, value?.javaClass?.name)
+                warn(field!!.javaClass.name, value?.javaClass?.name)
             }
 
             field = value
         }
+
+
+    private fun warn(fieldName: String, valueName: String?) {
+        LOGGER.warn("Client config was replaced! Old: {}, New: {}", fieldName, valueName)
+    }
 }

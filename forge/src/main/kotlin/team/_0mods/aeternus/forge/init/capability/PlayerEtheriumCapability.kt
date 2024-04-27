@@ -16,7 +16,7 @@ import kotlin.math.*
 class PlayerEtheriumCapability: PlayerEtherium {
     private var xd = 0
 
-    override fun getEtheriumCount(): Int = xd
+    override val etheriumCount: Int = xd
 
     override fun plus(count: Int) {
         xd += min(0, count)

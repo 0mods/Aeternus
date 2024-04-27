@@ -11,7 +11,7 @@
 package team._0mods.aeternus.api.magic
 
 interface PlayerEtherium {
-    fun getEtheriumCount(): Int
+    val etheriumCount: Int
 
     operator fun plus(count: Int)
 

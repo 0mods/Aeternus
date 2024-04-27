@@ -34,7 +34,7 @@ import java.util.*
 import kotlin.random.Random
 
 object AeternusEventsInit {
-    private const val PLAYER_UUID_ITEM = "${ModName}PlayerCheckUUID"
+    internal const val PLAYER_UUID_ITEM = "${ModName}PlayerCheckUUID"
 
     fun initServerEvents() {
         InteractionEvent.RIGHT_CLICK_ITEM.register { player, hand ->
@@ -44,7 +44,8 @@ object AeternusEventsInit {
                 if (stack.`is`(Items.BOOK)) {
                     val stackOfKNBook = ItemStack(AeternusRegsitry.knowledgeBook)
                     if (!player.inventory.contains(stackOfKNBook)) {
-                        val etheriumCount = ServiceProvider.etheriumHelper.getCountForPlayer(player)
+                        val etheriumHelper = ServiceProvider.etheriumHelper
+                        val etheriumCount = etheriumHelper.getCountForPlayer(player)
                         val random = Random(35)
                         if (etheriumCount >= 35) {
                             player.getItemInHand(hand).shrink(1)
@@ -52,7 +53,7 @@ object AeternusEventsInit {
                             val droppedItem = ItemEntity(level, player.x, player.y, player.z, stackOfKNBook)
                             droppedItem.setNoPickUpDelay()
                             level.addFreshEntity(droppedItem)
-                            ServiceProvider.etheriumHelper.consume(player, random.nextInt())
+                            etheriumHelper.consume(player, random.nextInt())
                             return@register CompoundEventResult.interruptTrue(stack)
                         } else {
                             return@register CompoundEventResult.pass()
@@ -64,24 +65,5 @@ object AeternusEventsInit {
         }
     }
 
-    fun initClientEvents() {
-//        AddPackEvent.ASSETS.register { adder, creator ->
-//            val automaticResources = AutomaticPackResources.packInstance()
-//            adder.accept(creator.create(
-//                automaticResources.packId(),
-//                Component.literal(automaticResources.packId()),
-//                true,
-//                automaticResources.resourceSupplier(),
-//                Pack.Info(
-//                    Component.literal(automaticResources.packId()),
-//                    PackCompatibility.TOO_NEW,
-//                    FeatureFlagSet.of(),
-//                    listOf()
-//                ),
-//                Pack.Position.TOP,
-//                true,
-//                PackSource.BUILT_IN
-//            ))
-//        }
-    }
+    fun initClientEvents() {}
 }

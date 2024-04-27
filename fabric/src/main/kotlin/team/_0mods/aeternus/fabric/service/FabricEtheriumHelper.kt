@@ -11,18 +11,17 @@
 package team._0mods.aeternus.fabric.service
 
 import net.minecraft.world.entity.player.Player
+import team._0mods.aeternus.api.magic.PlayerEtherium
 import team._0mods.aeternus.service.core.EtheriumHelper
 
 class FabricEtheriumHelper: EtheriumHelper {
     override fun add(addFor: Player, count: Int) {
-        TODO("Not yet implemented")
+        (addFor as PlayerEtherium) + count
     }
 
     override fun consume(consumeFrom: Player, count: Int) {
-        TODO("Not yet implemented")
+        (consumeFrom as PlayerEtherium) - count
     }
 
-    override fun getCountForPlayer(countFor: Player): Int {
-        TODO("Not yet implemented")
-    }
+    override fun getCountForPlayer(countFor: Player): Int = (countFor as PlayerEtherium).etheriumCount
 }

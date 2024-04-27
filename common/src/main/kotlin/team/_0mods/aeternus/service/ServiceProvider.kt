@@ -22,7 +22,7 @@ object ServiceProvider {
     val platform: PlatformHelper = initPlatformed(PlatformHelper::class)
     val etheriumHelper: EtheriumHelper = initPlatformed(EtheriumHelper::class)
 
-    fun <T> initPlatformed(clazz: KClass<T>): T where T: Any {
+    private fun <T> initPlatformed(clazz: KClass<T>): T where T: Any {
         val loaded: T = ServiceLoader.load(clazz.java).findFirst().orElseThrow { NullPointerException("Failed to load Service for ${clazz.simpleName}") }
         LOGGER.debug("Loading service {} for {}...", loaded, clazz)
         return loaded

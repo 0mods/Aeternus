@@ -39,8 +39,8 @@ class AltakeBreakDoorGoal(
                 val owner = tame.owner
                 var returnValue = false
                 if (owner is Player) {
-                    InteractionEvent.LEFT_CLICK_BLOCK.register { player, hand, pos, direction ->
-                        if (owner == player) {
+                    InteractionEvent.LEFT_CLICK_BLOCK.register { player, _, pos, _ ->
+                        if (owner.uuid == player.uuid) {
                             val level = player.level()
                             val block = level.getBlockState(pos).block
 

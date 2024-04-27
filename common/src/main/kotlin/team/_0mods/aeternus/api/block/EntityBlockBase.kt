@@ -15,29 +15,19 @@ import net.minecraft.core.Direction
 import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.stats.Stats
-import net.minecraft.world.InteractionHand
-import net.minecraft.world.InteractionResult
-import net.minecraft.world.MenuProvider
+import net.minecraft.world.*
 import net.minecraft.world.entity.LivingEntity
-import net.minecraft.world.entity.player.Inventory
-import net.minecraft.world.entity.player.Player
+import net.minecraft.world.entity.player.*
 import net.minecraft.world.inventory.AbstractContainerMenu
 import net.minecraft.world.item.ItemStack
-import net.minecraft.world.level.Level
-import net.minecraft.world.level.LevelAccessor
-import net.minecraft.world.level.block.BaseEntityBlock
-import net.minecraft.world.level.block.Block
-import net.minecraft.world.level.block.SimpleWaterloggedBlock
-import net.minecraft.world.level.block.entity.BlockEntity
-import net.minecraft.world.level.block.entity.BlockEntityTicker
-import net.minecraft.world.level.block.entity.BlockEntityType
+import net.minecraft.world.level.*
+import net.minecraft.world.level.block.*
+import net.minecraft.world.level.block.entity.*
 import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.level.block.state.properties.BlockStateProperties.WATERLOGGED
 import net.minecraft.world.level.material.Fluids
 import net.minecraft.world.phys.BlockHitResult
-import team._0mods.aeternus.api.block.blockentity.IBlockEntity
-import team._0mods.aeternus.api.block.blockentity.IMenued
-import team._0mods.aeternus.api.block.blockentity.IStorable
+import team._0mods.aeternus.api.block.blockentity.* 
 
 abstract class EntityBlockBase(private val blockEntity: (BlockPos, BlockState) -> BlockEntity, properties: Properties): BaseEntityBlock(properties) {
     override fun newBlockEntity(p0: BlockPos, p1: BlockState): BlockEntity = blockEntity.invoke(p0, p1)

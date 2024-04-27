@@ -14,7 +14,6 @@ import dev.architectury.registry.registries.DeferredRegister
 import net.minecraft.core.Registry
 import net.minecraft.core.registries.Registries
 import net.minecraft.resources.ResourceKey
-import net.minecraft.world.item.CreativeModeTab
 import net.minecraft.world.item.Item
 import net.minecraft.world.level.dimension.DimensionType
 import team._0mods.aeternus.api.magic.research.Research
@@ -24,9 +23,8 @@ import team._0mods.aeternus.api.util.resloc
 
 object AeternusRegsitry {
     private val items = DeferredRegister.create(ModId, Registries.ITEM)
+    private val dimensions = DeferredRegister.create(ModId, Registries.DIMENSION_TYPE)
 
-    /* RESOURCE KEYS */
-    val tab: ResourceKey<CreativeModeTab> = ResourceKey.create(Registries.CREATIVE_MODE_TAB, resloc(ModId, "aeternus"))
     /* RESOURCE REGISTRY KEYS */
     val researchRK: ResourceKey<Registry<Research>> = ResourceKey.createRegistryKey(resloc(ModId, "research"))
 

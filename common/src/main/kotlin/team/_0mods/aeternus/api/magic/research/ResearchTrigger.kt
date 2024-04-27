@@ -21,7 +21,9 @@ interface ResearchTrigger {
     val name: ResourceLocation
 
     /**
-     * Trigger Logic. This is where all the basic operation of calculating the event takes place. If the conditions inside it are met, it returns true
+     * Trigger Logic.
+     * This is where all the basic operators of calculating the event take place.
+     * If the conditions inside it are met, it returns true
      *
      * Returns [Boolean]
      */

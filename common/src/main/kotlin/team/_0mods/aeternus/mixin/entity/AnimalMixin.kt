@@ -46,12 +46,13 @@ abstract class AnimalMixin(
             if (type != EntityType.PANDA) {
                 aggresiableGoals()
             }
+
+            addGoal(1, AltakeBreakDoorGoal(this, difficultyPredicate))
         }
     }
 
     @Unique
     private fun aggresiableGoals() {
-        addGoal(1, AltakeBreakDoorGoal(this, difficultyPredicate))
         addGoal(2, AltakeAttackGoal(this, 1.0, true))
         addGoal(2, AltakeNearestAttackableTargetGoal(this, Player::class.java, false))
     }

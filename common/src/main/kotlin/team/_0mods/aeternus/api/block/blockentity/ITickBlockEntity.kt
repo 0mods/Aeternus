@@ -20,6 +20,5 @@ import net.minecraft.world.level.block.state.BlockState
         ReplaceWith("IBlockEntity", "team._0mods.aeternus.api.block.blockentity.IBlockEntity")
 )
 interface ITickBlockEntity<T> where T: BlockEntity? {
-    fun tickOnClient(level: Level, pos: BlockPos, state: BlockState, entity: T) {}
-    fun tickOnServer(level: Level, pos: BlockPos, state: BlockState, entity: T) {}
+
 }

@@ -11,18 +11,20 @@
 package team._0mods.aeternus.forge.service
 
 import net.minecraft.world.entity.player.Player
+import team._0mods.aeternus.api.magic.PlayerEtherium
+import team._0mods.aeternus.forge.init.capability.AFCapabilities
 import team._0mods.aeternus.service.core.EtheriumHelper
 
 class ForgeEtheriumHelper: EtheriumHelper {
+    private val Player.etherium: PlayerEtherium get() = this.getCapability(AFCapabilities.playerEtherium).orElseThrow(::NullPointerException)
+
     override fun add(addFor: Player, count: Int) {
-        TODO("Not yet implemented")
+        addFor.etherium + count
     }
 
     override fun consume(consumeFrom: Player, count: Int) {
-        TODO("Not yet implemented")
+        consumeFrom.etherium - count
     }
 
-    override fun getCountForPlayer(countFor: Player): Int {
-        TODO("Not yet implemented")
-    }
+    override fun getCountForPlayer(countFor: Player): Int = countFor.etherium.etheriumCount
 }
