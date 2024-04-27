@@ -1,8 +1,4 @@
-@file:Suppress("UNCHECKED_CAST")
-
 import dev.architectury.plugin.ArchitectPluginExtension
-import groovy.lang.Closure
-import io.github.pacifistmc.forgix.plugin.ForgixMergeExtension.*
 import net.fabricmc.loom.api.LoomGradleExtensionAPI
 
 val minecraftVersion: String by project
