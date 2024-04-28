@@ -1,4 +1,6 @@
 import dev.architectury.plugin.ArchitectPluginExtension
+import groovy.lang.Closure
+import io.github.pacifistmc.forgix.plugin.ForgixMergeExtension.*
 import net.fabricmc.loom.api.LoomGradleExtensionAPI
 
 val minecraftVersion: String by project
@@ -16,33 +18,35 @@ plugins {
     idea
     id("architectury-plugin") version "3.4-SNAPSHOT" apply false
     id("dev.architectury.loom") version "1.4-SNAPSHOT" apply false
-//    id("io.github.pacifistmc.forgix") version "1.2.6"
+    id("io.github.pacifistmc.forgix") version "1.2.6"
     kotlin("jvm") version "1.9.23"
     kotlin("plugin.serialization") version "1.9.23"
 }
 
-//forgix {
-//    val modVersion: String by project
-//    val fullPath = "$modGroup.$modId"
-//    group = fullPath
-//    mergedJarName = "$modName-${minecraftVersion}_$modVersion.jar"
-//
-//    outputDir = "build/libs"
-//
-//    if (project == findProject(":fabric")) {
-//        val fabricClosure = closureOf<FabricContainer> { jarLocation = "build/libs/$modName-fabric-${minecraftVersion}_$modVersion.jar" } as Closure<FabricContainer>
-//        fabric(fabricClosure)
-//    }
-//
-//    if (project == findProject(":forge")) {
-//        val forgeClosure = closureOf<ForgeContainer> {
-//            jarLocation = "build/libs/$modName-forge-${minecraftVersion}_$modVersion.jar"
-//        } as Closure<ForgeContainer>
-//        forge(forgeClosure)
-//    }
-//
-////    removeDuplicate(fullPath)
-//}
+forgix {
+    val modVersion: String by project
+    val fullPath = "$modGroup.$modId"
+    group = fullPath
+    mergedJarName = "$modName-${minecraftVersion}_$modVersion.jar"
+
+    outputDir = "build/libs"
+
+    if (project == findProject(":fabric")) {
+        val fabricClosure = closureOf<FabricContainer> {
+            jarLocation = "build/libs/$modName-fabric-${minecraftVersion}_$modVersion.jar"
+        } as Closure<FabricContainer>
+        fabric(fabricClosure)
+    }
+
+    if (project == findProject(":forge")) {
+        val forgeClosure = closureOf<ForgeContainer> {
+            jarLocation = "build/libs/$modName-forge-${minecraftVersion}_$modVersion.jar"
+        } as Closure<ForgeContainer>
+        forge(forgeClosure)
+    }
+
+//    removeDuplicate(fullPath)
+}
 
 subprojects {
     apply(plugin = "architectury-plugin")
@@ -151,10 +155,10 @@ subprojects {
     }
 }
 
-//tasks {
-//    build { finalizedBy(mergeJars) }
-//    assemble { finalizedBy(mergeJars) }
-//}
+tasks {
+    build { finalizedBy(mergeJars) }
+    assemble { finalizedBy(mergeJars) }
+}
 
 val Project.loom: LoomGradleExtensionAPI get() = (this as ExtensionAware).extensions.getByName("loom") as LoomGradleExtensionAPI
 

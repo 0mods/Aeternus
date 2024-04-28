@@ -37,6 +37,10 @@ class PlayerResearchCapability: PlayerResearch {
         return true
     }
 
+    override fun canOpen(research: Research): Boolean {
+        return super.canOpen(research)
+    }
+
     fun save(): ListTag {
         val tag = ListTag()
 

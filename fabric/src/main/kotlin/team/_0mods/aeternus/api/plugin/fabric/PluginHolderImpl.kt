@@ -22,7 +22,7 @@ object PluginHolderImpl {
     @JvmStatic
     fun loadPlugins() {
         FabricLoader.getInstance().getEntrypointContainers("${ModId}_plugin", AeternusPlugin::class.java).stream()
-            .map(::entrypoint).collect(Collectors.toList()).forEach(::regAll)
+            .map(PluginHolderImpl::entrypoint).collect(Collectors.toList()).forEach(PluginHolderImpl::regAll)
     }
 
     private fun regAll(plugin: AeternusPlugin) {
