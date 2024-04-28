@@ -8,13 +8,11 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package team._0mods.aeternus.api.plugin
+package team._0mods.aeternus.common.helper
 
-import dev.architectury.injectables.annotations.ExpectPlatform
+import net.minecraft.world.item.Item
+import team._0mods.aeternus.common.init.registry.AeternusRegsitry
 
-object PluginHolder {
-    @JvmStatic @ExpectPlatform
-    fun loadPlugins() {
-        throw AssertionError()
-    }
-}
+class AeternusItem(props: Properties.() -> Unit = { `arch$tab`(AeternusRegsitry.aeternusTab) }): Item(
+    Properties().apply(props)
+)

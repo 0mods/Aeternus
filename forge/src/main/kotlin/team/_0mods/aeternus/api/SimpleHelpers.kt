@@ -8,13 +8,11 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package team._0mods.aeternus.api.plugin
+package team._0mods.aeternus.api
 
-import dev.architectury.injectables.annotations.ExpectPlatform
+import net.minecraftforge.common.util.LazyOptional
+import net.minecraftforge.common.util.NonNullSupplier
 
-object PluginHolder {
-    @JvmStatic @ExpectPlatform
-    fun loadPlugins() {
-        throw AssertionError()
-    }
-}
+fun <T> lazyOptOf(sup: NonNullSupplier<T>) = LazyOptional.of(sup)
+
+fun <T> emptyLazyOpt() = LazyOptional.empty<T>()

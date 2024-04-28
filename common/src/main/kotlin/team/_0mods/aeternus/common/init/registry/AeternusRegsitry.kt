@@ -10,26 +10,34 @@
 
 package team._0mods.aeternus.common.init.registry
 
+import dev.architectury.registry.CreativeTabRegistry
 import dev.architectury.registry.registries.DeferredRegister
 import net.minecraft.core.Registry
 import net.minecraft.core.registries.Registries
+import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceKey
-import net.minecraft.world.item.Item
 import net.minecraft.world.level.dimension.DimensionType
 import team._0mods.aeternus.api.magic.research.Research
 import team._0mods.aeternus.common.ModId
 import team._0mods.aeternus.api.registry.delegate.reg
 import team._0mods.aeternus.api.util.resloc
+import team._0mods.aeternus.common.helper.AeternusItem
 
 object AeternusRegsitry {
     private val items = DeferredRegister.create(ModId, Registries.ITEM)
     private val dimensions = DeferredRegister.create(ModId, Registries.DIMENSION_TYPE)
+    private val tabs = DeferredRegister.create(ModId, Registries.CREATIVE_MODE_TAB)
+
+    /* TABS */
+    val aeternusTab by tabs.reg("aeternus_tab") {
+        CreativeTabRegistry.create(Component.translatable("itemGroup.$ModId.${ModId}_tab")) { knowledgeBook.defaultInstance }
+    }
 
     /* RESOURCE REGISTRY KEYS */
     val researchRK: ResourceKey<Registry<Research>> = ResourceKey.createRegistryKey(resloc(ModId, "research"))
 
     /* ITEMS */
-    val knowledgeBook by items.reg("knowledge_book") { Item(Item.Properties()) }
+    val knowledgeBook by items.reg("knowledge_book", ::AeternusItem)
 
     /* BLOCKS */
 

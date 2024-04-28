@@ -8,13 +8,24 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package team._0mods.aeternus.api.plugin
+package team._0mods.aeternus.service
 
 import dev.architectury.injectables.annotations.ExpectPlatform
+import net.minecraft.world.entity.player.Player
 
-object PluginHolder {
+object EtheriumHelper {
     @JvmStatic @ExpectPlatform
-    fun loadPlugins() {
+    fun add(addFor: Player, count: Int) {
+        throw AssertionError()
+    }
+
+    @JvmStatic @ExpectPlatform
+    fun consume(consumeFor: Player, count: Int) {
+        throw AssertionError()
+    }
+
+    @JvmStatic @ExpectPlatform
+    fun getCountForPlayer(player: Player): Int {
         throw AssertionError()
     }
 }

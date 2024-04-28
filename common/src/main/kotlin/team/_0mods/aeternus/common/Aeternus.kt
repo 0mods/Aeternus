@@ -26,7 +26,7 @@ const val ModName = "Aeternus"
 fun commonInit() {
     AeternusRegsitry.init()
     AeternusEventsInit.initServerEvents()
-    PluginHolder.instance.loadPlugins()
+    PluginHolder.loadPlugins()
 }
 
 fun clientInit() {

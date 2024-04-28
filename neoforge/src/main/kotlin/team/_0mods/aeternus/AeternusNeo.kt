@@ -8,13 +8,21 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package team._0mods.aeternus.api.plugin
+package team._0mods.aeternus
 
-import dev.architectury.injectables.annotations.ExpectPlatform
+import net.neoforged.bus.api.IEventBus
+import net.neoforged.fml.common.Mod
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent
+import team._0mods.aeternus.common.*
 
-object PluginHolder {
-    @JvmStatic @ExpectPlatform
-    fun loadPlugins() {
-        throw AssertionError()
+@Mod(ModId)
+class AeternusNeo(bus: IEventBus) {
+    init {
+        commonInit()
+        bus.addListener(this::initClient)
+    }
+
+    private fun initClient(e: FMLClientSetupEvent) {
+        clientInit()
     }
 }

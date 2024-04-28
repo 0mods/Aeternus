@@ -14,7 +14,7 @@ import net.minecraft.world.effect.MobEffect
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import team._0mods.aeternus.api.magic.research.Research
-import team._0mods.aeternus.service.ServiceProvider
+import team._0mods.aeternus.service.ResearchHelper
 
 abstract class CursedBlockCondition {
     companion object {
@@ -32,10 +32,6 @@ abstract class CursedBlockCondition {
     }
 
     class EqualResearch internal constructor(private val player: Player, private val research: Research): CursedBlockCondition() {
-        override fun isSuccess(): Boolean {
-
-            val resHelp = ServiceProvider.researchHelper
-            return resHelp.hasResearch(player, research)
-        }
+        override fun isSuccess(): Boolean = ResearchHelper.hasResearch(player, research)
     }
 }

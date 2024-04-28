@@ -27,20 +27,13 @@ base {
     archivesName.set("$modName-forge-${minecraftVersion}_$modVersion")
 }
 
-val common: Configuration by configurations.creating {
-    isCanBeResolved = true
-    isCanBeConsumed = false
-}
-
-val shadowBundle: Configuration by configurations.creating {
-    isCanBeResolved = true
-    isCanBeConsumed = false
-}
+val common: Configuration by configurations.creating
+val shadowCommon: Configuration by configurations.creating
 
 configurations {
-    compileClasspath { extendsFrom(common) }
-    runtimeClasspath { extendsFrom(common) }
-    named("developmentForge") { extendsFrom(common) }
+    compileClasspath.get().extendsFrom(common)
+    runtimeClasspath.get().extendsFrom(common)
+    named("developmentForge").get().extendsFrom(common)
 }
 
 dependencies {
@@ -51,22 +44,20 @@ dependencies {
 
     forge("net.minecraftforge:forge:$minecraftVersion-$forgeVersion")
 
-    modImplementation("dev.architectury:architectury-forge:$architecturyApiVersion") {
-        include(this)
-    }
-    implementation("thedarkcolour:kotlinforforge:$kffVersion") {
-        include(this)
-    }
+    modImplementation("dev.architectury:architectury-forge:$architecturyApiVersion") { include(this) }
+    implementation("thedarkcolour:kotlinforforge:$kffVersion") { include(this) }
 
     include(project(":neoforge"))
 
     common(project(path = ":common", configuration = "namedElements")) { isTransitive = false }
-    shadowBundle(project(path = ":common", configuration = "transformProductionForge"))
+    common(project(path = ":forgelike", configuration = "namedElements")) { isTransitive = false }
+    shadowCommon(project(path = ":common", configuration = "transformProductionForge")) { isTransitive = false }
+    shadowCommon(project(path = ":forgelike", configuration = "transformProductionForge")) { isTransitive = false }
 }
 
 tasks {
     shadowJar {
-        configurations = listOf(shadowBundle)
+        configurations = listOf(shadowCommon)
         archiveClassifier = "dev-shadow"
     }
 

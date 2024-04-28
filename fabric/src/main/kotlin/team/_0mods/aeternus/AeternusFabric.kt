@@ -8,13 +8,18 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package team._0mods.aeternus.api.plugin
+@file:JvmName("AeternusFabric")
 
-import dev.architectury.injectables.annotations.ExpectPlatform
+package team._0mods.aeternus
 
-object PluginHolder {
-    @JvmStatic @ExpectPlatform
-    fun loadPlugins() {
-        throw AssertionError()
-    }
+import team._0mods.aeternus.common.*
+
+fun startCommon() {
+    LOGGER.info("Hello Minecraft world from Common side!")
+    commonInit()
+}
+
+fun startClient() {
+    LOGGER.info("Hello Minecraft world from Client side!")
+    clientInit()
 }

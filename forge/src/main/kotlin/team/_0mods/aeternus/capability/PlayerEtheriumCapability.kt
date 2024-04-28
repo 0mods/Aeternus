@@ -8,13 +8,21 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package team._0mods.aeternus.api.plugin
+package team._0mods.aeternus.capability
 
-import dev.architectury.injectables.annotations.ExpectPlatform
+import team._0mods.aeternus.api.magic.PlayerEtherium
+import kotlin.math.*
 
-object PluginHolder {
-    @JvmStatic @ExpectPlatform
-    fun loadPlugins() {
-        throw AssertionError()
+class PlayerEtheriumCapability: PlayerEtherium {
+    private var xd = 0
+
+    override val etheriumCount: Int = xd
+
+    override fun plus(count: Int) {
+        xd += min(0, count)
+    }
+
+    override fun minus(count: Int) {
+        xd -= max(xd - count, 0)
     }
 }

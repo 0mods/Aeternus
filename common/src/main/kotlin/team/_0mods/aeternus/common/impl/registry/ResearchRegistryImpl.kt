@@ -18,7 +18,7 @@ import team._0mods.aeternus.api.util.fromMapToListByList
 import team._0mods.aeternus.api.util.revert
 import team._0mods.aeternus.api.util.rl
 import team._0mods.aeternus.common.LOGGER
-import team._0mods.aeternus.service.ServiceProvider
+import team._0mods.aeternus.service.PlatformHelper
 
 @ApiStatus.Internal
 class ResearchRegistryImpl(private val modId: String): ResearchRegistry {
@@ -63,7 +63,7 @@ class ResearchRegistryImpl(private val modId: String): ResearchRegistry {
         else
             LOGGER.warn(
                 "Oh... Mod: {} trying to register a research with id {}, because research with this id is already registered! Skipping...",
-                ServiceProvider.platform.getModNameByModId(resLocId.namespace),
+                PlatformHelper.getModNameByModId(resLocId.namespace),
                 resLocId
             )
     }

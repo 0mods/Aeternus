@@ -17,20 +17,15 @@ base {
     archivesName.set("$modName-neo-${minecraftVersion}_$modVersion")
 }
 
-val common: Configuration by configurations.creating {
-    isCanBeResolved = true
-    isCanBeConsumed = false
-}
-
-val shadowBundle: Configuration by configurations.creating {
-    isCanBeResolved = true
-    isCanBeConsumed = false
-}
+val common: Configuration by configurations.creating
+val forgeLike: Configuration by configurations.creating
+val shadowCommon: Configuration by configurations.creating
 
 configurations {
-    compileClasspath { extendsFrom(common) }
-    runtimeClasspath { extendsFrom(common) }
-    named("developmentNeoForge") { extendsFrom(common) }
+    compileClasspath.get().extendsFrom(common, forgeLike)
+    runtimeClasspath.get().extendsFrom(common, forgeLike)
+    named("developmentNeoForge").get().extendsFrom(common)
+    named("developmentForgeLike").get().extendsFrom(forgeLike)
 }
 
 repositories {
@@ -44,16 +39,18 @@ dependencies {
 
     neoForge("net.neoforged:neoforge:$neoVersion")
 
-    implementation("thedarkcolour:kotlinforforge:$kffVersion")
-    modImplementation("dev.architectury:architectury-neoforge:$architecturyApiVersion")
+    implementation("thedarkcolour:kotlinforforge:$kffVersion") { include(this) }
+    modImplementation("dev.architectury:architectury-neoforge:$architecturyApiVersion") { include(this) }
 
     common(project(path = ":common", configuration = "namedElements")) { isTransitive = false }
-    shadowBundle(project(path = ":common", configuration = "transformProductionForge"))
+    forgeLike(project(path = ":forgelike", configuration = "namedElements"))
+    shadowCommon(project(path = ":common", configuration = "transformProductionNeoForge")) { isTransitive = false }
+    shadowCommon(project(path = ":forgelike", configuration = "transformProductionNeoForge")) { isTransitive = false }
 }
 
 tasks {
     shadowJar {
-        configurations = listOf(shadowBundle)
+        configurations = listOf(shadowCommon)
         archiveClassifier = "dev-shadow"
     }
 

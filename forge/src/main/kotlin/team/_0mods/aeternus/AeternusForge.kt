@@ -8,13 +8,21 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package team._0mods.aeternus.api.plugin
+package team._0mods.aeternus
 
-import dev.architectury.injectables.annotations.ExpectPlatform
+import net.minecraftforge.fml.common.Mod
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
+import team._0mods.aeternus.common.*
+import thedarkcolour.kotlinforforge.forge.MOD_BUS
 
-object PluginHolder {
-    @JvmStatic @ExpectPlatform
-    fun loadPlugins() {
-        throw AssertionError()
+@Mod(ModId)
+class AeternusForge {
+    init {
+        commonInit()
+        MOD_BUS.addListener(this::initClient)
+    }
+
+    private fun initClient(e: FMLClientSetupEvent) {
+        clientInit()
     }
 }

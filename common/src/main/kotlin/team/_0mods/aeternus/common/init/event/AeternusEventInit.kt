@@ -11,26 +11,14 @@
 package team._0mods.aeternus.common.init.event
 
 import dev.architectury.event.CompoundEventResult
-import dev.architectury.event.EventResult
 import dev.architectury.event.events.common.InteractionEvent
-import net.minecraft.network.chat.Component
-import net.minecraft.server.packs.PackType
-import net.minecraft.server.packs.metadata.pack.PackMetadataSection
-import net.minecraft.server.packs.repository.Pack
-import net.minecraft.server.packs.repository.PackCompatibility
-import net.minecraft.server.packs.repository.PackSource
-import net.minecraft.util.InclusiveRange
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.entity.item.ItemEntity
-import net.minecraft.world.flag.FeatureFlagSet
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
-import team._0mods.aeternus.api.client.AutomaticPackResources
-import team._0mods.aeternus.api.event.AddPackEvent
 import team._0mods.aeternus.common.ModName
 import team._0mods.aeternus.common.init.registry.AeternusRegsitry
-import team._0mods.aeternus.service.ServiceProvider
-import java.util.*
+import team._0mods.aeternus.service.EtheriumHelper
 import kotlin.random.Random
 
 object AeternusEventsInit {
@@ -44,8 +32,7 @@ object AeternusEventsInit {
                 if (stack.`is`(Items.BOOK)) {
                     val stackOfKNBook = ItemStack(AeternusRegsitry.knowledgeBook)
                     if (!player.inventory.contains(stackOfKNBook)) {
-                        val etheriumHelper = ServiceProvider.etheriumHelper
-                        val etheriumCount = etheriumHelper.getCountForPlayer(player)
+                        val etheriumCount = EtheriumHelper.getCountForPlayer(player)
                         val random = Random(35)
                         if (etheriumCount >= 35) {
                             player.getItemInHand(hand).shrink(1)
@@ -53,7 +40,7 @@ object AeternusEventsInit {
                             val droppedItem = ItemEntity(level, player.x, player.y, player.z, stackOfKNBook)
                             droppedItem.setNoPickUpDelay()
                             level.addFreshEntity(droppedItem)
-                            etheriumHelper.consume(player, random.nextInt())
+                            EtheriumHelper.consume(player, random.nextInt())
                             return@register CompoundEventResult.interruptTrue(stack)
                         } else {
                             return@register CompoundEventResult.pass()

@@ -14,9 +14,9 @@ import net.minecraft.resources.ResourceLocation
 import team._0mods.aeternus.api.magic.research.ResearchTrigger
 import team._0mods.aeternus.api.registry.ResearchTriggerRegistry
 import team._0mods.aeternus.common.LOGGER
-import team._0mods.aeternus.service.ServiceProvider
 import team._0mods.aeternus.api.util.fromMapToListByList
 import team._0mods.aeternus.api.util.rl
+import team._0mods.aeternus.service.PlatformHelper
 
 class ResearchTriggerRegistryImpl(private val modId: String): ResearchTriggerRegistry {
     private val triggerMap: MutableMap<ResourceLocation, ResearchTrigger> = linkedMapOf()
@@ -35,7 +35,7 @@ class ResearchTriggerRegistryImpl(private val modId: String): ResearchTriggerReg
         else
             LOGGER.atWarn().log(
                 "Oh... Mod: {} trying to register a research with id {}, because research with this id is already registered! Skipping...",
-                ServiceProvider.platform.getModNameByModId(resLocId.namespace),
+                PlatformHelper.getModNameByModId(resLocId.namespace),
                 resLocId
             )
 
