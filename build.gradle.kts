@@ -156,8 +156,8 @@ subprojects {
 }
 
 tasks {
-    build { finalizedBy(mergeJars) }
-    assemble { finalizedBy(mergeJars) }
+    build.get().finalizedBy(mergeJars)
+    assemble.get().finalizedBy(mergeJars)
 }
 
 val Project.loom: LoomGradleExtensionAPI get() = (this as ExtensionAware).extensions.getByName("loom") as LoomGradleExtensionAPI

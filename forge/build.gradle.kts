@@ -47,8 +47,6 @@ dependencies {
     modImplementation("dev.architectury:architectury-forge:$architecturyApiVersion") { include(this) }
     implementation("thedarkcolour:kotlinforforge:$kffVersion") { include(this) }
 
-    include(project(":neoforge"))
-
     common(project(path = ":common", configuration = "namedElements")) { isTransitive = false }
     common(project(path = ":forgelike", configuration = "namedElements")) { isTransitive = false }
     shadowCommon(project(path = ":common", configuration = "transformProductionForge")) { isTransitive = false }
