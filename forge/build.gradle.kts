@@ -20,7 +20,7 @@ architectury {
 }
 
 base {
-    val modVersion: String by rootProject
+    val modVersion = rootProject.file("VERSION").readText().trim()
     val modName: String by rootProject
     val minecraftVersion: String by rootProject
 

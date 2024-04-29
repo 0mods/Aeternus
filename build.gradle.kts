@@ -13,6 +13,10 @@ val parchmentVersion: String by project
 val modId: String by project
 val modGroup: String by project
 
+val modVersion = rootProject.file("VERSION").readText().trim()
+
+println("Mod Version: $modVersion") // Debug
+
 plugins {
     java
     idea
@@ -24,7 +28,6 @@ plugins {
 }
 
 forgix {
-    val modVersion: String by project
     val fullPath = "$modGroup.$modId"
     group = fullPath
     mergedJarName = "$modName-${minecraftVersion}_$modVersion.jar"
@@ -126,9 +129,9 @@ subprojects {
             val modLoader: String by project; val mlVersion: String by project; val license: String by project
             val credits: String by project; val modAuthor: String by project; val mcRange: String by project
             val modName: String by project; val modId: String by project; val description: String by project
-            val modVersion: String by project; val kffRange: String by project; val fabricLoaderVersion: String by project
-            val clothVersion: String by project; val forgeVersionRange: String by project; val neoVersionRange: String by project
-            val klfVersion: String by project; val architecturyApiVersion: String by project
+            val kffRange: String by project; val fabricLoaderVersion: String by project; val clothVersion: String by project
+            val forgeVersionRange: String by project; val neoVersionRange: String by project; val klfVersion: String by project
+            val architecturyApiVersion: String by project
 
             val replacement = mapOf(
                     "modloader" to modLoader, "mlVersion" to mlVersion, "license" to license, "modId" to modId,
