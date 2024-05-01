@@ -8,7 +8,7 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package team._0mods.aeternus.common.impl.registry
+package team._0mods.aeternus.api.impl.registry
 
 import net.minecraft.resources.ResourceLocation
 import team._0mods.aeternus.api.magic.research.ResearchTrigger

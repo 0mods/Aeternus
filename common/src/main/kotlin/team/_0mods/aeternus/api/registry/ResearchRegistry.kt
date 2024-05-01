@@ -34,9 +34,12 @@ interface ResearchRegistry {
         level = DeprecationLevel.ERROR,
         replaceWith = ReplaceWith("register(research.name.toString(), research)")
     )
-    fun register(research: Research) = register(research.name.toString(), research)
+    fun register(research: Research): Research = register(research.name, research)
 
-    fun register(id: String, research: Research)
+    fun <T: Research> register(id: String, research: T): T
+
+    @ApiStatus.Experimental
+    fun <T: Research> register(id: ResourceLocation, research: T): T
 
     fun registerAll(vararg researches: Pair<String, Research>) {
         for (researchPair in researches) {

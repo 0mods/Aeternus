@@ -8,7 +8,7 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package team._0mods.aeternus.common.impl.registry
+package team._0mods.aeternus.api.impl.registry
 
 import net.minecraft.resources.ResourceLocation
 import org.jetbrains.annotations.ApiStatus
@@ -56,16 +56,22 @@ class ResearchRegistryImpl(private val modId: String): ResearchRegistry {
         return researchMap.revert()[research] ?: throw NullPointerException("Research $research is not have an identifier. Why?")
     }
 
-    override fun register(id: String, research: Research) {
+    override fun <T: Research> register(id: String, research: T): T {
         val resLocId = "${this.modId}:$id".rl
-        if (researchMap.keys.stream().noneMatch { it == resLocId })
-            researchMap[resLocId] = research
+        return this.register(resLocId, research)
+    }
+
+    override fun <T: Research> register(id: ResourceLocation, research: T): T {
+        if (researchMap.keys.stream().noneMatch { it == id })
+            researchMap[id] = research
         else
             LOGGER.warn(
                 "Oh... Mod: {} trying to register a research with id {}, because research with this id is already registered! Skipping...",
-                PlatformHelper.getModNameByModId(resLocId.namespace),
-                resLocId
+                PlatformHelper.getModNameByModId(id.namespace),
+                id
             )
+
+        return research
     }
 
     override fun getResearchListByIdList(id: List<ResourceLocation>): List<Research> = researchMap.fromMapToListByList(id)

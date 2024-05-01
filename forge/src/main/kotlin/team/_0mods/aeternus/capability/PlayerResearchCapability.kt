@@ -14,8 +14,7 @@ import net.minecraft.core.Direction
 import net.minecraft.nbt.ListTag
 import net.minecraft.nbt.StringTag
 import net.minecraftforge.common.capabilities.Capability
-import net.minecraftforge.common.capabilities.ICapabilityProvider
-import net.minecraftforge.common.util.INBTSerializable
+import net.minecraftforge.common.capabilities.ICapabilitySerializable
 import net.minecraftforge.common.util.LazyOptional
 import team._0mods.aeternus.api.magic.research.Research
 import team._0mods.aeternus.api.magic.research.player.PlayerResearch
@@ -65,7 +64,7 @@ class PlayerResearchCapability: PlayerResearch {
         }
     }
 
-    class Provider: ICapabilityProvider, INBTSerializable<ListTag> {
+    class Provider: ICapabilitySerializable<ListTag> {
         private var cap: PlayerResearchCapability? = null
         private val lazy = lazyOptOf(this::createCap)
 

@@ -8,13 +8,12 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package team._0mods.aeternus.common.impl.research
+package team._0mods.aeternus.api.impl.research
 
-import net.minecraft.resources.ResourceLocation
 import team._0mods.aeternus.api.magic.research.Research
 import team._0mods.aeternus.api.magic.research.ResearchSettings
+import team._0mods.aeternus.api.magic.research.book.ResearchBookMetadata
 
-abstract class AbstractResearch(private val rlId: ResourceLocation, override val settings: ResearchSettings): Research {
-    override val name: ResourceLocation
-        get() = this.rlId
+class SimpleResearch(override val settings: ResearchSettings, override val bookMetadata: ResearchBookMetadata): Research {
+    companion object
 }

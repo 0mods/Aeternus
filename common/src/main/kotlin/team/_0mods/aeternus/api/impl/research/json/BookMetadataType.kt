@@ -8,7 +8,7 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package team._0mods.aeternus.common.impl.research.json
+package team._0mods.aeternus.api.impl.research.json
 
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
@@ -33,7 +33,7 @@ data class BookMetadataType(
             it.group(
                 Name.codec.fieldOf("name").forGetter(BookMetadataType::name),
                 Description.codec.fieldOf("desc").forGetter(BookMetadataType::descText),
-                Codec.STRING.fieldOf("texture").orElse("aeternus:textures/empty_icon").forGetter(BookMetadataType::texture),
+                Codec.STRING.fieldOf("texture").orElse("aeternus:textures/empty_icon.png").forGetter(BookMetadataType::texture),
                 Position.codec.fieldOf("position").orElse(Position(0, 0)).forGetter(BookMetadataType::inBookPosition),
                 Codec.INT.fieldOf("alignment").orElse(0).forGetter(BookMetadataType::alignId),
                 Codec.INT.fieldOf("shape").orElse(0).forGetter(BookMetadataType::shapeId)
@@ -83,8 +83,8 @@ data class BookMetadataType(
 
         val asComponent: Component
             get() {
-                return if (this.type == "string") Component.literal(this.value)
-                else Component.translatable(this.value)
+                return if (this.type == "translate") Component.translatable(this.value)
+                else Component.literal(this.value)
             }
     }
 
@@ -100,8 +100,8 @@ data class BookMetadataType(
 
         val asComponent: Component
             get() {
-                return if (this.type == "string") Component.literal(this.value)
-                else Component.translatable(this.value)
+                return if (this.type == "translate")  Component.translatable(this.value)
+                else Component.literal(this.value)
             }
     }
 }

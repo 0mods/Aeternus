@@ -2,6 +2,7 @@ import dev.architectury.plugin.ArchitectPluginExtension
 import groovy.lang.Closure
 import io.github.pacifistmc.forgix.plugin.ForgixMergeExtension.*
 import net.fabricmc.loom.api.LoomGradleExtensionAPI
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val minecraftVersion: String by project
 val modName: String by project
@@ -23,8 +24,9 @@ plugins {
     id("architectury-plugin") version "3.4-SNAPSHOT" apply false
     id("dev.architectury.loom") version "1.4-SNAPSHOT" apply false
     id("io.github.pacifistmc.forgix") version "1.2.6"
-    kotlin("jvm") version "1.9.23"
-    kotlin("plugin.serialization") version "1.9.23"
+    id("com.modrinth.minotaur") version "2.+"
+    kotlin("jvm") version "1.9.23" apply false
+    kotlin("plugin.serialization") version "1.9.23" apply false
 }
 
 forgix {
@@ -55,8 +57,7 @@ subprojects {
     apply(plugin = "architectury-plugin")
     apply(plugin = "dev.architectury.loom")
     apply(plugin = "java")
-    apply(plugin = "org.jetbrains.kotlin.jvm")
-    apply(plugin = "org.jetbrains.kotlin.plugin.serialization")
+    apply(plugin = "kotlin")
 
     val javaVersion: String by project
 
@@ -120,7 +121,7 @@ subprojects {
             options.release.set(17)
         }
 
-        compileKotlin {
+        named("compileKotlin", KotlinCompile::class) {
             useDaemonFallbackStrategy.set(false)
             compilerOptions.freeCompilerArgs.add("-Xjvm-default=all")
         }
@@ -165,9 +166,9 @@ tasks {
 
 val Project.loom: LoomGradleExtensionAPI get() = (this as ExtensionAware).extensions.getByName("loom") as LoomGradleExtensionAPI
 
-inline fun Project.architectury(noinline conf: ArchitectPluginExtension.() -> Unit) = configure<ArchitectPluginExtension>(conf)
+fun Project.architectury(conf: ArchitectPluginExtension.() -> Unit) = configure<ArchitectPluginExtension>(conf)
 
-inline fun Project.loom(noinline conf: LoomGradleExtensionAPI.() -> Unit) = configure(conf)
+fun Project.loom(conf: LoomGradleExtensionAPI.() -> Unit) = configure(conf)
 
 fun DependencyHandler.minecraft(depAnnot: Any): Dependency? = add("minecraft", depAnnot)
 

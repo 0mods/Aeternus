@@ -8,7 +8,7 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package team._0mods.aeternus.common.impl.research
+package team._0mods.aeternus.api.impl.research
 
 import team._0mods.aeternus.api.magic.research.Research
 import team._0mods.aeternus.api.magic.research.ResearchSettings

@@ -14,8 +14,8 @@ import net.fabricmc.loader.api.FabricLoader
 import net.fabricmc.loader.api.entrypoint.EntrypointContainer
 import team._0mods.aeternus.api.plugin.AeternusPlugin
 import team._0mods.aeternus.common.ModId
-import team._0mods.aeternus.common.impl.registry.ResearchRegistryImpl
-import team._0mods.aeternus.common.impl.registry.ResearchTriggerRegistryImpl
+import team._0mods.aeternus.api.impl.registry.ResearchRegistryImpl
+import team._0mods.aeternus.api.impl.registry.ResearchTriggerRegistryImpl
 import java.util.stream.Collectors
 
 object PluginHolderImpl {

@@ -15,19 +15,22 @@ import net.minecraft.resources.ResourceLocation
 import team._0mods.aeternus.api.magic.research.book.ResearchAlignment
 import team._0mods.aeternus.api.magic.research.book.ResearchBookMetadata
 import team._0mods.aeternus.api.magic.research.book.ResearchShape
-import team._0mods.aeternus.common.impl.research.ResearchBookMetadataImpl
-import team._0mods.aeternus.common.impl.research.ResearchSettingsImpl
+import team._0mods.aeternus.api.impl.research.ResearchBookMetadataImpl
+import team._0mods.aeternus.api.impl.research.ResearchSettingsImpl
 import team._0mods.aeternus.api.util.rl
 
 // Research Settings
 fun ResearchSettings.Companion.of(vararg researchSettings: Pair<ResearchTrigger, Research>): ResearchSettings {
     val triggerList = mutableListOf<ResearchTrigger>()
     val researchList = mutableListOf<Research>()
-    researchSettings.forEach {
-        val research = it.second
-        val trigger = it.first
-        triggerList.add(trigger)
-        researchList.add(research)
+
+    if (researchSettings.isNotEmpty()) {
+        researchSettings.forEach {
+            val research = it.second
+            val trigger = it.first
+            triggerList.add(trigger)
+            researchList.add(research)
+        }
     }
 
     return ResearchSettingsImpl(triggerList, researchList)
@@ -39,8 +42,6 @@ fun ResearchSettings.Companion.of(triggers: List<ResearchTrigger>, parents: List
 fun ResearchSettings.Companion.of(triggers: Array<ResearchTrigger>, parents: Array<Research>) = this.of(triggers.toList(), parents.toList())
 
 fun ResearchSettings.Companion.of(triggers: List<ResearchTrigger>) = this.of(triggers, listOf())
-
-fun ResearchSettings.Companion.of(vararg triggers: ResearchTrigger) = this.of(triggers.toList())
 
 // Research Metadata
 fun ResearchBookMetadata.Companion.of(
