@@ -11,11 +11,16 @@
 package team._0mods.aeternus.common.init.event
 
 import dev.architectury.event.CompoundEventResult
+import dev.architectury.event.EventResult
 import dev.architectury.event.events.common.InteractionEvent
 import net.minecraft.world.InteractionHand
+import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.item.ItemEntity
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
+import net.minecraft.world.level.block.Blocks
+import net.minecraft.world.level.block.FireBlock
+import team._0mods.aeternus.api.event.EntityHurtEvent
 import team._0mods.aeternus.common.ModName
 import team._0mods.aeternus.common.init.registry.AeternusRegsitry
 import team._0mods.aeternus.service.EtheriumHelper
@@ -23,8 +28,16 @@ import kotlin.random.Random
 
 object AeternusEventsInit {
     internal const val PLAYER_UUID_ITEM = "${ModName}PlayerCheckUUID"
+    internal val itemBurn = mutableMapOf<ItemStack, ItemStack>()
 
     fun initServerEvents() {
+        onUse()
+        hurtItem()
+    }
+
+    fun initClientEvents() {}
+
+    private fun onUse() {
         InteractionEvent.RIGHT_CLICK_ITEM.register { player, hand ->
             val level = player.level()
             if (hand == InteractionHand.MAIN_HAND) {
@@ -52,5 +65,38 @@ object AeternusEventsInit {
         }
     }
 
-    fun initClientEvents() {}
+    private fun hurtItem() {
+        EntityHurtEvent.EVENT.register { entity, source, amount ->
+            val level = entity.level()
+            if (level.isClientSide) return@register EventResult.interruptFalse()
+            if (entity is ItemEntity) {
+                if (!entity.isAlive && entity.type == EntityType.ITEM && entity.isOnFire) {
+                    if (itemBurn.isEmpty()) return@register EventResult.interruptFalse()
+
+                    itemBurn.entries.forEach {
+                        val ingredient = it.key
+                        val result = it.value
+
+                        if (ingredient.`is`(entity.item.item)) {
+                            val e = ItemEntity(level, entity.x, entity.y + 1, entity.z, result).apply {
+                                isInvulnerable = true
+                                setNoPickUpDelay()
+                            }
+
+                            level.addFreshEntity(e)
+                        }
+                    }
+
+                    val block = level.getBlockState(entity.blockPosition()).block
+                    if (block is FireBlock || block == Blocks.LAVA) {
+                        level.setBlock(entity.blockPosition(), Blocks.AIR.defaultBlockState(), 1)
+                    }
+
+                    return@register EventResult.interruptTrue()
+                }
+            }
+
+            return@register EventResult.pass()
+        }
+    }
 }
