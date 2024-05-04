@@ -36,7 +36,7 @@ abstract class AnimalMixin(
 ) : AgeableMob(type, level), Enemy {
     private val difficultyPredicate: Predicate<Difficulty> = Predicate {
         return@Predicate (
-                this.level().isNight && this.level().dimensionTypeId() == AeternusRegsitry.alTakeDim
+                this.level().isNight && this.level().dimensionTypeId() == AeternusRegsitry.iterDimType
         ) && (it == Difficulty.EASY || it == Difficulty.NORMAL || it == Difficulty.HARD)
     }
 

@@ -24,7 +24,7 @@ class AltakeNearestAttackableTargetGoal<T: LivingEntity>(
     mustReach: Boolean,
     condition: Predicate<LivingEntity>?
 ): NearestAttackableTargetGoal<T>(mob, clazz, interval, mustSee, mustReach, condition) {
-    private val isAlTake = this.mob.level().dimensionTypeId() == AeternusRegsitry.alTakeDim
+    private val isAlTake = this.mob.level().dimensionTypeId() == AeternusRegsitry.iterDimType
     private val isNight = mob.level().isNight
 
     constructor(mob: Mob, clazz: Class<T>, mustSee: Boolean, mustReach: Boolean):

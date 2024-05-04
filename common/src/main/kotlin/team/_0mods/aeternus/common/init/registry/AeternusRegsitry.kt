@@ -10,15 +10,12 @@
 
 package team._0mods.aeternus.common.init.registry
 
-import com.mojang.serialization.JsonOps
 import dev.architectury.registry.CreativeTabRegistry
 import dev.architectury.registry.registries.DeferredRegister
-import net.minecraft.client.renderer.item.ItemProperties
-import net.minecraft.core.Registry
 import net.minecraft.core.registries.Registries
-import net.minecraft.nbt.NbtOps
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceKey
+import net.minecraft.world.item.ArmorItem
 import net.minecraft.world.item.BlockItem
 import net.minecraft.world.item.BucketItem
 import net.minecraft.world.item.Item
@@ -29,14 +26,14 @@ import net.minecraft.world.level.block.state.BlockBehaviour
 import net.minecraft.world.level.dimension.DimensionType
 import net.minecraft.world.level.material.Fluids
 import net.minecraft.world.level.material.PushReaction
-import team._0mods.aeternus.api.impl.research.json.ResearchType
-import team._0mods.aeternus.api.magic.research.Research
 import team._0mods.aeternus.api.registry.delegate.DelegatedRegistry
 import team._0mods.aeternus.common.ModId
 import team._0mods.aeternus.api.registry.delegate.reg
+import team._0mods.aeternus.api.util.aRl
 import team._0mods.aeternus.api.util.resloc
 import team._0mods.aeternus.common.fluid.EtheriumFluid
 import team._0mods.aeternus.common.helper.AeternusItem
+import team._0mods.aeternus.common.item.DrilldwillArmor
 
 object AeternusRegsitry {
     private val items = DeferredRegister.create(ModId, Registries.ITEM)
@@ -51,30 +48,37 @@ object AeternusRegsitry {
     }
 
     /* ITEMS */
+    // MISC
     val knowledgeBook by items.reg("knowledge_book", ItemTypes.DEFAULT_ITEM)
     val etheriumTar by items.reg("etherium_tar", ItemTypes.DEFAULT_ITEM)
     val crystallizedEtherium by items.reg("crystallized_etherium", ItemTypes.DEFAULT_ITEM)
     val originaleEtherium by items.reg("orginale_etherium", ItemTypes.DEFAULT_ITEM)
+    val drilldwill by items.reg("drilldwill", ItemTypes.DEFAULT_ITEM)
 
+    // BUCKETS
     val etheriumBucket by items.reg("etherium_bucket", ItemTypes::ETHERIUM_BUCKET)
 
-    /* BLOCKS */
-    val etheriumFluidBlock by blocks.regBlock("etherium_fluid") {
-        LiquidBlock(
-            etheriumFlowing,
-            BlockBehaviour.Properties.of()
-                .liquid()
-                .replaceable()
-                .noCollission()
-                .strength(100F)
-                .pushReaction(PushReaction.DESTROY)
-                .noLootTable()
-                .sound(SoundType.EMPTY)
-        )
+    // ARMORS
+    val drilldwillHelmet by items.reg("drilldwill_helmet") {
+        DrilldwillArmor(ArmorItem.Type.HELMET, ItemTypes.DEFAULT_PROPERTIES)
+    }
+    val drilldwillChest by items.reg("drilldwill_chestplate") {
+        DrilldwillArmor(ArmorItem.Type.CHESTPLATE, ItemTypes.DEFAULT_PROPERTIES)
+    }
+    val drilldwillLegs by items.reg("drilldwill_leggings") {
+        DrilldwillArmor(ArmorItem.Type.LEGGINGS, ItemTypes.DEFAULT_PROPERTIES)
+    }
+    val drilldwillBoots by items.reg("drilldwill_boots") {
+        DrilldwillArmor(ArmorItem.Type.BOOTS, ItemTypes.DEFAULT_PROPERTIES)
     }
 
-    /* DIMENSION TYPES */
-    val alTakeDim: ResourceKey<DimensionType> = ResourceKey.create(Registries.DIMENSION_TYPE, resloc(ModId, "altake"))
+    /* BLOCKS */
+    val etheriumFluidBlock by blocks.regBlock("etherium_fluid", BlockTypes.ETHERIUM_LIQUID_BLOCK)
+
+    /* DIMENSIONS */
+    val iterLevelStem = ResourceKey.create(Registries.LEVEL_STEM, "iter".aRl)
+    val iterLevelKey = ResourceKey.create(Registries.DIMENSION, "iter".aRl)
+    val iterDimType = ResourceKey.create(Registries.DIMENSION_TYPE, "iter".aRl)
 
     /* FLUIDS */
     val etheriumFluid by fluids.reg("etherium", EtheriumFluid::Source)
@@ -93,10 +97,29 @@ object AeternusRegsitry {
 
     @Suppress("UnstableApiUsage")
     private object ItemTypes {
+        @JvmField
         val DEFAULT_PROPERTIES = Item.Properties().`arch$tab`(aeternusTab)
+
         @JvmField
         val DEFAULT_ITEM = { AeternusItem() }
 
         val ETHERIUM_BUCKET by lazy { BucketItem(Fluids.EMPTY, Item.Properties().`arch$tab`(aeternusTab)) }
+    }
+
+    private object BlockTypes {
+        @JvmField
+        val ETHERIUM_LIQUID_BLOCK = {
+            LiquidBlock(
+                etheriumFlowing,
+                BlockBehaviour.Properties.of()
+                    .liquid()
+                    .replaceable()
+                    .noCollission()
+                    .strength(100F)
+                    .pushReaction(PushReaction.DESTROY)
+                    .noLootTable()
+                    .sound(SoundType.EMPTY)
+            )
+        }
     }
 }

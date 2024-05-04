@@ -19,7 +19,7 @@ class AltakeAttackGoal(mob: PathfinderMob, speedMod: Double, followIfNotSeen: Bo
     speedMod,
     followIfNotSeen
 ) {
-    private val isAltake = this.mob.level().dimensionTypeId() == AeternusRegsitry.alTakeDim
+    private val isAltake = this.mob.level().dimensionTypeId() == AeternusRegsitry.iterDimType
     private val isNight = this.mob.level().isNight
     private var raiseArmTick: Int = 0
 

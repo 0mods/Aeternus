@@ -25,7 +25,7 @@ abstract class PandaAttackGoalMixin(mob: PathfinderMob, speedMod: Double, follow
 ) {
     @Inject(method = ["canUse"], at = [At("RETURN")], cancellable = true)
     fun canUseInj(cir: CallbackInfoReturnable<Boolean>) {
-        if (mob.level().isNight && mob.level().dimensionTypeId() == AeternusRegsitry.alTakeDim)
+        if (mob.level().isNight && mob.level().dimensionTypeId() == AeternusRegsitry.iterDimType)
             cir.returnValue = true
         else cir.returnValue = (this.mob as Panda).canPerformAction() && super.canUse()
     }
