@@ -20,5 +20,5 @@ interface ResearchTriggerRegistry {
 
     fun register(id: String, research: ResearchTrigger)
 
-    fun getResearchTriggerListByIdList(id: List<ResourceLocation>): List<ResearchTrigger>
+    fun getByIdList(id: List<ResourceLocation>): List<ResearchTrigger>
 }

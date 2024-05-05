@@ -41,5 +41,5 @@ class ResearchTriggerRegistryImpl(private val modId: String): ResearchTriggerReg
 
     }
 
-    override fun getResearchTriggerListByIdList(id: List<ResourceLocation>): List<ResearchTrigger> = triggerMap.fromMapToListByList(id)
+    override fun getByIdList(id: List<ResourceLocation>): List<ResearchTrigger> = triggerMap.fromMapToListByList(id)
 }

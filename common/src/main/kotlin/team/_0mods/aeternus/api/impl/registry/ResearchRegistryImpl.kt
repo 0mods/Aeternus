@@ -10,8 +10,16 @@
 
 package team._0mods.aeternus.api.impl.registry
 
+import com.mojang.logging.LogUtils
+import dev.architectury.platform.Platform
+import dev.architectury.registry.ReloadListenerRegistry
+import kotlinx.serialization.json.Json
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.packs.PackType
+import net.minecraft.server.packs.resources.PreparableReloadListener
 import org.jetbrains.annotations.ApiStatus
+import team._0mods.aeternus.api.impl.research.json.JSONResearch
+import team._0mods.aeternus.api.impl.research.reload.ResearchReloadListener
 import team._0mods.aeternus.api.magic.research.Research
 import team._0mods.aeternus.api.registry.ResearchRegistry
 import team._0mods.aeternus.api.util.fromMapToListByList
@@ -19,6 +27,8 @@ import team._0mods.aeternus.api.util.revert
 import team._0mods.aeternus.api.util.rl
 import team._0mods.aeternus.common.LOGGER
 import team._0mods.aeternus.service.PlatformHelper
+import java.io.InputStream
+import java.util.jar.JarFile
 
 @ApiStatus.Internal
 class ResearchRegistryImpl(private val modId: String): ResearchRegistry {
@@ -74,5 +84,5 @@ class ResearchRegistryImpl(private val modId: String): ResearchRegistry {
         return research
     }
 
-    override fun getResearchListByIdList(id: List<ResourceLocation>): List<Research> = researchMap.fromMapToListByList(id)
+    override fun getByIdList(id: List<ResourceLocation>): List<Research> = researchMap.fromMapToListByList(id)
 }

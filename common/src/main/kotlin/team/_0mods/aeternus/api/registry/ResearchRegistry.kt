@@ -50,5 +50,5 @@ interface ResearchRegistry {
         }
     }
 
-    fun getResearchListByIdList(id: List<ResourceLocation>): List<Research>
+    fun getByIdList(id: List<ResourceLocation>): List<Research>
 }

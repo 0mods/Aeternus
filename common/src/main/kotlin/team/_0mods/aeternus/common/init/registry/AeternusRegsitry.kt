@@ -23,14 +23,12 @@ import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.LiquidBlock
 import net.minecraft.world.level.block.SoundType
 import net.minecraft.world.level.block.state.BlockBehaviour
-import net.minecraft.world.level.dimension.DimensionType
 import net.minecraft.world.level.material.Fluids
 import net.minecraft.world.level.material.PushReaction
 import team._0mods.aeternus.api.registry.delegate.DelegatedRegistry
 import team._0mods.aeternus.common.ModId
 import team._0mods.aeternus.api.registry.delegate.reg
 import team._0mods.aeternus.api.util.aRl
-import team._0mods.aeternus.api.util.resloc
 import team._0mods.aeternus.common.fluid.EtheriumFluid
 import team._0mods.aeternus.common.helper.AeternusItem
 import team._0mods.aeternus.common.item.DrilldwillArmor
