@@ -11,6 +11,9 @@
 package team._0mods.aeternus.api.util
 
 import net.minecraft.network.chat.Component
+import net.minecraft.world.item.ArmorItem
+import net.minecraft.world.item.Item
+import team._0mods.aeternus.api.text.TranslationBuilder
 
 val mcEmpty: Component = Component.empty()
 
@@ -21,3 +24,16 @@ val String.mcTranslate
     get() = Component.translatable(this)
 
 fun String.mcTranslate(vararg args: Any) = Component.translatable(this, args)
+
+fun ArmorItem.Type.generateArmorTranslateByParent(item: Item): Component {
+    val itemName = item.descriptionId
+    return when(this) {
+        ArmorItem.Type.HELMET -> TranslationBuilder.builder(itemName, "helmet".armorPrefix, TranslationBuilder.RussianAncestralType.MALE).build
+        ArmorItem.Type.CHESTPLATE -> TranslationBuilder.builder(itemName, "chest".armorPrefix, TranslationBuilder.RussianAncestralType.MALE).build
+        ArmorItem.Type.LEGGINGS -> TranslationBuilder.builder(itemName, "legs".armorPrefix, TranslationBuilder.RussianAncestralType.PLURAL).build
+        ArmorItem.Type.BOOTS -> TranslationBuilder.builder(itemName, "feet".armorPrefix, TranslationBuilder.RussianAncestralType.PLURAL).build
+    }
+}
+
+val String.armorPrefix: String
+    get() = "armor.aeternus.$this"

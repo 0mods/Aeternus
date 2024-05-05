@@ -1,3 +1,35 @@
 {
+  "_comment": "Endings", "_comment": "DON'T TOUCH IT! ONLY FOR RUSSIAN TRANSLATE!",
 
+  "rat.aeternus.male": "",
+  "rat.aeternus.female": "",
+  "rat.aeternus.medium": "",
+  "rat.aeternus.plural": "",
+
+  "_comment": "Misc",
+
+  "item.aeternus.knowledge_book": "Knowledge Book",
+  "item.aeternus.etherium_tar": "Etherium Tar",
+  "item.aeternus.orginale_etherium": "Orginale Etherium",
+  "item.aeternus.drilldwill": "Drilldwill",
+
+  "_comment": "Buckets",
+
+  "item.aeternus.etherium_bucket": "Bucket of Eternal",
+
+  "_comment": "Armors",
+
+  "armor.aeternus.helmet": "Helmet",
+  "armor.aeternus.chest": "Chestplate",
+  "armor.aeternus.legs": "Leggings",
+  "armor.aeternus.feet": "Boots",
+
+  "_comment": "Blocks",
+
+  "block.aeternus.etherium_fluid": "Eternal",
+
+  "_comment": "Liquids",
+
+  "fluid.aeternus.etherium": "Eternal",
+  "fluid.aeternus.etherium_flowing": "Eternal"
 }

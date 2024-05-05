@@ -1,0 +1,35 @@
+{
+  "_comment": "Окончания",
+
+  "rat.aeternus.male": "ый",
+  "rat.aeternus.female": "ая",
+  "rat.aeternus.medium": "ое",
+  "rat.aeternus.plural": "ые",
+
+  "_comment": "Другое",
+
+  "item.aeternus.knowledge_book": "Книга знаний",
+  "item.aeternus.etherium_tar": "Итериевая смола",
+  "item.aeternus.orginale_etherium": "Orginale итерий",
+  "item.aeternus.drilldwill": "Дрилдвилл",
+
+  "_comment": "Ведра",
+
+  "item.aeternus.etherium_bucket": "Bucket of Eternal",
+
+  "_comment": "Брони",
+
+  "armor.aeternus.helmet": "Шлем",
+  "armor.aeternus.chest": "Нагрудник",
+  "armor.aeternus.legs": "Поножи",
+  "armor.aeternus.feet": "Ботинки",
+
+  "_comment": "Блоки",
+
+  "block.aeternus.etherium_fluid": "Eternal",
+
+  "_comment": "Жидкости",
+
+  "fluid.aeternus.etherium": "Вечность",
+  "fluid.aeternus.etherium_flowing": "Вечность"
+}

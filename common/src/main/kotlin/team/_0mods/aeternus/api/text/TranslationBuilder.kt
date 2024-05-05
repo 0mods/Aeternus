@@ -13,13 +13,19 @@ package team._0mods.aeternus.api.text
 import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
+import team._0mods.aeternus.api.util.mcText
+import team._0mods.aeternus.api.util.mcTranslate
 import team._0mods.aeternus.common.ModId
 
-open class TranslationBuilder protected constructor(private var prepend: String = "", private val key: String) {
+open class TranslationBuilder protected constructor(private var prepend: String = "", private val key: String, private val rat: RussianAncestralType?) {
     private var arguments: Array<Any> = arrayOf()
     private var formats: Array<ChatFormatting> = arrayOf()
 
     private constructor(key: String): this("", key)
+
+    private constructor(key: String, rat: RussianAncestralType): this("", key, rat)
+
+    private constructor(prepend: String, key: String): this(prepend, key, null)
 
     fun arg(arg: Any): TranslationBuilder {
         this.arguments += arg
@@ -45,11 +51,28 @@ open class TranslationBuilder protected constructor(private var prepend: String 
     @get:JvmName("build")
     val build: MutableComponent
         get() {
-            var component: MutableComponent = Component.translatable(key, arguments)
+            var addRAT = ""
+            if (rat != null) {
+                addRAT = when(rat) {
+                    RussianAncestralType.MALE -> "rat.aeternus.male"
+                    RussianAncestralType.FEMALE -> "rat.aeternus.female"
+                    RussianAncestralType.MEDIUM -> "rat.aeternus.medium"
+                    RussianAncestralType.PLURAL -> "rat.aeternus.plural"
+                }
+            }
+            var component = key.mcTranslate(arguments)
 
-            if (prepend.isNotEmpty()) component = Component.literal(prepend).append(component)
+            if (prepend.isNotEmpty()) {
+                component = if (addRAT.isNotEmpty()) prepend.mcTranslate.append(addRAT.mcTranslate).append(component)
+                else prepend.mcTranslate.append(component)
+            } else {
+                if (addRAT.isNotEmpty()) {
+                    val rt = addRAT.mcTranslate
+                    component = component.append(rt)
+                }
+            }
 
-            if (formats.isNotEmpty()) component.withStyle()
+            if (formats.isNotEmpty()) component.withStyle(*formats)
 
             return component
         }
@@ -67,7 +90,11 @@ open class TranslationBuilder protected constructor(private var prepend: String 
 
         fun builder(key: String): TranslationBuilder = TranslationBuilder(key)
 
-        fun builder(prepend: String, key: String): TranslationBuilder = TranslationBuilder(prepend, key)
+        fun builder(key: String, rat: RussianAncestralType): TranslationBuilder = TranslationBuilder(key, rat)
+
+        fun builder(prepend: String, key: String): TranslationBuilder = TranslationBuilder(prepend, key, null)
+
+        fun builder(prepend: String, key: String, rat: RussianAncestralType): TranslationBuilder = TranslationBuilder(prepend, key, rat)
 
         fun block(key: String, modId: String = ModId): TranslationBuilder = builder(
             "block.$modId.$key"
@@ -88,5 +115,12 @@ open class TranslationBuilder protected constructor(private var prepend: String 
         fun api(key: String) = builder("api.$ModId.$key").build
 
         fun research(key: String, modId: String) = builder("research.$modId.$key").build
+    }
+
+    enum class RussianAncestralType {
+        MALE,
+        FEMALE,
+        MEDIUM,
+        PLURAL
     }
 }

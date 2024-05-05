@@ -151,6 +151,7 @@ class ArmorMaterialCreation(
             return this
         }
 
+        @get:JvmName("build")
         val build: ArmorMaterialCreation
             get() = ArmorMaterialCreation(id.toString(), durMod, helmetDef, chestDef, legsDef, bootsDef, enchValue, equipSound, repairIngr, toughness, kbResistance)
     }

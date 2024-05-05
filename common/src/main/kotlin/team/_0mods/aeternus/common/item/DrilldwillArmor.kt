@@ -11,17 +11,26 @@
 package team._0mods.aeternus.common.item
 
 import dev.architectury.event.events.common.TickEvent
+import net.minecraft.network.chat.Component
+import net.minecraft.server.level.ServerLevel
+import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ArmorItem
+import net.minecraft.world.item.ItemStack
 import team._0mods.aeternus.api.item.ArmorMaterialCreation
 import team._0mods.aeternus.api.item.ArmorMaterialCreation.Companion.builder
-import team._0mods.aeternus.api.util.aRl
-import team._0mods.aeternus.api.util.sec
+import team._0mods.aeternus.api.text.TranslationBuilder
+import team._0mods.aeternus.api.util.*
 import team._0mods.aeternus.common.init.registry.AeternusRegsitry
 
 class DrilldwillArmor(type: Type, properties: Properties) : ArmorItem(material, type, properties) {
     private var runTime = 0
+    private var isTeleportedOrInDim = false
+
+    init {
+        tick()
+    }
 
     companion object {
         private val material = ArmorMaterialCreation.builder("drilldwill".aRl)
@@ -33,38 +42,51 @@ class DrilldwillArmor(type: Type, properties: Properties) : ArmorItem(material, 
             .build
     }
 
+    override fun getName(stack: ItemStack): Component = type.generateArmorTranslateByParent(AeternusRegsitry.drilldwill)
+
     private fun tick() {
         val slots = listOf(EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET)
 
         TickEvent.PLAYER_PRE.register { player ->
             val level = player.level()
+            val playerIsMoving = player.isSprinting && player.isMoving && !player.isJumping && !player.isFalling
 
             if (!level.isClientSide) {
-                if (!player.checkEquipedArmor()) return@register
+                if (player !is ServerPlayer) return@register
 
-                val dmv = player.deltaMovement
+                if (!player.checkEquippedArmor()) return@register
 
-                if (player.isSprinting && (dmv.x > 0 && dmv.z > 0)) runTime++
+                if (playerIsMoving) runTime++
                 else runTime = 0
 
                 if (runTime >= 10.sec) {
-                    val server = level.server ?: throw NullPointerException("Server is null on server side? What?")
-                    val world = server.levelKeys().find { it.location() == "altake".aRl } ?: throw NullPointerException("Altake dimension is not found!")
-                    val altakeLevel = server.getLevel(world) ?: throw NullPointerException("Altake dimension can't be loaded")
-                    if (player.level() != altakeLevel) {
-                        player.changeDimension(altakeLevel)
+                    val isOnIter = player.isOnIter
+                    val onIter = isOnIter.first
+                    val iterLevel = isOnIter.second
+                    if (onIter) {
+                        player.changeDimension(iterLevel)
                         slots.forEach(player::broadcastBreakEvent)
                     }
                 }
+            } else {
+                // Here logic of shader rendering at player's screen
             }
         }
     }
 
-    private fun Player.checkEquipedArmor(): Boolean {
+    private fun Player.checkEquippedArmor(): Boolean {
         val head = this.getItemBySlot(EquipmentSlot.HEAD).item
         val chest = this.getItemBySlot(EquipmentSlot.CHEST).item
         val legs = this.getItemBySlot(EquipmentSlot.LEGS).item
         val feet = this.getItemBySlot(EquipmentSlot.FEET).item
         return head is DrilldwillArmor && chest is DrilldwillArmor && legs is DrilldwillArmor && feet is DrilldwillArmor
     }
+
+    private val ServerPlayer.isOnIter: Pair<Boolean, ServerLevel>
+        get() {
+            val server = this.server
+            val levelKey = server.levelKeys().find { it.location() == "iter".aRl } ?: throw NullPointerException("Iter dimension is not found!")
+            val level = server.getLevel(levelKey) ?: throw NullPointerException("Iter dimension can't be loaded")
+            return (this.level() == level) to level
+        }
 }

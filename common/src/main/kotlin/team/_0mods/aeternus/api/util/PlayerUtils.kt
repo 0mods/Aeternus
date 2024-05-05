@@ -8,23 +8,15 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package team._0mods.aeternus
+package team._0mods.aeternus.api.util
 
-import net.minecraftforge.fml.common.Mod
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
-import net.minecraftforge.fml.loading.FMLEnvironment
-import team._0mods.aeternus.common.*
-import thedarkcolour.kotlinforforge.forge.MOD_BUS
+import net.minecraft.world.entity.player.Player
 
-@Mod(ModId)
-class AeternusForge {
-    init {
-        commonInit()
-        if (FMLEnvironment.dist.isClient)
-            MOD_BUS.addListener(this::initClient)
-    }
+val Player.isMoving: Boolean
+    get() = this.deltaMovement.x != 0.0 || this.deltaMovement.z != 0.0
 
-    private fun initClient(e: FMLClientSetupEvent) {
-        clientInit()
-    }
-}
+val Player.isJumping: Boolean
+    get() = this.deltaMovement.y > 0.0
+
+val Player.isFalling: Boolean
+    get() = this.deltaMovement.y < 0.0
