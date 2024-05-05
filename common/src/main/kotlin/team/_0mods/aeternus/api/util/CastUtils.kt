@@ -11,7 +11,6 @@
 package team._0mods.aeternus.api.util
 
 import org.jetbrains.annotations.ApiStatus
-import java.util.concurrent.CompletableFuture
 
 @ApiStatus.Internal
 @ApiStatus.Experimental
@@ -19,5 +18,3 @@ fun <A, T> T.c(): A {
     val any = this as Any
     return any as A
 }
-
-fun CompletableFuture<Unit>.v(): CompletableFuture<Void> = this as CompletableFuture<Void>

@@ -17,6 +17,7 @@ import team._0mods.aeternus.api.magic.research.book.ResearchBookMetadata
 import team._0mods.aeternus.api.magic.research.book.ResearchShape
 import team._0mods.aeternus.api.impl.research.ResearchBookMetadataImpl
 import team._0mods.aeternus.api.impl.research.ResearchSettingsImpl
+import team._0mods.aeternus.api.magic.research.trigger.ResearchTrigger
 import team._0mods.aeternus.api.util.rl
 
 // Research Settings

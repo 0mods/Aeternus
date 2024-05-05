@@ -8,18 +8,9 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package team._0mods.aeternus.api.magic.research
-
-import net.minecraft.resources.ResourceLocation
+package team._0mods.aeternus.api.magic.research.trigger
 
 interface ResearchTrigger {
-    /**
-     * Trigger name.
-     *
-     * Returns [ResourceLocation]
-     */
-    val name: ResourceLocation
-
     /**
      * Trigger Logic.
      * This is where all the basic operators of calculating the event take place.

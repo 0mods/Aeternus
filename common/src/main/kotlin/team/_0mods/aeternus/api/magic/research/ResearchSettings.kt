@@ -10,6 +10,8 @@
 
 package team._0mods.aeternus.api.magic.research
 
+import team._0mods.aeternus.api.magic.research.trigger.ResearchTrigger
+
 interface ResearchSettings {
     companion object
 

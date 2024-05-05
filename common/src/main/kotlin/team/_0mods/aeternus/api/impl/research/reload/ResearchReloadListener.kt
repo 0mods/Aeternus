@@ -18,7 +18,6 @@ import net.minecraft.server.packs.resources.ResourceManager
 import net.minecraft.util.profiling.ProfilerFiller
 import team._0mods.aeternus.api.impl.research.json.JSONResearch
 import team._0mods.aeternus.api.registry.ResearchRegistry
-import team._0mods.aeternus.api.util.v
 import team._0mods.aeternus.common.LOGGER
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
@@ -46,6 +45,6 @@ class ResearchReloadListener(private val registry: ResearchRegistry): Preparable
                 registry.register(id, research)
                 LOGGER.debug("Research with id {} is registered!", id)
             }
-        }, backgroundExecutor).v()
+        }, backgroundExecutor) as CompletableFuture<Void>
     }
 }

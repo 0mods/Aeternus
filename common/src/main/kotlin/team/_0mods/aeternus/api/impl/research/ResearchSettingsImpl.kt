@@ -12,7 +12,7 @@ package team._0mods.aeternus.api.impl.research
 
 import team._0mods.aeternus.api.magic.research.Research
 import team._0mods.aeternus.api.magic.research.ResearchSettings
-import team._0mods.aeternus.api.magic.research.ResearchTrigger
+import team._0mods.aeternus.api.magic.research.trigger.ResearchTrigger
 
 internal class ResearchSettingsImpl(
     private val triggerList: MutableList<ResearchTrigger>,
