@@ -13,10 +13,11 @@ package team._0mods.aeternus.api.impl.research.reload
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
+import kotlinx.serialization.modules.SerializersModule
 import net.minecraft.server.packs.resources.PreparableReloadListener
 import net.minecraft.server.packs.resources.ResourceManager
 import net.minecraft.util.profiling.ProfilerFiller
-import team._0mods.aeternus.api.impl.research.json.JSONResearch
+import team._0mods.aeternus.api.impl.research.json.*
 import team._0mods.aeternus.api.registry.ResearchRegistry
 import team._0mods.aeternus.common.LOGGER
 import java.util.concurrent.CompletableFuture
@@ -26,6 +27,11 @@ class ResearchReloadListener(private val registry: ResearchRegistry): Preparable
     private val json = Json {
         ignoreUnknownKeys = true
         encodeDefaults = true
+        serializersModule = SerializersModule {
+            polymorphic(PolyResearchTrigger::class, StringResearchTrigger::class, StringResearchTrigger.serializer())
+            polymorphic(PolyResearchTrigger::class, OnlyNamedResearchTrigger::class, OnlyNamedResearchTrigger.serializer())
+            polymorphic(PolyResearchTrigger::class, BooleanResearchTrigger::class, BooleanResearchTrigger.serializer())
+        }
     }
 
     @OptIn(ExperimentalSerializationApi::class)

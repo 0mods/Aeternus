@@ -66,7 +66,7 @@ object AeternusEventsInit {
     }
 
     private fun hurtItem() {
-        EntityHurtEvent.EVENT.register { entity, source, amount ->
+        EntityHurtEvent.EVENT.register { entity, _, _ ->
             val level = entity.level()
             if (level.isClientSide) return@register EventResult.interruptFalse()
             if (entity is ItemEntity) {
