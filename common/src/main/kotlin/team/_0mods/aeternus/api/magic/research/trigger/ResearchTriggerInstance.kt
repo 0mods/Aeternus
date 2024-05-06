@@ -10,15 +10,25 @@
 
 package team._0mods.aeternus.api.magic.research.trigger
 
-interface ResearchTriggerInstance<T: ResearchTrigger, V> {
+import team._0mods.aeternus.api.impl.research.trigger.ResearchTriggerInstanceImpl
+
+interface ResearchTriggerInstance {
     companion object {
         @JvmStatic
-        fun <T: ResearchTrigger, V> ResearchTriggerInstance<*, *>.cast(): ResearchTriggerInstance<T, V> = this as ResearchTriggerInstance<T, V>
+        fun triggerMap(): MutableMap<Class<out ResearchTrigger>, ResearchTrigger> = linkedMapOf()
 
-        fun <T: ResearchTrigger, V> ResearchTriggerInstance<*, *>?.castNull(): ResearchTriggerInstance<T, V>? = this as ResearchTriggerInstance<T, V>?
+        @JvmStatic
+        fun <V> triggerInstances(): MutableMap<in ResearchTrigger, V> = linkedMapOf()
+
+        @JvmStatic
+        fun Companion.createInstance(): ResearchTriggerInstance = ResearchTriggerInstanceImpl
+
+        @JvmStatic
+        @JvmName("createInstance")
+        fun createTriggerInstance(): ResearchTriggerInstance = this.createInstance()
     }
 
-    fun getTrigger(instance: Class<T>): T?
+    fun getTrigger(instance: Class<out ResearchTrigger>): ResearchTrigger?
 
-    fun createTrigger(trigger: Class<T>, instance: V)
+    fun <V> createTrigger(trigger: Class<out ResearchTrigger>, instance: V)
 }

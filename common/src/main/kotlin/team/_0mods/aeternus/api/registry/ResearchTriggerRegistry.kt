@@ -26,9 +26,11 @@ interface ResearchTriggerRegistry {
     @Deprecated("Use generic version of Trigger Registry")
     fun getByIdList(id: List<ResourceLocation>): List<ResearchTrigger>
 
-    fun <T: ResearchTrigger, V> getResearchTriggerInstanceById(id: ResourceLocation): ResearchTriggerInstance<T, V>?
+    fun getResearchTriggerInstanceById(id: ResourceLocation): ResearchTriggerInstance?
 
-    fun <T: ResearchTrigger, V> register(id: String, research: ResearchTriggerInstance<T, V>)
+    fun <T: ResearchTrigger, V> register(id: String, research: ResearchTriggerInstance)
 
-    fun <T: ResearchTrigger, V> getByIdGenericList(id: List<ResourceLocation>): List<ResearchTriggerInstance<T, V>>
+    fun getInstancesByIdList(id: List<ResourceLocation>): List<ResearchTriggerInstance>
+
+    fun <T: ResearchTrigger> getByIdOrClass(id: String): T?
 }

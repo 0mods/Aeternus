@@ -13,12 +13,17 @@ package team._0mods.aeternus.api.impl.research.trigger
 import team._0mods.aeternus.api.magic.research.trigger.ResearchTrigger
 import team._0mods.aeternus.api.magic.research.trigger.ResearchTriggerInstance
 
-class ResearchTriggerInstanceImpl<T: ResearchTrigger, V>: ResearchTriggerInstance<T, V> {
-    private val triggerMap: MutableMap<Class<T>, T> = mutableMapOf()
+internal object ResearchTriggerInstanceImpl: ResearchTriggerInstance {
+    override fun getTrigger(instance: Class<out ResearchTrigger>): ResearchTrigger? {
+        val tm = ResearchTriggerInstance.triggerMap()
+        return tm[instance]
+    }
 
-    override fun getTrigger(instance: Class<T>): T? = triggerMap[instance]
-
-    override fun createTrigger(trigger: Class<T>, instance: V) {
-        triggerMap[trigger] = trigger.getDeclaredConstructor().newInstance(instance)
+    override fun <V> createTrigger(trigger: Class<out ResearchTrigger>, instance: V) {
+        val tm = ResearchTriggerInstance.triggerMap()
+        val insts = ResearchTriggerInstance.triggerInstances<V>()
+        val triggerInstance = trigger.getDeclaredConstructor().newInstance(instance)
+        insts[triggerInstance] = instance
+        tm[trigger] = triggerInstance
     }
 }
