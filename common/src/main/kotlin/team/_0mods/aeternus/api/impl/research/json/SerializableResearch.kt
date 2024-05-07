@@ -78,7 +78,7 @@ data class JSONBookMetadata(
 data class JSONInBookPosition(val x: Int = 0, val y: Int = 0)
 
 @Serializable
-open class PolyResearchTrigger<T>(private val idPoly: String, @Polymorphic private val valuePoly: T?)
+open class PolyResearchTrigger<T>(val idPoly: String, @Polymorphic val valuePoly: T?)
 
 @Serializable
 open class OnlyNamedResearchTrigger(val id: String): PolyResearchTrigger<Unit>(id, null)
@@ -90,9 +90,7 @@ class StringResearchTrigger(val id: String, val value: String): PolyResearchTrig
 class BooleanResearchTrigger(val id: String, val value: Boolean): PolyResearchTrigger<Boolean>(id, value)
 
 @Serializable
-open class NumeralResearchTrigger<T>(private val idN: String, @Polymorphic private val valueN: T): PolyResearchTrigger<T>(idN, valueN)
+class IntResearchTrigger(val id: String, val value: Int): PolyResearchTrigger<Int>(id, value)
 
 @Serializable
-class IntResearchTrigger(val id: String, val value: Int): NumeralResearchTrigger<Int>(id, value)
-
-class DoubleResearchTrigger(val id: String, val value: Double): NumeralResearchTrigger<Double>(id, value)
+class DoubleResearchTrigger(val id: String, val value: Double): PolyResearchTrigger<Double>(id, value)

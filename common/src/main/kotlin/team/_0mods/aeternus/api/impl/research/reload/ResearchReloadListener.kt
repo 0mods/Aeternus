@@ -31,6 +31,8 @@ class ResearchReloadListener(private val registry: ResearchRegistry): Preparable
             polymorphic(PolyResearchTrigger::class, StringResearchTrigger::class, StringResearchTrigger.serializer())
             polymorphic(PolyResearchTrigger::class, OnlyNamedResearchTrigger::class, OnlyNamedResearchTrigger.serializer())
             polymorphic(PolyResearchTrigger::class, BooleanResearchTrigger::class, BooleanResearchTrigger.serializer())
+            polymorphic(PolyResearchTrigger::class, IntResearchTrigger::class, IntResearchTrigger.serializer())
+            polymorphic(PolyResearchTrigger::class, DoubleResearchTrigger::class, DoubleResearchTrigger.serializer())
         }
     }
 
