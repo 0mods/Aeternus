@@ -44,8 +44,8 @@ data class JSONResearch(
 
     override val settings: ResearchSettings
         get() = ResearchSettings.of(
-            AeternusCorePlugin.triggerRegistry.getByIdList(triggers.toRLList()).toList(),
-            AeternusCorePlugin.researchRegistry.getByIdList(dependencies.toRLList()).toList()
+            AeternusCorePlugin.triggerRegistry.getByIdList(triggers.toRLList).toList(),
+            AeternusCorePlugin.researchRegistry.getByIdList(dependencies.toRLList).toList()
         )
 }
 
@@ -79,9 +79,6 @@ data class JSONInBookPosition(val x: Int = 0, val y: Int = 0)
 
 @Serializable
 open class PolyResearchTrigger<T>(val idPoly: String, @Polymorphic val valuePoly: T?)
-
-@Serializable
-open class OnlyNamedResearchTrigger(val id: String): PolyResearchTrigger<Unit>(id, null)
 
 @Serializable
 class StringResearchTrigger(val id: String, val value: String): PolyResearchTrigger<String>(id, value)

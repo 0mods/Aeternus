@@ -11,7 +11,7 @@
 package team._0mods.aeternus.api.registry
 
 import net.minecraft.resources.ResourceLocation
-import team._0mods.aeternus.api.magic.research.trigger.ResearchTrigger
+import team._0mods.aeternus.api.magic.research.trigger.*
 
 interface ResearchTriggerRegistry {
     val triggers: List<ResearchTrigger>
@@ -21,4 +21,12 @@ interface ResearchTriggerRegistry {
     fun register(id: String, research: ResearchTrigger)
 
     fun getByIdList(id: List<ResourceLocation>): List<ResearchTrigger>
+
+    fun getStackTrigger(id: ResourceLocation): ItemStackResearchTrigger?
+
+    fun getStringTrigger(id: ResourceLocation): StringResearchTrigger?
+
+    fun getIntTrigger(id: ResourceLocation): IntResearchTrigger?
+
+    fun getDoubleTrigger(id: ResourceLocation): DoubleResearchTrigger?
 }

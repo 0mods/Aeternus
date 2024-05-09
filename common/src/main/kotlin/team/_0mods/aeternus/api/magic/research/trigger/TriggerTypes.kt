@@ -15,22 +15,24 @@ import net.minecraft.core.Holder
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.nbt.TagParser
 import net.minecraft.world.item.ItemStack
+import org.jetbrains.annotations.ApiStatus
 import team._0mods.aeternus.api.util.rl
 import java.util.*
 
-interface PolymorphicResearchTriggerType<T> {
+@ApiStatus.Internal
+interface PolymorphicTypedResearchTrigger<T>: ResearchTrigger {
     var value: T
 }
 
-interface StringResearchTriggerType: PolymorphicResearchTriggerType<String>
+interface StringResearchTrigger: PolymorphicTypedResearchTrigger<String>
 
-interface BooleanResearchTriggerType: PolymorphicResearchTriggerType<Boolean>
+interface BooleanResearchTrigger: PolymorphicTypedResearchTrigger<Boolean>
 
-interface IntResearchTriggerType: PolymorphicResearchTriggerType<Int>
+interface IntResearchTrigger: PolymorphicTypedResearchTrigger<Int>
 
-interface DoubleResearchTriggerType: PolymorphicResearchTriggerType<Double>
+interface DoubleResearchTrigger: PolymorphicTypedResearchTrigger<Double>
 
-interface ItemStackResearchTriggerType: StringResearchTriggerType {
+interface ItemStackResearchTrigger: StringResearchTrigger {
     var count: Int
 
     var nbt: String

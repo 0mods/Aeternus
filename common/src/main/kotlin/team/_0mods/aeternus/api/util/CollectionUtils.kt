@@ -17,8 +17,8 @@ import net.minecraft.resources.ResourceLocation
 import org.jetbrains.annotations.ApiStatus
 
 @ApiStatus.Experimental
-fun <T, X> Map<T, X>.revert(): Map<X, T> {
-    val mutableMap = mutableMapOf<X, T>()
+fun <K, V> Map<K, V>.revert(): Map<V, K> {
+    val mutableMap = mutableMapOf<V, K>()
 
     val keys = this.keys.toList()
 
@@ -30,16 +30,17 @@ fun <T, X> Map<T, X>.revert(): Map<X, T> {
     return mutableMap.toMap()
 }
 
-@ApiStatus.Experimental
-fun List<String>.toRLList(): List<ResourceLocation> {
-    val rlList = mutableListOf<ResourceLocation>()
-    for (id in this) {
-        if (rlList.stream().noneMatch { it == id.rl })
-            rlList.add(id.rl)
-        else continue
+@get:ApiStatus.Experimental
+val List<String>.toRLList: List<ResourceLocation>
+    get() {
+        val rlList = mutableListOf<ResourceLocation>()
+        for (id in this) {
+            if (rlList.stream().noneMatch { it == id.rl })
+                rlList.add(id.rl)
+            else continue
+        }
+        return rlList.toList()
     }
-    return rlList.toList()
-}
 
 @ApiStatus.Experimental
 fun <T, R> Map<T, R>.fromMapToListByList(from: List<T>): List<R> {
@@ -54,6 +55,10 @@ fun <T, R> Map<T, R>.fromMapToListByList(from: List<T>): List<R> {
 
     return listOfR.toList()
 }
+
+fun <K, V> Map<K, V>.noneMatchKey(key: K): Boolean = this.keys.stream().noneMatch { it == key }
+
+fun <K, V> Map<K, V>.noneMatchValue(value: V): Boolean = this.values.stream().noneMatch { it == value }
 
 operator fun <K, V> Multimap<K, V>.set(key: K, value: V) {
     this.put(key, value)
