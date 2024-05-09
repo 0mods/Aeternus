@@ -10,7 +10,6 @@
 
 package team._0mods.aeternus.api.impl.research.json
 
-import kotlinx.serialization.Polymorphic
 import kotlinx.serialization.Required
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -44,7 +43,7 @@ data class JSONResearch(
 
     override val settings: ResearchSettings
         get() = ResearchSettings.of(
-            AeternusCorePlugin.triggerRegistry.getByIdList(triggers.toRLList).toList(),
+            AeternusCorePlugin.triggerRegistry.getByIdList(triggers.toRLList),
             AeternusCorePlugin.researchRegistry.getByIdList(dependencies.toRLList).toList()
         )
 }
@@ -76,18 +75,3 @@ data class JSONBookMetadata(
 
 @Serializable
 data class JSONInBookPosition(val x: Int = 0, val y: Int = 0)
-
-@Serializable
-open class PolyResearchTrigger<T>(val idPoly: String, @Polymorphic val valuePoly: T?)
-
-@Serializable
-class StringResearchTrigger(val id: String, val value: String): PolyResearchTrigger<String>(id, value)
-
-@Serializable
-class BooleanResearchTrigger(val id: String, val value: Boolean): PolyResearchTrigger<Boolean>(id, value)
-
-@Serializable
-class IntResearchTrigger(val id: String, val value: Int): PolyResearchTrigger<Int>(id, value)
-
-@Serializable
-class DoubleResearchTrigger(val id: String, val value: Double): PolyResearchTrigger<Double>(id, value)

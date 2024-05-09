@@ -27,13 +27,6 @@ class ResearchReloadListener(private val registry: ResearchRegistry): Preparable
     private val json = Json {
         ignoreUnknownKeys = true
         encodeDefaults = true
-        serializersModule = SerializersModule {
-            polymorphic(PolyResearchTrigger::class, StringResearchTrigger::class, StringResearchTrigger.serializer())
-            polymorphic(PolyResearchTrigger::class, OnlyNamedResearchTrigger::class, OnlyNamedResearchTrigger.serializer())
-            polymorphic(PolyResearchTrigger::class, BooleanResearchTrigger::class, BooleanResearchTrigger.serializer())
-            polymorphic(PolyResearchTrigger::class, IntResearchTrigger::class, IntResearchTrigger.serializer())
-            polymorphic(PolyResearchTrigger::class, DoubleResearchTrigger::class, DoubleResearchTrigger.serializer())
-        }
     }
 
     @OptIn(ExperimentalSerializationApi::class)
@@ -45,6 +38,7 @@ class ResearchReloadListener(private val registry: ResearchRegistry): Preparable
         backgroundExecutor: Executor,
         gameExecutor: Executor
     ): CompletableFuture<Void> {
+        @Suppress("UNCHECKED_CAST")
         return CompletableFuture.supplyAsync({
             resourceManager.listResources("researches") { it.path.endsWith(".json") }.forEach {
                 val id = it.key

@@ -21,10 +21,6 @@ import team._0mods.aeternus.service.PlatformHelper
 
 class ResearchTriggerRegistryImpl(private val modId: String): ResearchTriggerRegistry {
     private val triggerMap: MutableMap<ResourceLocation, ResearchTrigger> = linkedMapOf()
-    private val itemTriggerMap: MutableMap<ResourceLocation, ItemStackResearchTrigger> = linkedMapOf()
-    private val strTriggerMap: MutableMap<ResourceLocation, StringResearchTrigger> = linkedMapOf()
-    private val intTriggerMap: MutableMap<ResourceLocation, IntResearchTrigger> = linkedMapOf()
-    private val doubleTriggerMap: MutableMap<ResourceLocation, DoubleResearchTrigger> = linkedMapOf()
 
     override val triggers: List<ResearchTrigger>
         get() = triggerMap.values.toList()
@@ -35,30 +31,11 @@ class ResearchTriggerRegistryImpl(private val modId: String): ResearchTriggerReg
     override fun register(id: String, research: ResearchTrigger) {
         val resLocId = "${this.modId}:$id".rl
 
-        if (triggerMap.noneMatchKey(resLocId)) {
-            triggerMap[resLocId] = research
-
-            if (research is StringResearchTrigger && research !is ItemStackResearchTrigger)
-                strTriggerMap[resLocId] = research
-
-            when (research) {
-                is ItemStackResearchTrigger -> itemTriggerMap[resLocId] = research
-                is IntResearchTrigger -> intTriggerMap[resLocId] = research
-                is DoubleResearchTrigger -> doubleTriggerMap[resLocId] = research
-            }
-        }
+        if (triggerMap.noneMatchKey(resLocId)) triggerMap[resLocId] = research
         else warn(resLocId)
     }
 
     override fun getByIdList(id: List<ResourceLocation>): List<ResearchTrigger> = triggerMap.fromMapToListByList(id)
-
-    override fun getStackTrigger(id: ResourceLocation): ItemStackResearchTrigger? = itemTriggerMap[id]
-
-    override fun getStringTrigger(id: ResourceLocation): StringResearchTrigger? = strTriggerMap[id]
-
-    override fun getIntTrigger(id: ResourceLocation): IntResearchTrigger? = intTriggerMap[id]
-
-    override fun getDoubleTrigger(id: ResourceLocation): DoubleResearchTrigger? = doubleTriggerMap[id]
 
     private fun warn(id: ResourceLocation) = LOGGER.warn(
         "Oh... Mod: {} trying to register a research trigger with id {}, because research with this id is already registered! Skipping...",
