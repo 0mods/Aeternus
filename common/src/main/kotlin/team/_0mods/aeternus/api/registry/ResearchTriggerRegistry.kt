@@ -12,25 +12,13 @@ package team._0mods.aeternus.api.registry
 
 import net.minecraft.resources.ResourceLocation
 import team._0mods.aeternus.api.magic.research.trigger.ResearchTrigger
-import team._0mods.aeternus.api.magic.research.trigger.ResearchTriggerInstance
 
 interface ResearchTriggerRegistry {
     val triggers: List<ResearchTrigger>
 
-    @Deprecated("Use generic version of Trigger Registry")
     fun getResearchTriggerById(id: ResourceLocation): ResearchTrigger?
 
-    @Deprecated("Use generic version of Trigger Registry")
     fun register(id: String, research: ResearchTrigger)
 
-    @Deprecated("Use generic version of Trigger Registry")
     fun getByIdList(id: List<ResourceLocation>): List<ResearchTrigger>
-
-    fun getResearchTriggerInstanceById(id: ResourceLocation): ResearchTriggerInstance?
-
-    fun <T: ResearchTrigger, V> register(id: String, research: ResearchTriggerInstance)
-
-    fun getInstancesByIdList(id: List<ResourceLocation>): List<ResearchTriggerInstance>
-
-    fun <T: ResearchTrigger> getByIdOrClass(id: String): T?
 }

@@ -14,6 +14,7 @@ import dev.architectury.event.events.common.TickEvent
 import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.level.ServerPlayer
+import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ArmorItem
@@ -56,7 +57,7 @@ class DrilldwillArmor(type: Type, properties: Properties) : ArmorItem(material, 
 
                 if (!player.checkEquippedArmor()) return@register
 
-                if (playerIsMoving) runTime++
+                if (playerIsMoving && player.hasEffect(MobEffects.MOVEMENT_SLOWDOWN)) runTime++
                 else runTime = 0
 
                 if (runTime >= 10.sec) {
