@@ -1,7 +1,10 @@
+@file:Suppress("UNCHECKED_CAST")
+
 import dev.architectury.plugin.ArchitectPluginExtension
 import groovy.lang.Closure
 import io.github.pacifistmc.forgix.plugin.ForgixMergeExtension.*
 import net.fabricmc.loom.api.LoomGradleExtensionAPI
+import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val minecraftVersion: String by project
@@ -21,12 +24,17 @@ println("Mod Version: $modVersion") // Debug
 plugins {
     java
     idea
-    id("architectury-plugin") version "3.4-SNAPSHOT" apply false
+    `maven-publish`
+    id("architectury-plugin") version "3.4-SNAPSHOT"
     id("dev.architectury.loom") version "1.4-SNAPSHOT" apply false
     id("io.github.pacifistmc.forgix") version "1.2.6"
     id("com.modrinth.minotaur") version "2.+"
     kotlin("jvm") version "1.9.23" apply false
     kotlin("plugin.serialization") version "1.9.23" apply false
+}
+
+architectury {
+    minecraft = minecraftVersion
 }
 
 forgix {
@@ -49,25 +57,13 @@ forgix {
         } as Closure<ForgeContainer>
         forge(forgeClosure)
     }
-
-//    removeDuplicate(fullPath)
 }
 
 subprojects {
     apply(plugin = "architectury-plugin")
     apply(plugin = "dev.architectury.loom")
-    apply(plugin = "java")
-    apply(plugin = "kotlin")
 
     val javaVersion: String by project
-
-    base {
-        archivesName.set(modName)
-    }
-
-    architectury {
-        minecraft = minecraftVersion
-    }
 
     loom {
         silentMojangMappingsLicense()
@@ -82,7 +78,6 @@ subprojects {
     }
 
     repositories {
-        mavenCentral()
         maven("https://maven.parchmentmc.org")
         maven("https://repo.spongepowered.org/repository/maven-public/")
         maven("https://maven.blamejared.com")
@@ -93,13 +88,71 @@ subprojects {
     }
 
     dependencies {
-        compileOnly("org.jetbrains:annotations:24.1.0")
         minecraft("com.mojang:minecraft:$minecraftVersion")
         @Suppress("UnstableApiUsage")
         mappings(loom.layered {
             this.officialMojangMappings()
             parchment("org.parchmentmc.data:parchment-${parchmentMCVersion}:${parchmentVersion}@zip")
         })
+    }
+
+    tasks.processResources {
+        val modLoader: String by project; val mlVersion: String by project; val license: String by project
+        val credits: String by project; val modAuthor: String by project; val mcRange: String by project
+        val modName: String by project; val modId: String by project; val description: String by project
+        val kffRange: String by project; val fabricLoaderVersion: String by project; val clothVersion: String by project
+        val forgeVersionRange: String by project; val neoVersionRange: String by project; val klfVersion: String by project
+        val architecturyApiVersion: String by project
+
+        val replacement = mapOf(
+            "modloader" to modLoader, "mlVersion" to mlVersion, "license" to license, "modId" to modId,
+            "modVersion" to modVersion, "modName" to modName, "credits" to credits,"modAuthor" to modAuthor,
+            "description" to description, "mcRange" to mcRange, "kffRange" to kffRange,
+            "fabricLoaderVersion" to fabricLoaderVersion, "clothVersion" to clothVersion,
+            "minecraftVersion" to minecraftVersion, "forgeVersionRange" to forgeVersionRange,
+            "neoVersionRange" to neoVersionRange, "klfVersion" to klfVersion,
+            "architecturyApiVersion" to architecturyApiVersion
+        )
+
+        from(project(":common").sourceSets.main.get().resources)
+
+        filesMatching(listOf("META-INF/mods.toml", "pack.mcmeta", "*.mixins.json", "fabric.mod.json")) {
+            expand(replacement)
+        }
+
+        inputs.properties(replacement)
+    }
+
+    tasks.withType<GenerateModuleMetadata> {
+        enabled = false
+    }
+}
+
+allprojects {
+    apply(plugin = "java")
+    apply(plugin = "kotlin")
+    apply(plugin = "maven-publish")
+
+    val releaseType: String by project
+
+    val relId = when(releaseType) {
+        "alpha" -> releaseType
+        "beta" -> releaseType
+        "snapshot" -> releaseType
+        else -> ""
+    }
+
+    val archName = if (relId.isNotEmpty()) "$modName-$relId.$minecraftVersion" else "$modName.$minecraftVersion"
+
+    archivesName.set(archName.lowercase())
+    group = modGroup
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        compileOnly("org.jetbrains:annotations:24.1.0")
 
         implementation(kotlin("reflect"))
         implementation(kotlin("stdlib"))
@@ -125,43 +178,7 @@ subprojects {
             useDaemonFallbackStrategy.set(false)
             compilerOptions.freeCompilerArgs.add("-Xjvm-default=all")
         }
-
-        processResources {
-            val modLoader: String by project; val mlVersion: String by project; val license: String by project
-            val credits: String by project; val modAuthor: String by project; val mcRange: String by project
-            val modName: String by project; val modId: String by project; val description: String by project
-            val kffRange: String by project; val fabricLoaderVersion: String by project; val clothVersion: String by project
-            val forgeVersionRange: String by project; val neoVersionRange: String by project; val klfVersion: String by project
-            val architecturyApiVersion: String by project
-
-            val replacement = mapOf(
-                    "modloader" to modLoader, "mlVersion" to mlVersion, "license" to license, "modId" to modId,
-                    "modVersion" to modVersion, "modName" to modName, "credits" to credits,"modAuthor" to modAuthor,
-                    "description" to description, "mcRange" to mcRange, "kffRange" to kffRange,
-                    "fabricLoaderVersion" to fabricLoaderVersion, "clothVersion" to clothVersion,
-                    "minecraftVersion" to minecraftVersion, "forgeVersionRange" to forgeVersionRange,
-                    "neoVersionRange" to neoVersionRange, "klfVersion" to klfVersion,
-                    "architecturyApiVersion" to architecturyApiVersion
-            )
-
-            from(project(":common").sourceSets.main.get().resources)
-
-            filesMatching(listOf("META-INF/mods.toml", "pack.mcmeta", "*.mixins.json", "fabric.mod.json")) {
-                expand(replacement)
-            }
-
-            inputs.properties(replacement)
-        }
     }
-
-    tasks.withType<GenerateModuleMetadata> {
-        enabled = false
-    }
-}
-
-tasks {
-    build.get().finalizedBy(mergeJars)
-    assemble.get().finalizedBy(mergeJars)
 }
 
 val Project.loom: LoomGradleExtensionAPI get() = (this as ExtensionAware).extensions.getByName("loom") as LoomGradleExtensionAPI
