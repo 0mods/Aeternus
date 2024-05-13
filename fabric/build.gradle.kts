@@ -1,6 +1,4 @@
 plugins {
-    kotlin("jvm")
-    kotlin("plugin.serialization")
     id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
@@ -9,14 +7,6 @@ val modName: String by rootProject
 architectury {
     platformSetupLoomIde()
     fabric()
-}
-
-base {
-    val modVersion = rootProject.file("VERSION").readText().trim()
-    val modName: String by rootProject
-    val minecraftVersion: String by rootProject
-
-    archivesName.set("$modName-fabric-${minecraftVersion}_$modVersion")
 }
 
 val common: Configuration by configurations.creating {
@@ -71,25 +61,25 @@ tasks {
     }
 }
 
-//publishing {
-//    publications {
-//        register("mavenJava", MavenPublication::class) {
-//            artifactId = base.archivesName.get()
-//            from(components["kotlin"])
-//        }
-//    }
-//
-//    repositories {
-//        val mk = System.getenv("MAVEN_KEY")
-//        val mp = System.getenv("MAVEN_PASS")
-//
-//        if (mk != null && mp != null) {
-//            maven("http://maven.0mods.team") {
-//                credentials {
-//                    username = mk
-//                    password = mp
-//                }
-//            }
-//        }
-//    }
-//}
+publishing {
+    publications {
+        register("mavenJava", MavenPublication::class) {
+            artifactId = base.archivesName.get()
+            from(components["kotlin"])
+        }
+    }
+
+    repositories {
+        val mk = System.getenv("MAVEN_KEY")
+        val mp = System.getenv("MAVEN_PASS")
+
+        if (mk != null && mp != null) {
+            maven("http://maven.0mods.team") {
+                credentials {
+                    username = mk
+                    password = mp
+                }
+            }
+        }
+    }
+}

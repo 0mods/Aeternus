@@ -29,8 +29,8 @@ plugins {
     id("dev.architectury.loom") version "1.4-SNAPSHOT" apply false
     id("io.github.pacifistmc.forgix") version "1.2.6"
     id("com.modrinth.minotaur") version "2.+"
-    kotlin("jvm") version "1.9.23" apply false
-    kotlin("plugin.serialization") version "1.9.23" apply false
+    kotlin("jvm") version "1.9.23"
+    kotlin("plugin.serialization") version "1.9.23"
 }
 
 architectury {
@@ -131,6 +131,7 @@ subprojects {
 allprojects {
     apply(plugin = "java")
     apply(plugin = "kotlin")
+    apply(plugin = "org.jetbrains.kotlin.plugin.serialization")
     apply(plugin = "maven-publish")
 
     val releaseType: String by project
@@ -174,7 +175,7 @@ allprojects {
             options.release.set(17)
         }
 
-        named("compileKotlin", KotlinCompile::class) {
+        compileKotlin {
             useDaemonFallbackStrategy.set(false)
             compilerOptions.freeCompilerArgs.add("-Xjvm-default=all")
         }

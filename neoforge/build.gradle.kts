@@ -1,20 +1,10 @@
 plugins{
-    kotlin("jvm")
-    kotlin("plugin.serialization")
     id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 architectury {
     platformSetupLoomIde()
     neoForge()
-}
-
-base {
-    val modVersion = rootProject.file("VERSION").readText().trim()
-    val modName: String by rootProject
-    val minecraftVersion: String by rootProject
-
-    archivesName.set("$modName-neo-${minecraftVersion}_$modVersion")
 }
 
 val common: Configuration by configurations.creating
@@ -43,9 +33,9 @@ dependencies {
     modImplementation("dev.architectury:architectury-neoforge:$architecturyApiVersion") { include(this) }
 
     common(project(path = ":common", configuration = "namedElements")) { isTransitive = false }
-//    forgeLike(project(path = ":forgelike", configuration = "namedElements"))
+    forgeLike(project(path = ":forgelike", configuration = "namedElements"))
     shadowCommon(project(path = ":common", configuration = "transformProductionNeoForge")) { isTransitive = false }
-//    shadowCommon(project(path = ":forgelike", configuration = "transformProductionNeoForge")) { isTransitive = false }
+    shadowCommon(project(path = ":forgelike", configuration = "transformProductionNeoForge")) { isTransitive = false }
 }
 
 tasks {
@@ -59,25 +49,25 @@ tasks {
     }
 }
 
-//publishing {
-//    publications {
-//        register("mavenJava", MavenPublication::class) {
-//            artifactId = base.archivesName.get()
-//            from(components["kotlin"])
-//        }
-//    }
-//
-//    repositories {
-//        val mk = System.getenv("MAVEN_KEY")
-//        val mp = System.getenv("MAVEN_PASS")
-//
-//        if (mk != null && mp != null) {
-//            maven("http://maven.0mods.team") {
-//                credentials {
-//                    username = mk
-//                    password = mp
-//                }
-//            }
-//        }
-//    }
-//}
+publishing {
+    publications {
+        register("mavenJava", MavenPublication::class) {
+            artifactId = base.archivesName.get()
+            from(components["kotlin"])
+        }
+    }
+
+    repositories {
+        val mk = System.getenv("MAVEN_KEY")
+        val mp = System.getenv("MAVEN_PASS")
+
+        if (mk != null && mp != null) {
+            maven("http://maven.0mods.team") {
+                credentials {
+                    username = mk
+                    password = mp
+                }
+            }
+        }
+    }
+}
