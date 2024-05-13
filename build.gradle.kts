@@ -131,7 +131,6 @@ subprojects {
 allprojects {
     apply(plugin = "java")
     apply(plugin = "kotlin")
-    apply(plugin = "org.jetbrains.kotlin.plugin.serialization")
     apply(plugin = "maven-publish")
 
     val releaseType: String by project
