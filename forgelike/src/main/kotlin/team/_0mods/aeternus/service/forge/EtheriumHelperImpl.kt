@@ -29,5 +29,5 @@ object EtheriumHelperImpl {
     }
 
     @JvmStatic
-    fun getCountForPlayer(player: Player): Int = player.etherium.getEtheriumCount()
+    fun getCountForPlayer(player: Player): Int = player.etherium.etheriumCount
 }

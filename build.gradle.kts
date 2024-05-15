@@ -5,7 +5,6 @@ import groovy.lang.Closure
 import io.github.pacifistmc.forgix.plugin.ForgixMergeExtension.*
 import net.fabricmc.loom.api.LoomGradleExtensionAPI
 import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val minecraftVersion: String by project
 val modName: String by project
@@ -132,6 +131,7 @@ allprojects {
     apply(plugin = "java")
     apply(plugin = "kotlin")
     apply(plugin = "maven-publish")
+    apply(plugin = "org.jetbrains.kotlin.plugin.serialization")
 
     val releaseType: String by project
 
@@ -144,6 +144,7 @@ allprojects {
 
     val archName = if (relId.isNotEmpty()) "$modName-$relId.$minecraftVersion" else "$modName.$minecraftVersion"
 
+    version = modVersion
     archivesName.set(archName.lowercase())
     group = modGroup
 

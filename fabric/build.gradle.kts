@@ -1,8 +1,12 @@
+import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
+
 plugins {
     id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 val modName: String by rootProject
+
+archivesName.set("${archivesName.get()}-fabric")
 
 architectury {
     platformSetupLoomIde()

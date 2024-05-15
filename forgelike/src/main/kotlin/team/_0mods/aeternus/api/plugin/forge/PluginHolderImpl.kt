@@ -13,11 +13,8 @@ package team._0mods.aeternus.api.plugin.forge
 import com.mojang.logging.LogUtils
 import net.minecraftforge.fml.ModList
 import org.slf4j.LoggerFactory
-import team._0mods.aeternus.api.AeternusPlugin
-import team._0mods.aeternus.api.AeternusPluginInit
-import team._0mods.aeternus.api.plugin.PluginHolder
-import team._0mods.aeternus.common.impl.registry.ResearchRegistryImpl
-import team._0mods.aeternus.common.impl.registry.ResearchTriggerRegistryImpl
+import team._0mods.aeternus.api.impl.registry.*
+import team._0mods.aeternus.api.plugin.*
 
 object PluginHolderImpl {
     private val logger = LoggerFactory.getLogger(PluginHolder::class.java)
