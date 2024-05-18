@@ -1,12 +1,8 @@
-import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
-
 plugins {
     id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 val modName: String by rootProject
-
-archivesName.set("${archivesName.get()}-fabric")
 
 architectury {
     platformSetupLoomIde()
@@ -51,6 +47,14 @@ dependencies {
 }
 
 tasks {
+    processResources {
+        val modId: String by rootProject
+        from(sourceSets.main.get().resources)
+        filesMatching(listOf("$modId.mixins.json", "$modId.fabric.mixins.json")) {
+            expand("team._0mods.$modId.mixin" to "team._0mods.$modId.fabric.mixin")
+        }
+    }
+
     shadowJar {
         configurations = listOf(shadowBundle)
         archiveClassifier = "dev-shadow"
@@ -67,8 +71,8 @@ tasks {
 
 publishing {
     publications {
-        register("mavenJava", MavenPublication::class) {
-            artifactId = base.archivesName.get()
+        create<MavenPublication>("mavenFabric") {
+            artifactId = "${base.archivesName.get()}-fabric"
             from(components["kotlin"])
         }
     }
@@ -78,6 +82,9 @@ publishing {
         val mp = System.getenv("MAVEN_PASS")
         val releaseType: String by rootProject
         val artefact = if (releaseType.isEmpty()) "releases" else "snapshots"
+
+        logger.info("MAVEN_KEY: $mk")
+        logger.info("MAVEN_PASS: $mp")
 
         if (mk != null && mp != null) {
             maven("https://maven.0mods.team/$artefact/") {

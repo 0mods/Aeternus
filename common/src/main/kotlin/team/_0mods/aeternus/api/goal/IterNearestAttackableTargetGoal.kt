@@ -16,7 +16,7 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal
 import team._0mods.aeternus.common.init.registry.AeternusRegsitry
 import java.util.function.Predicate
 
-class AltakeNearestAttackableTargetGoal<T: LivingEntity>(
+class IterNearestAttackableTargetGoal<T: LivingEntity>(
     mob: Mob,
     clazz: Class<T>,
     interval: Int,

@@ -14,7 +14,7 @@ import net.minecraft.world.entity.PathfinderMob
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal
 import team._0mods.aeternus.common.init.registry.AeternusRegsitry
 
-class AltakeAttackGoal(mob: PathfinderMob, speedMod: Double, followIfNotSeen: Boolean): MeleeAttackGoal(
+class IterAttackGoal(mob: PathfinderMob, speedMod: Double, followIfNotSeen: Boolean): MeleeAttackGoal(
     mob,
     speedMod,
     followIfNotSeen

@@ -21,7 +21,7 @@ import net.minecraft.world.level.block.DoorBlock
 import team._0mods.aeternus.common.init.registry.AeternusRegsitry
 import java.util.function.Predicate
 
-class AltakeBreakDoorGoal(
+class IterBreakDoorGoal(
     mob: Mob,
     breakTime: Int,
     validDifficulties: Predicate<Difficulty>

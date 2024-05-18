@@ -18,7 +18,7 @@ dependencies {
 
 publishing {
     publications {
-        register("mavenJava", MavenPublication::class) {
+        create<MavenPublication>("mavenCommon") {
             artifactId = base.archivesName.get()
             from(components["kotlin"])
         }
@@ -29,6 +29,9 @@ publishing {
         val mp = System.getenv("MAVEN_PASS")
         val releaseType: String by rootProject
         val artefact = if (releaseType.isEmpty()) "releases" else "snapshots"
+
+        logger.info("MAVEN_KEY: $mk")
+        logger.info("MAVEN_PASS: $mp")
 
         if (mk != null && mp != null) {
             maven("https://maven.0mods.team/$artefact/") {

@@ -1,10 +1,6 @@
-import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
-
 plugins {
     id("com.github.johnrengelman.shadow") version "8.1.1"
 }
-
-archivesName.set("${archivesName.get()}-neoforge")
 
 architectury {
     platformSetupLoomIde()
@@ -55,8 +51,8 @@ tasks {
 
 publishing {
     publications {
-        register("mavenJava", MavenPublication::class) {
-            artifactId = base.archivesName.get()
+        create<MavenPublication>("mavenNeoForge") {
+            artifactId = "${base.archivesName.get()}-neoforge"
             from(components["kotlin"])
         }
     }
@@ -66,6 +62,9 @@ publishing {
         val mp = System.getenv("MAVEN_PASS")
         val releaseType: String by rootProject
         val artefact = if (releaseType.isEmpty()) "releases" else "snapshots"
+
+        logger.info("MAVEN_KEY: $mk")
+        logger.info("MAVEN_PASS: $mp")
 
         if (mk != null && mp != null) {
             maven("https://maven.0mods.team/$artefact/") {

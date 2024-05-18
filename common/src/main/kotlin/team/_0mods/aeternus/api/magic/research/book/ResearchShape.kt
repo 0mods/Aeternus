@@ -18,7 +18,6 @@ enum class ResearchShape {
         fun getById(id: Int): ResearchShape {
             val values = entries.toTypedArray().size - 1
             if (id > values) throw IllegalStateException("Research shape id '$id' is larger than $values")
-
             return ResearchShape.entries[id]
         }
     }

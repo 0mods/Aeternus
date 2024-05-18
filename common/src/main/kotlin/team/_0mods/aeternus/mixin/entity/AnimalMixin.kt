@@ -23,9 +23,9 @@ import org.spongepowered.asm.mixin.Unique
 import org.spongepowered.asm.mixin.injection.At
 import org.spongepowered.asm.mixin.injection.Inject
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo
-import team._0mods.aeternus.api.goal.AltakeAttackGoal
-import team._0mods.aeternus.api.goal.AltakeBreakDoorGoal
-import team._0mods.aeternus.api.goal.AltakeNearestAttackableTargetGoal
+import team._0mods.aeternus.api.goal.IterAttackGoal
+import team._0mods.aeternus.api.goal.IterBreakDoorGoal
+import team._0mods.aeternus.api.goal.IterNearestAttackableTargetGoal
 import team._0mods.aeternus.common.init.registry.AeternusRegsitry
 import java.util.function.Predicate
 
@@ -47,14 +47,14 @@ abstract class AnimalMixin(
                 aggresiableGoals()
             }
 
-            addGoal(1, AltakeBreakDoorGoal(this, difficultyPredicate))
+            addGoal(1, IterBreakDoorGoal(this, difficultyPredicate))
         }
     }
 
     @Unique
     private fun aggresiableGoals() {
-        addGoal(2, AltakeAttackGoal(this, 1.0, true))
-        addGoal(2, AltakeNearestAttackableTargetGoal(this, Player::class.java, false))
+        addGoal(2, IterAttackGoal(this, 1.0, true))
+        addGoal(2, IterNearestAttackableTargetGoal(this, Player::class.java, false))
     }
 
     @Unique

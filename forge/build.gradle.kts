@@ -1,12 +1,8 @@
-import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
-
 plugins {
     id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 val modId: String by rootProject
-
-archivesName.set("${archivesName.get()}-forge")
 
 loom {
     forge {
@@ -60,8 +56,8 @@ tasks {
 
 publishing {
     publications {
-        register("mavenJava", MavenPublication::class) {
-            artifactId = base.archivesName.get()
+        create<MavenPublication>("mavenForge") {
+            artifactId = "${base.archivesName.get()}-forge"
             from(components["kotlin"])
         }
     }
@@ -71,6 +67,9 @@ publishing {
         val mp = System.getenv("MAVEN_PASS")
         val releaseType: String by rootProject
         val artefact = if (releaseType.isEmpty()) "releases" else "snapshots"
+
+        logger.info("MAVEN_KEY: $mk")
+        logger.info("MAVEN_PASS: $mp")
 
         if (mk != null && mp != null) {
             maven("https://maven.0mods.team/$artefact/") {
