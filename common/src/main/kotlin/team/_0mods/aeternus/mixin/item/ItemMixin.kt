@@ -8,23 +8,17 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package team._0mods.aeternus.capability
+package team._0mods.aeternus.mixin.item
 
-import team._0mods.aeternus.api.magic.PlayerEtherium
-import kotlin.math.*
+import net.minecraft.world.item.Item
+import org.spongepowered.asm.mixin.Mixin
+import team._0mods.aeternus.api.magic.research.Research
+import team._0mods.aeternus.api.magic.research.ResearchRequired
 
-class PlayerEtheriumCapability : PlayerEtherium {
-    private var etherium = 0
+@Mixin(Item::class)
+class ItemMixin: ResearchRequired {
+    override val requirements: Set<Research>
+        get() = emptySet()
 
-    override val etheriumCount: Int = etherium
-
-    override var canRegenerate: Boolean = false
-
-    override fun plus(count: Int) {
-        etherium += min(0, count)
-    }
-
-    override fun minus(count: Int) {
-        etherium -= max(etherium - count, 0)
-    }
+    override var lockItem: Boolean = false
 }

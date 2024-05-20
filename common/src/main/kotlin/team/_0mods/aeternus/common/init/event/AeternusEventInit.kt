@@ -13,6 +13,7 @@ package team._0mods.aeternus.common.init.event
 import dev.architectury.event.CompoundEventResult
 import dev.architectury.event.EventResult
 import dev.architectury.event.events.common.InteractionEvent
+import dev.architectury.event.events.common.TickEvent
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.item.ItemEntity
@@ -21,9 +22,11 @@ import net.minecraft.world.item.Items
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.FireBlock
 import team._0mods.aeternus.api.event.EntityHurtEvent
+import team._0mods.aeternus.api.magic.research.ResearchRequired
 import team._0mods.aeternus.common.ModName
 import team._0mods.aeternus.common.init.registry.AeternusRegsitry
 import team._0mods.aeternus.service.EtheriumHelper
+import team._0mods.aeternus.service.ResearchHelper
 import kotlin.random.Random
 
 object AeternusEventsInit {
@@ -97,6 +100,21 @@ object AeternusEventsInit {
             }
 
             return@register EventResult.pass()
+        }
+    }
+
+    private fun playerResearchCheck() {
+        TickEvent.PLAYER_PRE.register {
+            val itemStack = it.getItemInHand(InteractionHand.MAIN_HAND)
+            val item = itemStack.item
+
+            if (item is ResearchRequired) {
+                val req = item.requirements
+
+                if (!ResearchHelper.hasResearches(it, *req.toTypedArray())) {
+                    item.lockItem = true
+                }
+            }
         }
     }
 }

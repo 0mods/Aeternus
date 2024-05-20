@@ -8,23 +8,10 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package team._0mods.aeternus.capability
+package team._0mods.aeternus.api.magic.research
 
-import team._0mods.aeternus.api.magic.PlayerEtherium
-import kotlin.math.*
+interface ResearchRequired {
+    val requirements: Set<Research>
 
-class PlayerEtheriumCapability : PlayerEtherium {
-    private var etherium = 0
-
-    override val etheriumCount: Int = etherium
-
-    override var canRegenerate: Boolean = false
-
-    override fun plus(count: Int) {
-        etherium += min(0, count)
-    }
-
-    override fun minus(count: Int) {
-        etherium -= max(etherium - count, 0)
-    }
+    var lockItem: Boolean
 }

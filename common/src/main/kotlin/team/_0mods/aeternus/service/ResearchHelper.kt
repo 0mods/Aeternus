@@ -22,6 +22,9 @@ object ResearchHelper {
     fun hasResearch(player: Player, research: Research): Boolean = throw AssertionError()
 
     @JvmStatic @ExpectPlatform
+    fun hasResearches(player: Player, vararg researches: Research): Boolean = throw AssertionError()
+
+    @JvmStatic @ExpectPlatform
     fun addResearch(player: Player, vararg researches: Research): Boolean = throw AssertionError()
 
     @JvmStatic

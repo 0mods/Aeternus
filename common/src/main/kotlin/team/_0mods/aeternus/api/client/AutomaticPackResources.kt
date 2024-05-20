@@ -24,7 +24,7 @@ import java.io.IOException
 import java.io.InputStream
 import java.util.function.BooleanSupplier
 
-class AutomaticPackResources: PackResources {
+class AutomaticPackResources private constructor(): PackResources {
     companion object {
         private val genSounds: MutableMap<String, JsonObject> = hashMapOf()
 
@@ -34,12 +34,13 @@ class AutomaticPackResources: PackResources {
 
         private var genParticles: MutableList<ResourceLocation> = arrayListOf()
 
-        internal var packInstance: AutomaticPackResources? = null
+        private var packInstance: AutomaticPackResources? = null
 
         val resourceMap: MutableMap<ResourceLocation, IResourceStreamSupplier> = hashMapOf()
 
         private fun ofText(text: String) = IResourceStreamSupplier.create({ true }) { text.byteInputStream() }
 
+        @JvmStatic
         fun packInstance(): AutomaticPackResources {
             if (packInstance == null) packInstance = AutomaticPackResources()
             packInstance!!.init()

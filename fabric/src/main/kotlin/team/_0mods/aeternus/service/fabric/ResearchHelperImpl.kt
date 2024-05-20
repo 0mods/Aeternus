@@ -25,5 +25,8 @@ object ResearchHelperImpl {
     fun hasResearch(player: Player, research: Research): Boolean = player.research.hasResearch(research)
 
     @JvmStatic
+    fun hasResearches(player: Player, vararg researches: Research): Boolean = player.research.hasResearches(researches.toList())
+
+    @JvmStatic
     fun addResearch(player: Player, vararg researches: Research): Boolean = player.research.addResearch(*researches)
 }

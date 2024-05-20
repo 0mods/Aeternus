@@ -49,4 +49,6 @@ class ResearchReloadListener(private val registry: ResearchRegistry): Preparable
             }
         }, backgroundExecutor) as CompletableFuture<Void>
     }
+
+    override fun getName(): String = "Aeternus JSON Research Listener"
 }

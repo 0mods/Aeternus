@@ -11,6 +11,7 @@
 package team._0mods.aeternus.service.forge
 
 import net.minecraft.world.entity.player.Player
+import org.apache.commons.lang3.ArrayUtils
 import team._0mods.aeternus.api.magic.research.Research
 import team._0mods.aeternus.api.magic.research.player.PlayerResearch
 import team._0mods.aeternus.forgelike.CapabilityLike
@@ -24,6 +25,9 @@ object ResearchHelperImpl {
 
     @JvmStatic
     fun hasResearch(player: Player, research: Research): Boolean = player.research.hasResearch(research)
+
+    @JvmStatic
+    fun hasResearches(player: Player, vararg researches: Research): Boolean = player.research.hasResearches(researches.toList())
 
     @JvmStatic
     fun addResearch(player: Player, vararg researches: Research): Boolean = player.research.addResearch(*researches)
