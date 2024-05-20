@@ -15,7 +15,7 @@ import team._0mods.aeternus.api.registry.*
 
 /**
  * Starts registration of the current plugin.
- * Works only on (Neo)Forge Mod Loader and only with [AeternusPlugin]
+ * Works only on ForgeLike Mod Loader and only with [AeternusPlugin]
  */
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.CLASS)
@@ -25,9 +25,9 @@ annotation class AeternusPluginInit
 /**
  * Plugin base interface. For registry your plugin:
  *
- * On Fabric use entrypoint with "aeternus_plugin". [About entrypoints read there](https://fabricmc.net/wiki/documentation:entrypoint)
+ * On Fabric use entrypoint with "aeternus_plugin". [About entrypoint you can read there](https://fabricmc.net/wiki/documentation:entrypoint)
  *
- * On (Neo)Forge use [AeternusPluginInit] with plugin class
+ * On ForgeLike use [AeternusPluginInit] with plugin class
  *
  * For a more stable plugin, I suggest using Kotlin, not Java or any other JVM-like language
  */

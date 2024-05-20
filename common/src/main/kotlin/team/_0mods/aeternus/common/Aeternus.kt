@@ -12,8 +12,11 @@
 
 package team._0mods.aeternus.common
 
+import dev.architectury.registry.ReloadListenerRegistry
+import net.minecraft.server.packs.PackType
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import team._0mods.aeternus.api.client.AutomaticPackResources
 import team._0mods.aeternus.api.plugin.PluginHolder
 import team._0mods.aeternus.common.init.event.AeternusEventsInit
 import team._0mods.aeternus.common.init.registry.AeternusRegsitry

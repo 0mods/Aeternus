@@ -29,7 +29,7 @@ class PlayerResearchCapability: PlayerResearch {
                 this.researchList.stream().noneMatch { resReg.getIdByResearch(it) == resReg.getIdByResearch(researchImpl) }
             ) researchList.add(researchImpl)
             else {
-                LOGGER.atWarn().log(
+                LOGGER.warn(
                     "Player already equals {} research. Why you will try to add it again?",
                     resReg.getIdByResearch(researchImpl)
                 )

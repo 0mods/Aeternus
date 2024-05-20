@@ -14,6 +14,7 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
 import kotlinx.serialization.modules.SerializersModule
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.packs.resources.PreparableReloadListener
 import net.minecraft.server.packs.resources.ResourceManager
 import net.minecraft.util.profiling.ProfilerFiller
@@ -40,7 +41,7 @@ class ResearchReloadListener(private val registry: ResearchRegistry): Preparable
     ): CompletableFuture<Void> {
         @Suppress("UNCHECKED_CAST")
         return CompletableFuture.supplyAsync({
-            resourceManager.listResources("researches") { it.path.endsWith(".json") }.forEach {
+            resourceManager.listResources("researches", ::endWithSuf).forEach {
                 val id = it.key
                 val resource = it.value
                 val research = json.decodeFromStream(JSONResearch.serializer(), resource.open())
@@ -51,4 +52,6 @@ class ResearchReloadListener(private val registry: ResearchRegistry): Preparable
     }
 
     override fun getName(): String = "Aeternus JSON Research Listener"
+
+    private fun endWithSuf(rl: ResourceLocation): Boolean = rl.path.endsWith(".json")
 }

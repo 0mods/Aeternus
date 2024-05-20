@@ -15,6 +15,33 @@ package team._0mods.aeternus.api.util
 import net.minecraft.resources.ResourceLocation
 import team._0mods.aeternus.common.ModId
 
+class DoubleResourceLocation(var id: ResourceLocation, val value: ResourceLocation) {
+    companion object {
+        private fun decompose(id: String, sep: Char): Array<String> {
+            val strings = arrayOf("minecraft", id, "minecraft", "air")
+
+            val i = id.indexOf(sep)
+
+            if (i >= 0) {
+                strings[1] = id.substring(i + 1)
+                if (i == 1) {
+                    strings[0] = id.substring(0)
+                } else if (i == 2) {
+                    strings[2] = id.substring(2)
+                } else if (i >= 3) {
+                    strings[3] = id.substring(3, i)
+                }
+            }
+
+            return strings
+        }
+    }
+
+    private constructor(decomposeLocation: Array<String>) : this("${decomposeLocation[0]}:${decomposeLocation[1]}".rl, "${decomposeLocation[2]}:${decomposeLocation[3]}".rl)
+
+    constructor(location: String): this(decompose(location, ':'))
+}
+
 fun resloc(id: String, path: String) = ResourceLocation(id, path)
 
 val String.aRl: ResourceLocation
