@@ -11,13 +11,7 @@
 package team._0mods.aeternus.api.magic.research
 
 import net.minecraft.resources.ResourceLocation
-import team._0mods.aeternus.api.impl.research.SimpleResearch
-import team._0mods.aeternus.api.magic.research.book.ResearchAlignment
-import team._0mods.aeternus.api.magic.research.book.ResearchBookMetadata
-import team._0mods.aeternus.api.magic.research.book.ResearchShape
 import team._0mods.aeternus.api.registry.ResearchRegistry
-import team._0mods.aeternus.api.util.aRl
-import team._0mods.aeternus.api.util.mcText
 import team._0mods.aeternus.common.LOGGER
 import team._0mods.aeternus.common.ModId
 import team._0mods.aeternus.common.init.AeternusCorePlugin

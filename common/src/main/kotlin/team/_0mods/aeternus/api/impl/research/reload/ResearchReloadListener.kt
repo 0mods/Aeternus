@@ -45,7 +45,7 @@ class ResearchReloadListener(private val registry: ResearchRegistry): Preparable
                 val id = it.key
                 val resource = it.value
                 val research = json.decodeFromStream(JSONResearch.serializer(), resource.open())
-                registry.register(id, research)
+                registry.register(id, research.asResearch)
                 LOGGER.debug("Research with id {} is registered!", id)
             }
         }, backgroundExecutor) as CompletableFuture<Void>

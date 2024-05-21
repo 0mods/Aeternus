@@ -15,11 +15,13 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
+import team._0mods.aeternus.api.impl.research.ResearchImpl
 import team._0mods.aeternus.api.magic.research.Research
 import team._0mods.aeternus.api.magic.research.ResearchSettings
 import team._0mods.aeternus.api.magic.research.book.ResearchAlignment
 import team._0mods.aeternus.api.magic.research.book.ResearchBookMetadata
 import team._0mods.aeternus.api.magic.research.book.ResearchShape
+import team._0mods.aeternus.api.magic.research.create
 import team._0mods.aeternus.api.magic.research.of
 import team._0mods.aeternus.api.util.mcTranslate
 import team._0mods.aeternus.api.util.rl
@@ -34,18 +36,15 @@ data class JSONResearch(
     @Required
     @SerialName("book_meta")
     val metadata: JSONBookMetadata
-): Research {
-    override val etheriumNeedValue: Double
-        get() = etheriumCount
-
-    override val bookMetadata: ResearchBookMetadata
-        get() = metadata
-
-    override val settings: ResearchSettings
-        get() = ResearchSettings.of(
+) {
+    val asResearch: Research = Research.create(
+        ResearchSettings.of(
             AeternusCorePlugin.triggerRegistry.getByIdList(triggers.toRLList),
             AeternusCorePlugin.researchRegistry.getByIdList(dependencies.toRLList).toList()
-        )
+        ),
+        metadata.asBookMetadata,
+        etheriumCount
+    )
 }
 
 @Serializable
@@ -71,6 +70,15 @@ data class JSONBookMetadata(
 
     override val shape: ResearchShape
         get() = ResearchShape.getById(shapeId)
+
+    val asBookMetadata: ResearchBookMetadata = ResearchBookMetadata.of(
+        name.mcTranslate,
+        description.mcTranslate,
+        texture,
+        inBookPosition.x to inBookPosition.y,
+        ResearchAlignment.getById(alignId),
+        ResearchShape.getById(shapeId)
+    )
 }
 
 @Serializable

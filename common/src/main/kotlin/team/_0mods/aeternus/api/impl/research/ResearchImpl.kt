@@ -14,6 +14,5 @@ import team._0mods.aeternus.api.magic.research.Research
 import team._0mods.aeternus.api.magic.research.ResearchSettings
 import team._0mods.aeternus.api.magic.research.book.ResearchBookMetadata
 
-class SimpleResearch(override val settings: ResearchSettings, override val bookMetadata: ResearchBookMetadata): Research {
-    companion object
-}
+class ResearchImpl(override val settings: ResearchSettings, override val bookMetadata: ResearchBookMetadata,
+                        override val etheriumNeedValue: Double = 0.0): Research

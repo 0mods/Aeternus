@@ -16,6 +16,7 @@ import team._0mods.aeternus.api.magic.research.book.ResearchAlignment
 import team._0mods.aeternus.api.magic.research.book.ResearchBookMetadata
 import team._0mods.aeternus.api.magic.research.book.ResearchShape
 import team._0mods.aeternus.api.impl.research.ResearchBookMetadataImpl
+import team._0mods.aeternus.api.impl.research.ResearchImpl
 import team._0mods.aeternus.api.impl.research.ResearchSettingsImpl
 import team._0mods.aeternus.api.magic.research.trigger.ResearchTrigger
 import team._0mods.aeternus.api.util.rl
@@ -136,3 +137,7 @@ fun ResearchBookMetadata.Companion.of(
     icon: String,
     align: ResearchAlignment
 ): ResearchBookMetadata = this.of(title, desc, icon, 0 to 0, align, ResearchShape.SQUARE)
+
+// Research
+fun Research.Companion.create(settings: ResearchSettings, metadata: ResearchBookMetadata, etheriumNeed: Double = 0.0) =
+    ResearchImpl(settings, metadata, etheriumNeed)

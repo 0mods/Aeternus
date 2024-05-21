@@ -17,6 +17,7 @@ import team._0mods.aeternus.api.registry.ResearchRegistry
 import team._0mods.aeternus.common.init.AeternusCorePlugin
 
 interface Research {
+    companion object
     /**
      * Research name.
      *
