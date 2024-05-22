@@ -25,7 +25,7 @@ class ResearchTriggerRegistryImpl(private val modId: String): ResearchTriggerReg
     override val triggers: List<ResearchTrigger>
         get() = triggerMap.values.toList()
 
-    override fun getResearchTriggerById(id: ResourceLocation): ResearchTrigger? =
+    override fun getById(id: ResourceLocation): ResearchTrigger? =
         triggerMap[id]
 
     override fun register(id: String, research: ResearchTrigger) {

@@ -16,6 +16,7 @@ import team._0mods.aeternus.api.plugin.AeternusPlugin
 import team._0mods.aeternus.common.ModId
 import team._0mods.aeternus.api.impl.registry.ResearchRegistryImpl
 import team._0mods.aeternus.api.impl.registry.ResearchTriggerRegistryImpl
+import team._0mods.aeternus.api.impl.registry.SpellRegistryImpl
 import java.util.stream.Collectors
 
 object PluginHolderImpl {
@@ -29,6 +30,7 @@ object PluginHolderImpl {
         val mid = plugin.modId
         plugin.registerResearch(ResearchRegistryImpl(mid))
         plugin.registerResearchTriggers(ResearchTriggerRegistryImpl(mid))
+        plugin.registerSpells(SpellRegistryImpl(mid))
     }
 
     private fun <T> entrypoint(container: EntrypointContainer<T>) = container.entrypoint

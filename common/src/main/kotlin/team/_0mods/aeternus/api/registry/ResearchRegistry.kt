@@ -23,18 +23,11 @@ interface ResearchRegistry {
      */
     val researches: List<Research>
 
-    fun getResearchById(id: ResourceLocation): Research
+    fun getById(id: ResourceLocation): Research
 
-    fun getIdByResearch(research: Research): ResourceLocation
+    fun getId(research: Research): ResourceLocation
 
-    fun getIdByResearch(id: Int, research: Research): ResourceLocation
-
-    @ApiStatus.ScheduledForRemoval
-    @Deprecated("Deprecated.",
-        level = DeprecationLevel.ERROR,
-        replaceWith = ReplaceWith("register(research.name.toString(), research)")
-    )
-    fun register(research: Research): Research = register(research.name, research)
+    fun getId(id: Int, research: Research): ResourceLocation
 
     fun <T: Research> register(id: String, research: T): T
 
@@ -42,6 +35,16 @@ interface ResearchRegistry {
     fun <T: Research> register(id: ResourceLocation, research: T): T
 
     fun registerAll(vararg researches: Pair<String, Research>) {
+        for (researchPair in researches) {
+            val id = researchPair.first
+            val research = researchPair.second
+
+            register(id, research)
+        }
+    }
+
+    @ApiStatus.Experimental
+    fun registerAll(vararg researches: Pair<ResourceLocation, Research>) {
         for (researchPair in researches) {
             val id = researchPair.first
             val research = researchPair.second

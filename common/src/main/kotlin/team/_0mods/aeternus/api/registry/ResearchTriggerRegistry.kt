@@ -16,7 +16,7 @@ import team._0mods.aeternus.api.magic.research.trigger.*
 interface ResearchTriggerRegistry {
     val triggers: List<ResearchTrigger>
 
-    fun getResearchTriggerById(id: ResourceLocation): ResearchTrigger?
+    fun getById(id: ResourceLocation): ResearchTrigger?
 
     fun register(id: String, research: ResearchTrigger)
 

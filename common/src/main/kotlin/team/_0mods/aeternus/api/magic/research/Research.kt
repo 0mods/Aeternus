@@ -10,28 +10,10 @@
 
 package team._0mods.aeternus.api.magic.research
 
-import net.minecraft.resources.ResourceLocation
-import org.jetbrains.annotations.ApiStatus
 import team._0mods.aeternus.api.magic.research.book.ResearchBookMetadata
-import team._0mods.aeternus.api.registry.ResearchRegistry
-import team._0mods.aeternus.common.init.AeternusCorePlugin
 
 interface Research {
     companion object
-    /**
-     * Research name.
-     *
-     * Deprecated, because it replaced by: [ResearchRegistry.getIdByResearch]
-     *
-     * Returns [ResourceLocation]
-     */
-    @get:ApiStatus.ScheduledForRemoval
-    @get:Deprecated("Deprecated as unused.",
-        ReplaceWith(
-            "AeternusCorePlugin.researchRegistry.getIdByResearch(this)",
-            "team._0mods.aeternus.common.init.AeternusCorePlugin"
-        ), level = DeprecationLevel.WARNING)
-    val name: ResourceLocation get() = AeternusCorePlugin.researchRegistry.getIdByResearch(this)
 
     /**
      * Count of consuming Etherium size.

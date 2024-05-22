@@ -40,7 +40,7 @@ class PlayerResearchCapability: PlayerResearch {
         val tag = ListTag()
 
         this.researches.forEach {
-            val research = resReg.getIdByResearch(it)
+            val research = resReg.getId(it)
             tag.add(StringTag.valueOf(research.toString()))
         }
 
@@ -52,8 +52,8 @@ class PlayerResearchCapability: PlayerResearch {
             for (i in 0 ..< tag.size) {
                 val founded = tag.getString(i)
 
-                if (!researches.stream().noneMatch { resReg.getIdByResearch(it) == founded.rl }) {
-                    val foundedResearch = resReg.getResearchById(founded.rl)
+                if (!researches.stream().noneMatch { resReg.getId(it) == founded.rl }) {
+                    val foundedResearch = resReg.getById(founded.rl)
                     this.addResearch(foundedResearch)
                 } else continue
             }

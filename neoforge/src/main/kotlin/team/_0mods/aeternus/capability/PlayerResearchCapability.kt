@@ -26,12 +26,12 @@ class PlayerResearchCapability: PlayerResearch {
     override fun addResearch(vararg research: Research): Boolean {
         for (researchImpl in research) {
             if (
-                this.researchList.stream().noneMatch { resReg.getIdByResearch(it) == resReg.getIdByResearch(researchImpl) }
+                this.researchList.stream().noneMatch { resReg.getId(it) == resReg.getId(researchImpl) }
             ) researchList.add(researchImpl)
             else {
                 LOGGER.warn(
                     "Player already equals {} research. Why you will try to add it again?",
-                    resReg.getIdByResearch(researchImpl)
+                    resReg.getId(researchImpl)
                 )
                 continue
             }

@@ -53,6 +53,9 @@ interface AeternusPlugin {
      */
     fun registerResearchTriggers(reg: ResearchTriggerRegistry) {}
 
+    // TODO("Wait documentation")
+    fun registerSpells(reg: SpellRegistry) {}
+
     /**
      * This is a material registration
      *

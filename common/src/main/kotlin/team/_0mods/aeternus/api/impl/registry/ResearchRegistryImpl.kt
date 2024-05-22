@@ -27,34 +27,13 @@ class ResearchRegistryImpl(private val modId: String): ResearchRegistry {
     override val researches: List<Research>
         get() = researchMap.values.toList()
 
-    override fun getResearchById(id: ResourceLocation): Research = researchMap[id] ?: throw NullPointerException("Research with id \"$id\" is not found! Make sure that a research with that id is actually there.")
+    override fun getById(id: ResourceLocation): Research = researchMap[id] ?: throw NullPointerException("Research with id \"$id\" is not found! Make sure that a research with that id is actually there.")
 
-    override fun getIdByResearch(research: Research): ResourceLocation =
-        this.getIdByResearch(0, research)
+    override fun getId(research: Research): ResourceLocation =
+        this.getId(0, research)
 
     // is safe from duplicates, as it checks for repeated researches
-    override fun getIdByResearch(id: Int, research: Research): ResourceLocation {
-        val researchesMap = researchMap.revert()
-        val availableResearches = mutableListOf<Research>()
-
-        researchesMap.forEach {
-            val res = it.key
-            availableResearches.add(res)
-        }
-
-        if (availableResearches.size > 1) {
-            LOGGER.error("Founded duplicated researches:")
-            availableResearches.forEach {
-                LOGGER.error("$it")
-            }
-            LOGGER.warn("Using an alternative variant with id: $id. Registry name: ${researchMap.revert()[availableResearches[id]]}")
-            return researchMap.revert()[availableResearches[id]] ?: throw NullPointerException("Research $research\$$id is not have an identifier. Why?")
-        }
-
-        availableResearches.clear()
-
-        return researchMap.revert()[research] ?: throw NullPointerException("Research $research is not have an identifier. Why?")
-    }
+    override fun getId(id: Int, research: Research): ResourceLocation = researchMap.revert()[research] ?: throw NullPointerException("Research $research is not have an identifier. Why?")
 
     override fun <T: Research> register(id: String, research: T): T {
         val resLocId = "${this.modId}:$id".rl

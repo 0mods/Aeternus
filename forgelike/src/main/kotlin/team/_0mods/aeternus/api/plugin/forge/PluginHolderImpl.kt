@@ -43,6 +43,7 @@ object PluginHolderImpl {
         pluginList.forEach {
             it.registerResearch(ResearchRegistryImpl(it.modId))
             it.registerResearchTriggers(ResearchTriggerRegistryImpl(it.modId))
+            it.registerSpells(SpellRegistryImpl(it.modId))
         }
     }
 }
