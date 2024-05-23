@@ -20,7 +20,10 @@ import team._0mods.aeternus.common.LOGGER
 import team._0mods.aeternus.service.PlatformHelper
 
 class ResearchTriggerRegistryImpl(private val modId: String): ResearchTriggerRegistry {
-    private val triggerMap: MutableMap<ResourceLocation, ResearchTrigger> = linkedMapOf()
+    companion object {
+        @JvmStatic
+        private val triggerMap: MutableMap<ResourceLocation, ResearchTrigger> = linkedMapOf()
+    }
 
     override val triggers: List<ResearchTrigger>
         get() = triggerMap.values.toList()

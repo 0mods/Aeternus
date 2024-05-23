@@ -53,7 +53,7 @@ class SpellRegistryImpl(private val modId: String): SpellRegistry {
             spellMap[id] = spell
         else
             LOGGER.warn(
-                "Oh... Mod: {} trying to register a research with id {}, because research with this id is already registered! Skipping...",
+                "Oh... Mod: {} trying to register a spell with id {}, because spell with this id is already registered! Skipping...",
                 PlatformHelper.getModNameByModId(id.namespace),
                 id
             )

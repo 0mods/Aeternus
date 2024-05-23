@@ -22,7 +22,10 @@ import team._0mods.aeternus.service.PlatformHelper
 
 @ApiStatus.Internal
 class ResearchRegistryImpl(private val modId: String): ResearchRegistry {
-    private val researchMap: MutableMap<ResourceLocation, Research> = linkedMapOf()
+    companion object {
+        @JvmStatic
+        private val researchMap: MutableMap<ResourceLocation, Research> = linkedMapOf()
+    }
 
     override val researches: List<Research>
         get() = researchMap.values.toList()
