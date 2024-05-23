@@ -12,6 +12,7 @@ package team._0mods.aeternus.api.util
 
 import dev.architectury.registry.registries.DeferredRegister
 import dev.architectury.registry.registries.RegistrySupplier
+import net.minecraft.resources.ResourceLocation
 import java.util.function.Supplier
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
@@ -26,5 +27,10 @@ class DelegatedRegistry<V>(val asReg: RegistrySupplier<V>): ReadOnlyProperty<Any
 
 fun <V, T: V> DeferredRegister<V>.reg(name: String, obj: () -> T): DelegatedRegistry<T> {
     val reg = this.register(name, obj)
+    return DelegatedRegistry(reg)
+}
+
+fun <V, T: V> DeferredRegister<V>.reg(id: ResourceLocation, obj: () -> T): DelegatedRegistry<T> {
+    val reg = this.register(id, obj)
     return DelegatedRegistry(reg)
 }

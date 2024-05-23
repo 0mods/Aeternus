@@ -18,6 +18,9 @@ import net.minecraft.world.level.block.entity.BlockEntity
 import net.minecraft.world.level.block.state.BlockState
 
 interface IBlockEntity<T: BlockEntity?> {
+    val hasTicker: Boolean
+        get() = false
+
     fun onPlace(level: Level, state: BlockState, oldState: BlockState, isMoving: Boolean)
 
     fun onRemove(level: Level, state: BlockState, oldState: BlockState, isMoving: Boolean)

@@ -19,12 +19,14 @@ import net.minecraft.world.item.ArmorItem
 import net.minecraft.world.item.BlockItem
 import net.minecraft.world.item.BucketItem
 import net.minecraft.world.item.Item
+import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.LiquidBlock
 import net.minecraft.world.level.block.SoundType
 import net.minecraft.world.level.block.state.BlockBehaviour
 import net.minecraft.world.level.material.Fluids
 import net.minecraft.world.level.material.PushReaction
+import team._0mods.aeternus.api.impl.registry.SpellRegistryImpl
 import team._0mods.aeternus.api.util.DelegatedRegistry
 import team._0mods.aeternus.common.ModId
 import team._0mods.aeternus.api.util.reg
@@ -33,6 +35,7 @@ import team._0mods.aeternus.common.fluid.EtheriumFluid
 import team._0mods.aeternus.common.helper.AeternusItem
 import team._0mods.aeternus.common.item.DrilldwillArmor
 
+@Suppress("UnstableApiUsage")
 object AeternusRegsitry {
     private val items = DeferredRegister.create(ModId, Registries.ITEM)
     private val dimensions = DeferredRegister.create(ModId, Registries.DIMENSION_TYPE)
@@ -42,11 +45,26 @@ object AeternusRegsitry {
 
     /* TABS */
     val aeternusTab by tabs.reg("aeternus_tab") {
-        CreativeTabRegistry.create(Component.translatable("itemGroup.$ModId.${ModId}_tab")) { knowledgeBook.defaultInstance }
+        CreativeTabRegistry.create(tab(ModId)) { ItemStack(knowledgeBook) }
+    }
+
+    val spellTab by tabs.reg("spell") {
+        CreativeTabRegistry.create {
+            it.title(tab("spells"))
+                .icon { ItemStack(emptyScroll) }
+                .displayItems { _, output ->
+                    SpellRegistryImpl.scrolls.forEach { s ->
+                        val spell = s.spell
+
+                        if (!spell.isHidden) output.accept(s)
+                    }
+                }
+        }
     }
 
     /* ITEMS */
     // MISC
+    val emptyScroll by items.reg("empty_scroll", ItemTypes.DEFAULT_ITEM)
     val knowledgeBook by items.reg("knowledge_book", ItemTypes.DEFAULT_ITEM)
     val etheriumTar by items.reg("etherium_tar", ItemTypes.DEFAULT_ITEM)
     val crystallizedEtherium by items.reg("crystallized_etherium", ItemTypes.DEFAULT_ITEM)
@@ -84,6 +102,7 @@ object AeternusRegsitry {
 
     @JvmStatic
     fun init() {
+        SpellRegistryImpl.onReg(items)
         items.register()
     }
 
@@ -92,6 +111,8 @@ object AeternusRegsitry {
         items.reg(id) { BlockItem(obj(), ItemTypes.DEFAULT_PROPERTIES) }
         return DelegatedRegistry(reg)
     }
+
+    private fun tab(id: String): Component = Component.translatable("itemGroup.$ModId.$id")
 
     @Suppress("UnstableApiUsage")
     private object ItemTypes {

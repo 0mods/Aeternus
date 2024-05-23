@@ -41,6 +41,8 @@ abstract class EntityBlockBase(private val blockEntity: (BlockPos, BlockState) -
             type: BlockEntityType<T>
     ): BlockEntityTicker<T>? = BlockEntityTicker { lvl, blockPos, blockState, entity ->
         if (entity is IBlockEntity<*>) {
+            if (!entity.hasTicker) return@BlockEntityTicker
+
             if (lvl.isClientSide())
                 (entity as IBlockEntity<T>).tickOnClient(lvl, blockPos, blockState, entity)
             else (entity as IBlockEntity<T>).tickOnServer(lvl, blockPos, blockState, entity)
@@ -95,7 +97,6 @@ abstract class EntityBlockBase(private val blockEntity: (BlockPos, BlockState) -
             val container = prov.createMenu(0, player.inventory, player)
             if (container != null) {
                 if (player is ServerPlayer) player.openMenu(prov)
-
                 return InteractionResult.SUCCESS
             }
         }

@@ -15,7 +15,6 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceLocation
-import team._0mods.aeternus.api.impl.research.ResearchImpl
 import team._0mods.aeternus.api.magic.research.Research
 import team._0mods.aeternus.api.magic.research.ResearchSettings
 import team._0mods.aeternus.api.magic.research.book.ResearchAlignment

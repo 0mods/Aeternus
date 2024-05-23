@@ -35,20 +35,18 @@ interface ResearchRegistry {
     fun <T: Research> register(id: ResourceLocation, research: T): T
 
     fun registerAll(vararg researches: Pair<String, Research>) {
-        for (researchPair in researches) {
-            val id = researchPair.first
-            val research = researchPair.second
-
+        researches.forEach {
+            val id = it.first
+            val research = it.second
             register(id, research)
         }
     }
 
     @ApiStatus.Experimental
     fun registerAll(vararg researches: Pair<ResourceLocation, Research>) {
-        for (researchPair in researches) {
-            val id = researchPair.first
-            val research = researchPair.second
-
+        researches.forEach {
+            val id = it.first
+            val research = it.second
             register(id, research)
         }
     }

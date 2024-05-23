@@ -27,20 +27,18 @@ interface SpellRegistry {
     fun <T: Spell> register(id: ResourceLocation, spell: T): T
 
     fun registerAll(vararg spells: Pair<String, Spell>) {
-        for (spell in spells) {
-            val id = spell.first
-            val research = spell.second
-
+        spells.forEach {
+            val id = it.first
+            val research = it.second
             register(id, research)
         }
     }
 
     @ApiStatus.Experimental
     fun registerAll(vararg spells: Pair<ResourceLocation, Spell>) {
-        for (spell in spells) {
-            val id = spell.first
-            val research = spell.second
-
+        spells.forEach {
+            val id = it.first
+            val research = it.second
             register(id, research)
         }
     }

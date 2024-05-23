@@ -53,7 +53,11 @@ interface AeternusPlugin {
      */
     fun registerResearchTriggers(reg: ResearchTriggerRegistry) {}
 
-    // TODO("Wait documentation")
+    /**
+     * This is a spell registration
+     *
+     * @param [reg] returns [SpellRegistry] in order to register spells
+     */
     fun registerSpells(reg: SpellRegistry) {}
 
     /**

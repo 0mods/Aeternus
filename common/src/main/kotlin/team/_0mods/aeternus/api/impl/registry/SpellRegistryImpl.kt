@@ -14,17 +14,27 @@ import dev.architectury.registry.registries.DeferredRegister
 import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.Item
+import team._0mods.aeternus.api.item.SpellScroll
 import team._0mods.aeternus.api.magic.spell.Spell
 import team._0mods.aeternus.api.registry.SpellRegistry
-import team._0mods.aeternus.api.util.DelegatedRegistry
-import team._0mods.aeternus.api.util.fromMapToListByList
-import team._0mods.aeternus.api.util.revert
-import team._0mods.aeternus.api.util.rl
+import team._0mods.aeternus.api.util.*
 import team._0mods.aeternus.common.LOGGER
 import team._0mods.aeternus.service.PlatformHelper
 
 class SpellRegistryImpl(private val modId: String): SpellRegistry {
-    private val spellMap: MutableMap<ResourceLocation, Spell> = linkedMapOf()
+    companion object {
+        private val spellMap: MutableMap<ResourceLocation, Spell> = linkedMapOf()
+        @get:JvmStatic
+        internal val scrolls: MutableList<SpellScroll> = mutableListOf()
+
+        @JvmStatic
+        fun onReg(e: DeferredRegister<Item>) {
+            spellMap.entries.forEach {
+                val reg by e.reg(it.key) { SpellScroll(it.value) }
+                scrolls.add(reg)
+            }
+        }
+    }
 
     override val spells: List<Spell>
         get() = spellMap.values.toList()
@@ -52,10 +62,4 @@ class SpellRegistryImpl(private val modId: String): SpellRegistry {
     }
 
     override fun getByIdList(id: List<ResourceLocation>): List<Spell> = spellMap.fromMapToListByList(id)
-
-    fun onReg(e: DeferredRegister<Item>) {
-        spellMap.entries.forEach {
-            e.register()
-        }
-    }
 }
