@@ -19,26 +19,26 @@ class IterAttackGoal(mob: PathfinderMob, speedMod: Double, followIfNotSeen: Bool
     speedMod,
     followIfNotSeen
 ) {
-    private val isAltake = this.mob.level().dimensionTypeId() == AeternusRegsitry.iterDimType
+    private val isIter = this.mob.level().dimensionTypeId() == AeternusRegsitry.iterDimType
     private val isNight = this.mob.level().isNight
     private var raiseArmTick: Int = 0
 
     override fun start() {
-        if (this.isNight && this.isAltake) {
+        if (this.isNight && this.isIter) {
             super.start()
             this.raiseArmTick = 0
         }
     }
 
     override fun stop() {
-        if (!this.isNight && this.isAltake) {
+        if (!this.isNight && this.isIter) {
             super.stop()
             this.mob.isAggressive = false
         }
     }
 
     override fun tick() {
-        if (this.isNight && this.isAltake) {
+        if (this.isNight && this.isIter) {
             super.tick()
             ++this.raiseArmTick
             this.mob.isAggressive = this.raiseArmTick >= 3 && this.ticksUntilNextAttack < this.attackInterval / 4

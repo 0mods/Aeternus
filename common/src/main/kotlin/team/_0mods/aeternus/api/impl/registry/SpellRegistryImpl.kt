@@ -14,6 +14,7 @@ import dev.architectury.registry.registries.DeferredRegister
 import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.Item
+import net.minecraft.world.level.material.Fluids
 import team._0mods.aeternus.api.item.SpellScroll
 import team._0mods.aeternus.api.magic.spell.Spell
 import team._0mods.aeternus.api.registry.SpellRegistry
@@ -28,7 +29,7 @@ class SpellRegistryImpl(private val modId: String): SpellRegistry {
         internal val scrolls: MutableList<SpellScroll> = mutableListOf()
 
         @JvmStatic
-        fun onReg(e: DeferredRegister<Item>) {
+        internal fun onReg(e: DeferredRegister<Item>) {
             spellMap.entries.forEach {
                 val reg by e.reg(it.key) { SpellScroll(it.value) }
                 scrolls.add(reg)

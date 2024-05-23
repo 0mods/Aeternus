@@ -43,7 +43,7 @@ interface ResearchRegistry {
     }
 
     @ApiStatus.Experimental
-    fun registerAll(vararg researches: Pair<ResourceLocation, Research>) {
+    fun registerAllRl(vararg researches: Pair<ResourceLocation, Research>) {
         researches.forEach {
             val id = it.first
             val research = it.second

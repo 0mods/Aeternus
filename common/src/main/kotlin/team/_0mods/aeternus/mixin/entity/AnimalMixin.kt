@@ -13,7 +13,6 @@ package team._0mods.aeternus.mixin.entity
 import net.minecraft.world.Difficulty
 import net.minecraft.world.entity.AgeableMob
 import net.minecraft.world.entity.EntityType
-import net.minecraft.world.entity.ai.goal.Goal
 import net.minecraft.world.entity.animal.Animal
 import net.minecraft.world.entity.monster.Enemy
 import net.minecraft.world.entity.player.Player
@@ -26,39 +25,36 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo
 import team._0mods.aeternus.api.goal.IterAttackGoal
 import team._0mods.aeternus.api.goal.IterBreakDoorGoal
 import team._0mods.aeternus.api.goal.IterNearestAttackableTargetGoal
-import team._0mods.aeternus.common.init.registry.AeternusRegsitry
+import team._0mods.aeternus.common.init.registry.AeternusRegsitry.iterDimType
 import java.util.function.Predicate
 
 @Mixin(Animal::class, priority = 0 /*high priority*/)
-abstract class AnimalMixin(
-    type: EntityType<out AgeableMob>,
+abstract class AnimalMixin protected constructor(
+    entityType: EntityType<out Animal>,
     level: Level
-) : AgeableMob(type, level), Enemy {
-    private val difficultyPredicate: Predicate<Difficulty> = Predicate {
-        return@Predicate (
-                this.level().isNight && this.level().dimensionTypeId() == AeternusRegsitry.iterDimType
-        ) && (it == Difficulty.EASY || it == Difficulty.NORMAL || it == Difficulty.HARD)
+) : AgeableMob(entityType, level), Enemy {
+    @Unique
+    private val `aeternus$difficulty` = Predicate<Difficulty> {
+        ((level().isNight && level().dimensionTypeId() === iterDimType)
+                && it != Difficulty.PEACEFUL)
     }
 
     @Inject(method = ["<init>"], at = [At("TAIL")])
-    fun initInj(type: EntityType<out Animal>, level: Level?, ci: CallbackInfo) {
+    private fun initInj(entityType: EntityType<out Animal>, level: Level?, ci: CallbackInfo) {
         if (level != null && !level.isClientSide) {
-            if (type != EntityType.PANDA) {
-                aggresiableGoals()
-            }
+            if (entityType !== EntityType.PANDA) `aeternus$agreGoals`()
 
-            addGoal(1, IterBreakDoorGoal(this, difficultyPredicate))
+            goalSelector.addGoal(1, IterBreakDoorGoal((this as Animal), `aeternus$difficulty`))
         }
     }
 
     @Unique
-    private fun aggresiableGoals() {
-        addGoal(2, IterAttackGoal(this, 1.0, true))
-        addGoal(2, IterNearestAttackableTargetGoal(this, Player::class.java, false))
-    }
-
-    @Unique
-    private fun addGoal(priority: Int, goal: Goal) {
-        this.goalSelector.addGoal(priority, goal)
+    private fun `aeternus$agreGoals`() {
+        goalSelector.addGoal(2, IterAttackGoal((this as Animal), 1.0, true))
+        goalSelector.addGoal(
+            2, IterNearestAttackableTargetGoal(
+                (this as Animal), Player::class.java, false
+            )
+        )
     }
 }

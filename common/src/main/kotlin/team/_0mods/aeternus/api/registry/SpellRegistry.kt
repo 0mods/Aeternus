@@ -35,7 +35,7 @@ interface SpellRegistry {
     }
 
     @ApiStatus.Experimental
-    fun registerAll(vararg spells: Pair<ResourceLocation, Spell>) {
+    fun registerAllRl(vararg spells: Pair<ResourceLocation, Spell>) {
         spells.forEach {
             val id = it.first
             val research = it.second
