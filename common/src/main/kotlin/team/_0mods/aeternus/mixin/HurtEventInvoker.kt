@@ -16,13 +16,12 @@ import org.spongepowered.asm.mixin.injection.At
 import org.spongepowered.asm.mixin.injection.Inject
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable
 import team._0mods.aeternus.api.event.EntityHurtEvent
-import team._0mods.aeternus.api.util.c
 
 @Mixin(Entity::class)
 class HurtEventInvoker {
     @Inject(method = ["hurt"], at = [At("HEAD")], cancellable = true)
     fun checkRecipes(source: DamageSource, amount: Float, cir: CallbackInfoReturnable<Boolean?>) {
-        if (EntityHurtEvent.EVENT.invoker().hurt(this.c(), source, amount).isFalse) {
+        if (EntityHurtEvent.EVENT.invoker().hurt(this as Entity, source, amount).isFalse) {
             cir.returnValue = false
         }
     }

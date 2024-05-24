@@ -10,11 +10,11 @@
 
 package team._0mods.aeternus.api.util
 
-import org.jetbrains.annotations.ApiStatus
+import net.minecraft.world.Difficulty
+import net.minecraft.world.level.Level
+import team._0mods.aeternus.common.init.registry.AeternusRegsitry.iterDimType
+import java.util.function.Predicate
 
-@ApiStatus.Internal
-@ApiStatus.Experimental
-fun <A, T> T.c(): A {
-    val any = this as Any
-    return any as A
+fun diff(level: Level): Predicate<Difficulty> = Predicate {
+    ((level.isNight && level.dimensionTypeId() == iterDimType) && it != Difficulty.PEACEFUL)
 }

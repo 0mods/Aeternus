@@ -16,11 +16,13 @@ import team._0mods.aeternus.api.magic.research.player.PlayerResearch
 import team._0mods.aeternus.capability.AFCapabilities
 
 object CapabilityLikeImpl {
+    @JvmStatic
     fun getEtherium(player: Player): PlayerEtherium {
         val cap = player.getCapability(AFCapabilities.playerEtherium).orElseThrow(::NullPointerException)
         return cap
     }
 
+    @JvmStatic
     fun getResearch(player: Player): PlayerResearch {
         val cap = player.getCapability(AFCapabilities.playerResearch).orElseThrow(::NullPointerException)
         return cap

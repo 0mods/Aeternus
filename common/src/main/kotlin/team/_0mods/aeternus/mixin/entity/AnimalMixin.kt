@@ -10,7 +10,6 @@
 
 package team._0mods.aeternus.mixin.entity
 
-import net.minecraft.world.Difficulty
 import net.minecraft.world.entity.AgeableMob
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.animal.Animal
@@ -25,26 +24,19 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo
 import team._0mods.aeternus.api.goal.IterAttackGoal
 import team._0mods.aeternus.api.goal.IterBreakDoorGoal
 import team._0mods.aeternus.api.goal.IterNearestAttackableTargetGoal
-import team._0mods.aeternus.common.init.registry.AeternusRegsitry.iterDimType
-import java.util.function.Predicate
+import team._0mods.aeternus.api.util.diff
 
-@Mixin(Animal::class, priority = 0 /*high priority*/)
+@Mixin(value = [Animal::class], priority = 0 /*high priority*/)
 abstract class AnimalMixin protected constructor(
     entityType: EntityType<out Animal>,
     level: Level
 ) : AgeableMob(entityType, level), Enemy {
-    @Unique
-    private val `aeternus$difficulty` = Predicate<Difficulty> {
-        ((level().isNight && level().dimensionTypeId() === iterDimType)
-                && it != Difficulty.PEACEFUL)
-    }
-
     @Inject(method = ["<init>"], at = [At("TAIL")])
     private fun initInj(entityType: EntityType<out Animal>, level: Level?, ci: CallbackInfo) {
         if (level != null && !level.isClientSide) {
             if (entityType !== EntityType.PANDA) `aeternus$agreGoals`()
 
-            goalSelector.addGoal(1, IterBreakDoorGoal((this as Animal), `aeternus$difficulty`))
+            goalSelector.addGoal(1, IterBreakDoorGoal((this as Animal), diff(level())))
         }
     }
 

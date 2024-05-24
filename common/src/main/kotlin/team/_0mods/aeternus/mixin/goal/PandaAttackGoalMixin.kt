@@ -12,6 +12,7 @@ package team._0mods.aeternus.mixin.goal
 
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal
 import net.minecraft.world.entity.animal.Panda
+import org.spongepowered.asm.mixin.Final
 import org.spongepowered.asm.mixin.Mixin
 import org.spongepowered.asm.mixin.Shadow
 import org.spongepowered.asm.mixin.injection.At
@@ -24,11 +25,12 @@ abstract class PandaAttackGoalMixin(mob: Panda, speedMod: Double, followIfNotSee
     followIfNotSeen
 ) {
     @Shadow
+    @Final
     private lateinit var panda: Panda
 
     @Inject(method = ["canUse"], at = [At("RETURN")], cancellable = true)
     fun canUseInj(cir: CallbackInfoReturnable<Boolean>) {
-        if (panda.level().isNight && panda.level().dimensionTypeId() === AeternusRegsitry.iterDimType)
+        if (panda.level().isNight && panda.level().dimensionTypeId() == AeternusRegsitry.iterDimType)
             cir.returnValue = true
         else cir.returnValue = panda.canPerformAction() && super.canUse()
     }
