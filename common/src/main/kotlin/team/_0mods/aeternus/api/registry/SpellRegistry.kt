@@ -17,7 +17,7 @@ import team._0mods.aeternus.api.magic.spell.Spell
 interface SpellRegistry {
     val spells: List<Spell>
 
-    fun getById(id: ResourceLocation): Spell
+    fun getById(id: ResourceLocation): Spell?
 
     fun getId(spell: Spell): ResourceLocation
 

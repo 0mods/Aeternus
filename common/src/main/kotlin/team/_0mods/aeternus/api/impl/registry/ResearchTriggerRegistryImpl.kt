@@ -13,6 +13,7 @@ package team._0mods.aeternus.api.impl.registry
 import net.minecraft.resources.ResourceLocation
 import team._0mods.aeternus.api.magic.research.trigger.*
 import team._0mods.aeternus.api.registry.ResearchTriggerRegistry
+import team._0mods.aeternus.api.util.debugIfEnabled
 import team._0mods.aeternus.api.util.fromMapToListByList
 import team._0mods.aeternus.api.util.noneMatchKey
 import team._0mods.aeternus.api.util.rl

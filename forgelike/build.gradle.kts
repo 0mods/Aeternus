@@ -1,6 +1,7 @@
 architectury {
     forgeLike(listOf("forge", "neoforge")) {
         platformPackage("neoforge", "forge")
+        remapForgeLike("net/minecraftforge/common/ForgeConfigSpec", "net/neoforged/neoforge/common/ModConfigSpec")
     }
 }
 

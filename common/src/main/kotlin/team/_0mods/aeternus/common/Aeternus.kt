@@ -12,12 +12,10 @@
 
 package team._0mods.aeternus.common
 
-import dev.architectury.registry.ReloadListenerRegistry
-import net.minecraft.server.packs.PackType
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import team._0mods.aeternus.api.client.AutomaticPackResources
 import team._0mods.aeternus.api.plugin.PluginHolder
+import team._0mods.aeternus.api.util.debugIfEnabled
 import team._0mods.aeternus.common.init.event.AeternusEventsInit
 import team._0mods.aeternus.common.init.registry.AeternusRegsitry
 
@@ -27,6 +25,8 @@ const val ModName = "Aeternus"
 @JvmField val LOGGER: Logger = LoggerFactory.getLogger("Aeternus") //const
 
 fun commonInit() {
+    LOGGER.debugIfEnabled("DEBUG MODE IS ACTIVATED")
+
     AeternusRegsitry.init()
     AeternusEventsInit.initServerEvents()
     PluginHolder.loadPlugins()

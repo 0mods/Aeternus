@@ -23,6 +23,10 @@ import team._0mods.aeternus.common.LOGGER
 import team._0mods.aeternus.service.PlatformHelper
 
 class SpellRegistryImpl(private val modId: String): SpellRegistry {
+    init {
+        LOGGER.debugIfEnabled("Initializing Spell Registry for mod id '$modId'")
+    }
+
     companion object {
         private val spellMap: MutableMap<ResourceLocation, Spell> = linkedMapOf()
         @get:JvmStatic
@@ -50,6 +54,8 @@ class SpellRegistryImpl(private val modId: String): SpellRegistry {
     }
 
     override fun <T : Spell> register(id: ResourceLocation, spell: T): T {
+        LOGGER.debugIfEnabled("Registering spell with id '$id'")
+
         if (spellMap.keys.stream().noneMatch { it == id })
             spellMap[id] = spell
         else

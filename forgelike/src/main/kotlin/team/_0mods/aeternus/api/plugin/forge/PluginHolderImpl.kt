@@ -15,6 +15,9 @@ import net.minecraftforge.fml.ModList
 import org.slf4j.LoggerFactory
 import team._0mods.aeternus.api.impl.registry.*
 import team._0mods.aeternus.api.plugin.*
+import team._0mods.aeternus.api.util.debugIfEnabled
+import team._0mods.aeternus.common.LOGGER
+import team._0mods.aeternus.common.ModName
 
 object PluginHolderImpl {
     private val logger = LoggerFactory.getLogger(PluginHolder::class.java)
@@ -41,6 +44,8 @@ object PluginHolderImpl {
         }
 
         pluginList.forEach {
+            LOGGER.debugIfEnabled("Registering $ModName mod plugin for mod with mod id '${it.modId}'")
+
             it.registerResearch(ResearchRegistryImpl(it.modId))
             it.registerResearchTriggers(ResearchTriggerRegistryImpl(it.modId))
             it.registerSpells(SpellRegistryImpl(it.modId))

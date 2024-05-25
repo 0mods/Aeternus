@@ -23,11 +23,9 @@ interface ResearchRegistry {
      */
     val researches: List<Research>
 
-    fun getById(id: ResourceLocation): Research
+    fun getById(id: ResourceLocation): Research?
 
     fun getId(research: Research): ResourceLocation
-
-    fun getId(id: Int, research: Research): ResourceLocation
 
     fun <T: Research> register(id: String, research: T): T
 

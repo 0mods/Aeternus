@@ -17,6 +17,9 @@ import team._0mods.aeternus.common.ModId
 import team._0mods.aeternus.api.impl.registry.ResearchRegistryImpl
 import team._0mods.aeternus.api.impl.registry.ResearchTriggerRegistryImpl
 import team._0mods.aeternus.api.impl.registry.SpellRegistryImpl
+import team._0mods.aeternus.api.util.debugIfEnabled
+import team._0mods.aeternus.common.LOGGER
+import team._0mods.aeternus.common.ModName
 import java.util.stream.Collectors
 
 object PluginHolderImpl {
@@ -28,6 +31,7 @@ object PluginHolderImpl {
 
     private fun regAll(plugin: AeternusPlugin) {
         val mid = plugin.modId
+        LOGGER.debugIfEnabled("Registering $ModName mod plugin for mod with mod id '${mid}'")
         plugin.registerResearch(ResearchRegistryImpl(mid))
         plugin.registerResearchTriggers(ResearchTriggerRegistryImpl(mid))
         plugin.registerSpells(SpellRegistryImpl(mid))
