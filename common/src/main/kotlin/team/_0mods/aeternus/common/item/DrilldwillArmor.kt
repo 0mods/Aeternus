@@ -21,11 +21,12 @@ import net.minecraft.world.item.ArmorItem
 import net.minecraft.world.item.ItemStack
 import team._0mods.aeternus.api.item.ArmorMaterialCreation
 import team._0mods.aeternus.api.item.ArmorMaterialCreation.Companion.builder
+import team._0mods.aeternus.api.item.ITabbed
 import team._0mods.aeternus.api.text.TranslationBuilder
 import team._0mods.aeternus.api.util.*
 import team._0mods.aeternus.common.init.registry.AeternusRegsitry
 
-class DrilldwillArmor(type: Type, properties: Properties) : ArmorItem(material, type, properties) {
+class DrilldwillArmor(type: Type, properties: Properties) : ArmorItem(material, type, properties), ITabbed {
     private var runTime = 0
     private var isTeleportedOrInDim = false
 

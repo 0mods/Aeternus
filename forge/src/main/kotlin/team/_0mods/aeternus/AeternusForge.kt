@@ -16,7 +16,8 @@ import net.minecraftforge.fml.config.ModConfig
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
 import net.minecraftforge.fml.loading.FMLEnvironment
 import team._0mods.aeternus.common.*
-import team._0mods.aeternus.common.init.config.SpecUtils
+import team._0mods.aeternus.common.init.config.forge.AeternusClientConfigImpl
+import team._0mods.aeternus.common.init.config.forge.AeternusCommonConfigImpl
 import thedarkcolour.kotlinforforge.forge.MOD_BUS
 import thedarkcolour.kotlinforforge.forge.registerConfig
 
@@ -24,8 +25,8 @@ import thedarkcolour.kotlinforforge.forge.registerConfig
 class AeternusForge {
     init {
         EventBuses.registerModEventBus(ModId, MOD_BUS)
-        registerConfig(ModConfig.Type.COMMON, SpecUtils.commonBuilder.build())
-        registerConfig(ModConfig.Type.CLIENT, SpecUtils.clientBuilder.build())
+        registerConfig(ModConfig.Type.COMMON, AeternusCommonConfigImpl.builded, "$ModId/common.toml")
+        registerConfig(ModConfig.Type.CLIENT, AeternusClientConfigImpl.builded, "$ModId/client.toml")
         commonInit()
         if (FMLEnvironment.dist.isClient)
             MOD_BUS.addListener(this::initClient)

@@ -53,7 +53,7 @@ class PlayerResearchCapability: PlayerResearch {
                 val founded = tag.getString(i)
 
                 if (!researches.stream().noneMatch { resReg.getId(it) == founded.rl }) {
-                    val foundedResearch = resReg.getById(founded.rl)
+                    val foundedResearch = resReg.getById(founded.rl) ?: continue
                     this.addResearch(foundedResearch)
                 } else continue
             }

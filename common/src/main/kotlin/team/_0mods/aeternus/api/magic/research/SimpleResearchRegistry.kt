@@ -25,7 +25,7 @@ import kotlin.reflect.KProperty
  *
  * ```kt
  * val myResearch by SimpleResearchRegistry.register("modid:my_research") {
- *    SimpleResearch(ResearchSettings.of() /* empty depends and triggers */, ResearchBookMetadata.of("Name!".mcText, "Description!".mcText, "mymodid:textures/my_research.png", ResearchAlignment.CENTER, ResearchShape.SQUARE))
+ *    Research.create(ResearchSettings.of() /* empty depends and triggers */, ResearchBookMetadata.of("Name!".mcText, "Description!".mcText, "mymodid:textures/my_research.png", ResearchAlignment.CENTER, ResearchShape.SQUARE))
  * }
  * ```
  */
@@ -49,7 +49,7 @@ object SimpleResearchRegistry {
     }
 
     class ResearchDelegate<T: Research>(private val research: () -> T): ReadOnlyProperty<Any?, T>, () -> T {
-        override fun getValue(thisRef: Any?, property: KProperty<*>): T = research()
+        override fun getValue(thisRef: Any?, property: KProperty<*>): T = this()
 
         override fun invoke(): T = research()
     }

@@ -1,0 +1,19 @@
+{
+  "_comment": "How it works you can find here:",
+  "_comment": "team._0mods.aeternus.api.impl.research.json.JSONResearch",
+
+  "dependencies": [],
+  "triggers": [],
+  "etherium_count": 0.0,
+  "book_meta": {
+    "name": "Name!",
+    "description": "Description!",
+    "texture": "aeternus:textures/research/empty.png",
+    "book_pos": {
+      "x": 0,
+      "y": 0
+    },
+    "align": 2,
+    "shape": 1
+  }
+}

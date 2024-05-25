@@ -10,5 +10,15 @@
 
 package team._0mods.aeternus.common.init.config.forge
 
+import net.minecraftforge.common.ForgeConfigSpec
+
 object AeternusClientConfigImpl {
+    val spec: ForgeConfigSpec.Builder = ForgeConfigSpec.Builder()
+    val builded: ForgeConfigSpec
+
+    // Values
+
+    init {
+        builded = spec.build()
+    }
 }

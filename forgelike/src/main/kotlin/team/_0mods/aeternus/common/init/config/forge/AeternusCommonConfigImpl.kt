@@ -10,10 +10,11 @@
 
 package team._0mods.aeternus.common.init.config.forge
 
-import team._0mods.aeternus.common.init.config.SpecUtils
+import net.minecraftforge.common.ForgeConfigSpec
 
 object AeternusCommonConfigImpl {
-    private val spec = SpecUtils.commonBuilder
+    val spec: ForgeConfigSpec.Builder = ForgeConfigSpec.Builder()
+    val builded: ForgeConfigSpec
 
     val debug = spec.comment("Enables debug mode").define("debug", false)
 
@@ -26,12 +27,16 @@ object AeternusCommonConfigImpl {
 
     init {
         spec.pop()
+        builded = spec.build()
     }
 
-    //IMPLSя
-    val enableExperimentalFeatures: Boolean = exFeatures.get()
+    //IMPLS
+    @JvmStatic
+    fun enableExperimentalFeatures(): Boolean = exFeatures.get()
 
-    val butterMechanic: Boolean = bm.get()
+    @JvmStatic
+    fun butterMechanic(): Boolean = bm.get()
 
-    val debugMode: Boolean = debug.get()
+    @JvmStatic
+    fun debugMode(): Boolean = debug.get()
 }

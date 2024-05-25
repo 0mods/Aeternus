@@ -13,15 +13,15 @@ package team._0mods.aeternus.common.init.config
 import dev.architectury.injectables.annotations.ExpectPlatform
 
 object AeternusCommonConfig {
-    @get:JvmStatic
-    @get:ExpectPlatform
-    val enableExperimentalFeatures: Boolean = throw AssertionError()
+    @JvmStatic
+    @ExpectPlatform
+    fun enableExperimentalFeatures(): Boolean = throw AssertionError()
 
-    @get:JvmStatic
-    @get:ExpectPlatform
-    val butterMechanic: Boolean = throw AssertionError()
+    @JvmStatic
+    @ExpectPlatform
+    fun butterMechanic(): Boolean = throw AssertionError()
 
-    @get:JvmStatic
-    @get:ExpectPlatform
-    val debugMode: Boolean = throw AssertionError()
+    @JvmStatic
+    @ExpectPlatform
+    fun debugMode(): Boolean = throw AssertionError()
 }
