@@ -11,8 +11,7 @@
 package team._0mods.aeternus.common.helper
 
 import net.minecraft.world.item.Item
+import team._0mods.aeternus.api.item.ITabbed
 import team._0mods.aeternus.common.init.registry.AeternusRegsitry
 
-class AeternusItem(props: Properties.() -> Unit = { `arch$tab`(AeternusRegsitry.aeternusTab) }): Item(
-    Properties().apply(props)
-)
+class AeternusItem(props: Properties.() -> Unit = {}): Item(Properties().apply(props)), ITabbed

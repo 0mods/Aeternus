@@ -33,11 +33,7 @@ abstract class AnimalMixin protected constructor(
 ) : AgeableMob(entityType, level), Enemy {
     @Inject(method = ["<init>"], at = [At("TAIL")])
     private fun initInj(entityType: EntityType<out Animal>, level: Level?, ci: CallbackInfo) {
-        if (level != null && !level.isClientSide) {
-            if (entityType !== EntityType.PANDA) `aeternus$agreGoals`()
-
-            goalSelector.addGoal(1, IterBreakDoorGoal((this as Animal), diff(level())))
-        }
+        if (level != null && !level.isClientSide) `aeternus$agreGoals`()
     }
 
     @Unique
@@ -48,5 +44,6 @@ abstract class AnimalMixin protected constructor(
                 (this as Animal), Player::class.java, false
             )
         )
+        goalSelector.addGoal(1, IterBreakDoorGoal((this as Animal), diff(level())))
     }
 }

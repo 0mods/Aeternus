@@ -30,7 +30,7 @@ class SpellRegistryImpl(private val modId: String): SpellRegistry {
 
         @JvmStatic
         internal fun onReg(e: DeferredRegister<Item>) {
-            spellMap.entries.forEach {
+            if (spellMap.isNotEmpty()) spellMap.entries.forEach {
                 val reg by e.reg(it.key) { SpellScroll(it.value) }
                 scrolls.add(reg)
             }

@@ -155,12 +155,12 @@ allprojects {
     dependencies {
         compileOnly("org.jetbrains:annotations:24.1.0")
 
-        implementation(kotlin("reflect"))
-        implementation(kotlin("stdlib"))
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutines_version}")
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:${coroutines_version}")
-        implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:${serialization_version}")
-        implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${serialization_version}")
+        compileOnly(kotlin("reflect"))
+        compileOnly(kotlin("stdlib"))
+        compileOnly("org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutines_version}")
+        compileOnly("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:${coroutines_version}")
+        compileOnly("org.jetbrains.kotlinx:kotlinx-serialization-core:${serialization_version}")
+        compileOnly("org.jetbrains.kotlinx:kotlinx-serialization-json:${serialization_version}")
     }
 
     tasks {

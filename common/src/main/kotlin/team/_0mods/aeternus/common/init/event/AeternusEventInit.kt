@@ -46,7 +46,7 @@ object AeternusEventsInit {
             if (hand == InteractionHand.MAIN_HAND) {
                 val stack = player.getItemInHand(hand)
                 if (stack.`is`(Items.BOOK)) {
-                    val stackOfKNBook = ItemStack(AeternusRegsitry.knowledgeBook)
+                    val stackOfKNBook = ItemStack(AeternusRegsitry.knowledgeBook.get())
                     if (!player.inventory.contains(stackOfKNBook)) {
                         val etheriumCount = EtheriumHelper.getCountForPlayer(player)
                         val random = Random(35)

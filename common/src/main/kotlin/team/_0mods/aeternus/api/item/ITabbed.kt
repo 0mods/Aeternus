@@ -8,17 +8,9 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package team._0mods.aeternus.mixin.item
+package team._0mods.aeternus.api.item
 
-import net.minecraft.world.item.Item
-import org.spongepowered.asm.mixin.Mixin
-import team._0mods.aeternus.api.magic.research.Research
-import team._0mods.aeternus.api.magic.research.ResearchRequired
-
-@Mixin(Item::class)
-class ItemMixin: ResearchRequired {
-    override val requirements: Set<Research>
-        get() = emptySet()
-
-    override var lockItem: Boolean = false
+interface ITabbed {
+    val isHidden: Boolean
+        get() = false
 }

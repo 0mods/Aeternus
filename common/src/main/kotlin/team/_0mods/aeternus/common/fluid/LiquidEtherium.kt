@@ -28,8 +28,8 @@ import net.minecraft.world.level.material.Fluid
 import net.minecraft.world.level.material.FluidState
 import team._0mods.aeternus.common.init.registry.AeternusRegsitry
 
-abstract class EtheriumFluid: FlowingFluid() {
-    override fun getBucket(): Item = AeternusRegsitry.etheriumBucket
+abstract class LiquidEtherium: FlowingFluid() {
+    override fun getBucket(): Item = AeternusRegsitry.etheriumBucket.get()
 
     override fun canBeReplacedWith(
         state: FluidState,
@@ -43,11 +43,11 @@ abstract class EtheriumFluid: FlowingFluid() {
 
     override fun getExplosionResistance(): Float = 100F
 
-    override fun createLegacyBlock(state: FluidState): BlockState = AeternusRegsitry.etheriumFluidBlock.defaultBlockState().setValue(LiquidBlock.LEVEL, getLegacyLevel(state))
+    override fun createLegacyBlock(state: FluidState): BlockState = AeternusRegsitry.liquidEtheriumBlock.get().defaultBlockState().setValue(LiquidBlock.LEVEL, getLegacyLevel(state))
 
-    override fun getFlowing(): Fluid = AeternusRegsitry.etheriumFlowing
+    override fun getFlowing(): Fluid = AeternusRegsitry.etheriumFlowing.get()
 
-    override fun getSource(): Fluid = AeternusRegsitry.etheriumFluid
+    override fun getSource(): Fluid = AeternusRegsitry.liquidEtherium.get()
 
     override fun canConvertToSource(level: Level): Boolean = level.gameRules.getBoolean(GameRules.RULE_WATER_SOURCE_CONVERSION)
 
@@ -62,13 +62,13 @@ abstract class EtheriumFluid: FlowingFluid() {
 
     override fun isSame(fluid: Fluid): Boolean = fluid == this.source || fluid == this.flowing
 
-    class Source: EtheriumFluid() {
+    class Source: LiquidEtherium() {
         override fun isSource(state: FluidState): Boolean = true
 
         override fun getAmount(state: FluidState): Int = 8
     }
 
-    class Flowing: EtheriumFluid() {
+    class Flowing: LiquidEtherium() {
         override fun createFluidStateDefinition(builder: StateDefinition.Builder<Fluid, FluidState>) {
             super.createFluidStateDefinition(builder)
             builder.add(LEVEL)

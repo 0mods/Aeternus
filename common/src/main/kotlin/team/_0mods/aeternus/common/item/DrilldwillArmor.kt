@@ -37,13 +37,13 @@ class DrilldwillArmor(type: Type, properties: Properties) : ArmorItem(material, 
         private val material = ArmorMaterialCreation.builder("drilldwill".aRl)
             .fullDef(3, 8, 6, 3)
             .durability(33)
-            .ingredient(AeternusRegsitry.drilldwill)
+            .ingredient(AeternusRegsitry.drilldwill.get())
             .knockback(0.5F)
             .toughness(3.5F)
             .build
     }
 
-    override fun getName(stack: ItemStack): Component = type.generateArmorTranslateByParent(AeternusRegsitry.drilldwill)
+    override fun getName(stack: ItemStack): Component = type.generateArmorTranslateByParent(AeternusRegsitry.drilldwill.get())
 
     private fun tick() {
         val slots = listOf(EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET)

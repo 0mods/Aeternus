@@ -10,6 +10,7 @@
 
 package team._0mods.aeternus
 
+import dev.architectury.platform.forge.EventBuses
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
 import net.minecraftforge.fml.loading.FMLEnvironment
@@ -19,6 +20,7 @@ import thedarkcolour.kotlinforforge.forge.MOD_BUS
 @Mod(ModId)
 class AeternusForge {
     init {
+        EventBuses.registerModEventBus(ModId, MOD_BUS)
         commonInit()
         if (FMLEnvironment.dist.isClient)
             MOD_BUS.addListener(this::initClient)

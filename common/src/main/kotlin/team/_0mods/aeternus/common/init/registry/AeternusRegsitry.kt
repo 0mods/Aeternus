@@ -12,6 +12,7 @@ package team._0mods.aeternus.common.init.registry
 
 import dev.architectury.registry.CreativeTabRegistry
 import dev.architectury.registry.registries.DeferredRegister
+import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.core.registries.Registries
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceKey
@@ -27,36 +28,46 @@ import net.minecraft.world.level.block.state.BlockBehaviour
 import net.minecraft.world.level.material.Fluids
 import net.minecraft.world.level.material.PushReaction
 import team._0mods.aeternus.api.impl.registry.SpellRegistryImpl
+import team._0mods.aeternus.api.item.ITabbed
 import team._0mods.aeternus.api.util.DelegatedRegistry
 import team._0mods.aeternus.common.ModId
 import team._0mods.aeternus.api.util.reg
 import team._0mods.aeternus.api.util.aRl
-import team._0mods.aeternus.common.fluid.EtheriumFluid
+import team._0mods.aeternus.common.fluid.LiquidEtherium
 import team._0mods.aeternus.common.helper.AeternusItem
 import team._0mods.aeternus.common.item.DrilldwillArmor
+import java.util.function.Supplier
 
 @Suppress("UnstableApiUsage")
 object AeternusRegsitry {
     private val items = DeferredRegister.create(ModId, Registries.ITEM)
-    private val dimensions = DeferredRegister.create(ModId, Registries.DIMENSION_TYPE)
     private val tabs = DeferredRegister.create(ModId, Registries.CREATIVE_MODE_TAB)
     private val fluids = DeferredRegister.create(ModId, Registries.FLUID)
     private val blocks = DeferredRegister.create(ModId, Registries.BLOCK)
 
     /* TABS */
-    val aeternusTab by tabs.reg("aeternus_tab") {
-        CreativeTabRegistry.create(tab(ModId)) { ItemStack(knowledgeBook) }
+    val aeternusTab = tabs.register("aeternus_tab") {
+        CreativeTabRegistry.create {
+            it.title(tab(ModId))
+                .displayItems { _, o ->
+                    items.registrar.entrySet().forEach { e ->
+                        val i = e.value
+
+                        if (i is ITabbed) o.accept(ItemStack(i))
+                    }
+                }
+        }
     }
 
-    val spellTab by tabs.reg("spell") {
+    val spellTab = tabs.register("spell") {
         CreativeTabRegistry.create {
             it.title(tab("spells"))
-                .icon { ItemStack(emptyScroll) }
+                .icon { ItemStack(emptyScroll.get()) }
                 .displayItems { _, output ->
                     SpellRegistryImpl.scrolls.forEach { s ->
                         val spell = s.spell
 
-                        if (!spell.isHidden) output.accept(s)
+                        if (!spell.isHidden) output.accept(ItemStack(s))
                     }
                 }
         }
@@ -64,32 +75,29 @@ object AeternusRegsitry {
 
     /* ITEMS */
     // MISC
-    val emptyScroll by items.reg("empty_scroll", ItemTypes.DEFAULT_ITEM)
-    val knowledgeBook by items.reg("knowledge_book", ItemTypes.DEFAULT_ITEM)
-    val etheriumTar by items.reg("etherium_tar", ItemTypes.DEFAULT_ITEM)
-    val crystallizedEtherium by items.reg("crystallized_etherium", ItemTypes.DEFAULT_ITEM)
-    val originaleEtherium by items.reg("orginale_etherium", ItemTypes.DEFAULT_ITEM)
-    val drilldwill by items.reg("drilldwill", ItemTypes.DEFAULT_ITEM)
+    val emptyScroll = items.register("empty_scroll") { AeternusItem() }
+    val knowledgeBook = items.register("knowledge_book", ::AeternusItem)
+    val etheriumTar = items.register("etherium_tar", ::AeternusItem)
+    val crystallizedEtherium = items.register("crystallized_etherium", ::AeternusItem)
+    val originaleEtherium = items.register("orginale_etherium", ::AeternusItem)
+    val drilldwill = items.register("drilldwill", ::AeternusItem)
 
     // BUCKETS
-    val etheriumBucket by items.reg("etherium_bucket", ItemTypes::ETHERIUM_BUCKET)
+    val etheriumBucket = items.register("etherium_bucket") { BucketItem(Fluids.EMPTY, Item.Properties()) }
 
     // ARMORS
-    val drilldwillHelmet by items.reg("drilldwill_helmet") {
-        DrilldwillArmor(ArmorItem.Type.HELMET, ItemTypes.DEFAULT_PROPERTIES)
+    val drilldwillHelmet = items.register("drilldwill_helmet") {
+        DrilldwillArmor(ArmorItem.Type.HELMET, Item.Properties())
     }
-    val drilldwillChest by items.reg("drilldwill_chestplate") {
-        DrilldwillArmor(ArmorItem.Type.CHESTPLATE, ItemTypes.DEFAULT_PROPERTIES)
+    val drilldwillChest = items.register("drilldwill_chestplate") {
+        DrilldwillArmor(ArmorItem.Type.CHESTPLATE, Item.Properties())
     }
-    val drilldwillLegs by items.reg("drilldwill_leggings") {
-        DrilldwillArmor(ArmorItem.Type.LEGGINGS, ItemTypes.DEFAULT_PROPERTIES)
+    val drilldwillLegs = items.register("drilldwill_leggings") {
+        DrilldwillArmor(ArmorItem.Type.LEGGINGS, Item.Properties())
     }
-    val drilldwillBoots by items.reg("drilldwill_boots") {
-        DrilldwillArmor(ArmorItem.Type.BOOTS, ItemTypes.DEFAULT_PROPERTIES)
+    val drilldwillBoots = items.register("drilldwill_boots") {
+        DrilldwillArmor(ArmorItem.Type.BOOTS, Item.Properties())
     }
-
-    /* BLOCKS */
-    val etheriumFluidBlock by blocks.regBlock("etherium_fluid", BlockTypes.ETHERIUM_LIQUID_BLOCK)
 
     /* DIMENSIONS */
     val iterLevelStem = ResourceKey.create(Registries.LEVEL_STEM, "iter".aRl)
@@ -97,48 +105,39 @@ object AeternusRegsitry {
     val iterDimType = ResourceKey.create(Registries.DIMENSION_TYPE, "iter".aRl)
 
     /* FLUIDS */
-    val etheriumFluid by fluids.reg("etherium", EtheriumFluid::Source)
-    val etheriumFlowing by fluids.reg("etherium_flowing", EtheriumFluid::Flowing)
+    val liquidEtherium = fluids.register("etherium", LiquidEtherium::Source)
+    val etheriumFlowing = fluids.register("etherium_flowing", LiquidEtherium::Flowing)
+
+    /* BLOCKS */
+    val liquidEtheriumBlock = block("etherium_fluid") {
+        LiquidBlock(
+            etheriumFlowing.get(),
+            BlockBehaviour.Properties.of()
+                .liquid()
+                .replaceable()
+                .noCollission()
+                .strength(100F)
+                .pushReaction(PushReaction.DESTROY)
+                .noLootTable()
+                .sound(SoundType.EMPTY)
+        )
+    }
 
     @JvmStatic
     fun init() {
         SpellRegistryImpl.onReg(items)
+
         items.register()
+        tabs.register()
+        fluids.register()
+        blocks.register()
     }
 
-    private fun <V: Block, T: V> DeferredRegister<V>.regBlock(id: String, obj: () -> T): DelegatedRegistry<T> {
-        val reg = this.register(id, obj)
-        items.reg(id) { BlockItem(obj(), ItemTypes.DEFAULT_PROPERTIES) }
-        return DelegatedRegistry(reg)
+    fun <T: Block> block(id: String, block: () -> T): RegistrySupplier<T> {
+        val b = blocks.register(id, block)
+        items.register(id) { BlockItem(b.get(), Item.Properties()) }
+        return b
     }
 
     private fun tab(id: String): Component = Component.translatable("itemGroup.$ModId.$id")
-
-    @Suppress("UnstableApiUsage")
-    private object ItemTypes {
-        @JvmField
-        val DEFAULT_PROPERTIES = Item.Properties().`arch$tab`(aeternusTab)
-
-        @JvmField
-        val DEFAULT_ITEM = { AeternusItem() }
-
-        val ETHERIUM_BUCKET by lazy { BucketItem(Fluids.EMPTY, Item.Properties().`arch$tab`(aeternusTab)) }
-    }
-
-    private object BlockTypes {
-        @JvmField
-        val ETHERIUM_LIQUID_BLOCK = {
-            LiquidBlock(
-                etheriumFlowing,
-                BlockBehaviour.Properties.of()
-                    .liquid()
-                    .replaceable()
-                    .noCollission()
-                    .strength(100F)
-                    .pushReaction(PushReaction.DESTROY)
-                    .noLootTable()
-                    .sound(SoundType.EMPTY)
-            )
-        }
-    }
 }
