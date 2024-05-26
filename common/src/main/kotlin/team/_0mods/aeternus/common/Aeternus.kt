@@ -16,15 +16,28 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import team._0mods.aeternus.api.plugin.PluginHolder
 import team._0mods.aeternus.api.util.debugIfEnabled
+import team._0mods.aeternus.common.init.config.AeternusClientConfig
+import team._0mods.aeternus.common.init.config.AeternusCommonConfig
 import team._0mods.aeternus.common.init.event.AeternusEventsInit
 import team._0mods.aeternus.common.init.registry.AeternusRegsitry
+import team._0mods.aeternus.api.config.loadConfig
+import team._0mods.aeternus.api.config.prefix
 
 const val ModId = "aeternus"
 const val ModName = "Aeternus"
 
 @JvmField val LOGGER: Logger = LoggerFactory.getLogger("Aeternus") //const
 
+lateinit var commonConfig: AeternusCommonConfig
+    private set
+
+lateinit var clientConfig: AeternusClientConfig
+    private set
+
 fun commonInit() {
+    commonConfig = loadConfig(AeternusCommonConfig(), prefix("common"))
+    clientConfig = loadConfig(AeternusClientConfig(), prefix("client"))
+
     LOGGER.debugIfEnabled("DEBUG MODE IS ACTIVATED")
 
     AeternusRegsitry.init()

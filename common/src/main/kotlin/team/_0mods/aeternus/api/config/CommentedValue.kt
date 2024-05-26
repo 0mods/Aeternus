@@ -8,17 +8,20 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package team._0mods.aeternus.common.init.config.forge
+package team._0mods.aeternus.api.config
 
-import net.minecraftforge.common.ForgeConfigSpec
+import kotlinx.serialization.Serializable
 
-object AeternusClientConfigImpl {
-    val spec: ForgeConfigSpec.Builder = ForgeConfigSpec.Builder()
-    val builded: ForgeConfigSpec
-
-    // Values
-
-    init {
-        builded = spec.build()
+@Serializable
+data class CommentedValue<T>(
+    val comment: List<String>,
+    val value: T
+) {
+    companion object {
+        fun <T> Companion.create(value: T, vararg comments: String): CommentedValue<T> {
+            val list: MutableList<String> = mutableListOf()
+            list.addAll(comments)
+            return CommentedValue(list, value)
+        }
     }
 }

@@ -18,11 +18,9 @@ import team._0mods.aeternus.api.magic.research.player.PlayerResearch
 object CapabilityLike {
     @JvmStatic
     @ExpectPlatform
-    @ExpectPlatform.Transformed
     fun getEtherium(player: Player): PlayerEtherium = throw AssertionError()
 
     @JvmStatic
     @ExpectPlatform
-    @ExpectPlatform.Transformed
     fun getResearch(player: Player): PlayerResearch = throw AssertionError()
 }

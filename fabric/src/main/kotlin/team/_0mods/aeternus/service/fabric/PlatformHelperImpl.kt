@@ -12,6 +12,7 @@ package team._0mods.aeternus.service.fabric
 
 import net.fabricmc.api.EnvType
 import net.fabricmc.loader.api.FabricLoader
+import java.nio.file.Path
 import kotlin.jvm.optionals.getOrNull
 
 object PlatformHelperImpl {
@@ -50,4 +51,7 @@ object PlatformHelperImpl {
 
     @JvmStatic
     fun isFabric(): Boolean = throw AssertionError()
+
+    @JvmStatic
+    fun gamePath(): Path = FabricLoader.getInstance().gameDir
 }

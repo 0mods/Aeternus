@@ -11,6 +11,7 @@
 package team._0mods.aeternus.service
 
 import dev.architectury.injectables.annotations.ExpectPlatform
+import java.nio.file.Path
 
 object PlatformHelper {
     @JvmStatic @ExpectPlatform
@@ -33,4 +34,7 @@ object PlatformHelper {
 
     @JvmStatic @ExpectPlatform
     fun isFabric(): Boolean = throw AssertionError()
+
+    @JvmStatic @ExpectPlatform
+    fun gamePath(): Path = throw AssertionError()
 }

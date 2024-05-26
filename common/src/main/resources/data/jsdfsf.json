@@ -1,0 +1,14 @@
+{
+  "debug": { // Комментированное значение
+    "comment": [ "Enables debug mode" ],
+    "value": false
+  },
+  "experimental": { // Категория: Экспериментальные
+    "experimental_features": { // Комментированное значение
+      "comment": [ "Enables all unstable features", "USE AT YOUR RISK!" ],
+      "value": false
+    },
+    // Обычное значение
+    "butter_mechanic": false
+  }
+}

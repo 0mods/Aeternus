@@ -12,6 +12,8 @@ package team._0mods.aeternus.service.forge
 
 import net.minecraftforge.fml.ModList
 import net.minecraftforge.fml.loading.FMLEnvironment
+import net.minecraftforge.fml.loading.FMLPaths
+import java.nio.file.Path
 import kotlin.jvm.optionals.getOrNull
 
 object PlatformHelperImpl {
@@ -47,4 +49,7 @@ object PlatformHelperImpl {
 
     @JvmStatic
     fun isFabric(): Boolean = !isForge()
+
+    @JvmStatic
+    fun gamePath(): Path = FMLPaths.GAMEDIR.get()
 }
