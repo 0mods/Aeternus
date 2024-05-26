@@ -21,9 +21,10 @@ import java.io.File
 inline fun <reified T> loadConfig(value: T, fileName: String): T {
     LOGGER.debug("Loading config '$fileName'")
     val json = Json {
-        this.ignoreUnknownKeys = true
-        this.encodeDefaults = true
-        this.prettyPrint = true
+        ignoreUnknownKeys = true
+        encodeDefaults = true
+        prettyPrint = true
+        coerceInputValues = true
     }
 
     val file = PlatformHelper.gamePath().resolve("config/").toFile().resolve("$fileName.json")

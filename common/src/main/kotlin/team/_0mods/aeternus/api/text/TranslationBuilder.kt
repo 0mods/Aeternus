@@ -11,21 +11,24 @@
 package team._0mods.aeternus.api.text
 
 import net.minecraft.ChatFormatting
-import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
 import team._0mods.aeternus.api.util.mcText
 import team._0mods.aeternus.api.util.mcTranslate
 import team._0mods.aeternus.common.ModId
 
-open class TranslationBuilder protected constructor(private var prepend: String = "", private val key: String, private val rat: RussianAncestralType?) {
+open class TranslationBuilder protected constructor(private var prepend: String = "", private val key: String, private val rat: RussianAncestralType?, private val ratSuffixes: Boolean) {
     private var arguments: Array<Any> = arrayOf()
     private var formats: Array<ChatFormatting> = arrayOf()
 
     private constructor(key: String): this("", key)
 
-    private constructor(key: String, rat: RussianAncestralType): this("", key, rat)
+    private constructor(prepend: String, key: String, rat: RussianAncestralType?): this(prepend, key, rat, rat != null)
 
-    private constructor(prepend: String, key: String): this(prepend, key, null)
+    private constructor(key: String, rat: RussianAncestralType, ratPrefixes: Boolean): this("", key, rat, ratPrefixes)
+
+    private constructor(key: String, rat: RussianAncestralType): this("", key, rat, true)
+
+    private constructor(prepend: String, key: String): this(prepend, key, null, false)
 
     fun arg(arg: Any): TranslationBuilder {
         this.arguments += arg
@@ -63,7 +66,8 @@ open class TranslationBuilder protected constructor(private var prepend: String 
             var component = key.mcTranslate(arguments)
 
             if (prepend.isNotEmpty()) {
-                component = if (addRAT.isNotEmpty()) prepend.mcTranslate.append(addRAT.mcTranslate).append(component)
+                component = if (addRAT.isNotEmpty()) prepend.mcTranslate.append(addRAT.mcTranslate)
+                    .append(if (ratSuffixes) "rat.aeternus.suffix".mcTranslate else "".mcText).append(" ").append(component)
                 else prepend.mcTranslate.append(component)
             } else {
                 if (addRAT.isNotEmpty()) {
