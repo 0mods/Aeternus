@@ -33,6 +33,9 @@ data class AeternusCommonConfig(
 }
 
 @Serializable
-/*data*/ class AeternusClientConfig() {
+data class AeternusClientConfig(
+    @SerialName("low_mode")
+    val lowMode: Boolean = false
+) {
     companion object
 }

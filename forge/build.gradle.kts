@@ -8,13 +8,17 @@ loom {
     forge {
         convertAccessWideners = true
         extraAccessWideners.add(loom.accessWidenerPath.get().asFile.name)
-        mixinConfigs("$modId.mixins.json")
+        mixinConfigs("$modId.mixins.json", "$modId.forgelike.mixins.json", "$modId.forge.mixins.json")
     }
 }
 
 architectury {
     platformSetupLoomIde()
     forge()
+}
+
+base {
+    archivesName.set("${archivesName.get()}-forge")
 }
 
 val common: Configuration by configurations.creating

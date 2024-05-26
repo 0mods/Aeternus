@@ -10,6 +10,7 @@
 
 package team._0mods.aeternus.capability
 
+import net.minecraftforge.common.extensions.IForgeFluid
 import team._0mods.aeternus.api.magic.PlayerEtherium
 import kotlin.math.*
 

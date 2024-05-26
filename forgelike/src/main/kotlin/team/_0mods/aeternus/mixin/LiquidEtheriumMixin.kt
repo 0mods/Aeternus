@@ -8,22 +8,20 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package team._0mods.aeternus.api.config
+package team._0mods.aeternus.mixin
 
-import kotlinx.serialization.Serializable
+import net.minecraft.world.item.Rarity
+import net.minecraftforge.common.extensions.IForgeFluid
+import net.minecraftforge.fluids.FluidType
+import org.spongepowered.asm.mixin.Mixin
+import team._0mods.aeternus.common.fluid.LiquidEtherium
 
-@Serializable
-data class CommentedValue<T>(
-    val comment: List<String>,
-    val value: T
-) {
-    companion object {
-        fun <T> Companion.create(value: T, vararg comments: String): CommentedValue<T> {
-            val list: MutableList<String> = mutableListOf()
-            list.addAll(comments)
-            return CommentedValue(list, value)
-        }
-    }
-
-    operator fun invoke() = value
+@Mixin(LiquidEtherium::class)
+class LiquidEtheriumMixin: IForgeFluid {
+    override fun getFluidType(): FluidType = FluidType(
+        FluidType.Properties.create()
+            .canSwim(true)
+            .lightLevel(1)
+            .rarity(Rarity.EPIC)
+    )
 }

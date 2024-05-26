@@ -9,6 +9,10 @@ architectury {
     fabric()
 }
 
+base {
+    archivesName.set("${archivesName.get()}-fabric")
+}
+
 val common: Configuration by configurations.creating {
     isCanBeResolved = true
     isCanBeConsumed = false

@@ -30,5 +30,6 @@ object ANCapabilities {
     @SubscribeEvent
     fun registerCaps(evt: RegisterCapabilitiesEvent) {
         evt.registerEntity(playerResearch, EntityType.PLAYER) { _, _ -> PlayerResearchCapability() }
+        evt.registerEntity(playerEtherium, EntityType.PLAYER) { _, _ -> PlayerEtheriumCapability() }
     }
 }

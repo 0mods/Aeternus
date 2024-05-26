@@ -12,6 +12,7 @@
 
 package team._0mods.aeternus.common
 
+import dev.architectury.event.events.common.CommandRegistrationEvent
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import team._0mods.aeternus.api.plugin.PluginHolder
@@ -22,6 +23,7 @@ import team._0mods.aeternus.common.init.event.AeternusEventsInit
 import team._0mods.aeternus.common.init.registry.AeternusRegsitry
 import team._0mods.aeternus.api.config.loadConfig
 import team._0mods.aeternus.api.config.prefix
+import team._0mods.aeternus.common.commands.AeternusCommands
 
 const val ModId = "aeternus"
 const val ModName = "Aeternus"
@@ -43,6 +45,10 @@ fun commonInit() {
     AeternusRegsitry.init()
     AeternusEventsInit.initServerEvents()
     PluginHolder.loadPlugins()
+
+    CommandRegistrationEvent.EVENT.register { builder, _, _ ->
+        AeternusCommands.register(builder)
+    }
 }
 
 fun clientInit() {

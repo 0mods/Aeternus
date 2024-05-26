@@ -29,12 +29,27 @@ inline fun <reified T> loadConfig(value: T, fileName: String): T {
 
     val file = PlatformHelper.gamePath().resolve("config/").toFile().resolve("$fileName.json")
 
-    return if (file.exists()) {
-        decodeCfg(json, file)
-    } else {
+    return if (file.exists()) decodeCfg(json, file)
+    else {
         encodeCfg(json, value, file)
         value
     }
+}
+
+inline fun <reified T> regenerateCfg(value: T, fileName: String): T {
+    LOGGER.debug("Regenerating config...")
+    val json = Json {
+        ignoreUnknownKeys = true
+        encodeDefaults = true
+        prettyPrint = true
+        coerceInputValues = true
+    }
+
+    val file = PlatformHelper.gamePath().resolve("config/").toFile().resolve("$fileName.json")
+
+    encodeCfg(json, value, file)
+
+    return value
 }
 
 @OptIn(ExperimentalSerializationApi::class)

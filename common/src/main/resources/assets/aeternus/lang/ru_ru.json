@@ -9,6 +9,7 @@
 
   "_comment": "Другое",
 
+  "item.aeternus.crystallized_etherium": "Кристаллизированный итерий",
   "item.aeternus.knowledge_book": "Книга знаний",
   "item.aeternus.etherium_tar": "Итериевая смола",
   "item.aeternus.orginale_etherium": "Orginale итерий",
@@ -17,6 +18,10 @@
   "_comment": "Ведра",
 
   "item.aeternus.etherium_bucket": "Ведро вечности",
+
+  "_comment": "Свитки",
+
+  "item.aeternus.empty_scroll": "Пустой свиток",
 
   "_comment": "Брони",
 
@@ -32,5 +37,24 @@
   "_comment": "Жидкости",
 
   "fluid.aeternus.etherium": "Вечность",
-  "fluid.aeternus.etherium_flowing": "Вечность"
+  "fluid.aeternus.etherium_flowing": "Вечность",
+
+  "_comment": "Команды",
+
+  "command.aeternus.not_works": "Данная команда не работает или отключена! Пожалуйста, дождитесь реализации команды!",
+
+  "command.aeternus.config.enabled": "Включено",
+  "command.aeternus.config.disabled": "Выключено",
+
+  "command.aeternus.config.regenerating": "Запускаем регенерацию конфига... Пожалуйста, подождите!",
+  "command.aeternus.config.regenerated": "Конфиг успешно перегенерирован!",
+
+  "command.aeternus.config.common": "Общий конфиг",
+  "command.aeternus.config.debug": "Режим Отладки",
+  "command.aeternus.config.experimental": "Экспериментальные возможности",
+  "command.aeternus.config.experimental.enable": "Включить экспериментальные возможности",
+  "command.aeternus.config.experimental.butter": "\"Масляная\" механика",
+
+  "command.aeternus.config.client": "Конфиг клиента",
+  "command.aeternus.config.low_mode": "Низкие настройки графики"
 }

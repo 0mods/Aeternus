@@ -7,6 +7,10 @@ architectury {
     neoForge()
 }
 
+base {
+    archivesName.set("${archivesName.get()}-neoforge")
+}
+
 val common: Configuration by configurations.creating
 val forgeLike: Configuration by configurations.creating
 val shadowCommon: Configuration by configurations.creating

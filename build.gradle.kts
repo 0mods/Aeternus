@@ -4,7 +4,6 @@ import dev.architectury.plugin.ArchitectPluginExtension
 import groovy.lang.Closure
 import io.github.pacifistmc.forgix.plugin.ForgixMergeExtension.*
 import net.fabricmc.loom.api.LoomGradleExtensionAPI
-import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
 
 val minecraftVersion: String by project
 val modName: String by project
@@ -15,8 +14,16 @@ val parchmentMCVersion: String by project
 val parchmentVersion: String by project
 val modId: String by project
 val modGroup: String by project
+val releaseType: String by project
 
 val modVersion = rootProject.file("VERSION").readText().trim()
+
+val relId = when(releaseType) {
+    "alpha" -> releaseType
+    "beta" -> releaseType
+    "snapshot" -> releaseType
+    else -> ""
+}
 
 println("Mod Version: $modVersion") // Debug
 
@@ -26,7 +33,7 @@ plugins {
     `maven-publish`
     id("architectury-plugin") version "3.4-SNAPSHOT"
     id("dev.architectury.loom") version "1.4-SNAPSHOT" apply false
-    id("io.github.pacifistmc.forgix") version "1.2.6"
+    id("io.github.pacifistmc.forgix") version "1.2.9"
     id("com.modrinth.minotaur") version "2.+"
     kotlin("jvm") version "1.9.23"
     kotlin("plugin.serialization") version "1.9.23"
@@ -43,18 +50,29 @@ forgix {
 
     outputDir = "build/libs"
 
-    if (project == findProject(":fabric")) {
-        val fabricClosure = closureOf<FabricContainer> {
-            jarLocation = "build/libs/$modName-fabric-${minecraftVersion}_$modVersion.jar"
-        } as Closure<FabricContainer>
-        fabric(fabricClosure)
-    }
+    when (project) {
+        findProject(":fabric") -> {
+            val fabricClosure = closureOf<FabricContainer> {
 
-    if (project == findProject(":forge")) {
-        val forgeClosure = closureOf<ForgeContainer> {
-            jarLocation = "build/libs/$modName-forge-${minecraftVersion}_$modVersion.jar"
-        } as Closure<ForgeContainer>
-        forge(forgeClosure)
+                jarLocation = "build/libs/${base.archivesName.get()}.jar"
+            } as Closure<FabricContainer>
+            fabric(fabricClosure)
+        }
+
+        findProject(":forge") -> {
+            val forgeClosure = closureOf<ForgeContainer> {
+                jarLocation = "build/libs/${base.archivesName.get()}.jar"
+            } as Closure<ForgeContainer>
+            forge(forgeClosure)
+        }
+
+        findProject(":neoforge") -> {
+            val neoClosure = closureOf<NeoForgeContainer> {
+                jarLocation = "build/libs/${base.archivesName.get()}.jar"
+            } as Closure<NeoForgeContainer>
+
+            neoforge(neoClosure)
+        }
     }
 }
 
@@ -133,20 +151,14 @@ allprojects {
     apply(plugin = "maven-publish")
     apply(plugin = "org.jetbrains.kotlin.plugin.serialization")
 
-    val releaseType: String by project
-
-    val relId = when(releaseType) {
-        "alpha" -> releaseType
-        "beta" -> releaseType
-        "snapshot" -> releaseType
-        else -> ""
-    }
-
     val archName = if (relId.isNotEmpty()) "$modName-$relId.$minecraftVersion" else "$modName.$minecraftVersion"
 
-    version = modVersion
-    archivesName.set(archName.lowercase())
     group = modGroup
+    version = modVersion
+
+    base {
+        archivesName.set(archName.lowercase())
+    }
 
     repositories {
         mavenCentral()

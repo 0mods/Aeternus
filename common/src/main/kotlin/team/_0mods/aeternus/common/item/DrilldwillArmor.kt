@@ -54,20 +54,18 @@ class DrilldwillArmor(type: Type, properties: Properties) : ArmorItem(material, 
             val playerIsMoving = player.isSprinting && player.isMoving && !player.isJumping && !player.isFalling
 
             if (!level.isClientSide) {
-                if (player !is ServerPlayer) return@register
+                if (player.checkEquippedArmor()) {
+                    if (playerIsMoving && player.hasEffect(MobEffects.MOVEMENT_SLOWDOWN)) runTime++
+                    else runTime = 0
 
-                if (!player.checkEquippedArmor()) return@register
-
-                if (playerIsMoving && player.hasEffect(MobEffects.MOVEMENT_SLOWDOWN)) runTime++
-                else runTime = 0
-
-                if (runTime >= 10.sec) {
-                    val isOnIter = player.isOnIter
-                    val onIter = isOnIter.first
-                    val iterLevel = isOnIter.second
-                    if (onIter) {
-                        player.changeDimension(iterLevel)
-                        slots.forEach(player::broadcastBreakEvent)
+                    if (runTime >= 10.sec) {
+                        val isOnIter = (player as ServerPlayer).isOnIter
+                        val onIter = isOnIter.first
+                        val iterLevel = isOnIter.second
+                        if (onIter) {
+                            player.changeDimension(iterLevel)
+                            slots.forEach(player::broadcastBreakEvent)
+                        }
                     }
                 }
             } else {

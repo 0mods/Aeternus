@@ -66,8 +66,9 @@ open class TranslationBuilder protected constructor(private var prepend: String 
             var component = key.mcTranslate(arguments)
 
             if (prepend.isNotEmpty()) {
-                component = if (addRAT.isNotEmpty()) prepend.mcTranslate.append(addRAT.mcTranslate)
-                    .append(if (ratSuffixes) "rat.aeternus.suffix".mcTranslate else "".mcText).append(" ").append(component)
+                component = if (addRAT.isNotEmpty()) prepend.mcTranslate
+                    .append(if (ratSuffixes) "rat.aeternus.suffix".mcTranslate else "".mcText).append(addRAT.mcTranslate)
+                    .append(" ").append(component)
                 else prepend.mcTranslate.append(component)
             } else {
                 if (addRAT.isNotEmpty()) {

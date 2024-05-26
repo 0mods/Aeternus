@@ -10,6 +10,7 @@
 
   "_comment": "Misc",
 
+  "item.aeternus.crystallized_etherium": "Crystallized Etherium",
   "item.aeternus.knowledge_book": "Knowledge Book",
   "item.aeternus.etherium_tar": "Etherium Tar",
   "item.aeternus.orginale_etherium": "Orginale Etherium",
@@ -18,6 +19,10 @@
   "_comment": "Buckets",
 
   "item.aeternus.etherium_bucket": "Bucket of Eternal",
+
+  "_comment": "Scrolls",
+
+  "item.aeternus.empty_scroll": "Empty Scroll",
 
   "_comment": "Armors",
 
@@ -33,5 +38,24 @@
   "_comment": "Liquids",
 
   "fluid.aeternus.etherium": "Eternal",
-  "fluid.aeternus.etherium_flowing": "Eternal"
+  "fluid.aeternus.etherium_flowing": "Eternal",
+
+  "_comment": "Commands",
+
+  "command.aeternus.not_works": "This commands is not works or disabled! Please, wait a command realisation!",
+
+  "command.aeternus.config.enabled": "Enabled",
+  "command.aeternus.config.disabled": "Disabled",
+
+  "command.aeternus.config.regenerating": "Starting config regeneration... Please, wait!",
+  "command.aeternus.config.regenerated": "Config are regenerated successful!",
+
+  "command.aeternus.config.common": "Common Config",
+  "command.aeternus.config.debug": "Debug mode",
+  "command.aeternus.config.experimental": "Experimental features",
+  "command.aeternus.config.experimental.enable": "Enable experimental features",
+  "command.aeternus.config.experimental.butter": "\"Butter\" mechanic",
+
+  "command.aeternus.config.client": "Client Config",
+  "command.aeternus.config.low_mode": "Low graphics mode"
 }
