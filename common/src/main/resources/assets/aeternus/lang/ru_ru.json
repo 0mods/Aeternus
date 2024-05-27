@@ -42,12 +42,15 @@
   "_comment": "Команды",
 
   "command.aeternus.not_works": "Данная команда не работает или отключена! Пожалуйста, дождитесь реализации команды!",
+  "command.aeternus.unknown_value": "Неизвестное значение",
+
+  "command.aeternus.comment": "Комментарии",
 
   "command.aeternus.config.enabled": "Включено",
   "command.aeternus.config.disabled": "Выключено",
 
-  "command.aeternus.config.regenerating": "Запускаем регенерацию конфига... Пожалуйста, подождите!",
-  "command.aeternus.config.regenerated": "Конфиг успешно перегенерирован!",
+  "command.aeternus.config.regenerating": "Запускаем генерацию нового конфига... Пожалуйста, подождите!",
+  "command.aeternus.config.regenerated": "Новый конфиг успешно сгенерирован!",
 
   "command.aeternus.config.common": "Общий конфиг",
   "command.aeternus.config.debug": "Режим Отладки",

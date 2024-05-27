@@ -5,7 +5,8 @@
   "refmap": "${modId}.refmap.json",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "entity.AnimalMixin"
+    "entity.AnimalMixin",
+    "client.ScreenAccessor"
   ],
   "client": [],
   "injectors": {

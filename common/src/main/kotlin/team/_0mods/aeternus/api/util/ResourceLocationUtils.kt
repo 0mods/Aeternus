@@ -12,8 +12,12 @@
 
 package team._0mods.aeternus.api.util
 
+import net.minecraft.client.Minecraft
 import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.entity.vehicle.Minecart
 import team._0mods.aeternus.common.ModId
+import java.io.FileNotFoundException
+import java.io.InputStream
 
 class DoubleResourceLocation(var id: ResourceLocation, val value: ResourceLocation) {
     companion object {
@@ -49,3 +53,10 @@ val String.aRl: ResourceLocation
 
 val String.rl: ResourceLocation
     get() = ResourceLocation(this)
+
+val ResourceLocation.stream: InputStream
+    get() = try {
+        Minecraft.getInstance().resourceManager.getResource(this).orElseThrow().open()
+    } catch (e: FileSystemException) {
+        Thread.currentThread().contextClassLoader.getResourceAsStream("assets/${this.namespace}/${this.path}") ?: throw FileNotFoundException("Resource $this not found!")
+    }

@@ -29,14 +29,11 @@ import net.minecraft.world.level.material.Fluids
 import net.minecraft.world.level.material.PushReaction
 import team._0mods.aeternus.api.impl.registry.SpellRegistryImpl
 import team._0mods.aeternus.api.item.ITabbed
-import team._0mods.aeternus.api.util.DelegatedRegistry
 import team._0mods.aeternus.common.ModId
-import team._0mods.aeternus.api.util.reg
 import team._0mods.aeternus.api.util.aRl
 import team._0mods.aeternus.common.fluid.LiquidEtherium
 import team._0mods.aeternus.common.helper.AeternusItem
-import team._0mods.aeternus.common.item.DrilldwillArmor
-import java.util.function.Supplier
+import team._0mods.aeternus.common.item.*
 
 @Suppress("UnstableApiUsage")
 object AeternusRegsitry {
@@ -48,7 +45,7 @@ object AeternusRegsitry {
     /* TABS */
     val aeternusTab = tabs.register("aeternus_tab") {
         CreativeTabRegistry.create {
-            it.title(tab(ModId))
+            it.title(tab("misc"))
                 .displayItems { _, o ->
                     items.registrar.entrySet().forEach { e ->
                         val i = e.value
@@ -56,6 +53,7 @@ object AeternusRegsitry {
                         if (i is ITabbed) o.accept(ItemStack(i))
                     }
                 }
+                .icon { ItemStack(knowledgeBook.get()) }
         }
     }
 
@@ -69,13 +67,17 @@ object AeternusRegsitry {
 
                         if (!spell.isHidden) output.accept(ItemStack(s))
                     }
+
+                    output.accept(ItemStack(emptyScroll.get()))
                 }
+
+                .icon { ItemStack(emptyScroll.get()) }
         }
     }
 
     /* ITEMS */
     // MISC
-    val emptyScroll = items.register("empty_scroll") { AeternusItem() }
+    val emptyScroll = items.register("empty_scroll", ::EmptyScroll)
     val knowledgeBook = items.register("knowledge_book", ::AeternusItem)
     val etheriumTar = items.register("etherium_tar", ::AeternusItem)
     val crystallizedEtherium = items.register("crystallized_etherium", ::AeternusItem)

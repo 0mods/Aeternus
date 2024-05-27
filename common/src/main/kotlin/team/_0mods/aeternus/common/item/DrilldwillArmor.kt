@@ -22,7 +22,6 @@ import net.minecraft.world.item.ItemStack
 import team._0mods.aeternus.api.item.ArmorMaterialCreation
 import team._0mods.aeternus.api.item.ArmorMaterialCreation.Companion.builder
 import team._0mods.aeternus.api.item.ITabbed
-import team._0mods.aeternus.api.text.TranslationBuilder
 import team._0mods.aeternus.api.util.*
 import team._0mods.aeternus.common.init.registry.AeternusRegsitry
 

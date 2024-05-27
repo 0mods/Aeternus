@@ -18,11 +18,13 @@ import net.minecraft.commands.CommandSourceStack
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.MutableComponent
 import team._0mods.aeternus.api.commands.*
+import team._0mods.aeternus.api.config.CommentedValue
 import team._0mods.aeternus.api.config.regenerateCfg
 import team._0mods.aeternus.api.config.prefix
 import team._0mods.aeternus.api.util.mcText
 import team._0mods.aeternus.api.util.mcTranslate
 import team._0mods.aeternus.common.ModId
+import team._0mods.aeternus.common.ModName
 import team._0mods.aeternus.common.clientConfig
 import team._0mods.aeternus.common.commonConfig
 import team._0mods.aeternus.common.init.config.AeternusCommonConfig
@@ -30,23 +32,26 @@ import team._0mods.aeternus.common.init.config.AeternusCommonConfig
 object AeternusCommands {
     @JvmStatic
     fun register(dispatcher: CommandDispatcher<CommandSourceStack>) {
+        val defaults = AeternusCommonConfig.defaultConfig
         val commandNotWorks = SimpleCommandExceptionType("command.aeternus.not_works".mcTranslate)
 
         dispatcher.register {
             ModId {
                 "config" {
-                    val mess = "command.aeternus.config.common".mcTranslate.appendSuffix(" ".mcText)
-                        .appendln("command.aeternus.config.debug", boolMess(commonConfig.debug()))
-                        .appendln("command.aeternus.config.experimental", "".mcText)
-                            .appendLined("command.aeternus.config.experimental.enable".mcTranslate
-                                .appendSuffix(boolMess(commonConfig.experimental.enableExperimentals())))
-                            .appendLined("command.aeternus.config.experimental.butter".mcTranslate
-                                .appendSuffix(boolMess(commonConfig.experimental.butterMechanic)))
+                    val mess = "command.aeternus.config.common".mcTranslate.appendSuffix
+                        .appendlnCommented("command.aeternus.config.debug", commonConfig.debug, defaults.debug)
+                        .appendln("command.aeternus.config.experimental")
+                        .appendlnCommented("command.aeternus.config.experimental.enable", commonConfig.experimental.enableExperimentals, defaults.experimental.enableExperimentals)
+                        .appendln(
+                            "command.aeternus.config.experimental.butter",
+                            boolMess(commonConfig.experimental.butterMechanic)
+                        )
 
-                    val client = "command.aeternus.config.client".mcTranslate.appendSuffix("".mcText)
+                    val client = "command.aeternus.config.client".mcTranslate.appendSuffix
                         .appendln("command.aeternus.config.low_mode", boolMess(clientConfig.lowMode))
 
                     val player = if (source.isPlayer) source.player else null
+                    player?.sendSystemMessage(ModName.mcText.withStyle(ChatFormatting.DARK_PURPLE))
                     player?.sendSystemMessage(mess)
                     player?.sendSystemMessage(client)
                 }
@@ -74,11 +79,47 @@ object AeternusCommands {
         }
     }
 
-    private fun MutableComponent.appendln(mess: String, value: Component) = this.append("\n").append(" ").append(mess.mcTranslate).appendSuffix(value)
+    private val MutableComponent.appendSuffix
+        get() = this.appendSuffix("".mcText)
+
+    private fun MutableComponent.appendln(mess: String, value: Component = "".mcText) = this.append("\n").append(" ").append(mess.mcTranslate).appendSuffix(value)
 
     private fun MutableComponent.appendSuffix(mess: Component) = this.append(":").append(" ").append(mess)
 
     private fun MutableComponent.appendLined(text: Component) = this.append("\n").append(" ").append(" ").append("\\").append("-").append(" ").append(text)
+
+    private fun <T> MutableComponent.appendlnCommented(tr: String, commentedValue: CommentedValue<T>, commentFrom: CommentedValue<T>): MutableComponent {
+        val err = "command.aeternus.unknown_value".mcTranslate
+
+        val value = commentedValue() ?: appendln(tr, err)
+        val clazz = value::class
+
+        val comments = commentFrom.comment
+        val commentBuilder = StringBuilder()
+
+        for (i in comments.indices) {
+            commentBuilder.append(comments[i]).append(';')
+
+            if (i < comments.size - 1) {
+                commentBuilder.append("\n").append(" ").append(" ").append(" ").append("|").append("_").append(" ")
+            }
+        }
+
+        val componentedComments = commentBuilder.toString().mcText
+
+        return when(clazz) {
+            Boolean::class -> appendln(tr, boolMess(value as Boolean))
+                .appendLined("command.aeternus.comment".mcTranslate).appendSuffix.appendLined(componentedComments)
+            Int::class -> appendln(tr, "${value as Int}".mcText.withStyle(ChatFormatting.BLUE)
+                .appendLined("command.aeternus.comment".mcTranslate).appendSuffix.appendLined(componentedComments))
+            Double::class -> appendln(tr, "${value as Double}".mcTranslate
+                .appendLined("command.aeternus.comment".mcTranslate).appendSuffix.appendLined(componentedComments))
+            String::class -> appendln(tr, (value as String).mcText.withStyle(ChatFormatting.BLUE)
+                .appendLined("command.aeternus.comment".mcTranslate).appendSuffix.appendLined(componentedComments))
+
+            else -> appendln(tr, err)
+        }
+    }
 
     private fun boolMess(boolean: Boolean) =
         if (boolean) "command.aeternus.config.enabled".mcTranslate.withStyle(ChatFormatting.GREEN)

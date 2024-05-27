@@ -8,6 +8,10 @@
   "rat.aeternus.medium": "",
   "rat.aeternus.plural": "",
 
+  "_comment": "Tabs",
+
+  "itemGroup.aeternus.misc": "Aeternus: Misc",
+
   "_comment": "Misc",
 
   "item.aeternus.crystallized_etherium": "Crystallized Etherium",
@@ -43,6 +47,9 @@
   "_comment": "Commands",
 
   "command.aeternus.not_works": "This commands is not works or disabled! Please, wait a command realisation!",
+  "command.aeternus.unknown_value": "Unknown value",
+
+  "command.aeternus.comment": "Comments",
 
   "command.aeternus.config.enabled": "Enabled",
   "command.aeternus.config.disabled": "Disabled",

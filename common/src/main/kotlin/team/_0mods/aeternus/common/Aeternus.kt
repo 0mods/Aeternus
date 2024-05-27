@@ -12,9 +12,12 @@
 
 package team._0mods.aeternus.common
 
+import com.mojang.blaze3d.systems.RenderSystem
 import dev.architectury.event.events.common.CommandRegistrationEvent
+import net.minecraft.client.Minecraft
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import team._0mods.aeternus.api.client.imgui.ImguiHandler
 import team._0mods.aeternus.api.plugin.PluginHolder
 import team._0mods.aeternus.api.util.debugIfEnabled
 import team._0mods.aeternus.common.init.config.AeternusClientConfig
@@ -37,8 +40,8 @@ lateinit var clientConfig: AeternusClientConfig
     private set
 
 fun commonInit() {
-    commonConfig = loadConfig(AeternusCommonConfig(), prefix("common"))
-    clientConfig = loadConfig(AeternusClientConfig(), prefix("client"))
+    commonConfig = loadConfig(AeternusCommonConfig.defaultConfig, prefix("common"))
+    clientConfig = loadConfig(AeternusClientConfig.defaultConfig, prefix("client"))
 
     LOGGER.debugIfEnabled("DEBUG MODE IS ACTIVATED")
 
@@ -52,5 +55,6 @@ fun commonInit() {
 }
 
 fun clientInit() {
+    RenderSystem.recordRenderCall { ImguiHandler.onGlfwInit(Minecraft.getInstance().window.window) }
     AeternusEventsInit.initClientEvents()
 }

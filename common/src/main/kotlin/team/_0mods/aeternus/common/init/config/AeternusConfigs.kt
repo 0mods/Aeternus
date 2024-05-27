@@ -20,7 +20,9 @@ data class AeternusCommonConfig(
     val debug: CommentedValue<Boolean> = CommentedValue.create(false, "Enables debug mode"),
     val experimental: CategoryExperimental = CategoryExperimental()
 ) {
-    companion object
+    companion object {
+        val defaultConfig = AeternusCommonConfig()
+    }
 
     @Serializable
     data class CategoryExperimental(
@@ -37,5 +39,7 @@ data class AeternusClientConfig(
     @SerialName("low_mode")
     val lowMode: Boolean = false
 ) {
-    companion object
+    companion object {
+        val defaultConfig = AeternusClientConfig()
+    }
 }

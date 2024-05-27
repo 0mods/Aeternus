@@ -15,6 +15,7 @@ val parchmentVersion: String by project
 val modId: String by project
 val modGroup: String by project
 val releaseType: String by project
+val imguiVersion: String by project
 
 val modVersion = rootProject.file("VERSION").readText().trim()
 
@@ -95,6 +96,7 @@ subprojects {
     }
 
     repositories {
+        mavenCentral()
         maven("https://maven.parchmentmc.org")
         maven("https://repo.spongepowered.org/repository/maven-public/")
         maven("https://maven.blamejared.com")
@@ -102,6 +104,7 @@ subprojects {
         maven("https://maven.shedaniel.me/")
         maven("https://maven.architectury.dev/")
         maven("https://maven.terraformersmc.com/releases/")
+        maven("https://jitpack.io")
     }
 
     dependencies {
@@ -167,12 +170,20 @@ allprojects {
     dependencies {
         compileOnly("org.jetbrains:annotations:24.1.0")
 
+        //Kotlin
         implementation(kotlin("reflect"))
         implementation(kotlin("stdlib"))
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutines_version}")
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:${coroutines_version}")
         implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:${serialization_version}")
         implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${serialization_version}")
+
+        //ImGui
+        implementation("io.github.spair:imgui-java-binding:$imguiVersion")
+        implementation("io.github.spair:imgui-java-lwjgl3:$imguiVersion")
+        implementation("io.github.spair:imgui-java-natives-windows:$imguiVersion")
+        implementation("io.github.spair:imgui-java-natives-linux:$imguiVersion")
+        implementation("io.github.spair:imgui-java-natives-macos:$imguiVersion")
     }
 
     tasks {
