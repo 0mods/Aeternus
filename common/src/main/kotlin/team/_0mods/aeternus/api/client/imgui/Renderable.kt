@@ -10,10 +10,26 @@
 
 package team._0mods.aeternus.api.client.imgui
 
-fun interface Renderable {
-    fun getName(): String? = null
+fun Renderable.Companion.create(name: String? = null, theme: Theme? = null, renderable: () -> Unit): Renderable = object : Renderable {
+    override val name: String?
+        get() = name
 
-    fun getTheme(): Theme? = null
+    override val theme: Theme?
+        get() = theme
+
+    override fun render() {
+        renderable()
+    }
+}
+
+fun interface Renderable {
+    companion object
+
+    val name: String?
+        get() = null
+
+    val theme: Theme?
+        get() = null
 
     fun render()
 }

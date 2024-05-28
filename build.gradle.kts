@@ -53,23 +53,38 @@ forgix {
 
     when (project) {
         findProject(":fabric") -> {
-            val fabricClosure = closureOf<FabricContainer> {
+            val proj = findProject(":fabric")!!
 
-                jarLocation = "build/libs/${base.archivesName.get()}.jar"
+            val fabricClosure = closureOf<FabricContainer> {
+                additionalRelocate(fullPath, "$fullPath.fabric")
+                jarLocation = "build/libs/${proj.base.archivesName.get()}.jar"
             } as Closure<FabricContainer>
             fabric(fabricClosure)
         }
 
         findProject(":forge") -> {
+            val proj = findProject(":forge")!!
+
             val forgeClosure = closureOf<ForgeContainer> {
-                jarLocation = "build/libs/${base.archivesName.get()}.jar"
+                additionalRelocate(fullPath, "$fullPath.forge")
+                jarLocation = "build/libs/${proj.base.archivesName.get()}.jar"
+
+                mixin("".mixin)
+                mixin("forgelike".mixin)
+                mixin("forge".mixin)
             } as Closure<ForgeContainer>
             forge(forgeClosure)
         }
 
         findProject(":neoforge") -> {
+            val proj = findProject(":neoforge")!!
+
             val neoClosure = closureOf<NeoForgeContainer> {
-                jarLocation = "build/libs/${base.archivesName.get()}.jar"
+                additionalRelocate(fullPath, "$fullPath.neoforge")
+                jarLocation = "build/libs/${proj.base.archivesName.get()}.jar"
+                mixin("".mixin)
+                mixin("forgelike".mixin)
+                mixin("neo".mixin)
             } as Closure<NeoForgeContainer>
 
             neoforge(neoClosure)
@@ -214,3 +229,9 @@ fun Project.loom(conf: LoomGradleExtensionAPI.() -> Unit) = configure(conf)
 fun DependencyHandler.minecraft(depAnnot: Any): Dependency? = add("minecraft", depAnnot)
 
 fun DependencyHandler.mappings(depAnnot: Any): Dependency? = add("mappings", depAnnot)
+
+val String.mixin
+    get() = "$modId${
+        if (this.isNotEmpty()) ".$this"
+        else ""
+    }.mixins.json"

@@ -18,7 +18,11 @@ import team._0mods.aeternus.common.LOGGER
 import team._0mods.aeternus.service.PlatformHelper
 import java.io.File
 
-inline fun <reified T> loadConfig(value: T, fileName: String): T {
+class ConfigInstance<T>(private val value: T, val fileName: String) {
+    operator fun invoke() = value
+}
+
+inline fun <reified T> loadConfig(value: T, fileName: String): ConfigInstance<T> {
     LOGGER.debug("Loading config '$fileName'")
     val json = Json {
         ignoreUnknownKeys = true
@@ -29,14 +33,14 @@ inline fun <reified T> loadConfig(value: T, fileName: String): T {
 
     val file = PlatformHelper.gamePath().resolve("config/").toFile().resolve("$fileName.json")
 
-    return if (file.exists()) decodeCfg(json, file)
+    return if (file.exists()) ConfigInstance(decodeCfg(json, file), fileName)
     else {
         encodeCfg(json, value, file)
-        value
+        ConfigInstance(value, fileName)
     }
 }
 
-inline fun <reified T> regenerateCfg(value: T, fileName: String): T {
+inline fun <reified T> regenerateCfg(value: T, fileName: String): ConfigInstance<T> {
     LOGGER.debug("Regenerating config...")
     val json = Json {
         ignoreUnknownKeys = true
@@ -49,7 +53,7 @@ inline fun <reified T> regenerateCfg(value: T, fileName: String): T {
 
     encodeCfg(json, value, file)
 
-    return value
+    return ConfigInstance(value, fileName)
 }
 
 @OptIn(ExperimentalSerializationApi::class)

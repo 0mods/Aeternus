@@ -18,6 +18,7 @@ import net.minecraft.client.Minecraft
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import team._0mods.aeternus.api.client.imgui.ImguiHandler
+import team._0mods.aeternus.api.config.ConfigInstance
 import team._0mods.aeternus.api.plugin.PluginHolder
 import team._0mods.aeternus.api.util.debugIfEnabled
 import team._0mods.aeternus.common.init.config.AeternusClientConfig
@@ -33,15 +34,18 @@ const val ModName = "Aeternus"
 
 @JvmField val LOGGER: Logger = LoggerFactory.getLogger("Aeternus") //const
 
-lateinit var commonConfig: AeternusCommonConfig
-    private set
+lateinit var commonConfigInstance: ConfigInstance<AeternusCommonConfig> private set
+lateinit var clientConfigInstance: ConfigInstance<AeternusClientConfig> private set
 
-lateinit var clientConfig: AeternusClientConfig
-    private set
+lateinit var commonConfig: AeternusCommonConfig private set
+lateinit var clientConfig: AeternusClientConfig private set
 
 fun commonInit() {
-    commonConfig = loadConfig(AeternusCommonConfig.defaultConfig, prefix("common"))
-    clientConfig = loadConfig(AeternusClientConfig.defaultConfig, prefix("client"))
+    commonConfigInstance = loadConfig(AeternusCommonConfig.defaultConfig, prefix("common"))
+    clientConfigInstance = loadConfig(AeternusClientConfig.defaultConfig, prefix("client"))
+
+    commonConfig = commonConfigInstance()
+    clientConfig = clientConfigInstance()
 
     LOGGER.debugIfEnabled("DEBUG MODE IS ACTIVATED")
 

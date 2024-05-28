@@ -23,7 +23,12 @@ val String.mcText
 val String.mcTranslate
     get() = Component.translatable(this)
 
+val String.imguiTranslate
+    get() = this.mcTranslate.string
+
 fun String.mcTranslate(vararg args: Any) = Component.translatable(this, args)
+
+fun String.imguiTranslate(vararg args: Any) = this.mcTranslate(args).string
 
 fun ArmorItem.Type.generateArmorTranslateByParent(item: Item): Component {
     val itemName = item.descriptionId
