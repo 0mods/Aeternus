@@ -36,6 +36,14 @@ dependencies {
     implementation("thedarkcolour:kotlinforforge:$kffVersion") { include(this) }
     modImplementation("dev.architectury:architectury-neoforge:$architecturyApiVersion") { include(this) }
 
+    val imguiVersion: String by project
+
+    include("io.github.spair:imgui-java-binding:$imguiVersion")
+    include("io.github.spair:imgui-java-lwjgl3:$imguiVersion")
+    include("io.github.spair:imgui-java-natives-windows:$imguiVersion")
+    include("io.github.spair:imgui-java-natives-linux:$imguiVersion")
+    include("io.github.spair:imgui-java-natives-macos:$imguiVersion")
+
     common(project(path = ":common", configuration = "namedElements")) { isTransitive = false }
     forgeLike(project(path = ":forgelike", configuration = "namedElements"))
     shadowCommon(project(path = ":common", configuration = "transformProductionNeoForge")) { isTransitive = false }

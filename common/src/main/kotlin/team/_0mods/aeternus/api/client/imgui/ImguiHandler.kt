@@ -95,7 +95,7 @@ object ImguiHandler {
 
         fun loadFont(i: Int, size: Float) {
             FONTS[i] = fontAtlas.addFontFromMemoryTTF(
-                "fonts/NotoSans.ttf".aRl.stream.readAllBytes(), size, fontConfig, ranges
+                "fonts/noto/notosans.ttf".aRl.stream.readAllBytes(), size, fontConfig, ranges
             )
             fontConfig.mergeMode = true
             fontAtlas.addFontFromMemoryTTF("fonts/fa_regular.ttf".aRl.stream.readAllBytes(), size, fontConfig, ranges)

@@ -12,8 +12,10 @@ package team._0mods.aeternus.common.init.event
 
 import dev.architectury.event.CompoundEventResult
 import dev.architectury.event.EventResult
+import dev.architectury.event.events.client.ClientTickEvent
 import dev.architectury.event.events.common.InteractionEvent
 import dev.architectury.event.events.common.TickEvent
+import net.minecraft.client.Minecraft
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.item.ItemEntity
@@ -23,6 +25,8 @@ import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.FireBlock
 import team._0mods.aeternus.api.event.EntityHurtEvent
 import team._0mods.aeternus.api.magic.research.ResearchRequired
+import team._0mods.aeternus.client.screen.configScreen
+import team._0mods.aeternus.client.keys.AeternusKeys
 import team._0mods.aeternus.common.ModName
 import team._0mods.aeternus.common.init.registry.AeternusRegsitry
 import team._0mods.aeternus.service.EtheriumHelper
@@ -38,7 +42,13 @@ object AeternusEventsInit {
         hurtItem()
     }
 
-    fun initClientEvents() {}
+    fun initClientEvents() {
+        ClientTickEvent.CLIENT_POST.register {
+            while (AeternusKeys.configGUIOpen.consumeClick()) {
+                Minecraft.getInstance().setScreen(configScreen())
+            }
+        }
+    }
 
     private fun onUse() {
         InteractionEvent.RIGHT_CLICK_ITEM.register { player, hand ->

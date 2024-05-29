@@ -14,6 +14,7 @@ package team._0mods.aeternus.common
 
 import com.mojang.blaze3d.systems.RenderSystem
 import dev.architectury.event.events.common.CommandRegistrationEvent
+import dev.architectury.registry.client.keymappings.KeyMappingRegistry
 import net.minecraft.client.Minecraft
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -27,6 +28,7 @@ import team._0mods.aeternus.common.init.event.AeternusEventsInit
 import team._0mods.aeternus.common.init.registry.AeternusRegsitry
 import team._0mods.aeternus.api.config.loadConfig
 import team._0mods.aeternus.api.config.prefix
+import team._0mods.aeternus.client.keys.registries
 import team._0mods.aeternus.common.commands.AeternusCommands
 
 const val ModId = "aeternus"
@@ -61,4 +63,6 @@ fun commonInit() {
 fun clientInit() {
     RenderSystem.recordRenderCall { ImguiHandler.onGlfwInit(Minecraft.getInstance().window.window) }
     AeternusEventsInit.initClientEvents()
+
+    registries.forEach(KeyMappingRegistry::register)
 }
