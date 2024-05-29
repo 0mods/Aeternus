@@ -1,0 +1,33 @@
+/*
+ * All Rights Received
+ * Copyright (c) 2024 0mods.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+ * WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+ * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
+package team._0mods.aeternus.api.client.models.animations
+
+class Animation(val name: String) {
+
+    override fun toString(): String = name
+}
+
+enum class AnimationType {
+    IDLE, IDLE_SNEAKED, WALK, WALK_SNEAKED, HURT,
+    RUN, SWIM, FALL, FLY, SIT, SLEEP, SWING, DEATH;
+
+    val hasSpeed get() = this == RUN || this == WALK || this == WALK_SNEAKED
+}
+
+enum class PlayMode {
+    ONCE, LOOPED, LAST_FRAME_FREEZE, REVERSED
+}
+
+class AnimationData() {}
+
+enum class AnimationTarget {
+    TRANSLATION, ROTATION, SCALE, WEIGHTS
+}

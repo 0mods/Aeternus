@@ -56,9 +56,9 @@ object ImguiHandler {
 
         ImGui.pushFont(FONTS[Minecraft.getInstance().window.guiScale.toInt().coerceAtMost(6)])
 
-        renderable.getTheme()?.preRender()
+        renderable.theme?.preRender()
         renderable.render()
-        renderable.getTheme()?.postRender()
+        renderable.theme?.postRender()
 
         ImGui.popFont()
 

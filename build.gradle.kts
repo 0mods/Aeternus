@@ -56,7 +56,7 @@ forgix {
             val proj = findProject(":fabric")!!
 
             val fabricClosure = closureOf<FabricContainer> {
-                additionalRelocate(fullPath, "$fullPath.fabric")
+                additionalRelocate(fullPath, "fabric.$fullPath")
                 jarLocation = "build/libs/${proj.base.archivesName.get()}.jar"
             } as Closure<FabricContainer>
             fabric(fabricClosure)
@@ -66,7 +66,7 @@ forgix {
             val proj = findProject(":forge")!!
 
             val forgeClosure = closureOf<ForgeContainer> {
-                additionalRelocate(fullPath, "$fullPath.forge")
+                additionalRelocate(fullPath, "forge.$fullPath")
                 jarLocation = "build/libs/${proj.base.archivesName.get()}.jar"
 
                 mixin("".mixin)
@@ -80,7 +80,7 @@ forgix {
             val proj = findProject(":neoforge")!!
 
             val neoClosure = closureOf<NeoForgeContainer> {
-                additionalRelocate(fullPath, "$fullPath.neoforge")
+                additionalRelocate(fullPath, "neoforge.$fullPath")
                 jarLocation = "build/libs/${proj.base.archivesName.get()}.jar"
                 mixin("".mixin)
                 mixin("forgelike".mixin)
