@@ -25,36 +25,6 @@ fun configScreen() = ImGuiScreen {
     val defaultConfig = AeternusCommonConfig()
     val currentConfig = commonConfig
 
-//    ImGui.setNextWindowSize(1250F, 750F)
-//
-//    if (ImGui.begin(
-//        "gui.aeternus.config".imguiTranslate,
-//        ImGuiWindowFlags.NoMove or ImGuiWindowFlags.NoCollapse or ImGuiWindowFlags.AlwaysAutoResize
-//    )) {
-
-//    ImGui.setWindowPos(width / 2 - ImGui.getWindowSizeX() / 2, height / 2 - ImGui.getWindowSizeY() / 2)
-
-//        val experimentalCategory = AeternusCommonConfig.CategoryExperimental(
-//            CommentedValue.create(
-//                booleanValue("gui.aeternus.config.experimental_features", commonConfig.debug()),
-//                *defaultConfig.debug.comment.toTypedArray()
-//            )
-//        )
-//
-//        if (ImGui.button("".imguiTranslate)) {
-//            regenerateCfg(
-//                AeternusCommonConfig(
-//                    CommentedValue.create(
-//                        booleanValue("gui.aeternus.config.debug", commonConfig.debug()),
-//                        *defaultConfig.debug.comment.toTypedArray()
-//                    ),
-//                    experimentalCategory
-//                ),
-//                fileName
-//            )
-//        }
-//    }
-
     ImGui.setNextWindowSize(1250F, 750F)
     var categoryCombo = false
     val categoryChoiced = ImInt(0)
@@ -74,7 +44,7 @@ fun configScreen() = ImGuiScreen {
                 cat.add(it.name)
             }
 
-            categoryCombo = ImGui.combo("", categoryChoiced, cat.toTypedArray())
+            categoryCombo = ImGui.combo("##", categoryChoiced, cat.toTypedArray())
             ImGui.popItemWidth()
 
             ImGui.setCursorPos(24F, 50F)

@@ -44,7 +44,7 @@ object AeternusEventsInit {
 
     fun initClientEvents() {
         ClientTickEvent.CLIENT_POST.register {
-            while (AeternusKeys.configGUIOpen.consumeClick()) {
+            if (AeternusKeys.configGUIOpen.isDown) {
                 Minecraft.getInstance().setScreen(configScreen())
             }
         }
