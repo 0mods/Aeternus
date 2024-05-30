@@ -21,7 +21,7 @@ import net.minecraft.client.Minecraft
 object DockingHelper {
     var DOCKING_ID = 0
 
-    fun splitHorizontally(left: () -> Unit, right: () -> Unit, ratio: Float = 0.5f) {
+    fun splitHorizontally(left: () -> Unit = {}, right: () -> Unit = {}, ratio: Float = 0.5f) {
         ImGui.setNextWindowPos(0f, 0f)
         val window = Minecraft.getInstance().window
         ImGui.setNextWindowSize(window.width.toFloat(), window.height.toFloat())
@@ -83,7 +83,7 @@ object DockingHelper {
         ImGui.end()
     }
 
-    fun splitVertically(left: () -> Unit, right: () -> Unit, ratio: Float = 0.5f) {
+    fun splitVertically(up: () -> Unit = {}, down: () -> Unit = {}, ratio: Float = 0.5f) {
         val window = Minecraft.getInstance().window
         val size = ImGui.getContentRegionMax()
         ImGui.setNextWindowSize(size.x, size.y)
@@ -137,11 +137,11 @@ object DockingHelper {
         ImGui.setNextWindowClass(windowClass)
 
         ImGui.begin("##UpPanel")
-        left()
+        up()
         ImGui.end()
 
         ImGui.begin("##DownPanel")
-        right()
+        down()
         ImGui.end()
     }
 }

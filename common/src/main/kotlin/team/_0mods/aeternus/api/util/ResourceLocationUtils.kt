@@ -13,6 +13,7 @@
 package team._0mods.aeternus.api.util
 
 import net.minecraft.client.Minecraft
+import net.minecraft.client.renderer.texture.AbstractTexture
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.entity.vehicle.Minecart
 import team._0mods.aeternus.common.ModId
@@ -60,3 +61,6 @@ val ResourceLocation.stream: InputStream
     } catch (e: FileSystemException) {
         Thread.currentThread().contextClassLoader.getResourceAsStream("assets/${this.namespace}/${this.path}") ?: throw FileNotFoundException("Resource $this not found!")
     }
+
+val ResourceLocation.texture: AbstractTexture
+    get() = Minecraft.getInstance().textureManager.getTexture(this)

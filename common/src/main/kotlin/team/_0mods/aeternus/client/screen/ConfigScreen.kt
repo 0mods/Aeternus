@@ -14,6 +14,10 @@ import imgui.ImGui
 import imgui.flag.ImGuiDir
 import imgui.type.ImBoolean
 import imgui.type.ImInt
+import team._0mods.aeternus.api.client.gui.height
+import team._0mods.aeternus.api.client.gui.width
+import team._0mods.aeternus.api.client.imgui.DockingHelper
+import team._0mods.aeternus.api.client.imgui.ImGuiMethods
 import team._0mods.aeternus.api.client.screen.ImGuiScreen
 import team._0mods.aeternus.api.util.imguiTranslate
 import team._0mods.aeternus.common.commonConfig
@@ -25,30 +29,17 @@ fun configScreen() = ImGuiScreen {
     val defaultConfig = AeternusCommonConfig()
     val currentConfig = commonConfig
 
-    ImGui.setNextWindowSize(1250F, 750F)
-    var categoryCombo = false
-    val categoryChoiced = ImInt(0)
-    if (ImGui.begin("", ImBoolean(true))) {
+    ImGui.setNextWindowSize(width, height)
+    if (ImGui.begin("##", ImBoolean(true))) {
         ImGui.setCursorPos(25F, 40F)
         if (ImGui.beginChild(1, 190F, 695F, true)) {
             ImGui.setCursorPos(60F, 15F)
 
             ImGui.text("gui.aeternus.config.categories".imguiTranslate)
 
-            ImGui.setCursorPos(20F, 73.5F)
-            ImGui.pushItemWidth(150F)
+            DockingHelper.splitVertically(up = {
 
-            val cat: MutableSet<String> = hashSetOf()
-
-            defaultConfig.categories.forEach {
-                cat.add(it.name)
-            }
-
-            categoryCombo = ImGui.combo("##", categoryChoiced, cat.toTypedArray())
-            ImGui.popItemWidth()
-
-            ImGui.setCursorPos(24F, 50F)
-            ImGui.text("gui.aeternus.config.common.categories".imguiTranslate)
+            })
 
             ImGui.endChild()
         }
