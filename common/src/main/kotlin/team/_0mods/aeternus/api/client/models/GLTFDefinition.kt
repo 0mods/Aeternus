@@ -43,7 +43,7 @@ internal class Matrix4Deserializer : JsonDeserializer<Matrix4f> {
     override fun deserialize(json: JsonElement, typeOfT: Type?, context: JsonDeserializationContext?): Matrix4f {
         val arr = json.asJsonArray
 
-        return Matrix4f(FloatBuffer.wrap(arr.map { it.asFloat }.toFloatArray()))
+        return Matrix4f().set(arr.map { it.asFloat }.toFloatArray())
     }
 }
 

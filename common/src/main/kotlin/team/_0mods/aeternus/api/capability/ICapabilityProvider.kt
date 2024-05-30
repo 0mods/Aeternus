@@ -8,7 +8,6 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package team._0mods.aeternus.api.client.models.animations
+package team._0mods.aeternus.api.capability
 
-class AnimationLayer {
-}
+interface ICapabilityProvider

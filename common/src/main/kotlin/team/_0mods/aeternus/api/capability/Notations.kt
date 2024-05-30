@@ -8,16 +8,14 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package team._0mods.aeternus.api.client.models.manager
+package team._0mods.aeternus.api.capability
 
-import team._0mods.aeternus.api.client.models.Transform
-import team._0mods.aeternus.api.client.models.animations.AnimationLayer
-import team._0mods.aeternus.api.client.models.animations.AnimationType
+import net.minecraft.nbt.Tag
 
-interface EntityAnimated {
-    var model: String
-    val layers: List<AnimationLayer>
-    val animations: Map<AnimationType, String>
-    val transform: Transform
-        get() = Transform()
+fun interface ICapabilityUpdater {
+    fun updateCap(cap: CapabilityInstance, value: Tag)
+}
+
+fun interface ICapabilitySyncer {
+    fun onCapabilitySync(capability: CapabilityInstance)
 }

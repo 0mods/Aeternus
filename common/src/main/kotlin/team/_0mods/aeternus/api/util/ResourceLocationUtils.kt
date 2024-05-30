@@ -64,3 +64,6 @@ val ResourceLocation.stream: InputStream
 
 val ResourceLocation.texture: AbstractTexture
     get() = Minecraft.getInstance().textureManager.getTexture(this)
+
+val ResourceLocation.exists: Boolean
+    get() = Minecraft.getInstance().resourceManager.getResource(this).isPresent
