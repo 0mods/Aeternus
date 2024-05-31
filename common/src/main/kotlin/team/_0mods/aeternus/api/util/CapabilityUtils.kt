@@ -10,13 +10,10 @@
 
 package team._0mods.aeternus.api.util
 
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap
+import team._0mods.aeternus.api.capability.CapabilityInstance
+import team._0mods.aeternus.api.client.models.manager.AnimatedEntityCapability
+import kotlin.reflect.KClass
 
-fun <T, V> T?.c(): V = this as V
-
-fun <T, V> c(orig: T): V = orig as V
-
-fun <A, B> ((A) -> B).memorize(): (A) -> B {
-    val cache: MutableMap<A, B> = Object2ObjectOpenHashMap()
-    return { cache.getOrPut(it) { this(it) } }
-}
+val entCap = AnimatedEntityCapability()
+operator fun <O, T : CapabilityInstance> O.get(capability: KClass<T>): T = entCap as T // TODO("Fix capabilities")
+operator fun <O, T : CapabilityInstance> O.get(capability: Class<T>): T = TODO("Fix capabilities")

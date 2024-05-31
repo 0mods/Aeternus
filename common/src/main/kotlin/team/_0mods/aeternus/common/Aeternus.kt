@@ -61,7 +61,7 @@ fun commonInit() {
 }
 
 fun clientInit() {
-    RenderSystem.recordRenderCall { ImguiHandler.onGlfwInit(Minecraft.getInstance().window.window) }
+    RenderSystem.recordRenderCall { ImguiHandler.initialize() }
     AeternusEventsInit.initClientEvents()
 
     registries.forEach(KeyMappingRegistry::register)
