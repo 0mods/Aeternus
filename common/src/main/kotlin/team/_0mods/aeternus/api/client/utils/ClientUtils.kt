@@ -11,6 +11,7 @@
 package team._0mods.aeternus.api.client.utils
 
 import com.mojang.blaze3d.vertex.BufferBuilder
+import com.mojang.blaze3d.vertex.PoseStack
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.client.gui.screens.inventory.InventoryScreen
 import net.minecraft.world.entity.LivingEntity
@@ -53,4 +54,10 @@ fun LivingEntity.render(
         Quaternionf(),
         this
     )
+}
+
+inline fun PoseStack.use(u: PoseStack.() -> Unit) {
+    this.pushPose()
+    u()
+    this.popPose()
 }

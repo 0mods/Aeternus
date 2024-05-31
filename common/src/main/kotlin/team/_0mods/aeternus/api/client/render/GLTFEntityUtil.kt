@@ -26,6 +26,7 @@ import team._0mods.aeternus.api.client.models.ModelData
 import team._0mods.aeternus.api.client.models.animations.SubModelPlayer
 import team._0mods.aeternus.api.client.models.manager.GltfManager
 import team._0mods.aeternus.api.client.models.manager.SubModel
+import team._0mods.aeternus.api.client.utils.use
 import team._0mods.aeternus.api.util.memorize
 import team._0mods.aeternus.api.util.rl
 
@@ -57,6 +58,15 @@ object GLTFEntityUtil {
                 Minecraft.getInstance().textureManager.getTexture(result).id
             }.memorize(), packedLight, OverlayTexture.pack(0, if (e.hurtTime > 0 || !e.isAlive) 3 else 10)
         )
+
+        model.subModels.forEach { (b, m) ->
+            realModel.nodes[b]?.let {
+                stack.use {
+                    stack.mulPoseMatrix(it.globalMatrix)
+                    render(e, m, tickCount, partialTick, stack, packedLight)
+                }
+            }
+        }
     }
 
     private fun drawVisuals(entity: LivingEntity, stack: PoseStack, node: GltfTree.Node, light: Int) {
