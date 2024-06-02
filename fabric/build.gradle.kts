@@ -35,18 +35,21 @@ dependencies {
     val architecturyApiVersion: String by rootProject
     val clothVersion: String by rootProject
     val klfVersion: String by rootProject
+    val imguiVersion: String by project
+    val coroutinesVersion: String by project
+    val serializationVersion: String by project
 
     modImplementation("net.fabricmc:fabric-loader:$fabricLoaderVersion") { include(this) }
     modImplementation("net.fabricmc.fabric-api:fabric-api:$fabricVersion") { include(this) }
     modImplementation("dev.architectury:architectury-fabric:$architecturyApiVersion") { include(this) }
-    modImplementation("net.fabricmc:fabric-language-kotlin:$klfVersion") { include(this) }
+//    modImplementation("net.fabricmc:fabric-language-kotlin:$klfVersion") { include(this) }
 
-    modApi("me.shedaniel.cloth:cloth-config-fabric:$clothVersion") {
-        exclude(group = "net.fabricmc.fabric-api")
-        include(this)
-    }
-
-    val imguiVersion: String by project
+    include(kotlin("reflect"))
+    include(kotlin("stdlib"))
+    include("org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutinesVersion}")
+    include("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:${coroutinesVersion}")
+    include("org.jetbrains.kotlinx:kotlinx-serialization-core:${serializationVersion}")
+    include("org.jetbrains.kotlinx:kotlinx-serialization-json:${serializationVersion}")
 
     include("io.github.spair:imgui-java-binding:$imguiVersion")
     include("io.github.spair:imgui-java-lwjgl3:$imguiVersion")

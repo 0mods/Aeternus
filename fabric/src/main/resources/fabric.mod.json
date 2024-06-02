@@ -12,21 +12,9 @@
   "license": "${license}",
   "environment": "*",
   "entrypoints": {
-    "main": [
-      {
-        "adapter": "kotlin",
-        "value": "team._0mods.${modId}.${modName}Fabric::startCommon"
-      }
-    ],
-    "client": [
-      {
-        "adapter": "kotlin",
-        "value": "team._0mods.${modId}.${modName}Fabric::startClient"
-      }
-    ],
-    "${modId}_plugin": [
-      "team._0mods.${modId}.init.${modName}CorePlugin"
-    ]
+    "main": [ "team._0mods.${modId}.${modName}Fabric::startCommon" ],
+    "client": [ "team._0mods.${modId}.${modName}Fabric::startClient" ],
+    "${modId}_plugin": [ "team._0mods.${modId}.init.${modName}CorePlugin" ]
   },
   "mixins": [
     "${modId}.mixins.json",
@@ -39,7 +27,7 @@
     "fabric": "*",
     "minecraft": "${minecraftVersion}",
     "java": ">=17",
-    "fabric-language-kotlin": ">=${klfVersion}",
+//    "fabric-language-kotlin": ">=${klfVersion}",
     "architectury": ">=${architecturyApiVersion}"
   },
   "accessWidener": "${modId}.accesswidener"

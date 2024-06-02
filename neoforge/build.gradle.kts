@@ -30,13 +30,21 @@ dependencies {
     val kffVersion: String by rootProject
     val neoVersion: String by rootProject
     val architecturyApiVersion: String by rootProject
+    val imguiVersion: String by project
+    val coroutinesVersion: String by project
+    val serializationVersion: String by project
 
     neoForge("net.neoforged:neoforge:$neoVersion")
 
     implementation("thedarkcolour:kotlinforforge:$kffVersion") { include(this) }
-    modImplementation("dev.architectury:architectury-neoforge:$architecturyApiVersion") { include(this) }
+//    modImplementation("dev.architectury:architectury-neoforge:$architecturyApiVersion") { include(this) }
 
-    val imguiVersion: String by project
+    include(kotlin("reflect"))
+    include(kotlin("stdlib"))
+    include("org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutinesVersion}")
+    include("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:${coroutinesVersion}")
+    include("org.jetbrains.kotlinx:kotlinx-serialization-core:${serializationVersion}")
+    include("org.jetbrains.kotlinx:kotlinx-serialization-json:${serializationVersion}")
 
     include("io.github.spair:imgui-java-binding:$imguiVersion")
     include("io.github.spair:imgui-java-lwjgl3:$imguiVersion")

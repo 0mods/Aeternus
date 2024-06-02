@@ -35,13 +35,21 @@ dependencies {
     val kffVersion: String by rootProject
     val minecraftVersion: String by rootProject
     val architecturyApiVersion: String by rootProject
+    val imguiVersion: String by project
+    val coroutinesVersion: String by project
+    val serializationVersion: String by project
 
     forge("net.minecraftforge:forge:$minecraftVersion-$forgeVersion")
 
     modImplementation("dev.architectury:architectury-forge:$architecturyApiVersion") { include(this) }
-    implementation("thedarkcolour:kotlinforforge:$kffVersion") { include(this) }
+//    implementation("thedarkcolour:kotlinforforge:$kffVersion") { include(this) }
 
-    val imguiVersion: String by project
+    include(kotlin("reflect"))
+    include(kotlin("stdlib"))
+    include("org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutinesVersion}")
+    include("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:${coroutinesVersion}")
+    include("org.jetbrains.kotlinx:kotlinx-serialization-core:${serializationVersion}")
+    include("org.jetbrains.kotlinx:kotlinx-serialization-json:${serializationVersion}")
 
     include("io.github.spair:imgui-java-binding:$imguiVersion")
     include("io.github.spair:imgui-java-lwjgl3:$imguiVersion")

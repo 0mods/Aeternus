@@ -7,14 +7,15 @@ import net.fabricmc.loom.api.LoomGradleExtensionAPI
 val minecraftVersion: String by project
 val modName: String by project
 val modAuthor: String by project
-val coroutines_version: String by project
-val serialization_version: String by project
+val coroutinesVersion: String by project
+val serializationVersion: String by project
 val parchmentMCVersion: String by project
 val parchmentVersion: String by project
 val modId: String by project
 val modGroup: String by project
 val releaseType: String by project
 val imguiVersion: String by project
+val kotlinVersion: String by project
 
 val modVersion = rootProject.file("VERSION").readText().trim()
 
@@ -34,8 +35,8 @@ plugins {
     id("dev.architectury.loom") version "1.6-SNAPSHOT" apply false
     id("io.github.pacifistmc.forgix") version "1.2.9"
     id("com.modrinth.minotaur") version "2.+"
-    kotlin("jvm") version "1.9.23"
-    kotlin("plugin.serialization") version "1.9.23"
+    kotlin("jvm")
+    kotlin("plugin.serialization")
 }
 
 architectury {
@@ -106,8 +107,6 @@ subprojects {
 
     extensions.configure<JavaPluginExtension> {
         toolchain.languageVersion.set(JavaLanguageVersion.of(javaVersion.toInt()))
-        withJavadocJar()
-        withSourcesJar()
     }
 
     repositories {
@@ -188,10 +187,10 @@ allprojects {
         //Kotlin
         implementation(kotlin("reflect"))
         implementation(kotlin("stdlib"))
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutines_version}")
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:${coroutines_version}")
-        implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:${serialization_version}")
-        implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${serialization_version}")
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutinesVersion}")
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:${coroutinesVersion}")
+        implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:${serializationVersion}")
+        implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${serializationVersion}")
 
         //ImGui
         implementation("io.github.spair:imgui-java-binding:$imguiVersion")
