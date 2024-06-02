@@ -8,18 +8,16 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package team._0mods.aeternus.mixin.client
+package team._0mods.aeternus.mixin.accessors;
 
-import net.minecraft.client.gui.components.events.GuiEventListener
-import net.minecraft.client.gui.screens.Screen
-import org.spongepowered.asm.mixin.Mixin
-import org.spongepowered.asm.mixin.gen.Accessor
+import net.minecraft.client.renderer.ShaderInstance;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.gen.Accessor;
 
-@Mixin(Screen::class)
-interface ScreenAccessor {
-    @Accessor("children")
-    fun children(): List<GuiEventListener>
+import java.util.List;
 
-    @Accessor("renderables")
-    fun renderables(): List<GuiEventListener>
+@Mixin(ShaderInstance.class)
+public interface JShaderInstanceAccessor {
+    @Accessor("samplerLocations")
+    List<Integer> samplerLocations();
 }

@@ -21,7 +21,7 @@ import team._0mods.aeternus.api.ui.Alignment
 import team._0mods.aeternus.api.util.mcText
 import team._0mods.aeternus.api.util.mcTranslate
 import team._0mods.aeternus.api.util.rl
-import team._0mods.aeternus.mixin.client.ScreenAccessor
+import team._0mods.aeternus.mixin.accessors.ScreenAccessor
 
 open class AeternusScreen(title: Component = "".mcText) : Screen(title), LayoutConsumer {
     lateinit var textureManager: TextureManager

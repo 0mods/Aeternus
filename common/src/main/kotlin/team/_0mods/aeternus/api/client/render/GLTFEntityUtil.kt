@@ -54,7 +54,7 @@ object GLTFEntityUtil {
             stack,
             ModelData(null, null, itemRenderer, null),
             { it: ResourceLocation ->
-                val result = model.textures[it.path]?.let { it.rl } ?: it
+                val result = model.textures[it.path]?.rl ?: it
                 Minecraft.getInstance().textureManager.getTexture(result).id
             }.memorize(), packedLight, OverlayTexture.pack(0, if (e.hurtTime > 0 || !e.isAlive) 3 else 10)
         )

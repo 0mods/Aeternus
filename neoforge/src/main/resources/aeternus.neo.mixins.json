@@ -1,8 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "team._0mods.aeternus.neo.mixin",
-  "refmap": "${modId}.neo.refmap.json",
+  "package": "team._0mods.aeternus.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [],
   "client": [],

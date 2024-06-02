@@ -1,6 +1,5 @@
 @file:Suppress("UNCHECKED_CAST")
 
-import dev.architectury.plugin.ArchitectPluginExtension
 import groovy.lang.Closure
 import io.github.pacifistmc.forgix.plugin.ForgixMergeExtension.*
 import net.fabricmc.loom.api.LoomGradleExtensionAPI
@@ -30,10 +29,9 @@ println("Mod Version: $modVersion") // Debug
 
 plugins {
     java
-    idea
     `maven-publish`
     id("architectury-plugin") version "3.4-SNAPSHOT"
-    id("dev.architectury.loom") version "1.4-SNAPSHOT" apply false
+    id("dev.architectury.loom") version "1.6-SNAPSHOT" apply false
     id("io.github.pacifistmc.forgix") version "1.2.9"
     id("com.modrinth.minotaur") version "2.+"
     kotlin("jvm") version "1.9.23"
@@ -98,7 +96,9 @@ subprojects {
 
     val javaVersion: String by project
 
-    loom {
+    val loom: LoomGradleExtensionAPI = project.extensions.getByName<LoomGradleExtensionAPI>("loom")
+
+    loom.apply {
         silentMojangMappingsLicense()
         val fileAW = project(":common").file("src/main/resources/$modId.accesswidener")
         if (fileAW.exists()) accessWidenerPath.set(fileAW)
@@ -123,9 +123,9 @@ subprojects {
     }
 
     dependencies {
-        minecraft("com.mojang:minecraft:$minecraftVersion")
+        "minecraft"("com.mojang:minecraft:$minecraftVersion")
         @Suppress("UnstableApiUsage")
-        mappings(loom.layered {
+        "mappings"(loom.layered {
             this.officialMojangMappings()
             parchment("org.parchmentmc.data:parchment-${parchmentMCVersion}:${parchmentVersion}@zip")
         })
@@ -219,16 +219,6 @@ allprojects {
         }
     }
 }
-
-val Project.loom: LoomGradleExtensionAPI get() = (this as ExtensionAware).extensions.getByName("loom") as LoomGradleExtensionAPI
-
-fun Project.architectury(conf: ArchitectPluginExtension.() -> Unit) = configure<ArchitectPluginExtension>(conf)
-
-fun Project.loom(conf: LoomGradleExtensionAPI.() -> Unit) = configure(conf)
-
-fun DependencyHandler.minecraft(depAnnot: Any): Dependency? = add("minecraft", depAnnot)
-
-fun DependencyHandler.mappings(depAnnot: Any): Dependency? = add("mappings", depAnnot)
 
 val String.mixin
     get() = "$modId${

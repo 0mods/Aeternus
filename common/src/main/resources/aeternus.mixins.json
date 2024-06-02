@@ -2,12 +2,15 @@
   "required": true,
   "minVersion": "0.8",
   "package": "team._0mods.aeternus.mixin",
-  "refmap": "${modId}.refmap.json",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "entity.AnimalMixin"
+    "entity.AnimalMixin",
+    "accessors.JListTagAccessor"
   ],
-  "client": [],
+  "client": [
+    "accessors.JShaderInstanceAccessor",
+    "accessors.JScreenAccessor"
+  ],
   "injectors": {
     "defaultRequire": 1
   }

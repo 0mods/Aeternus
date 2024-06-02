@@ -8,16 +8,20 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package team._0mods.aeternus.api.util
+package team._0mods.aeternus.mixin.accessors;
 
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap
+import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.screens.Screen;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.gen.Accessor;
 
-fun <T, V> T?.c(): V = this as V
+import java.util.List;
 
-@JvmName("cast")
-fun <T, V> c(orig: T): V = orig as V
+@Mixin(Screen.class)
+public interface JScreenAccessor {
+    @Accessor("children")
+    List<GuiEventListener> children();
 
-fun <A, B> ((A) -> B).memorize(): (A) -> B {
-    val cache: MutableMap<A, B> = Object2ObjectOpenHashMap()
-    return { cache.getOrPut(it) { this(it) } }
+    @Accessor("renderables")
+    List<GuiEventListener> renderables();
 }

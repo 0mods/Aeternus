@@ -8,7 +8,7 @@ loom {
     forge {
         convertAccessWideners = true
         extraAccessWideners.add(loom.accessWidenerPath.get().asFile.name)
-        mixinConfigs("$modId.mixins.json", "$modId.forgelike.mixins.json", "$modId.forge.mixins.json")
+        mixinConfig("$modId.mixins.json", "$modId.forgelike.mixins.json", "$modId.forge.mixins.json")
     }
 }
 

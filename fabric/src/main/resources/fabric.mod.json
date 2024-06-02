@@ -15,13 +15,13 @@
     "main": [
       {
         "adapter": "kotlin",
-        "value": "team._0mods.${modId}.fabric.${modName}Fabric::startCommon"
+        "value": "team._0mods.${modId}.${modName}Fabric::startCommon"
       }
     ],
     "client": [
       {
         "adapter": "kotlin",
-        "value": "team._0mods.${modId}.fabric.${modName}Fabric::startClient"
+        "value": "team._0mods.${modId}.${modName}Fabric::startClient"
       }
     ],
     "${modId}_plugin": [
