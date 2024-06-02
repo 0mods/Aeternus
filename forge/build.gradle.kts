@@ -5,6 +5,11 @@ plugins {
 val modId: String by rootProject
 
 loom {
+    mixin {
+        useLegacyMixinAp = true
+        add(sourceSets.main.get(), "$modId-forge.refmap.json")
+    }
+
     forge {
         convertAccessWideners = true
         extraAccessWideners.add(loom.accessWidenerPath.get().asFile.name)

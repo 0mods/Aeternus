@@ -8,6 +8,13 @@ architectury {
     common(enabledPlatforms.split(","))
 }
 
+loom {
+    mixin {
+        useLegacyMixinAp = true
+        add(sourceSets.main.get(), "$modId.refmap.json")
+    }
+}
+
 dependencies {
     val architecturyApiVersion: String by rootProject
     modApi("dev.architectury:architectury:$architecturyApiVersion")

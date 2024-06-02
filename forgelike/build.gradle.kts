@@ -1,7 +1,16 @@
+val modId: String by project
+
 architectury {
     forgeLike(listOf("forge", "neoforge")) {
         platformPackage("neoforge", "forge")
         remapForgeLike("net/minecraftforge/common/ForgeConfigSpec", "net/neoforged/neoforge/common/ModConfigSpec")
+    }
+}
+
+loom {
+    mixin {
+        useLegacyMixinAp = true
+        add(sourceSets.main.get(), "$modId-forgelike.refmap.json")
     }
 }
 

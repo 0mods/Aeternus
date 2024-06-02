@@ -2,11 +2,19 @@ plugins {
     id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
+val modId: String by project
 val modName: String by rootProject
 
 architectury {
     platformSetupLoomIde()
     fabric()
+}
+
+loom {
+    mixin {
+        useLegacyMixinAp = true
+        add(sourceSets.main.get(), "$modId-fabric.refmap.json")
+    }
 }
 
 base {

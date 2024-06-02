@@ -1,3 +1,5 @@
+val modId: String by project
+
 plugins {
     id("com.github.johnrengelman.shadow") version "8.1.1"
 }
@@ -5,6 +7,13 @@ plugins {
 architectury {
     platformSetupLoomIde()
     neoForge()
+}
+
+loom {
+    mixin {
+        useLegacyMixinAp = true
+        add(sourceSets.main.get(), "$modId-neoforge.refmap.json")
+    }
 }
 
 base {
