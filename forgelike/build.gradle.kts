@@ -19,7 +19,7 @@ dependencies {
     val forgeVersion: String by rootProject
     val architecturyApiVersion: String by rootProject
     forge("net.minecraftforge:forge:$minecraftVersion-$forgeVersion")
-    implementation(project(":common"))
+    compileOnly(project(":common"))
     modImplementation("dev.architectury:architectury:$architecturyApiVersion")
 }
 

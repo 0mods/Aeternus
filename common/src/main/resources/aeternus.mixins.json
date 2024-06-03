@@ -5,11 +5,12 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "entity.AnimalMixin",
-    "accessors.JListTagAccessor"
+    "item.ItemMixin",
+    "accessors.ListTagAccessor"
   ],
   "client": [
-    "accessors.JShaderInstanceAccessor",
-    "accessors.JScreenAccessor"
+    "accessors.client.ShaderInstanceAccessor",
+    "accessors.client.ScreenAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

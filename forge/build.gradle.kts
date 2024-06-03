@@ -13,7 +13,9 @@ loom {
     forge {
         convertAccessWideners = true
         extraAccessWideners.add(loom.accessWidenerPath.get().asFile.name)
-        mixinConfig("$modId.mixins.json", "$modId.forgelike.mixins.json", "$modId.forge.mixins.json")
+        mixinConfig("$modId.mixins.json")
+        mixinConfig("$modId.forgelike.mixins.json")
+        mixinConfig("$modId.forge.mixins.json")
     }
 }
 
@@ -76,6 +78,8 @@ tasks {
 
     remapJar {
         inputFile.set(shadowJar.get().archiveFile)
+        dependsOn(shadowJar.get())
+        archiveClassifier.set(null as String?)
     }
 }
 
