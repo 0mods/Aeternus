@@ -7,6 +7,5 @@
   "client": [],
   "injectors": {
     "defaultRequire": 1
-  },
-  "refmap": "${modId}-forge.refmap.json"
+  }
 }

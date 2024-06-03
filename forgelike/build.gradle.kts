@@ -7,13 +7,6 @@ architectury {
     }
 }
 
-loom {
-    mixin {
-        useLegacyMixinAp = true
-        add(sourceSets.main.get(), "$modId-forgelike.refmap.json")
-    }
-}
-
 dependencies {
     val minecraftVersion: String by rootProject
     val forgeVersion: String by rootProject

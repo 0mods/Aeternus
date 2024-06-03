@@ -5,11 +5,6 @@ plugins {
 val modId: String by rootProject
 
 loom {
-    mixin {
-        useLegacyMixinAp = true
-        add(sourceSets.main.get(), "$modId-forge.refmap.json")
-    }
-
     forge {
         convertAccessWideners = true
         extraAccessWideners.add(loom.accessWidenerPath.get().asFile.name)
@@ -50,19 +45,18 @@ dependencies {
 
     modImplementation("dev.architectury:architectury-forge:$architecturyApiVersion") { include(this) }
 //    implementation("thedarkcolour:kotlinforforge:$kffVersion") { include(this) }
+    "include"("org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutinesVersion}")
+    "include"("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:${coroutinesVersion}")
+    "include"("org.jetbrains.kotlinx:kotlinx-serialization-core:${serializationVersion}")
+    "include"("org.jetbrains.kotlinx:kotlinx-serialization-json:${serializationVersion}")
+    "include"(kotlin("reflect"))
+    "include"(kotlin("stdlib"))
 
-    include(kotlin("reflect"))
-    include(kotlin("stdlib"))
-    include("org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutinesVersion}")
-    include("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:${coroutinesVersion}")
-    include("org.jetbrains.kotlinx:kotlinx-serialization-core:${serializationVersion}")
-    include("org.jetbrains.kotlinx:kotlinx-serialization-json:${serializationVersion}")
-
-    include("io.github.spair:imgui-java-binding:$imguiVersion")
-    include("io.github.spair:imgui-java-lwjgl3:$imguiVersion")
-    include("io.github.spair:imgui-java-natives-windows:$imguiVersion")
-    include("io.github.spair:imgui-java-natives-linux:$imguiVersion")
-    include("io.github.spair:imgui-java-natives-macos:$imguiVersion")
+    "include"("io.github.spair:imgui-java-binding:$imguiVersion")
+    "include"("io.github.spair:imgui-java-lwjgl3:$imguiVersion")
+    "include"("io.github.spair:imgui-java-natives-windows:$imguiVersion")
+    "include"("io.github.spair:imgui-java-natives-linux:$imguiVersion")
+    "include"("io.github.spair:imgui-java-natives-macos:$imguiVersion")
 
     common(project(path = ":common", configuration = "namedElements")) { isTransitive = false }
     common(project(path = ":forgelike", configuration = "namedElements")) { isTransitive = false }

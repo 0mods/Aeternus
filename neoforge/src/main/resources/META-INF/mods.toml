@@ -21,12 +21,6 @@ description='''${description}'''
     ordering="NONE"
     side="BOTH"
 [[dependencies.${modId}]]
-    modId="kotlinforforge"
-    mandatory=true
-    versionRange="${kffRange}"
-    ordering="NONE"
-    side="BOTH"
-[[dependencies.${modId}]]
     modId="architectury"
     mandatory=true
     versionRange="[${architecturyApiVersion},)"

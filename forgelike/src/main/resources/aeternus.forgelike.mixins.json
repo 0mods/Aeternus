@@ -9,6 +9,5 @@
   "client": [],
   "injectors": {
     "defaultRequire": 1
-  },
-  "refmap": "${modId}-forgelike.refmap.json"
+  }
 }

@@ -9,13 +9,6 @@ architectury {
     neoForge()
 }
 
-loom {
-    mixin {
-        useLegacyMixinAp = true
-        add(sourceSets.main.get(), "$modId-neoforge.refmap.json")
-    }
-}
-
 base {
     archivesName.set("${archivesName.get()}-neoforge")
 }
@@ -36,7 +29,7 @@ repositories {
 }
 
 dependencies {
-    val kffVersion: String by rootProject
+//    val kffVersion: String by rootProject
     val neoVersion: String by rootProject
     val architecturyApiVersion: String by rootProject
     val imguiVersion: String by project
@@ -45,8 +38,8 @@ dependencies {
 
     neoForge("net.neoforged:neoforge:$neoVersion")
 
-    implementation("thedarkcolour:kotlinforforge:$kffVersion") { include(this) }
-//    modImplementation("dev.architectury:architectury-neoforge:$architecturyApiVersion") { include(this) }
+//    implementation("thedarkcolour:kotlinforforge:$kffVersion") { include(this) }
+    modImplementation("dev.architectury:architectury-neoforge:$architecturyApiVersion") { include(this) }
 
     include(kotlin("reflect"))
     include(kotlin("stdlib"))

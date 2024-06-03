@@ -10,13 +10,6 @@ architectury {
     fabric()
 }
 
-loom {
-    mixin {
-        useLegacyMixinAp = true
-        add(sourceSets.main.get(), "$modId-fabric.refmap.json")
-    }
-}
-
 base {
     archivesName.set("${archivesName.get()}-fabric")
 }

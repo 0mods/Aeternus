@@ -135,14 +135,14 @@ subprojects {
         val modLoader: String by project; val mlVersion: String by project; val license: String by project
         val credits: String by project; val modAuthor: String by project; val mcRange: String by project
         val modName: String by project; val modId: String by project; val description: String by project
-        val kffRange: String by project; val fabricLoaderVersion: String by project; val clothVersion: String by project
+        val fabricLoaderVersion: String by project; val clothVersion: String by project
         val forgeVersionRange: String by project; val neoVersionRange: String by project; val klfVersion: String by project
         val architecturyApiVersion: String by project
 
         val replacement = mapOf(
             "modloader" to modLoader, "mlVersion" to mlVersion, "license" to license, "modId" to modId,
             "modVersion" to modVersion, "modName" to modName, "credits" to credits,"modAuthor" to modAuthor,
-            "description" to description, "mcRange" to mcRange, "kffRange" to kffRange,
+            "description" to description, "mcRange" to mcRange,
             "fabricLoaderVersion" to fabricLoaderVersion, "clothVersion" to clothVersion,
             "minecraftVersion" to minecraftVersion, "forgeVersionRange" to forgeVersionRange,
             "neoVersionRange" to neoVersionRange, "klfVersion" to klfVersion,
