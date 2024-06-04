@@ -10,9 +10,11 @@
 
 package team._0mods.aeternus.service.forge
 
+import dev.architectury.injectables.annotations.ExpectPlatform
 import net.minecraftforge.fml.ModList
 import net.minecraftforge.fml.loading.FMLEnvironment
 import net.minecraftforge.fml.loading.FMLPaths
+import net.minecraftforge.fml.util.thread.SidedThreadGroups
 import java.nio.file.Path
 import kotlin.jvm.optionals.getOrNull
 
@@ -52,4 +54,7 @@ object PlatformHelperImpl {
 
     @JvmStatic
     fun gamePath(): Path = FMLPaths.GAMEDIR.get()
+
+    @JvmStatic
+    fun isLogicalClient(): Boolean = Thread.currentThread().threadGroup == SidedThreadGroups.CLIENT
 }

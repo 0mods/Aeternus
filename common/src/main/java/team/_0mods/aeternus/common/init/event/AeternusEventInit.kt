@@ -23,6 +23,7 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 import net.minecraft.world.level.block.Blocks
 import net.minecraft.world.level.block.FireBlock
+import team._0mods.aeternus.api.client.TickHandler
 import team._0mods.aeternus.api.event.EntityHurtEvent
 import team._0mods.aeternus.api.magic.research.ResearchRequired
 import team._0mods.aeternus.client.screen.configScreen
@@ -40,14 +41,12 @@ object AeternusEventsInit {
     fun initServerEvents() {
         onUse()
         hurtItem()
+        serverTickHandler()
     }
 
     fun initClientEvents() {
-        ClientTickEvent.CLIENT_POST.register {
-            while (AeternusKeys.configGUIOpen.consumeClick()) {
-                Minecraft.getInstance().setScreen(configScreen())
-            }
-        }
+        clientTickHandler()
+        buttonClickHandler()
     }
 
     private fun onUse() {
@@ -124,6 +123,26 @@ object AeternusEventsInit {
                 if (!ResearchHelper.hasResearches(it, *req.toTypedArray())) {
                     item.lockItem = true
                 }
+            }
+        }
+    }
+
+    private fun serverTickHandler() {
+        TickEvent.SERVER_POST.register {
+            TickHandler.serverTicks()
+        }
+    }
+
+    private fun clientTickHandler() {
+        ClientTickEvent.CLIENT_POST.register {
+            TickHandler.serverTicks()
+        }
+    }
+
+    private fun buttonClickHandler() {
+        ClientTickEvent.CLIENT_POST.register {
+            while (AeternusKeys.configGUIOpen.consumeClick()) {
+                Minecraft.getInstance().setScreen(configScreen())
             }
         }
     }

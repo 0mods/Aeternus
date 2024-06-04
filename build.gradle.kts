@@ -120,6 +120,7 @@ subprojects {
         maven("https://maven.architectury.dev/")
         maven("https://maven.terraformersmc.com/releases/")
         maven("https://jitpack.io")
+        maven("https://maven.0mods.team/releases")
     }
 
     dependencies {

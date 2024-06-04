@@ -7,24 +7,23 @@
  * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-
-package team._0mods.aeternus.api.client
+package team._0mods.aeternus.mixin
 
 import net.minecraft.client.Minecraft
-import team._0mods.aeternus.service.PlatformHelper
+import net.minecraft.client.main.GameConfig
+import org.spongepowered.asm.mixin.Mixin
+import org.spongepowered.asm.mixin.injection.At
+import org.spongepowered.asm.mixin.injection.Inject
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo
+import team._0mods.aeternus.api.logicalClient
 
-object TickHandler {
-    private var clientTicks = 0
-    private var serverTicks = 0
-
-    val partialTicks: Float = Minecraft.getInstance().deltaFrameTime
-    val currentTicks: Int = if (PlatformHelper.isLogicalClient()) clientTicks else serverTicks
-
-    internal fun clientTick() {
-        clientTicks++
-    }
-
-    internal fun serverTicks() {
-        serverTicks++
+@Mixin(Minecraft::class)
+class MinecraftMixin {
+    @Inject(method = ["<init>"], at = [At("TAIL")])
+    fun init(
+        gameConfig: GameConfig,
+        ci: CallbackInfo
+    ) {
+        logicalClient = true
     }
 }

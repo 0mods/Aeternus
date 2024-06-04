@@ -10,6 +10,6 @@
 
 package team._0mods.aeternus.api.config
 
-interface CategoryConfig {
+sealed interface CategoryConfig {
     val categories: List<Category>
 }

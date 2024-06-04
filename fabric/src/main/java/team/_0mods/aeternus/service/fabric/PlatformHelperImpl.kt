@@ -12,6 +12,7 @@ package team._0mods.aeternus.service.fabric
 
 import net.fabricmc.api.EnvType
 import net.fabricmc.loader.api.FabricLoader
+import team._0mods.aeternus.api.logicalClient
 import java.nio.file.Path
 import kotlin.jvm.optionals.getOrNull
 
@@ -23,6 +24,12 @@ object PlatformHelperImpl {
 
     @JvmStatic
     fun isPhysicalClient(): Boolean = fabric.environmentType.equals(EnvType.CLIENT)
+
+    @JvmStatic
+    fun isLogicalClient(): Boolean = logicalClient
+
+    @JvmStatic
+    fun isLogicalServer(): Boolean = throw AssertionError()
 
     @JvmStatic
     fun isModLoaded(modId: String): Boolean = fabric.isModLoaded(modId)

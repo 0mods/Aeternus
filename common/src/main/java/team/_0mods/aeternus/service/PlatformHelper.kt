@@ -24,6 +24,12 @@ object PlatformHelper {
     fun isPhysicalServer(): Boolean = !isPhysicalClient()
 
     @JvmStatic @ExpectPlatform
+    fun isLogicalClient(): Boolean = throw AssertionError()
+
+    @JvmStatic
+    fun isLogicalServer(): Boolean = !isLogicalClient()
+
+    @JvmStatic @ExpectPlatform
     fun isModLoaded(modId: String): Boolean = throw AssertionError()
 
     @JvmStatic @ExpectPlatform

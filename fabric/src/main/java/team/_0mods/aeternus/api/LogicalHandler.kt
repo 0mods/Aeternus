@@ -7,10 +7,8 @@
  * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
+@file:JvmName("LogicalHandler")
 
-package team._0mods.aeternus.api.config
+package team._0mods.aeternus.api
 
-sealed interface Category {
-    val name: String
-        get() = "No Category Name"
-}
+internal var logicalClient = false
