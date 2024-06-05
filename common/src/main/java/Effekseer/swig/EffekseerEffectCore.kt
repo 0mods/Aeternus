@@ -105,10 +105,12 @@ class EffekseerEffectCore protected constructor(
     }
 
     companion object {
+        @JvmStatic
         fun getCPtr(obj: EffekseerEffectCore?): Long {
             return if ((obj == null)) 0 else obj.swigCPtr
         }
 
+        @JvmStatic
         protected fun swigRelease(obj: EffekseerEffectCore?): Long {
             var ptr: Long = 0
             if (obj != null) {

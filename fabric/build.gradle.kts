@@ -45,12 +45,7 @@ dependencies {
     modImplementation("dev.architectury:architectury-fabric:$architecturyApiVersion") { include(this) }
 //    modImplementation("net.fabricmc:fabric-language-kotlin:$klfVersion") { include(this) }
 
-    include(kotlin("reflect"))
-    include(kotlin("stdlib"))
-    include("org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutinesVersion}")
-    include("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:${coroutinesVersion}")
-    include("org.jetbrains.kotlinx:kotlinx-serialization-core:${serializationVersion}")
-    include("org.jetbrains.kotlinx:kotlinx-serialization-json:${serializationVersion}")
+    include("team._0mods:KotlinExtras:kotlin-2.0.0")
 
     include("io.github.spair:imgui-java-binding:$imguiVersion")
     include("io.github.spair:imgui-java-lwjgl3:$imguiVersion")
@@ -74,6 +69,7 @@ tasks {
     shadowJar {
         configurations = listOf(shadowBundle)
         archiveClassifier = "dev-shadow"
+        relocate("team._0mods.aeternus", "team._0mods.aeternus.fabric")
     }
 
     remapJar {

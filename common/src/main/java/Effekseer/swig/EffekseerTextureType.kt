@@ -37,10 +37,14 @@ class EffekseerTextureType {
     private val swigName: String
 
     companion object {
+        @JvmField
         val Color: EffekseerTextureType = EffekseerTextureType("Color")
+        @JvmField
         val Normal: EffekseerTextureType = EffekseerTextureType("Normal")
+        @JvmField
         val Distortion: EffekseerTextureType = EffekseerTextureType("Distortion")
 
+        @JvmStatic
         fun swigToEnum(swigValue: Int): EffekseerTextureType {
             if (swigValue < swigValues.size && swigValue >= 0 && swigValues[swigValue].swigValue == swigValue) return swigValues[swigValue]
             for (i in swigValues.indices) if (swigValues[i].swigValue == swigValue) return swigValues[i]

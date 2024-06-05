@@ -10,7 +10,7 @@
 
 package team._0mods.aeternus.api.config
 
-sealed interface Category {
+interface Category {
     val name: String
         get() = "No Category Name"
 }

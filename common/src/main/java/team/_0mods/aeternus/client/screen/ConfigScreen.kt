@@ -24,7 +24,7 @@ import team._0mods.aeternus.common.commonConfig
 import team._0mods.aeternus.common.commonConfigInstance
 import team._0mods.aeternus.common.init.config.AeternusCommonConfig
 
-fun configScreen() = ImGuiScreen {
+fun configScreen() = ImGuiScreen(false) {
     val fileName = commonConfigInstance.fileName
     val defaultConfig = AeternusCommonConfig()
     val currentConfig = commonConfig

@@ -37,11 +37,16 @@ class EffekseerCoreDeviceType {
     private val swigName: String
 
     companion object {
+        @JvmField
         val Unknown: EffekseerCoreDeviceType = EffekseerCoreDeviceType("Unknown")
+        @JvmField
         val OpenGL: EffekseerCoreDeviceType = EffekseerCoreDeviceType("OpenGL")
+        @JvmField
         val DirectX9: EffekseerCoreDeviceType = EffekseerCoreDeviceType("DirectX9")
+        @JvmField
         val DirectX11: EffekseerCoreDeviceType = EffekseerCoreDeviceType("DirectX11")
 
+        @JvmStatic
         fun swigToEnum(swigValue: Int): EffekseerCoreDeviceType {
             if (swigValue < swigValues.size && swigValue >= 0 && swigValues[swigValue].swigValue == swigValue) return swigValues[swigValue]
             for (i in swigValues.indices) if (swigValues[i].swigValue == swigValue) return swigValues[i]

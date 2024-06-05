@@ -15,7 +15,7 @@ import team._0mods.aeternus.api.client.imgui.ImguiHandler
 import team._0mods.aeternus.api.client.imgui.Renderable
 import team._0mods.aeternus.api.client.imgui.test
 
-class ImGuiScreen(private val rend: Renderable = test()): AeternusScreen() {
+class ImGuiScreen(private val isPauseScreen: Boolean = true, private val rend: Renderable = test()): AeternusScreen() {
     var mouseClicked = false
 
     override fun render(guiGraphics: GuiGraphics, mouseX: Int, mouseY: Int, partialTick: Float) {
@@ -35,5 +35,9 @@ class ImGuiScreen(private val rend: Renderable = test()): AeternusScreen() {
     override fun mouseReleased(mouseX: Double, mouseY: Double, button: Int): Boolean {
         mouseClicked = false
         return super.mouseReleased(mouseX, mouseY, button)
+    }
+
+    override fun isPauseScreen(): Boolean {
+        return isPauseScreen
     }
 }

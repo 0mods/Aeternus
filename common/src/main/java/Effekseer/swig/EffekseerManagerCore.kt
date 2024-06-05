@@ -336,10 +336,12 @@ class EffekseerManagerCore protected constructor(
     }
 
     companion object {
+        @JvmStatic
         protected fun getCPtr(obj: EffekseerManagerCore?): Long {
             return if ((obj == null)) 0 else obj.swigCPtr
         }
 
+        @JvmStatic
         protected fun swigRelease(obj: EffekseerManagerCore?): Long {
             var ptr: Long = 0
             if (obj != null) {

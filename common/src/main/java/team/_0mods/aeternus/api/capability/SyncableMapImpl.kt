@@ -44,7 +44,6 @@ class SyncableMapImpl<K : Any, V : Any>(
     override val size get() = map.size
     override val values get() = map.values
 
-
     override fun clear() {
         map.clear()
         syncMethod()

@@ -29,10 +29,12 @@ open class EffekseerBackendCore protected constructor(
     constructor() : this(EffekseerCoreJNI.new_EffekseerBackendCore(), true)
 
     companion object {
+        @JvmStatic
         protected fun getCPtr(obj: EffekseerBackendCore?): Long {
             return if ((obj == null)) 0 else obj.swigCPtr
         }
 
+        @JvmStatic
         protected fun swigRelease(obj: EffekseerBackendCore?): Long {
             var ptr: Long = 0
             if (obj != null) {
@@ -44,14 +46,17 @@ open class EffekseerBackendCore protected constructor(
             return ptr
         }
 
+        @JvmStatic
         fun GetDevice(): EffekseerCoreDeviceType {
             return EffekseerCoreDeviceType.swigToEnum(EffekseerCoreJNI.EffekseerBackendCore_GetDevice())
         }
 
+        @JvmStatic
         fun InitializeWithOpenGL(): Boolean {
             return EffekseerCoreJNI.EffekseerBackendCore_InitializeWithOpenGL()
         }
 
+        @JvmStatic
         fun Terminate() {
             EffekseerCoreJNI.EffekseerBackendCore_Terminate()
         }
