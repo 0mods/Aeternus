@@ -71,34 +71,22 @@ fun ImDrawList.addRectFilled(min: ImVec2, max: ImVec2, color: ImVec4, radius: Fl
     addRectFilled(min.x, min.y, max.x, max.y, ImGui.colorConvertFloat4ToU32(color.x, color.y, color.z, color.w), radius)
 }
 
-operator fun ImVec4.times(scalar: Float): ImVec4 {
-    return ImVec4(
-        (x * scalar).coerceAtMost(1f),
-        (y * scalar).coerceAtMost(1f),
-        (z * scalar).coerceAtMost(1f),
-        (w * scalar).coerceAtMost(1f)
-    )
-}
+operator fun ImVec4.times(scalar: Float): ImVec4 = ImVec4(
+    (x * scalar).coerceAtMost(1f),
+    (y * scalar).coerceAtMost(1f),
+    (z * scalar).coerceAtMost(1f),
+    (w * scalar).coerceAtMost(1f)
+)
 
-operator fun ImVec2.times(scalar: Float): ImVec2 {
-    return ImVec2(x * scalar, y * scalar)
-}
+operator fun ImVec2.times(scalar: Float): ImVec2 = ImVec2(x * scalar, y * scalar)
 
-operator fun ImVec2.plus(scalar: Int): ImVec2 {
-    return ImVec2(x + scalar, y + scalar)
-}
+operator fun ImVec2.plus(scalar: Int): ImVec2 = ImVec2(x + scalar, y + scalar)
 
-operator fun ImVec2.plus(scalar: Float): ImVec2 {
-    return ImVec2(x + scalar, y + scalar)
-}
+operator fun ImVec2.plus(scalar: Float): ImVec2 = ImVec2(x + scalar, y + scalar)
 
-operator fun ImVec2.minus(scalar: Int): ImVec2 {
-    return ImVec2(x - scalar, y - scalar)
-}
+operator fun ImVec2.minus(scalar: Int): ImVec2 = ImVec2(x - scalar, y - scalar)
 
-operator fun ImVec2.minus(scalar: Float): ImVec2 {
-    return ImVec2(x - scalar, y - scalar)
-}
+operator fun ImVec2.minus(scalar: Float): ImVec2 = ImVec2(x - scalar, y - scalar)
 
 val Int.imVec4 get() = ImVec4().also { ImGui.colorConvertU32ToFloat4(this, it) }
 
@@ -114,5 +102,5 @@ fun hsva(hue: Float, saturation: Float, value: Float, alpha: Float): Int {
     return ImGui.colorConvertFloat4ToU32(rgb[0], rgb[1], rgb[2], alpha)
 }
 
-val width get() = Minecraft.getInstance().window.width.toFloat()
-val height get() = Minecraft.getInstance().window.height.toFloat()
+val width = Minecraft.getInstance().window.width.toFloat()
+val height = Minecraft.getInstance().window.height.toFloat()

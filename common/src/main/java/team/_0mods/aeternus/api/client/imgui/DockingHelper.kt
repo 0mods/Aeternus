@@ -12,6 +12,8 @@ package team._0mods.aeternus.api.client.imgui
 
 import imgui.ImGui
 import imgui.ImGuiWindowClass
+import imgui.internal.ImGui as ImGuiInternal
+import imgui.internal.flag.ImGuiDockNodeFlags as ImGuiDockNodeFlagsInternal
 import imgui.flag.ImGuiDir
 import imgui.flag.ImGuiDockNodeFlags
 import imgui.flag.ImGuiWindowFlags
@@ -34,33 +36,33 @@ object DockingHelper {
         workspaceWindowClass.setClassId(dockspaceID)
         workspaceWindowClass.dockingAllowUnclassed = false
 
-        if (imgui.internal.ImGui.dockBuilderGetNode(dockspaceID).ptr == 0L) {
-            imgui.internal.ImGui.dockBuilderAddNode(
-                dockspaceID, imgui.internal.flag.ImGuiDockNodeFlags.DockSpace or
-                        imgui.internal.flag.ImGuiDockNodeFlags.NoWindowMenuButton or
-                        imgui.internal.flag.ImGuiDockNodeFlags.NoCloseButton
+        if (ImGuiInternal.dockBuilderGetNode(dockspaceID).ptr == 0L) {
+            ImGuiInternal.dockBuilderAddNode(
+                dockspaceID, ImGuiDockNodeFlagsInternal.DockSpace or
+                        ImGuiDockNodeFlagsInternal.NoWindowMenuButton or
+                        ImGuiDockNodeFlagsInternal.NoCloseButton
             )
             val region = ImGui.getContentRegionAvail()
-            imgui.internal.ImGui.dockBuilderSetNodeSize(dockspaceID, region.x, region.y)
+            ImGuiInternal.dockBuilderSetNodeSize(dockspaceID, region.x, region.y)
 
             val leftDockID = ImInt(0)
             val rightDockID = ImInt(0)
-            imgui.internal.ImGui.dockBuilderSplitNode(dockspaceID, ImGuiDir.Left, ratio, leftDockID, rightDockID);
+            ImGuiInternal.dockBuilderSplitNode(dockspaceID, ImGuiDir.Left, ratio, leftDockID, rightDockID);
 
-            val pLeftNode = imgui.internal.ImGui.dockBuilderGetNode(leftDockID.get())
-            val pRightNode = imgui.internal.ImGui.dockBuilderGetNode(rightDockID.get())
-            pLeftNode.localFlags = pLeftNode.localFlags or imgui.internal.flag.ImGuiDockNodeFlags.NoTabBar or
-                    imgui.internal.flag.ImGuiDockNodeFlags.NoDockingSplitMe or imgui.internal.flag.ImGuiDockNodeFlags.NoDockingOverMe or
-                    imgui.internal.flag.ImGuiDockNodeFlags.NoTabBar
-            pRightNode.localFlags = pRightNode.localFlags or imgui.internal.flag.ImGuiDockNodeFlags.NoTabBar or
-                    imgui.internal.flag.ImGuiDockNodeFlags.NoDockingSplitMe or imgui.internal.flag.ImGuiDockNodeFlags.NoDockingOverMe or
-                    imgui.internal.flag.ImGuiDockNodeFlags.NoTabBar
+            val pLeftNode = ImGuiInternal.dockBuilderGetNode(leftDockID.get())
+            val pRightNode = ImGuiInternal.dockBuilderGetNode(rightDockID.get())
+            pLeftNode.localFlags = pLeftNode.localFlags or ImGuiDockNodeFlagsInternal.NoTabBar or
+                    ImGuiDockNodeFlagsInternal.NoDockingSplitMe or ImGuiDockNodeFlagsInternal.NoDockingOverMe or
+                    ImGuiDockNodeFlagsInternal.NoTabBar
+            pRightNode.localFlags = pRightNode.localFlags or ImGuiDockNodeFlagsInternal.NoTabBar or
+                    ImGuiDockNodeFlagsInternal.NoDockingSplitMe or ImGuiDockNodeFlagsInternal.NoDockingOverMe or
+                    ImGuiDockNodeFlagsInternal.NoTabBar
 
             // Dock windows
-            imgui.internal.ImGui.dockBuilderDockWindow("##LeftPanel", leftDockID.get())
-            imgui.internal.ImGui.dockBuilderDockWindow("##RightPanel", rightDockID.get())
+            ImGuiInternal.dockBuilderDockWindow("##LeftPanel", leftDockID.get())
+            ImGuiInternal.dockBuilderDockWindow("##RightPanel", rightDockID.get())
 
-            imgui.internal.ImGui.dockBuilderFinish(dockspaceID)
+            ImGuiInternal.dockBuilderFinish(dockspaceID)
         }
 
         val dockFlags = if (shouldDrawWindowContents) ImGuiDockNodeFlags.None
@@ -70,7 +72,7 @@ object DockingHelper {
         ImGui.end()
 
         val windowClass = ImGuiWindowClass()
-        windowClass.dockNodeFlagsOverrideSet = imgui.internal.flag.ImGuiDockNodeFlags.NoTabBar
+        windowClass.dockNodeFlagsOverrideSet = ImGuiDockNodeFlagsInternal.NoTabBar
 
         ImGui.setNextWindowClass(windowClass)
 
@@ -96,33 +98,33 @@ object DockingHelper {
         workspaceWindowClass.setClassId(dockspaceID)
         workspaceWindowClass.dockingAllowUnclassed = false
 
-        if (imgui.internal.ImGui.dockBuilderGetNode(dockspaceID).ptr == 0L) {
-            imgui.internal.ImGui.dockBuilderAddNode(
-                dockspaceID, imgui.internal.flag.ImGuiDockNodeFlags.DockSpace or
-                        imgui.internal.flag.ImGuiDockNodeFlags.NoWindowMenuButton or
-                        imgui.internal.flag.ImGuiDockNodeFlags.NoCloseButton
+        if (ImGuiInternal.dockBuilderGetNode(dockspaceID).ptr == 0L) {
+            ImGuiInternal.dockBuilderAddNode(
+                dockspaceID, ImGuiDockNodeFlagsInternal.DockSpace or
+                        ImGuiDockNodeFlagsInternal.NoWindowMenuButton or
+                        ImGuiDockNodeFlagsInternal.NoCloseButton
             )
             val region = ImGui.getContentRegionAvail()
-            imgui.internal.ImGui.dockBuilderSetNodeSize(dockspaceID, size.x, size.y)
+            ImGuiInternal.dockBuilderSetNodeSize(dockspaceID, size.x, size.y)
 
             val leftDockID = ImInt(0)
             val rightDockID = ImInt(0)
-            imgui.internal.ImGui.dockBuilderSplitNode(dockspaceID, ImGuiDir.Up, ratio, leftDockID, rightDockID);
+            ImGuiInternal.dockBuilderSplitNode(dockspaceID, ImGuiDir.Up, ratio, leftDockID, rightDockID);
 
-            val pLeftNode = imgui.internal.ImGui.dockBuilderGetNode(leftDockID.get())
-            val pRightNode = imgui.internal.ImGui.dockBuilderGetNode(rightDockID.get())
-            pLeftNode.localFlags = pLeftNode.localFlags or imgui.internal.flag.ImGuiDockNodeFlags.NoTabBar or
-                    imgui.internal.flag.ImGuiDockNodeFlags.NoDockingSplitMe or imgui.internal.flag.ImGuiDockNodeFlags.NoDockingOverMe or
-                    imgui.internal.flag.ImGuiDockNodeFlags.NoTabBar
-            pRightNode.localFlags = pRightNode.localFlags or imgui.internal.flag.ImGuiDockNodeFlags.NoTabBar or
-                    imgui.internal.flag.ImGuiDockNodeFlags.NoDockingSplitMe or imgui.internal.flag.ImGuiDockNodeFlags.NoDockingOverMe or
-                    imgui.internal.flag.ImGuiDockNodeFlags.NoTabBar
+            val pLeftNode = ImGuiInternal.dockBuilderGetNode(leftDockID.get())
+            val pRightNode = ImGuiInternal.dockBuilderGetNode(rightDockID.get())
+            pLeftNode.localFlags = pLeftNode.localFlags or ImGuiDockNodeFlagsInternal.NoTabBar or
+                    ImGuiDockNodeFlagsInternal.NoDockingSplitMe or ImGuiDockNodeFlagsInternal.NoDockingOverMe or
+                    ImGuiDockNodeFlagsInternal.NoTabBar
+            pRightNode.localFlags = pRightNode.localFlags or ImGuiDockNodeFlagsInternal.NoTabBar or
+                    ImGuiDockNodeFlagsInternal.NoDockingSplitMe or ImGuiDockNodeFlagsInternal.NoDockingOverMe or
+                    ImGuiDockNodeFlagsInternal.NoTabBar
 
             // Dock windows
-            imgui.internal.ImGui.dockBuilderDockWindow("##UpPanel", leftDockID.get())
-            imgui.internal.ImGui.dockBuilderDockWindow("##DownPanel", rightDockID.get())
+            ImGuiInternal.dockBuilderDockWindow("##UpPanel", leftDockID.get())
+            ImGuiInternal.dockBuilderDockWindow("##DownPanel", rightDockID.get())
 
-            imgui.internal.ImGui.dockBuilderFinish(dockspaceID)
+            ImGuiInternal.dockBuilderFinish(dockspaceID)
         }
 
         val dockFlags = if (shouldDrawWindowContents) ImGuiDockNodeFlags.None
@@ -132,7 +134,7 @@ object DockingHelper {
         ImGui.end()
 
         val windowClass = ImGuiWindowClass()
-        windowClass.dockNodeFlagsOverrideSet = imgui.internal.flag.ImGuiDockNodeFlags.NoTabBar
+        windowClass.dockNodeFlagsOverrideSet = ImGuiDockNodeFlagsInternal.NoTabBar
 
         ImGui.setNextWindowClass(windowClass)
 

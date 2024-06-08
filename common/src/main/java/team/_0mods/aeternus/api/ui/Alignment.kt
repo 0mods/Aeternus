@@ -27,13 +27,11 @@ enum class Alignment(override val factorX: Float, override val factorY: Float): 
     fun factorY() = factorY
 }
 
-
 enum class Anchor(val factor: Float) {
     START(0f),
     CENTER(0.5f),
     END(1f)
 }
-
 
 interface IPlacement {
     val factorX: Float

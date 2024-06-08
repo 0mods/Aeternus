@@ -15,7 +15,7 @@ import imgui.type.ImInt
 import imgui.type.ImString
 import net.minecraft.client.Minecraft
 
-val text = ImString("Капец, какой ужас, что за убогий интерфейс... \uD83D\uDE00")
+val text = ImString("T e x t . . . \uD83D\uDE00")
 val item = ImInt()
 
 

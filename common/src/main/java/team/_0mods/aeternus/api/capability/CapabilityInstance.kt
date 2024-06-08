@@ -19,7 +19,7 @@ open class CapabilityInstance {
     var notUsedTags = CompoundTag()
     open val consumeOnServer: Boolean = false
     open val canOtherPlayersAccess: Boolean = true
-    lateinit var provider: ICapabilityProvider //Будет инициализированно инжектом
+    lateinit var provider: ICapabilityProvider // It will be initialized by injector
 
     fun <T> syncable(default: T) = CapabilityProperty<CapabilityInstance, T>(default).apply {
         properties += this
