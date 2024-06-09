@@ -29,7 +29,6 @@ repositories {
 }
 
 dependencies {
-//    val kffVersion: String by rootProject
     val neoVersion: String by rootProject
     val architecturyApiVersion: String by rootProject
     val imguiVersion: String by project
@@ -38,10 +37,10 @@ dependencies {
 
     neoForge("net.neoforged:neoforge:$neoVersion")
 
-//    implementation("thedarkcolour:kotlinforforge:$kffVersion") { include(this) }
     modImplementation("dev.architectury:architectury-neoforge:$architecturyApiVersion") { include(this) }
 
     include("team._0mods:KotlinExtras:kotlin-2.0.0")
+    include("Effekseer.swig:Swig:1.0")
 
     include("io.github.spair:imgui-java-binding:$imguiVersion")
     include("io.github.spair:imgui-java-lwjgl3:$imguiVersion")

@@ -43,9 +43,9 @@ dependencies {
     modImplementation("net.fabricmc:fabric-loader:$fabricLoaderVersion") { include(this) }
     modImplementation("net.fabricmc.fabric-api:fabric-api:$fabricVersion") { include(this) }
     modImplementation("dev.architectury:architectury-fabric:$architecturyApiVersion") { include(this) }
-//    modImplementation("net.fabricmc:fabric-language-kotlin:$klfVersion") { include(this) }
 
     include("team._0mods:KotlinExtras:kotlin-2.0.0")
+    include("Effekseer.swig:Swig:1.0")
 
     include("io.github.spair:imgui-java-binding:$imguiVersion")
     include("io.github.spair:imgui-java-lwjgl3:$imguiVersion")

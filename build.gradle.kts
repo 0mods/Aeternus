@@ -197,6 +197,9 @@ allprojects {
         implementation("io.github.spair:imgui-java-natives-windows:$imguiVersion")
         implementation("io.github.spair:imgui-java-natives-linux:$imguiVersion")
         implementation("io.github.spair:imgui-java-natives-macos:$imguiVersion")
+
+        // Effekseer Swig
+        implementation("Effekseer.swig:Swig:1.0")
     }
 
     tasks {

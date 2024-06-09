@@ -44,8 +44,9 @@ dependencies {
     forge("net.minecraftforge:forge:$minecraftVersion-$forgeVersion")
 
     modImplementation("dev.architectury:architectury-forge:$architecturyApiVersion") { include(this) }
-//    implementation("thedarkcolour:kotlinforforge:$kffVersion") { include(this) }
+
     include("team._0mods:KotlinExtras:kotlin-2.0.0")
+    include("Effekseer.swig:Swig:1.0")
 
     include("io.github.spair:imgui-java-binding:$imguiVersion")
     include("io.github.spair:imgui-java-lwjgl3:$imguiVersion")
