@@ -8,18 +8,13 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package team._0mods.aeternus.api.capability
+package team._0mods.aeternus.api.packets
 
-import org.objectweb.asm.Type
-import kotlin.reflect.KClass
-
-annotation class AeternusCapability(vararg val value: KClass<*>) {
-    companion object {
-        fun <T> get(clazz: Class<T>): T = throw AssertionError()
-
-        @JvmField
-        val TYPE: Type = Type.getType(AeternusCapability::class.java)
+@Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION)
+annotation class AeternusPacket(val distant: Direction = Direction.ANY) {
+    enum class Direction {
+        CLIENT_PLAY,
+        SERVER_PLAY,
+        ANY
     }
 }
-
-val capabilities = hashMapOf<Class<*>, MutableList<() -> CapabilityInstance>>()

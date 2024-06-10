@@ -3,12 +3,11 @@
 import groovy.lang.Closure
 import io.github.pacifistmc.forgix.plugin.ForgixMergeExtension.*
 import net.fabricmc.loom.api.LoomGradleExtensionAPI
+import org.jetbrains.kotlin.gradle.plugin.ide.kotlinExtrasSerialization
 
 val minecraftVersion: String by project
 val modName: String by project
 val modAuthor: String by project
-val coroutinesVersion: String by project
-val serializationVersion: String by project
 val parchmentMCVersion: String by project
 val parchmentVersion: String by project
 val modId: String by project
@@ -16,6 +15,7 @@ val modGroup: String by project
 val releaseType: String by project
 val imguiVersion: String by project
 val kotlinVersion: String by project
+val javaVersion: String by project
 
 val modVersion = rootProject.file("VERSION").readText().trim()
 
@@ -92,8 +92,6 @@ subprojects {
     apply(plugin = "architectury-plugin")
     apply(plugin = "dev.architectury.loom")
 
-    val javaVersion: String by project
-
     val loom: LoomGradleExtensionAPI = project.extensions.getByName<LoomGradleExtensionAPI>("loom")
 
     loom.apply {
@@ -103,7 +101,7 @@ subprojects {
     }
 
     extensions.configure<JavaPluginExtension> {
-        toolchain.languageVersion.set(JavaLanguageVersion.of(javaVersion.toInt()))
+        toolchain.languageVersion.set(JavaLanguageVersion.of(javaVersion))
         withSourcesJar()
     }
 
@@ -184,12 +182,12 @@ allprojects {
         compileOnly("org.jetbrains:annotations:24.1.0")
 
         //Kotlin
-        implementation(kotlin("reflect"))
-        implementation(kotlin("stdlib"))
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutinesVersion}")
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:${coroutinesVersion}")
-        implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:${serializationVersion}")
-        implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:${serializationVersion}")
+        implementation(kotlin("reflect", kotlin.coreLibrariesVersion))
+        implementation(kotlin("stdlib", kotlin.coreLibrariesVersion))
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:+")
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:+")
+        implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:+")
+        implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:+")
 
         //ImGui
         implementation("io.github.spair:imgui-java-binding:$imguiVersion")
@@ -211,7 +209,7 @@ allprojects {
 
         withType<JavaCompile> {
             options.encoding = "UTF-8"
-            options.release.set(17)
+            options.release.set(javaVersion.toInt())
         }
 
         compileKotlin {

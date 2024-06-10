@@ -8,18 +8,13 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package team._0mods.aeternus.api.capability
+@file:JvmName("NetworkHelper")
 
-import org.objectweb.asm.Type
-import kotlin.reflect.KClass
+package team._0mods.aeternus.api.internal
 
-annotation class AeternusCapability(vararg val value: KClass<*>) {
-    companion object {
-        fun <T> get(clazz: Class<T>): T = throw AssertionError()
+import dev.architectury.injectables.annotations.ExpectPlatform
 
-        @JvmField
-        val TYPE: Type = Type.getType(AeternusCapability::class.java)
-    }
+@ExpectPlatform
+fun register() {
+    throw AssertionError()
 }
-
-val capabilities = hashMapOf<Class<*>, MutableList<() -> CapabilityInstance>>()

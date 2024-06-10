@@ -10,6 +10,28 @@
 
 package team._0mods.aeternus.api.capability
 
+import net.minecraft.nbt.CompoundTag
+import team._0mods.aeternus.api.event.LoadCapabilitiesEvent
+
 interface ICapabilityDispatcher {
     val capabilities: MutableList<CapabilityInstance>
+}
+
+fun ICapabilityDispatcher.serializeCaps(tag: CompoundTag) {
+    val nbt = CompoundTag()
+    capabilities.forEach {
+        nbt.put(it.javaClass.name, it.serializeNBT())
+    }
+    tag.put("aeternus_caps", nbt)
+}
+
+fun ICapabilityDispatcher.deserializeCapabilities(tag: CompoundTag) {
+    val capabilities = tag.getCompound("hc_capabilities")
+    for (key in capabilities.allKeys) {
+        this.capabilities.find { it.javaClass.name == key }?.deserializeNBT(capabilities.getCompound(key))
+    }
+}
+
+fun ICapabilityDispatcher.initialize() {
+    LoadCapabilitiesEvent.EVENT.invoker().register(LoadCapabilitiesEvent.CapabilityEventInstance(this, capabilities))
 }

@@ -13,19 +13,40 @@ package team._0mods.aeternus.api.capability
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.ListTag
 import net.minecraft.nbt.Tag
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.level.Level
+import team._0mods.aeternus.api.packets.*
+import team._0mods.aeternus.network.*
 
 open class CapabilityInstance {
     val properties = ArrayList<CapabilityProperty<CapabilityInstance, *>>()
     var notUsedTags = CompoundTag()
     open val consumeOnServer: Boolean = false
     open val canOtherPlayersAccess: Boolean = true
-    lateinit var provider: ICapabilityProvider // It will be initialized by injector
+    lateinit var provider: ICapabilityDispatcher // It will be initialized by injector
 
     fun <T> syncable(default: T) = CapabilityProperty<CapabilityInstance, T>(default).apply {
         properties += this
     }
 
-    fun sync() {}
+    fun sync() {
+        when (val target = provider) {
+            is Entity -> {
+                if (target.level().isClientSide) {
+                    if (consumeOnServer) SSyncEntityCapabilityPacket(target.id, javaClass.name, serializeNBT()).send()
+                } else CSyncEntityCapabilityPacket(target.id, javaClass.name, serializeNBT()).sendTrackingEntity(target)
+            }
+
+            is Level -> {
+                if (target.isClientSide) {
+                    if (consumeOnServer) SSyncLevelCapabilityPacket(
+                        target.dimension().location().toString(),
+                        javaClass.name, serializeNBT()
+                    ).send()
+                } else CSyncLevelCapabilityPacket(javaClass.name, serializeNBT()).sendAllInDimension(target)
+            }
+        }
+    }
 
     fun serializeNBT() = notUsedTags.copy().apply {
         properties.forEach { it.serialize(this) }

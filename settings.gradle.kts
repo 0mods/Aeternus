@@ -28,6 +28,6 @@ include(
     "common",
     "fabric",
     "neoforge",
-    "forge",
+//    "forge",
     "forgelike"
 )
