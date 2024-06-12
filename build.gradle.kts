@@ -198,6 +198,9 @@ allprojects {
 
         // Effekseer Swig
         implementation("Effekseer.swig:Swig:1.0")
+
+        // Reflections
+        implementation("org.reflections:reflections:0.10.2")
     }
 
     tasks {

@@ -47,6 +47,7 @@ dependencies {
 
     include("team._0mods:KotlinExtras:kotlin-2.0.0")
     include("Effekseer.swig:Swig:1.0")
+    include("org.reflections:reflections:0.10.2")
 
     include("io.github.spair:imgui-java-binding:$imguiVersion")
     include("io.github.spair:imgui-java-lwjgl3:$imguiVersion")

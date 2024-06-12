@@ -15,12 +15,10 @@ package team._0mods.aeternus.common
 import com.mojang.blaze3d.systems.RenderSystem
 import dev.architectury.event.events.common.CommandRegistrationEvent
 import dev.architectury.registry.client.keymappings.KeyMappingRegistry
-import net.minecraft.client.Minecraft
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import team._0mods.aeternus.api.client.imgui.ImguiHandler
 import team._0mods.aeternus.api.config.ConfigInstance
-import team._0mods.aeternus.api.plugin.PluginHolder
 import team._0mods.aeternus.api.util.debugIfEnabled
 import team._0mods.aeternus.common.init.config.AeternusClientConfig
 import team._0mods.aeternus.common.init.config.AeternusCommonConfig
@@ -30,6 +28,7 @@ import team._0mods.aeternus.api.config.loadConfig
 import team._0mods.aeternus.api.config.prefix
 import team._0mods.aeternus.client.keys.registries
 import team._0mods.aeternus.common.commands.AeternusCommands
+import team._0mods.aeternus.reflect.AeternusAnnotationProcessor
 
 const val ModId = "aeternus"
 const val ModName = "Aeternus"
@@ -53,7 +52,7 @@ fun commonInit() {
 
     AeternusRegsitry.init()
     AeternusEventsInit.initServerEvents()
-    PluginHolder.loadPlugins()
+    AeternusAnnotationProcessor.start()
 
     CommandRegistrationEvent.EVENT.register { builder, _, _ ->
         AeternusCommands.register(builder)
