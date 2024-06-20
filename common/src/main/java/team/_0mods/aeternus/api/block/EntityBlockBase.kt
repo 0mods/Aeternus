@@ -32,9 +32,7 @@ import team._0mods.aeternus.api.block.blockentity.*
 abstract class EntityBlockBase(private val blockEntity: (BlockPos, BlockState) -> BlockEntity, properties: Properties): BaseEntityBlock(properties) {
     override fun newBlockEntity(p0: BlockPos, p1: BlockState): BlockEntity = blockEntity.invoke(p0, p1)
 
-    @Suppress(
-            "UNCHECKED_CAST"
-    )
+    @Suppress("UNCHECKED_CAST")
     override fun <T : BlockEntity?> getTicker(
             level: Level,
             state: BlockState,
@@ -49,14 +47,12 @@ abstract class EntityBlockBase(private val blockEntity: (BlockPos, BlockState) -
         }
     }
 
-    @Suppress("OVERRIDE_DEPRECATION")
     override fun onPlace(state: BlockState, level: Level, pos: BlockPos, oldState: BlockState, isMoving: Boolean) {
         val be = level.getBlockEntity(pos)
         if (be is IBlockEntity<*>)
             be.onPlace(level, state, oldState, isMoving)
     }
 
-    @Suppress("OVERRIDE_DEPRECATION")
     override fun onRemove(state: BlockState, level: Level, pos: BlockPos, oldState: BlockState, isMoving: Boolean) {
         val be = level.getBlockEntity(pos)
         if (be is IBlockEntity<*>)
@@ -80,10 +76,6 @@ abstract class EntityBlockBase(private val blockEntity: (BlockPos, BlockState) -
         }
     }
 
-    @Suppress(
-        "OVERRIDE_DEPRECATION",
-        "DEPRECATION"
-    )
     override fun useWithoutItem(
         state: BlockState,
         level: Level,
@@ -110,10 +102,6 @@ abstract class EntityBlockBase(private val blockEntity: (BlockPos, BlockState) -
         return super.useWithoutItem(state, level, pos, player, hitResult)
     }
 
-    @Suppress(
-            "OVERRIDE_DEPRECATION",
-            "DEPRECATION"
-    )
     override fun updateShape(state: BlockState, facing: Direction, facingState: BlockState, levelAccessor: LevelAccessor, currentPos: BlockPos, facingPos: BlockPos): BlockState {
         if (this is SimpleWaterloggedBlock && state.getValue(WATERLOGGED))
             levelAccessor.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(levelAccessor))
