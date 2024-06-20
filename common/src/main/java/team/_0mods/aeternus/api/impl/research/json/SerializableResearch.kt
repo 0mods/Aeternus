@@ -54,22 +54,7 @@ data class JSONBookMetadata(
     @SerialName("book_pos") val inBookPosition: JSONInBookPosition = JSONInBookPosition(),
     @SerialName("align") val alignId: Int = 0,
     @SerialName("shape") val shapeId: Int = 0
-): ResearchBookMetadata {
-    override val title: Component
-        get() = name.mcTranslate
-
-    override val desc: Component
-        get() = description.mcTranslate
-
-    override val icon: ResourceLocation
-        get() = texture.rl
-
-    override val alignment: ResearchAlignment
-        get() = ResearchAlignment.getById(alignId)
-
-    override val shape: ResearchShape
-        get() = ResearchShape.getById(shapeId)
-
+) {
     val asBookMetadata: ResearchBookMetadata = ResearchBookMetadata.of(
         name.mcTranslate,
         description.mcTranslate,

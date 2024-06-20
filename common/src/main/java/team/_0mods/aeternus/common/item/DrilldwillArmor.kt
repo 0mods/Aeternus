@@ -19,6 +19,7 @@ import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ArmorItem
 import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.Items
 import team._0mods.aeternus.api.item.ArmorMaterialCreation
 import team._0mods.aeternus.api.item.ArmorMaterialCreation.Companion.builder
 import team._0mods.aeternus.api.item.ITabbed
