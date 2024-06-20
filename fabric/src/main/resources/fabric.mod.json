@@ -13,8 +13,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [ "team._0mods.${modId}.${modName}Fabric::startCommon" ],
-    "client": [ "team._0mods.${modId}.${modName}Fabric::startClient" ],
-    "${modId}_plugin": [ "team._0mods.${modId}.init.${modName}CorePlugin" ]
+    "client": [ "team._0mods.${modId}.${modName}Fabric::startClient" ]
   },
   "mixins": [
     "${modId}.mixins.json",

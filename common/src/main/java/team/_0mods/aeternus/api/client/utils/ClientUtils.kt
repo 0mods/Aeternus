@@ -40,7 +40,7 @@ fun LivingEntity.render(
     guiGraphics: GuiGraphics,
     x: Float,
     y: Float,
-    scale: Int,
+    scale: Float,
     mouseX: Float,
     mouseY: Float,
 ) {

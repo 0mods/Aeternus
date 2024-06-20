@@ -10,7 +10,7 @@
 
 package team._0mods.aeternus
 
-import dev.architectury.platform.forge.EventBuses
+//import dev.architectury.platform.forge.EventBuses
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
@@ -22,7 +22,7 @@ class AeternusForge {
     init {
         val bus = FMLJavaModLoadingContext.get().modEventBus
 
-        EventBuses.registerModEventBus(ModId, bus)
+//        EventBuses.registerModEventBus(ModId, bus)
         commonInit()
         if (FMLEnvironment.dist.isClient)
             bus.addListener(this::initClient)

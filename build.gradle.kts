@@ -116,6 +116,10 @@ subprojects {
         maven("https://maven.terraformersmc.com/releases/")
         maven("https://jitpack.io")
         maven("https://maven.0mods.team/releases")
+        maven("https://plugins.gradle.org/m2/")
+        maven("https://maven.fabricmc.net/")
+        maven("https://maven.neoforged.net/releases")
+        maven("https://maven.minecraftforge.net")
     }
 
     dependencies {
@@ -197,10 +201,10 @@ allprojects {
         implementation("io.github.spair:imgui-java-natives-macos:$imguiVersion")
 
         // Effekseer Swig
-        implementation("Effekseer.swig:Swig:1.0")
+        implementation("effekseer.swig:Swig:1.0")
 
-        // Reflections
-        implementation("org.reflections:reflections:0.10.2")
+        // ClassGraph
+        implementation("io.github.classgraph:classgraph:4.8.173")
     }
 
     tasks {

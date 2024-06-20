@@ -31,8 +31,8 @@ class CommandEditor(private val srcCommand: LiteralArgumentBuilder<CommandSource
     operator fun String.invoke(
         vararg args: RequiredArgumentBuilder<CommandSourceStack, *>,
         operation: CommandContext<CommandSourceStack>.() -> Unit,
-    ) {
-        if (args.isNotEmpty()) srcCommand.then(
+    ): LiteralArgumentBuilder<CommandSourceStack> {
+        return if (args.isNotEmpty()) srcCommand.then(
             Commands.literal(this).then(operation, *args)
                 .executes { ctx: CommandContext<CommandSourceStack> -> operation(ctx); 1 })
         else srcCommand.then(

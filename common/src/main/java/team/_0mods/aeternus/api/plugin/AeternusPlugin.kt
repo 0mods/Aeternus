@@ -15,7 +15,7 @@ import team._0mods.aeternus.api.registry.*
 
 /**
  * Starts registration of the current plugin.
- * Works only on ForgeLike Mod Loader and only with [AeternusPlugin]
+ * Works only with [AeternusPlugin]
  */
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.CLASS)
@@ -23,11 +23,8 @@ import team._0mods.aeternus.api.registry.*
 annotation class AeternusPluginInit(val modId: String)
 
 /**
- * Plugin base interface. For registry your plugin:
- *
- * On Fabric use entrypoint with "aeternus_plugin". [About entrypoint you can read there](https://fabricmc.net/wiki/documentation:entrypoint)
- *
- * On ForgeLike use [AeternusPluginInit] with plugin class
+ * Plugin base interface.
+ * For registry your plugin use [AeternusPluginInit] with plugin class
  *
  * For a more stable plugin, I suggest using Kotlin, not Java or any other JVM-like language
  */
@@ -70,7 +67,7 @@ interface AeternusPlugin {
      */
     @ApiStatus.NonExtendable
     @ApiStatus.Internal
-    @ApiStatus.AvailableSince("1.0")
+    @ApiStatus.AvailableSince("nan")
     fun registerMaterial(reg: MaterialRegistry) {
         throw IllegalAccessException("This function is not available in current version. Please, wait realisation!")
     }

@@ -40,7 +40,7 @@ dependencies {
     modImplementation("dev.architectury:architectury-neoforge:$architecturyApiVersion") { include(this) }
 
     include("team._0mods:KotlinExtras:kotlin-2.0.0")
-    include("Effekseer.swig:Swig:1.0")
+    include("effekseer.swig:Swig:1.0")
     include("org.reflections:reflections:0.10.2")
 
     include("io.github.spair:imgui-java-binding:$imguiVersion")
