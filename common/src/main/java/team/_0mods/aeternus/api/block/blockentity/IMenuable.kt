@@ -15,6 +15,6 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.world.inventory.AbstractContainerMenu
 import net.minecraft.world.level.block.entity.BlockEntity
 
-interface IMenued {
+interface IMenuable {
     fun getContainer(index: Int, inv: Inventory, player: Player, be: BlockEntity): AbstractContainerMenu?
 }

@@ -37,6 +37,7 @@ fun ArmorItem.Type.generateArmorTranslateByParent(item: Item): Component {
         ArmorItem.Type.CHESTPLATE -> TranslationBuilder.builder(itemName, "chest".armorPrefix, TranslationBuilder.RussianAncestralType.MALE).build
         ArmorItem.Type.LEGGINGS -> TranslationBuilder.builder(itemName, "legs".armorPrefix, TranslationBuilder.RussianAncestralType.PLURAL).build
         ArmorItem.Type.BOOTS -> TranslationBuilder.builder(itemName, "feet".armorPrefix, TranslationBuilder.RussianAncestralType.PLURAL).build
+        ArmorItem.Type.BODY -> TranslationBuilder.builder(itemName, "body".armorPrefix, TranslationBuilder.RussianAncestralType.MEDIUM).build
     }
 }
 

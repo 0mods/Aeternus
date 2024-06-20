@@ -45,16 +45,6 @@ dependencies {
 
 //    modImplementation("dev.architectury:architectury-forge:$architecturyApiVersion") { include(this) }
 
-    include("team._0mods:KotlinExtras:kotlin-2.0.0")
-    include("effekseer.swig:Swig:1.0")
-    include("io.github.classgraph:classgraph:4.8.173")
-
-    include("io.github.spair:imgui-java-binding:$imguiVersion")
-    include("io.github.spair:imgui-java-lwjgl3:$imguiVersion")
-    include("io.github.spair:imgui-java-natives-windows:$imguiVersion")
-    include("io.github.spair:imgui-java-natives-linux:$imguiVersion")
-    include("io.github.spair:imgui-java-natives-macos:$imguiVersion")
-
     common(project(path = ":common", configuration = "namedElements")) { isTransitive = false }
     common(project(path = ":forgelike", configuration = "namedElements")) { isTransitive = false }
     shadowCommon(project(path = ":common", configuration = "transformProductionForge")) { isTransitive = false }

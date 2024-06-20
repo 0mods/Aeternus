@@ -16,5 +16,5 @@ import team._0mods.aeternus.common.init.registry.AeternusRegsitry.iterDimType
 import java.util.function.Predicate
 
 fun diff(level: Level): Predicate<Difficulty> = Predicate {
-    ((level.isNight && level.dimensionTypeId() == iterDimType) && it != Difficulty.PEACEFUL)
+    (/*(level.isNight && level.dimensionTypeId() == iterDimType) &&*/ it != Difficulty.PEACEFUL)
 }

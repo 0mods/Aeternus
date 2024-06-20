@@ -61,7 +61,7 @@ object AeternusEventsInit {
                         val random = Random(35)
                         if (etheriumCount >= 35) {
                             player.getItemInHand(hand).shrink(1)
-                            stackOfKNBook.orCreateTag.putUUID(PLAYER_UUID_ITEM, player.uuid)
+//                            stackOfKNBook.orCreateTag.putUUID(PLAYER_UUID_ITEM, player.uuid)
                             val droppedItem = ItemEntity(level, player.x, player.y, player.z, stackOfKNBook)
                             droppedItem.setNoPickUpDelay()
                             level.addFreshEntity(droppedItem)

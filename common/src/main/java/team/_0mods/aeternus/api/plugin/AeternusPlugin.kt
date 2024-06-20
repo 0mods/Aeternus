@@ -20,7 +20,14 @@ import team._0mods.aeternus.api.registry.*
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.CLASS)
 @MustBeDocumented
-annotation class AeternusPluginInit(val modId: String)
+annotation class AeternusPluginInit(
+    /**
+     * Plugin's mod id for registry initialization
+     *
+     * @return [String] of mod id
+     */
+    val modId: String
+)
 
 /**
  * Plugin base interface.
@@ -29,15 +36,7 @@ annotation class AeternusPluginInit(val modId: String)
  * For a more stable plugin, I suggest using Kotlin, not Java or any other JVM-like language
  */
 interface AeternusPlugin {
-    /**
-     * Plugin's mod id for registry initialization
-     *
-     * Deprecated: Use annotation!
-     *
-     * @return [String] of mod id
-     */
-    val modId: String
-        get() = ""
+
 
     /**
      * This is a research registration.

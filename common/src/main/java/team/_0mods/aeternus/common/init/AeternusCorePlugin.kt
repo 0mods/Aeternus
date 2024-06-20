@@ -19,15 +19,12 @@ import team._0mods.aeternus.api.registry.*
 import team._0mods.aeternus.common.LOGGER
 import team._0mods.aeternus.common.ModId
 
-@AeternusPluginInit
+@AeternusPluginInit(ModId)
 class AeternusCorePlugin: AeternusPlugin {
     companion object {
         lateinit var researchRegistry: ResearchRegistry
         lateinit var triggerRegistry: ResearchTriggerRegistry
     }
-
-    override val modId: String
-        get() = ModId
 
     override fun registerResearch(reg: ResearchRegistry) {
         researchRegistry = reg

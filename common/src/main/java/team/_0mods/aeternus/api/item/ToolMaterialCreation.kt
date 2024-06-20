@@ -10,16 +10,22 @@
 
 package team._0mods.aeternus.api.item
 
+import net.minecraft.core.registries.Registries
+import net.minecraft.tags.TagKey
 import net.minecraft.world.item.Tier
+import net.minecraft.world.item.component.Tool
 import net.minecraft.world.item.crafting.Ingredient
+import net.minecraft.world.level.block.Block
+import team._0mods.aeternus.api.util.rl
 
 class ToolMaterialCreation private constructor(
     private val maxUses: Int,
     private val attackSpeed: Float,
     private val attackBonus: Float,
-    private val harvestLevel: Int,
+    private val incorrectBlocks: TagKey<Block>,
     private val enchant: Int,
-    private val ingredient: Ingredient
+    private val ingredient: Ingredient,
+    private val toolProps: (TagKey<Block>) -> Tool
 ): Tier {
     override fun getUses(): Int = this.maxUses
 
@@ -27,11 +33,13 @@ class ToolMaterialCreation private constructor(
 
     override fun getAttackDamageBonus(): Float = this.attackBonus
 
-    override fun getLevel(): Int = this.harvestLevel
+    override fun getIncorrectBlocksForDrops(): TagKey<Block> = this.incorrectBlocks
 
     override fun getEnchantmentValue(): Int = this.enchant
 
     override fun getRepairIngredient(): Ingredient = this.ingredient
+
+    override fun createToolProperties(block: TagKey<Block>): Tool = toolProps(block)
 
     companion object {
         internal val builder = Builder()
@@ -41,8 +49,11 @@ class ToolMaterialCreation private constructor(
         private var maxUses: Int = 250
         private var speed: Float = 6f
         private var attackBonus: Float = 2.0f
-        private var harvestLevel: Int = 2
+        private var incorrectBlocks: TagKey<Block> = TagKey.create(Registries.BLOCK, "air".rl)
         private var enchant: Int = 14
+        private var toolProps: (TagKey<Block>) -> Tool = {
+            Tool(listOf(Tool.Rule.deniesDrops(incorrectBlocks), Tool.Rule.minesAndDrops(it, speed)), speed, attackBonus.toInt())
+        }
         private var repair: Ingredient = Ingredient.EMPTY
 
         fun maxUses(uses: Int): Builder {
@@ -60,8 +71,8 @@ class ToolMaterialCreation private constructor(
             return this
         }
 
-        fun harvestLevel(it: Int): Builder {
-            this.harvestLevel = it
+        fun incorrectBlocks(tag: String): Builder {
+            this.incorrectBlocks = TagKey.create(Registries.BLOCK, tag.rl)
             return this
         }
 
@@ -75,6 +86,11 @@ class ToolMaterialCreation private constructor(
             return this
         }
 
-        fun build(): Tier = ToolMaterialCreation(maxUses, speed, attackBonus, harvestLevel, enchant, repair)
+        fun toolProperties(it: (TagKey<Block>) -> Tool): Builder {
+            this.toolProps = it
+            return this
+        }
+
+        fun build(): Tier = ToolMaterialCreation(maxUses, speed, attackBonus, incorrectBlocks, enchant, repair, toolProps)
     }
 }

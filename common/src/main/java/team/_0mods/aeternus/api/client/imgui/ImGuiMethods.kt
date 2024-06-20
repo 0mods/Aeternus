@@ -488,7 +488,7 @@ object ImGuiMethods {
                 GuiGraphics(Minecraft.getInstance(), Minecraft.getInstance().renderBuffers().bufferSource()),
                 (cursor.x + width / 2 + offsetX),
                 (cursor.y + height + offsetY),
-                (size * scale * 0.9).toInt(),
+                (size * scale * 0.9f),
                 (cursor.x + width / 2 + offsetX - mouse.x) / 10,
                 (cursor.y + height / 2 - offsetY - mouse.y) / 10
             )
@@ -502,7 +502,7 @@ object ImGuiMethods {
             val itemRenderer = minecraft.itemRenderer
 
             val modelView = RenderSystem.getModelViewStack()
-            modelView.pushPose()
+            modelView.pushMatrix()
             modelView.translate(cursor.x + width / 2.0f, cursor.y + height / 2.0f, 0.0f)
 
             val scale = min(width / 16, height / 16)
@@ -517,14 +517,14 @@ object ImGuiMethods {
                 Minecraft.getInstance().level!!,
                 0
             )
-            modelView.popPose()
-
+            modelView.popMatrix()
         }
 
         val player = Minecraft.getInstance().player ?: return
         if (ImGui.isItemHovered()) {
             ImGui.setTooltip(
                 item.getTooltipLines(
+                    Item.TooltipContext.EMPTY,
                     player,
                     TooltipFlag.Default.NORMAL
                 ).joinToString("\n") { it.string })

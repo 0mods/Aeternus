@@ -14,7 +14,6 @@ import team._0mods.aeternus.api.magic.research.trigger.ResearchTrigger
 
 interface ResearchSettings {
     companion object
-
     /**
      * List of requirement researches for current research.
      * It could be empty.

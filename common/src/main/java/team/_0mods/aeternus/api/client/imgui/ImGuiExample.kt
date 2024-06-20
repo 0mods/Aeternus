@@ -18,7 +18,6 @@ import net.minecraft.client.Minecraft
 val text = ImString("T e x t . . . \uD83D\uDE00")
 val item = ImInt()
 
-
 fun test() = Renderable {
     ImGui.setNextWindowPos(0f, 0f)
     ImGui.setNextWindowSize(Minecraft.getInstance().window.width.toFloat(), Minecraft.getInstance().window.height.toFloat())

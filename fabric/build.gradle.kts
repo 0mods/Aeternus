@@ -35,7 +35,6 @@ dependencies {
     val fabricVersion: String by rootProject
     val architecturyApiVersion: String by rootProject
     val clothVersion: String by rootProject
-    val klfVersion: String by rootProject
     val imguiVersion: String by project
     val coroutinesVersion: String by project
     val serializationVersion: String by project
@@ -43,16 +42,6 @@ dependencies {
     modImplementation("net.fabricmc:fabric-loader:$fabricLoaderVersion") { include(this) }
     modImplementation("net.fabricmc.fabric-api:fabric-api:$fabricVersion") { include(this) }
     modImplementation("dev.architectury:architectury-fabric:$architecturyApiVersion") { include(this) }
-
-    include("team._0mods:KotlinExtras:kotlin-2.0.0")
-    include("effekseer.swig:Swig:1.0")
-    include("io.github.classgraph:classgraph:4.8.173")
-
-    include("io.github.spair:imgui-java-binding:$imguiVersion")
-    include("io.github.spair:imgui-java-lwjgl3:$imguiVersion")
-    include("io.github.spair:imgui-java-natives-windows:$imguiVersion")
-    include("io.github.spair:imgui-java-natives-linux:$imguiVersion")
-    include("io.github.spair:imgui-java-natives-macos:$imguiVersion")
 
     common(project(path = ":common", configuration = "namedElements")) { isTransitive = false }
     shadowBundle(project(path = ":common", configuration = "transformProductionFabric"))

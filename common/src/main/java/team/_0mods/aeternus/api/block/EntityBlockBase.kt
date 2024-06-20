@@ -81,15 +81,21 @@ abstract class EntityBlockBase(private val blockEntity: (BlockPos, BlockState) -
     }
 
     @Suppress(
-            "OVERRIDE_DEPRECATION",
-            "DEPRECATION"
+        "OVERRIDE_DEPRECATION",
+        "DEPRECATION"
     )
-    override fun use(state: BlockState, level: Level, pos: BlockPos, player: Player, hand: InteractionHand, hitResult: BlockHitResult): InteractionResult {
+    override fun useWithoutItem(
+        state: BlockState,
+        level: Level,
+        pos: BlockPos,
+        player: Player,
+        hitResult: BlockHitResult
+    ): InteractionResult {
         val be = level.getBlockEntity(pos)
-        if (be is IMenued) {
+        if (be is IMenuable) {
             val prov = object: MenuProvider {
                 override fun createMenu(p0: Int, p1: Inventory, p2: Player): AbstractContainerMenu? =
-                        be.getContainer(p0, p1, p2, be)
+                    be.getContainer(p0, p1, p2, be)
 
                 override fun getDisplayName(): Component = this@EntityBlockBase.name
             }
@@ -101,7 +107,7 @@ abstract class EntityBlockBase(private val blockEntity: (BlockPos, BlockState) -
             }
         }
 
-        return super.use(state, level, pos, player, hand, hitResult)
+        return super.useWithoutItem(state, level, pos, player, hitResult)
     }
 
     @Suppress(

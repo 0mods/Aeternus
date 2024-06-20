@@ -24,7 +24,7 @@ class IterNearestAttackableTargetGoal<T: LivingEntity>(
     mustReach: Boolean,
     condition: Predicate<LivingEntity>?
 ): NearestAttackableTargetGoal<T>(mob, clazz, interval, mustSee, mustReach, condition) {
-    private val isAlTake = this.mob.level().dimensionTypeId() == AeternusRegsitry.iterDimType
+    /*private val isAlTake = this.mob.level().dimensionTypeId() == AeternusRegsitry.iterDimType*/
     private val isNight = mob.level().isNight
 
     constructor(mob: Mob, clazz: Class<T>, mustSee: Boolean, mustReach: Boolean):
@@ -37,6 +37,6 @@ class IterNearestAttackableTargetGoal<T: LivingEntity>(
             this(mob, clazz, 10, mustSee, false, null)
 
     override fun canUse(): Boolean {
-        return if (this.isNight && this.isAlTake) super.canUse() else false
+        return /*if (this.isNight && this.isAlTake) super.canUse() else*/ false
     }
 }
