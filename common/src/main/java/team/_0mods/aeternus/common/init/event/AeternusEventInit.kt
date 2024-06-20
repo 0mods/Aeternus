@@ -30,12 +30,12 @@ import team._0mods.aeternus.client.screen.configScreen
 import team._0mods.aeternus.client.keys.AeternusKeys
 import team._0mods.aeternus.common.ModName
 import team._0mods.aeternus.common.init.registry.AeternusRegsitry
+import team._0mods.aeternus.common.item.KnowledgeBook
 import team._0mods.aeternus.service.EtheriumHelper
 import team._0mods.aeternus.service.ResearchHelper
 import kotlin.random.Random
 
 object AeternusEventsInit {
-    internal const val PLAYER_UUID_ITEM = "${ModName}PlayerCheckUUID"
     internal val itemBurn = mutableMapOf<ItemStack, ItemStack>()
 
     fun initServerEvents() {
@@ -56,12 +56,13 @@ object AeternusEventsInit {
                 val stack = player.getItemInHand(hand)
                 if (stack.`is`(Items.BOOK)) {
                     val stackOfKNBook = ItemStack(AeternusRegsitry.knowledgeBook.get())
+                    val stackAsItem = stackOfKNBook.item as KnowledgeBook
                     if (!player.inventory.contains(stackOfKNBook)) {
                         val etheriumCount = EtheriumHelper.getCountForPlayer(player)
                         val random = Random(35)
                         if (etheriumCount >= 35) {
                             player.getItemInHand(hand).shrink(1)
-//                            stackOfKNBook.orCreateTag.putUUID(PLAYER_UUID_ITEM, player.uuid)
+                            stackAsItem.playerUUID = player.uuid
                             val droppedItem = ItemEntity(level, player.x, player.y, player.z, stackOfKNBook)
                             droppedItem.setNoPickUpDelay()
                             level.addFreshEntity(droppedItem)

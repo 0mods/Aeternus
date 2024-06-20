@@ -78,7 +78,7 @@ object AeternusRegsitry {
     /* ITEMS */
     // MISC
     val emptyScroll = items.register("empty_scroll", ::EmptyScroll)
-    val knowledgeBook = items.register("knowledge_book", ::AeternusItem)
+    val knowledgeBook = items.register("knowledge_book", ::KnowledgeBook)
     val etheriumTar = items.register("etherium_tar", ::AeternusItem)
     val crystallizedEtherium = items.register("crystallized_etherium", ::AeternusItem)
     val originaleEtherium = items.register("orginale_etherium", ::AeternusItem)
