@@ -10,25 +10,18 @@
 
 package team._0mods.aeternus.common.init.registry
 
-import dev.architectury.registry.CreativeTabRegistry
-import dev.architectury.registry.registries.DeferredRegister
-import dev.architectury.registry.registries.RegistrySupplier
 import net.minecraft.core.registries.Registries
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceKey
 import net.minecraft.world.item.ArmorItem
-import net.minecraft.world.item.BlockItem
 import net.minecraft.world.item.BucketItem
 import net.minecraft.world.item.Item
-import net.minecraft.world.item.ItemStack
-import net.minecraft.world.level.block.Block
-import net.minecraft.world.level.block.LiquidBlock
 import net.minecraft.world.level.block.SoundType
 import net.minecraft.world.level.block.state.BlockBehaviour
 import net.minecraft.world.level.material.Fluids
 import net.minecraft.world.level.material.PushReaction
-import team._0mods.aeternus.api.impl.registry.SpellRegistryImpl
-import team._0mods.aeternus.api.item.ITabbed
+import ru.hollowhorizon.hc.common.registry.HollowRegistry
+import team._0mods.aeternus.api.block.UnprivatedLiquidBlock
 import team._0mods.aeternus.common.ModId
 import team._0mods.aeternus.api.util.aRl
 import team._0mods.aeternus.common.fluid.LiquidEtherium
@@ -36,68 +29,63 @@ import team._0mods.aeternus.common.helper.AeternusItem
 import team._0mods.aeternus.common.item.*
 
 @Suppress("UnstableApiUsage")
-object AeternusRegsitry {
-    private val items = DeferredRegister.create(ModId, Registries.ITEM)
-    private val tabs = DeferredRegister.create(ModId, Registries.CREATIVE_MODE_TAB)
-    private val fluids = DeferredRegister.create(ModId, Registries.FLUID)
-    private val blocks = DeferredRegister.create(ModId, Registries.BLOCK)
-
+object AeternusRegsitry: HollowRegistry() {
     /* TABS */
-    val aeternusTab = tabs.register("aeternus_tab") {
-        CreativeTabRegistry.create {
-            it.title(tab("misc"))
-                .displayItems { _, o ->
-                    items.registrar.entrySet().forEach { e ->
-                        val i = e.value
-
-                        if (i is ITabbed) o.accept(ItemStack(i))
-                    }
-                }
-                .icon { ItemStack(knowledgeBook.get()) }
-        }
-    }
-
-    val spellTab = tabs.register("spell") {
-        CreativeTabRegistry.create {
-            it.title(tab("spells"))
-                .icon { ItemStack(emptyScroll.get()) }
-                .displayItems { _, output ->
-                    SpellRegistryImpl.scrolls.forEach { s ->
-                        val spell = s.spell
-
-                        if (!spell.isHidden) output.accept(ItemStack(s))
-                    }
-
-                    output.accept(ItemStack(emptyScroll.get()))
-                }
-
-                .icon { ItemStack(emptyScroll.get()) }
-        }
-    }
+//    val aeternusTab = tabs.register("aeternus_tab") {
+//        CreativeTabRegistry.create {
+//            it.title(tab("misc"))
+//                .displayItems { _, o ->
+//                    items.registrar.entrySet().forEach { e ->
+//                        val i = e.value
+//
+//                        if (i is ITabbed) o.accept(ItemStack(i))
+//                    }
+//                }
+//                .icon { ItemStack(knowledgeBook.get()) }
+//        }
+//    }
+//
+//    val spellTab = tabs.register("spell") {
+//        CreativeTabRegistry.create {
+//            it.title(tab("spells"))
+//                .icon { ItemStack(emptyScroll.get()) }
+//                .displayItems { _, output ->
+//                    SpellRegistryImpl.scrolls.forEach { s ->
+//                        val spell = s.spell
+//
+//                        if (!spell.isHidden) output.accept(ItemStack(s))
+//                    }
+//
+//                    output.accept(ItemStack(emptyScroll.get()))
+//                }
+//
+//                .icon { ItemStack(emptyScroll.get()) }
+//        }
+//    }
 
     /* ITEMS */
     // MISC
-    val emptyScroll = items.register("empty_scroll", ::EmptyScroll)
-    val knowledgeBook = items.register("knowledge_book", ::KnowledgeBook)
-    val etheriumTar = items.register("etherium_tar", ::AeternusItem)
-    val crystallizedEtherium = items.register("crystallized_etherium", ::AeternusItem)
-    val originaleEtherium = items.register("orginale_etherium", ::AeternusItem)
-    val drilldwill = items.register("drilldwill", ::AeternusItem)
+    val emptyScroll by register("empty_scroll".aRl, true) { EmptyScroll() }
+    val knowledgeBook by register("knowledge_book".aRl, true) { KnowledgeBook() }
+    val etheriumTar by register("etherium_tar".aRl, true) { AeternusItem() }
+    val crystallizedEtherium by register("crystallized_etherium".aRl, true) { AeternusItem() }
+    val originaleEtherium by register("orginale_etherium".aRl, true) { AeternusItem() }
+    val drilldwill by register("drilldwill".aRl, true) { AeternusItem() }
 
     // BUCKETS
-    val etheriumBucket = items.register("etherium_bucket") { BucketItem(Fluids.EMPTY, Item.Properties()) }
+    val etheriumBucket by register("etherium_bucket".aRl, true) { BucketItem(Fluids.EMPTY, Item.Properties()) }
 
     // ARMORS
-    val drilldwillHelmet = items.register("drilldwill_helmet") {
+    val drilldwillHelmet by register("drilldwill_helmet".aRl) {
         DrilldwillArmor(ArmorItem.Type.HELMET, Item.Properties())
     }
-    val drilldwillChest = items.register("drilldwill_chestplate") {
+    val drilldwillChest by register("drilldwill_chestplate".aRl) {
         DrilldwillArmor(ArmorItem.Type.CHESTPLATE, Item.Properties())
     }
-    val drilldwillLegs = items.register("drilldwill_leggings") {
+    val drilldwillLegs by register("drilldwill_leggings".aRl) {
         DrilldwillArmor(ArmorItem.Type.LEGGINGS, Item.Properties())
     }
-    val drilldwillBoots = items.register("drilldwill_boots") {
+    val drilldwillBoots by register("drilldwill_boots".aRl) {
         DrilldwillArmor(ArmorItem.Type.BOOTS, Item.Properties())
     }
 
@@ -107,12 +95,12 @@ object AeternusRegsitry {
     val iterDimType = ResourceKey.create(Registries.DIMENSION_TYPE, "iter".aRl)
 
     /* FLUIDS */
-    val liquidEtherium = fluids.register("etherium", LiquidEtherium::Source)
-    val etheriumFlowing = fluids.register("etherium_flowing", LiquidEtherium::Flowing)
+    val liquidEtherium by register("etherium".aRl) { LiquidEtherium.Source() }
+    val etheriumFlowing by register("etherium_flowing".aRl) { LiquidEtherium.Flowing() }
 
     /* BLOCKS */
-    val liquidEtheriumBlock = block("etherium_fluid") {
-        LiquidBlock(
+    val liquidEtheriumBlock by register("etherium_fluid".aRl) {
+        UnprivatedLiquidBlock(
             etheriumFlowing.get(),
             BlockBehaviour.Properties.of()
                 .liquid()
@@ -127,18 +115,6 @@ object AeternusRegsitry {
 
     @JvmStatic
     fun init() {
-        SpellRegistryImpl.onReg(items)
-
-        items.register()
-        tabs.register()
-        fluids.register()
-        blocks.register()
-    }
-
-    fun <T: Block> block(id: String, block: () -> T): RegistrySupplier<T> {
-        val b = blocks.register(id, block)
-        items.register(id) { BlockItem(b.get(), Item.Properties()) }
-        return b
     }
 
     private fun tab(id: String): Component = Component.translatable("itemGroup.$ModId.$id")

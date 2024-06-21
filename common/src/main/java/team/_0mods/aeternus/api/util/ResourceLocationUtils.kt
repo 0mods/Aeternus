@@ -47,13 +47,13 @@ class DoubleResourceLocation(var id: ResourceLocation, val value: ResourceLocati
     constructor(location: String): this(decompose(location, ':'))
 }
 
-fun resloc(id: String, path: String) = ResourceLocation(id, path)
+fun resloc(id: String, path: String) = ResourceLocation.fromNamespaceAndPath(id, path)
 
 val String.aRl: ResourceLocation
     get() = "$ModId:$this".rl
 
 val String.rl: ResourceLocation
-    get() = ResourceLocation(this)
+    get() = ResourceLocation.bySeparator(this, ':')
 
 val ResourceLocation.stream: InputStream
     get() = try {

@@ -10,7 +10,6 @@
 
 package team._0mods.aeternus.common.init
 
-import dev.architectury.registry.ReloadListenerRegistry
 import net.minecraft.server.packs.PackType
 import team._0mods.aeternus.api.impl.research.reload.ResearchReloadListener
 import team._0mods.aeternus.api.plugin.AeternusPlugin
@@ -28,7 +27,7 @@ class AeternusCorePlugin: AeternusPlugin {
 
     override fun registerResearch(reg: ResearchRegistry) {
         researchRegistry = reg
-        ReloadListenerRegistry.register(PackType.SERVER_DATA, ResearchReloadListener(reg))
+//        ReloadListenerRegistry.register(PackType.SERVER_DATA, ResearchReloadListener(reg))
         LOGGER.info("Research Registry is initialized")
     }
 

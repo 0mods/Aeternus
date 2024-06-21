@@ -10,7 +10,7 @@ architectury {
 
 dependencies {
     val architecturyApiVersion: String by rootProject
-    modApi("dev.architectury:architectury:$architecturyApiVersion")
+    implementation("ru.hollowhorizon:HollowCore:1.21-1.0.0-dev")
 }
 
 publishing {

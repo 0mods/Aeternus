@@ -17,14 +17,13 @@ import imgui.type.ImInt
 import team._0mods.aeternus.api.client.gui.height
 import team._0mods.aeternus.api.client.gui.width
 import team._0mods.aeternus.api.client.imgui.DockingHelper
-import team._0mods.aeternus.api.client.imgui.ImGuiMethods
-import team._0mods.aeternus.api.client.screen.ImGuiScreen
+import team._0mods.aeternus.api.client.screen.AeternusImGuiScreen
 import team._0mods.aeternus.api.util.imguiTranslate
 import team._0mods.aeternus.common.commonConfig
 import team._0mods.aeternus.common.commonConfigInstance
 import team._0mods.aeternus.common.init.config.AeternusCommonConfig
 
-fun configScreen() = ImGuiScreen(false) {
+fun configScreen() = AeternusImGuiScreen(false) {
     val fileName = commonConfigInstance.fileName
     val defaultConfig = AeternusCommonConfig()
     val currentConfig = commonConfig

@@ -43,8 +43,6 @@ dependencies {
 
     forge("net.minecraftforge:forge:$minecraftVersion-$forgeVersion")
 
-//    modImplementation("dev.architectury:architectury-forge:$architecturyApiVersion") { include(this) }
-
     common(project(path = ":common", configuration = "namedElements")) { isTransitive = false }
     common(project(path = ":forgelike", configuration = "namedElements")) { isTransitive = false }
     shadowCommon(project(path = ":common", configuration = "transformProductionForge")) { isTransitive = false }

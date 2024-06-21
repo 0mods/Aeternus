@@ -10,14 +10,10 @@
 
 package team._0mods.aeternus
 
-//import dev.architectury.platform.forge.EventBuses
-import net.minecraftforge.common.capabilities.ForgeCapabilities
-import net.minecraftforge.energy.EnergyStorage
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
 import net.minecraftforge.fml.loading.FMLEnvironment
-import net.minecraftforge.items.ItemStackHandler
 import team._0mods.aeternus.common.*
 
 @Mod(ModId)
@@ -25,12 +21,9 @@ class AeternusForge {
     init {
         val bus = FMLJavaModLoadingContext.get().modEventBus
 
-//        EventBuses.registerModEventBus(ModId, bus)
         commonInit()
         if (FMLEnvironment.dist.isClient)
             bus.addListener(this::initClient)
-
-        ForgeCapabilities.ITEM_HANDLER
     }
 
     private fun initClient(e: FMLClientSetupEvent) {

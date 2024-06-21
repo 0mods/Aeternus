@@ -14,7 +14,7 @@ class KnowledgeBook: AeternusItem({
 
     var playerUUID: UUID
         get() {
-            val tag = components().get(DataComponents.CUSTOM_DATA)!!.unsafe
+            val tag = components().get(DataComponents.CUSTOM_DATA)!!.copyTag()
             return tag.getUUID(playerUUIDItem)
         }
 

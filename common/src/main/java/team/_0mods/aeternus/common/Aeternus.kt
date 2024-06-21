@@ -13,8 +13,6 @@
 package team._0mods.aeternus.common
 
 import com.mojang.blaze3d.systems.RenderSystem
-import dev.architectury.event.events.common.CommandRegistrationEvent
-import dev.architectury.registry.client.keymappings.KeyMappingRegistry
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import team._0mods.aeternus.api.client.imgui.ImguiHandler
@@ -51,17 +49,10 @@ fun commonInit() {
     LOGGER.debugIfEnabled("DEBUG MODE IS ACTIVATED")
 
     AeternusRegsitry.init()
-    AeternusEventsInit.initServerEvents()
     AeternusAnnotationProcessor.start()
-
-    CommandRegistrationEvent.EVENT.register { builder, _, _ ->
-        AeternusCommands.register(builder)
-    }
 }
 
 fun clientInit() {
     RenderSystem.recordRenderCall { ImguiHandler.initialize() }
-    AeternusEventsInit.initClientEvents()
-
-    registries.forEach(KeyMappingRegistry::register)
+//    registries.forEach(KeyMappingRegistry::register)
 }

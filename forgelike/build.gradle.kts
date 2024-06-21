@@ -13,7 +13,6 @@ dependencies {
     val architecturyApiVersion: String by rootProject
     forge("net.minecraftforge:forge:$minecraftVersion-$forgeVersion")
     compileOnly(project(":common"))
-    modImplementation("dev.architectury:architectury:$architecturyApiVersion")
 
     include("io.github.classgraph:classgraph:4.8.173")
 }

@@ -120,6 +120,9 @@ subprojects {
         maven("https://maven.fabricmc.net/")
         maven("https://maven.neoforged.net/releases")
         maven("https://maven.minecraftforge.net")
+        flatDir {
+            dirs("libs")
+        }
     }
 
     dependencies {
@@ -127,17 +130,12 @@ subprojects {
         @Suppress("UnstableApiUsage")
         "mappings"(loom.layered {
             this.officialMojangMappings()
-            parchment("org.parchmentmc.data:parchment-${parchmentMCVersion}:${parchmentVersion}@zip")
+//            parchment("org.parchmentmc.data:parchment-${parchmentMCVersion}:${parchmentVersion}@zip")
         })
 
         if (project != findProject(":common")) {
             "include"("team._0mods:KotlinExtras:kotlin-2.0.0")
-            "include"("effekseer.swig:Swig:1.0")
             "include"("io.github.classgraph:classgraph:4.8.173")
-            "include"("team.0mods:imgui-app:$imguiVersion")
-            "include"("team.0mods:imgui-binding:$imguiVersion")
-            "include"("team.0mods:imgui-lwjgl3:$imguiVersion")
-            "include"("team.0mods:imgui-binding-natives:$imguiVersion")
         }
     }
 

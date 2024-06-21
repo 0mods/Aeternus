@@ -10,47 +10,23 @@
 
 package team._0mods.aeternus.common.init.event
 
-import dev.architectury.event.CompoundEventResult
-import dev.architectury.event.EventResult
-import dev.architectury.event.events.client.ClientTickEvent
-import dev.architectury.event.events.common.InteractionEvent
-import dev.architectury.event.events.common.TickEvent
 import net.minecraft.client.Minecraft
 import net.minecraft.world.InteractionHand
-import net.minecraft.world.entity.EntityType
-import net.minecraft.world.entity.item.ItemEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
-import net.minecraft.world.item.Items
-import net.minecraft.world.level.block.Blocks
-import net.minecraft.world.level.block.FireBlock
-import team._0mods.aeternus.api.client.TickHandler
-import team._0mods.aeternus.api.event.EntityHurtEvent
+import ru.hollowhorizon.hc.common.events.SubscribeEvent
+import ru.hollowhorizon.hc.common.events.tick.TickEvent
 import team._0mods.aeternus.api.magic.research.ResearchRequired
 import team._0mods.aeternus.client.screen.configScreen
 import team._0mods.aeternus.client.keys.AeternusKeys
-import team._0mods.aeternus.common.ModName
-import team._0mods.aeternus.common.init.registry.AeternusRegsitry
-import team._0mods.aeternus.common.item.KnowledgeBook
-import team._0mods.aeternus.service.EtheriumHelper
 import team._0mods.aeternus.service.ResearchHelper
 import kotlin.random.Random
 
 object AeternusEventsInit {
     internal val itemBurn = mutableMapOf<ItemStack, ItemStack>()
 
-    fun initServerEvents() {
-        onUse()
-        hurtItem()
-        serverTickHandler()
-    }
-
-    fun initClientEvents() {
-        clientTickHandler()
-        buttonClickHandler()
-    }
-
     private fun onUse() {
-        InteractionEvent.RIGHT_CLICK_ITEM.register { player, hand ->
+        /*InteractionEvent.RIGHT_CLICK_ITEM.register { player, hand ->
             val level = player.level()
             if (hand == InteractionHand.MAIN_HAND) {
                 val stack = player.getItemInHand(hand)
@@ -75,11 +51,11 @@ object AeternusEventsInit {
                 }
             }
             return@register CompoundEventResult.pass()
-        }
+        }*/
     }
 
     private fun hurtItem() {
-        EntityHurtEvent.EVENT.register { entity, _, _ ->
+        /*EntityHurtEvent.EVENT.register { entity, _, _ ->
             val level = entity.level()
             if (level.isClientSide) return@register EventResult.interruptFalse()
             if (entity is ItemEntity) {
@@ -110,41 +86,29 @@ object AeternusEventsInit {
             }
 
             return@register EventResult.pass()
-        }
+        }*/
     }
 
-    private fun playerResearchCheck() {
-        TickEvent.PLAYER_PRE.register {
-            val itemStack = it.getItemInHand(InteractionHand.MAIN_HAND)
-            val item = itemStack.item
+    @SubscribeEvent
+    fun onPlayerResearchCheck(e: TickEvent.Entity) {
+        val player = e.entity
+        if (player is Player) {
+            val stack = player.getItemInHand(InteractionHand.MAIN_HAND)
+            val item = stack.item
 
             if (item is ResearchRequired) {
                 val req = item.requirements
 
-                if (!ResearchHelper.hasResearches(it, *req.toTypedArray())) {
+                if (!ResearchHelper.hasResearches(player, *req.toTypedArray()))
                     item.lockItem = true
-                }
             }
         }
     }
 
-    private fun serverTickHandler() {
-        TickEvent.SERVER_POST.register {
-            TickHandler.serverTicks()
-        }
-    }
-
-    private fun clientTickHandler() {
-        ClientTickEvent.CLIENT_POST.register {
-            TickHandler.serverTicks()
-        }
-    }
-
-    private fun buttonClickHandler() {
-        ClientTickEvent.CLIENT_POST.register {
-            while (AeternusKeys.configGUIOpen.consumeClick()) {
-                Minecraft.getInstance().setScreen(configScreen())
-            }
+    @SubscribeEvent(clientSideOnly = true)
+    fun onButtonClick(e: TickEvent.Client) {
+        while (AeternusKeys.configGUIOpen.consumeClick()) {
+            Minecraft.getInstance().setScreen(configScreen())
         }
     }
 }

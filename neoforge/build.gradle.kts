@@ -37,8 +37,6 @@ dependencies {
 
     neoForge("net.neoforged:neoforge:$neoVersion")
 
-    modImplementation("dev.architectury:architectury-neoforge:$architecturyApiVersion") { include(this) }
-
     common(project(path = ":common", configuration = "namedElements")) { isTransitive = false }
     forgeLike(project(path = ":forgelike", configuration = "namedElements"))
     shadowCommon(project(path = ":common", configuration = "transformProductionNeoForge")) { isTransitive = false }
