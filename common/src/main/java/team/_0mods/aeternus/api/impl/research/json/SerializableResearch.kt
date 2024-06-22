@@ -13,8 +13,6 @@ package team._0mods.aeternus.api.impl.research.json
 import kotlinx.serialization.Required
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import net.minecraft.network.chat.Component
-import net.minecraft.resources.ResourceLocation
 import team._0mods.aeternus.api.magic.research.Research
 import team._0mods.aeternus.api.magic.research.ResearchSettings
 import team._0mods.aeternus.api.magic.research.book.ResearchAlignment
@@ -22,10 +20,9 @@ import team._0mods.aeternus.api.magic.research.book.ResearchBookMetadata
 import team._0mods.aeternus.api.magic.research.book.ResearchShape
 import team._0mods.aeternus.api.magic.research.create
 import team._0mods.aeternus.api.magic.research.of
-import team._0mods.aeternus.api.util.mcTranslate
-import team._0mods.aeternus.api.util.rl
-import team._0mods.aeternus.api.util.toRLList
-import team._0mods.aeternus.common.init.AeternusCorePlugin
+import team._0mods.aeternus.api.util.toAPIRLList
+import team._0mods.aeternus.platformredirect.common.init.AeternusCorePlugin
+import team._0mods.aeternus.platformredirect.api.util.textTranslate
 
 @Serializable
 data class JSONResearch(
@@ -38,8 +35,8 @@ data class JSONResearch(
 ) {
     val asResearch: Research = Research.create(
         ResearchSettings.of(
-            AeternusCorePlugin.triggerRegistry.getByIdList(triggers.toRLList),
-            AeternusCorePlugin.researchRegistry.getByIdList(dependencies.toRLList).toList()
+            AeternusCorePlugin.triggerRegistry.getByIdList(triggers.toAPIRLList),
+            AeternusCorePlugin.researchRegistry.getByIdList(dependencies.toAPIRLList).toList()
         ),
         metadata.asBookMetadata,
         etheriumCount
@@ -56,8 +53,8 @@ data class JSONBookMetadata(
     @SerialName("shape") val shapeId: Int = 0
 ) {
     val asBookMetadata: ResearchBookMetadata = ResearchBookMetadata.of(
-        name.mcTranslate,
-        description.mcTranslate,
+        name.textTranslate,
+        description.textTranslate,
         texture,
         inBookPosition.x to inBookPosition.y,
         ResearchAlignment.getById(alignId),

@@ -13,7 +13,6 @@
 package team._0mods.aeternus.api.util
 
 import com.google.common.collect.Multimap
-import net.minecraft.resources.ResourceLocation
 import org.jetbrains.annotations.ApiStatus
 
 @ApiStatus.Experimental
@@ -31,12 +30,12 @@ fun <K, V> Map<K, V>.revert(): Map<V, K> {
 }
 
 @get:ApiStatus.Experimental
-val List<String>.toRLList: List<ResourceLocation>
+val List<String>.toAPIRLList: List<APIResourceLocation>
     get() {
-        val rlList = mutableListOf<ResourceLocation>()
+        val rlList = mutableListOf<APIResourceLocation>()
         for (id in this) {
-            if (rlList.stream().noneMatch { it == id.rl })
-                rlList.add(id.rl)
+            if (rlList.stream().noneMatch { it == APIResourceLocation.createRL(id) })
+                rlList.add(APIResourceLocation.createRL(id))
             else continue
         }
         return rlList.toList()

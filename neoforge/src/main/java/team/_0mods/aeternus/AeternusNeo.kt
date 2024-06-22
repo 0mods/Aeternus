@@ -13,7 +13,9 @@ package team._0mods.aeternus
 import net.neoforged.bus.api.IEventBus
 import net.neoforged.fml.common.Mod
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent
-import team._0mods.aeternus.common.*
+import team._0mods.aeternus.platformredirect.common.ModId
+import team._0mods.aeternus.platformredirect.common.clientInit
+import team._0mods.aeternus.platformredirect.common.commonInit
 
 @Mod(ModId)
 class AeternusNeo(bus: IEventBus) {

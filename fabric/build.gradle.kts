@@ -60,7 +60,8 @@ tasks {
     shadowJar {
         configurations = listOf(shadowBundle)
         archiveClassifier = "dev-shadow"
-        relocate("team._0mods.aeternus", "team._0mods.aeternus.fabric")
+        relocate("team._0mods.aeternus.platformredirect", "team._0mods.aeternus.fabric")
+        relocate("team._0mods.aeternus.service", "team._0mods.aeternus.fabric.service")
     }
 
     remapJar {

@@ -14,7 +14,7 @@ import net.minecraft.world.item.Rarity
 import net.minecraftforge.common.extensions.IForgeFluid
 import net.minecraftforge.fluids.FluidType
 import org.spongepowered.asm.mixin.Mixin
-import team._0mods.aeternus.common.fluid.LiquidEtherium
+import team._0mods.aeternus.platformredirect.common.fluid.LiquidEtherium
 
 @Mixin(LiquidEtherium::class)
 class LiquidEtheriumMixin: IForgeFluid {

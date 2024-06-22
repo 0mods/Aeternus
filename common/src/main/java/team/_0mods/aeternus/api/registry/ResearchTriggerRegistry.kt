@@ -10,15 +10,15 @@
 
 package team._0mods.aeternus.api.registry
 
-import net.minecraft.resources.ResourceLocation
 import team._0mods.aeternus.api.magic.research.trigger.*
+import team._0mods.aeternus.api.util.APIResourceLocation
 
 interface ResearchTriggerRegistry {
     val triggers: List<ResearchTrigger>
 
-    fun getById(id: ResourceLocation): ResearchTrigger?
+    fun getById(id: APIResourceLocation): ResearchTrigger?
 
     fun register(id: String, research: ResearchTrigger)
 
-    fun getByIdList(id: List<ResourceLocation>): List<ResearchTrigger>
+    fun getByIdList(id: List<APIResourceLocation>): List<ResearchTrigger>
 }

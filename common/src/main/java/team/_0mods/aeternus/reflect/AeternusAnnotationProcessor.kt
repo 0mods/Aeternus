@@ -4,7 +4,7 @@ import io.github.classgraph.ClassGraph
 import team._0mods.aeternus.api.impl.registry.*
 import team._0mods.aeternus.api.plugin.AeternusPlugin
 import team._0mods.aeternus.api.plugin.AeternusPluginInit
-import team._0mods.aeternus.common.LOGGER
+import team._0mods.aeternus.platformredirect.common.LOGGER
 
 object AeternusAnnotationProcessor {
     private val graph = ClassGraph().enableAllInfo().scan()

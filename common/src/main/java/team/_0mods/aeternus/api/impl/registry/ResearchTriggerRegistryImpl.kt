@@ -10,40 +10,39 @@
 
 package team._0mods.aeternus.api.impl.registry
 
-import net.minecraft.resources.ResourceLocation
 import team._0mods.aeternus.api.magic.research.trigger.*
 import team._0mods.aeternus.api.registry.ResearchTriggerRegistry
-import team._0mods.aeternus.api.util.debugIfEnabled
+import team._0mods.aeternus.api.util.APIResourceLocation
+import team._0mods.aeternus.api.util.createRL
 import team._0mods.aeternus.api.util.fromMapToListByList
 import team._0mods.aeternus.api.util.noneMatchKey
-import team._0mods.aeternus.api.util.rl
-import team._0mods.aeternus.common.LOGGER
+import team._0mods.aeternus.platformredirect.common.LOGGER
 import team._0mods.aeternus.service.PlatformHelper
 
 class ResearchTriggerRegistryImpl(private val modId: String): ResearchTriggerRegistry {
     companion object {
         @JvmStatic
-        private val triggerMap: MutableMap<ResourceLocation, ResearchTrigger> = linkedMapOf()
+        private val triggerMap: MutableMap<APIResourceLocation, ResearchTrigger> = linkedMapOf()
     }
 
     override val triggers: List<ResearchTrigger>
         get() = triggerMap.values.toList()
 
-    override fun getById(id: ResourceLocation): ResearchTrigger? =
+    override fun getById(id: APIResourceLocation): ResearchTrigger? =
         triggerMap[id]
 
     override fun register(id: String, research: ResearchTrigger) {
-        val resLocId = "${this.modId}:$id".rl
+        val resLocId = APIResourceLocation.createRL(modId, id)
 
         if (triggerMap.noneMatchKey(resLocId)) triggerMap[resLocId] = research
         else warn(resLocId)
     }
 
-    override fun getByIdList(id: List<ResourceLocation>): List<ResearchTrigger> = triggerMap.fromMapToListByList(id)
+    override fun getByIdList(id: List<APIResourceLocation>): List<ResearchTrigger> = triggerMap.fromMapToListByList(id)
 
-    private fun warn(id: ResourceLocation) = LOGGER.warn(
+    private fun warn(id: APIResourceLocation) = LOGGER.warn(
         "Oh... Mod: {} trying to register a research trigger with id {}, because research with this id is already registered! Skipping...",
-        PlatformHelper.getModNameByModId(id.namespace),
+        PlatformHelper.getModNameByModId(id.rlNamespace),
         id
     )
 }

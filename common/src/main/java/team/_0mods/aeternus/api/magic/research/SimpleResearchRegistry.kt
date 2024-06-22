@@ -10,11 +10,11 @@
 
 package team._0mods.aeternus.api.magic.research
 
-import net.minecraft.resources.ResourceLocation
 import team._0mods.aeternus.api.registry.ResearchRegistry
-import team._0mods.aeternus.common.LOGGER
-import team._0mods.aeternus.common.ModId
-import team._0mods.aeternus.common.init.AeternusCorePlugin
+import team._0mods.aeternus.api.util.APIResourceLocation
+import team._0mods.aeternus.platformredirect.common.LOGGER
+import team._0mods.aeternus.platformredirect.common.ModId
+import team._0mods.aeternus.platformredirect.common.init.AeternusCorePlugin
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
@@ -40,7 +40,7 @@ object SimpleResearchRegistry {
         return this.register(cId, research)
     }
 
-    fun <T: Research> register(id: ResourceLocation, research: () -> T): ResearchDelegate<T> {
+    fun <T: Research> register(id: APIResourceLocation, research: () -> T): ResearchDelegate<T> {
         val lazyfied by lazy {
             AeternusCorePlugin.researchRegistry.register(id, research())
         }

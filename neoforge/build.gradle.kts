@@ -47,7 +47,8 @@ tasks {
     shadowJar {
         configurations = listOf(shadowCommon)
         archiveClassifier = "dev-shadow"
-        relocate("team._0mods.aeternus", "team._0mods.aeternus.neoforged")
+        relocate("team._0mods.aeternus.platformredirect", "team._0mods.aeternus.neoforge")
+        relocate("team._0mods.aeternus.service", "team._0mods.aeternus.neoforge.service")
     }
 
     remapJar {

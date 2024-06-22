@@ -10,7 +10,7 @@
 
 package team._0mods.aeternus.api.registry
 
-import team._0mods.aeternus.api.item.ToolMaterialCreation
+import team._0mods.aeternus.platformredirect.api.item.ToolMaterialCreation
 import team._0mods.aeternus.api.item.material.Material
 import team._0mods.aeternus.api.item.material.MaterialBuilder
 

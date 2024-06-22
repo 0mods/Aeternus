@@ -36,8 +36,6 @@ annotation class AeternusPluginInit(
  * For a more stable plugin, I suggest using Kotlin, not Java or any other JVM-like language
  */
 interface AeternusPlugin {
-
-
     /**
      * This is a research registration.
      *

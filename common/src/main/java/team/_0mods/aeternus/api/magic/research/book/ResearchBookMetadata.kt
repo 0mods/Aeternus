@@ -10,8 +10,8 @@
 
 package team._0mods.aeternus.api.magic.research.book
 
-import net.minecraft.network.chat.Component
-import net.minecraft.resources.ResourceLocation
+import team._0mods.aeternus.api.util.APIResourceLocation
+import team._0mods.aeternus.api.util.Text
 
 interface ResearchBookMetadata {
     companion object
@@ -19,23 +19,23 @@ interface ResearchBookMetadata {
     /**
      * Translatable Research name.
      *
-     * Returns [Component]
+     * Returns [Text]
      */
-    val title: Component
+    val title: Text
 
     /**
      * Translatable Research description.
      *
-     * Returns [Component]
+     * Returns [Text]
      */
-    val desc: Component
+    val desc: Text
 
     /**
      * Research texture.
      *
-     * Returns [ResourceLocation]
+     * Returns [APIResourceLocation]
      */
-    val icon: ResourceLocation
+    val icon: APIResourceLocation
 
     /**
      * Research offset on a book

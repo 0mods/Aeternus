@@ -11,6 +11,7 @@
 package team._0mods.aeternus.capability
 
 import net.minecraft.core.Direction
+import net.minecraft.core.HolderLookup
 import net.minecraft.nbt.ListTag
 import net.minecraft.nbt.StringTag
 import net.minecraftforge.common.capabilities.Capability
@@ -18,10 +19,11 @@ import net.minecraftforge.common.capabilities.ICapabilitySerializable
 import net.minecraftforge.common.util.LazyOptional
 import team._0mods.aeternus.api.magic.research.Research
 import team._0mods.aeternus.api.magic.research.player.PlayerResearch
-import team._0mods.aeternus.api.util.rl
-import team._0mods.aeternus.common.init.AeternusCorePlugin
+import team._0mods.aeternus.platformredirect.api.util.rl
+import team._0mods.aeternus.platformredirect.common.init.AeternusCorePlugin
 import team._0mods.aeternus.api.emptyLazyOpt
 import team._0mods.aeternus.api.lazyOptOf
+import team._0mods.aeternus.platformredirect.api.util.toAPI
 
 class PlayerResearchCapability: PlayerResearch {
     private val resReg = AeternusCorePlugin.researchRegistry
@@ -52,8 +54,8 @@ class PlayerResearchCapability: PlayerResearch {
             for (i in 0 ..< tag.size) {
                 val founded = tag.getString(i)
 
-                if (!researches.stream().noneMatch { resReg.getId(it) == founded.rl }) {
-                    val foundedResearch = resReg.getById(founded.rl) ?: continue
+                if (!researches.stream().noneMatch { resReg.getId(it) == founded.rl.toAPI }) {
+                    val foundedResearch = resReg.getById(founded.rl.toAPI) ?: continue
                     this.addResearch(foundedResearch)
                 } else continue
             }
@@ -78,8 +80,14 @@ class PlayerResearchCapability: PlayerResearch {
             return emptyLazyOpt()
         }
 
-        override fun serializeNBT(): ListTag = createCap().save()
+        override fun serializeNBT(arg: HolderLookup.Provider?): ListTag = serializeNBT()
 
-        override fun deserializeNBT(p0: ListTag?) = createCap().load(p0)
+        override fun deserializeNBT(arg: HolderLookup.Provider?, arg2: ListTag?) {
+            deserializeNBT(arg2)
+        }
+
+        fun serializeNBT(): ListTag = createCap().save()
+
+        fun deserializeNBT(p0: ListTag?) = createCap().load(p0)
     }
 }

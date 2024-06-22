@@ -14,7 +14,7 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
 import kotlinx.serialization.json.encodeToStream
-import team._0mods.aeternus.common.LOGGER
+import team._0mods.aeternus.platformredirect.common.LOGGER
 import team._0mods.aeternus.service.PlatformHelper
 import java.io.File
 

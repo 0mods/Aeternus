@@ -14,7 +14,9 @@ import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext
 import net.minecraftforge.fml.loading.FMLEnvironment
-import team._0mods.aeternus.common.*
+import team._0mods.aeternus.platformredirect.common.ModId
+import team._0mods.aeternus.platformredirect.common.clientInit
+import team._0mods.aeternus.platformredirect.common.commonInit
 
 @Mod(ModId)
 class AeternusForge {

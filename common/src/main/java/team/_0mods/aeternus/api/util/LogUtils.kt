@@ -12,7 +12,7 @@ package team._0mods.aeternus.api.util
 
 import org.slf4j.Logger
 import org.slf4j.Marker
-import team._0mods.aeternus.common.commonConfig
+import team._0mods.aeternus.platformredirect.common.commonConfig
 import team._0mods.aeternus.service.PlatformHelper
 
 private val dm = commonConfig.debug.value

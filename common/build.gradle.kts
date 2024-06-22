@@ -10,6 +10,7 @@ architectury {
 
 dependencies {
     val architecturyApiVersion: String by rootProject
+    compileOnly("org.spongepowered:mixin:0.8.5")
     implementation("ru.hollowhorizon:HollowCore:1.21-1.0.0-dev")
 }
 

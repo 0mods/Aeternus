@@ -12,8 +12,8 @@ package team._0mods.aeternus.capability
 
 import team._0mods.aeternus.api.magic.research.Research
 import team._0mods.aeternus.api.magic.research.player.PlayerResearch
-import team._0mods.aeternus.common.LOGGER
-import team._0mods.aeternus.common.init.AeternusCorePlugin
+import team._0mods.aeternus.platformredirect.common.LOGGER
+import team._0mods.aeternus.platformredirect.common.init.AeternusCorePlugin
 
 class PlayerResearchCapability: PlayerResearch {
     private val resReg = AeternusCorePlugin.researchRegistry
