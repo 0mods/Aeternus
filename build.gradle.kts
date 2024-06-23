@@ -3,7 +3,6 @@
 import groovy.lang.Closure
 import io.github.pacifistmc.forgix.plugin.ForgixMergeExtension.*
 import net.fabricmc.loom.api.LoomGradleExtensionAPI
-import org.jetbrains.kotlin.gradle.plugin.ide.kotlinExtrasSerialization
 
 val minecraftVersion: String by project
 val modName: String by project
@@ -134,6 +133,7 @@ subprojects {
         })
 
         if (project != findProject(":common")) {
+            "include"("dev.architectury:architectury-injectables:1.0.10")
             "include"("team._0mods:KotlinExtras:kotlin-2.0.0")
             "include"("io.github.classgraph:classgraph:4.8.173")
         }

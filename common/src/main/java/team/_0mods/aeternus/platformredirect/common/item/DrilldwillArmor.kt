@@ -18,26 +18,30 @@ import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ArmorItem
 import net.minecraft.world.item.ItemStack
-import team._0mods.aeternus.platformredirect.api.item.ArmorMaterialCreation
-import team._0mods.aeternus.platformredirect.api.item.ArmorMaterialCreation.Companion.builder
+import net.minecraft.world.level.portal.DimensionTransition
+import ru.hollowhorizon.hc.common.events.EventBus
+import ru.hollowhorizon.hc.common.events.tick.TickEvent
 import team._0mods.aeternus.api.item.ITabbed
 import team._0mods.aeternus.api.util.*
-import team._0mods.aeternus.platformredirect.common.init.registry.AeternusRegsitry
+import team._0mods.aeternus.platformredirect.api.item.ArmorMaterialCreation
+import team._0mods.aeternus.platformredirect.api.item.ArmorMaterialCreation.Companion.builder
 import team._0mods.aeternus.platformredirect.api.util.aRl
 import team._0mods.aeternus.platformredirect.api.util.generateArmorTranslateByParent
+import team._0mods.aeternus.platformredirect.api.util.isFalling
+import team._0mods.aeternus.platformredirect.api.util.isMoving
+import team._0mods.aeternus.platformredirect.common.init.registry.AeternusRegsitry
 
 class DrilldwillArmor(type: Type, properties: Properties) : ArmorItem(material, type, properties), ITabbed {
     private var runTime = 0
     private var isTeleportedOrInDim = false
 
     init {
-        tick()
+        EventBus.register(this::onPlayerTick)
     }
 
     companion object {
         private val material = ArmorMaterialCreation.builder("drilldwill".aRl)
             .fullDef(3, 8, 6, 3)
-            .durability(33)
             .ingredient(AeternusRegsitry.drilldwill.get())
             .knockback(0.5F)
             .toughness(3.5F)
@@ -46,35 +50,38 @@ class DrilldwillArmor(type: Type, properties: Properties) : ArmorItem(material, 
 
     override fun getName(stack: ItemStack): Component = type.generateArmorTranslateByParent(AeternusRegsitry.drilldwill.get())
 
-    private fun tick() {
+    fun onPlayerTick(e: TickEvent.Entity) {
         val slots = listOf(EquipmentSlot.HEAD, EquipmentSlot.CHEST, EquipmentSlot.LEGS, EquipmentSlot.FEET)
-
-        /*TickEvent.PLAYER_PRE.register { player ->
+        val player = e.entity
+        if (player is Player) {
             val level = player.level()
-            val playerIsMoving = player.isSprinting && player.isMoving && !player.isJumping && !player.isFalling
-
             if (!level.isClientSide) {
-                if (player.checkEquippedArmor()) {
-                    if (playerIsMoving && player.hasEffect(MobEffects.MOVEMENT_SLOWDOWN)) runTime++
+                val isMoving = player.isSprinting && player.isMoving && !player.isFalling
+                if (player.checkEquippedArmor) {
+                    if (isMoving && player.hasEffect(MobEffects.MOVEMENT_SLOWDOWN)) runTime++
                     else runTime = 0
 
                     if (runTime >= 10.sec) {
+                        if (isTeleportedOrInDim) return
                         val isOnIter = (player as ServerPlayer).isOnIter
                         val onIter = isOnIter.first
                         val iterLevel = isOnIter.second
                         if (onIter) {
-                            player.changeDimension(iterLevel)
-                            slots.forEach(player::broadcastBreakEvent)
+                            player.changeDimension(DimensionTransition(iterLevel, player) {
+                                slots.forEach {
+                                    player.onEquippedItemBroken(player.getItemBySlot(it).item, it)
+                                }
+                            })
                         }
                     }
                 }
             } else {
                 // Here logic of shader rendering at player's screen
             }
-        }*/
+        }
     }
 
-    private fun Player.checkEquippedArmor(): Boolean {
+    private val Player.checkEquippedArmor: Boolean get() {
         val head = this.getItemBySlot(EquipmentSlot.HEAD).item
         val chest = this.getItemBySlot(EquipmentSlot.CHEST).item
         val legs = this.getItemBySlot(EquipmentSlot.LEGS).item

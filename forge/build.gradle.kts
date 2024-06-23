@@ -43,6 +43,8 @@ dependencies {
 
     forge("net.minecraftforge:forge:$minecraftVersion-$forgeVersion")
 
+    modImplementation("ru.hollowhorizon:hollowcore:1.21-1.0.0")
+
     common(project(path = ":common", configuration = "namedElements")) { isTransitive = false }
     common(project(path = ":forgelike", configuration = "namedElements")) { isTransitive = false }
     shadowCommon(project(path = ":common", configuration = "transformProductionForge")) { isTransitive = false }

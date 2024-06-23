@@ -15,8 +15,6 @@ import net.minecraft.world.entity.player.Player
 import team._0mods.aeternus.api.magic.research.Research
 
 object ResearchHelper {
-
-
     @JvmStatic @ExpectPlatform
     fun getResearches(player: Player): List<Research> = throw AssertionError()
 
@@ -30,5 +28,5 @@ object ResearchHelper {
     fun addResearch(player: Player, vararg researches: Research): Boolean = throw AssertionError()
 
     @JvmStatic
-    fun canOpen(player: Player, research: Research) = false
+    fun canOpen(player: Player, research: Research) = hasResearches(player, *research.settings.depends.toTypedArray())
 }

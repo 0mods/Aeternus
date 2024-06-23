@@ -10,17 +10,16 @@
 
 package team._0mods.aeternus.platformredirect.common.init.event
 
-import net.minecraft.client.Minecraft
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import ru.hollowhorizon.hc.common.events.SubscribeEvent
+import ru.hollowhorizon.hc.common.events.registry.RegisterReloadListenersEvent
 import ru.hollowhorizon.hc.common.events.tick.TickEvent
 import team._0mods.aeternus.api.magic.research.ResearchRequired
-import team._0mods.aeternus.platformredirect.client.screen.configScreen
-import team._0mods.aeternus.platformredirect.client.keys.AeternusKeys
+import team._0mods.aeternus.platformredirect.api.magic.research.ResearchReloadListener
+import team._0mods.aeternus.platformredirect.common.init.AeternusCorePlugin
 import team._0mods.aeternus.service.ResearchHelper
-import kotlin.random.Random
 
 object AeternusEventsInit {
     internal val itemBurn = mutableMapOf<ItemStack, ItemStack>()
@@ -89,6 +88,7 @@ object AeternusEventsInit {
         }*/
     }
 
+    @JvmStatic
     @SubscribeEvent
     fun onPlayerResearchCheck(e: TickEvent.Entity) {
         val player = e.entity
@@ -105,10 +105,9 @@ object AeternusEventsInit {
         }
     }
 
-    @SubscribeEvent(clientSideOnly = true)
-    fun onButtonClick(e: TickEvent.Client) {
-        while (AeternusKeys.configGUIOpen.consumeClick()) {
-            Minecraft.getInstance().setScreen(configScreen())
-        }
+    @JvmStatic
+    @SubscribeEvent
+    fun onRegisterReloadListener(e: RegisterReloadListenersEvent.Server) {
+        e.register(ResearchReloadListener(AeternusCorePlugin.researchRegistry))
     }
 }

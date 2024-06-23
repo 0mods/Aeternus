@@ -42,7 +42,7 @@ dependencies {
     modImplementation("net.fabricmc:fabric-loader:$fabricLoaderVersion") { include(this) }
     modImplementation("net.fabricmc.fabric-api:fabric-api:$fabricVersion+${project.properties["minecraftVersion"].toString()}") { include(this) }
 
-    implementation("ru.hollowhorizon:HollowCore-fabric:1.21-1.0.0-dev-shadow")
+    modImplementation("ru.hollowhorizon:hollowcore:1.21-1.0.0")
 
     common(project(path = ":common", configuration = "namedElements")) { isTransitive = false }
     shadowBundle(project(path = ":common", configuration = "transformProductionFabric"))

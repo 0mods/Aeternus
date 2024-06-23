@@ -12,19 +12,15 @@
 
 package team._0mods.aeternus.platformredirect.common
 
-import com.mojang.blaze3d.systems.RenderSystem
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import team._0mods.aeternus.api.config.ConfigInstance
+import team._0mods.aeternus.api.config.loadConfig
+import team._0mods.aeternus.api.config.prefix
 import team._0mods.aeternus.api.util.debugIfEnabled
 import team._0mods.aeternus.platformredirect.common.init.config.AeternusClientConfig
 import team._0mods.aeternus.platformredirect.common.init.config.AeternusCommonConfig
-import team._0mods.aeternus.platformredirect.common.init.event.AeternusEventsInit
 import team._0mods.aeternus.platformredirect.common.init.registry.AeternusRegsitry
-import team._0mods.aeternus.api.config.loadConfig
-import team._0mods.aeternus.api.config.prefix
-import team._0mods.aeternus.platformredirect.client.keys.registries
-import team._0mods.aeternus.platformredirect.common.commands.AeternusCommands
 import team._0mods.aeternus.reflect.AeternusAnnotationProcessor
 
 const val ModId = "aeternus"
@@ -52,5 +48,4 @@ fun commonInit() {
 }
 
 fun clientInit() {
-//    registries.forEach(KeyMappingRegistry::register)
 }

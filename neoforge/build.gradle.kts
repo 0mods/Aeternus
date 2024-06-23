@@ -36,6 +36,7 @@ dependencies {
     val serializationVersion: String by project
 
     neoForge("net.neoforged:neoforge:$neoVersion")
+    modImplementation("ru.hollowhorizon:hollowcore:1.21-1.0.0")
 
     common(project(path = ":common", configuration = "namedElements")) { isTransitive = false }
     forgeLike(project(path = ":forgelike", configuration = "namedElements"))

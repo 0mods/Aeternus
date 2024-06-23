@@ -13,6 +13,7 @@ dependencies {
     val architecturyApiVersion: String by rootProject
     forge("net.minecraftforge:forge:$minecraftVersion-$forgeVersion")
     compileOnly(project(":common"))
+    modImplementation("ru.hollowhorizon:hollowcore:1.21-1.0.0")
 
     include("io.github.classgraph:classgraph:4.8.173")
 }

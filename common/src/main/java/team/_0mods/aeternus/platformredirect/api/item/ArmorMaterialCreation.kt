@@ -18,11 +18,7 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.tags.TagKey
-import net.minecraft.world.item.ArmorItem
-import net.minecraft.world.item.ArmorMaterial
-import net.minecraft.world.item.Item
-import net.minecraft.world.item.ItemStack
-import net.minecraft.world.item.Items
+import net.minecraft.world.item.*
 import net.minecraft.world.item.crafting.Ingredient
 import net.minecraft.world.level.ItemLike
 import team._0mods.aeternus.platformredirect.api.util.rl
@@ -106,6 +102,11 @@ class ArmorMaterialCreation(private val id: ResourceLocation) {
         return this
     }
 
+    fun enchantment(e: Int): ArmorMaterialCreation {
+        this.enchValue = e
+        return this
+    }
+
     fun ingredient(vararg ingredients: ItemLike): ArmorMaterialCreation = ingredient { Ingredient.of(*ingredients) }
 
     fun ingredient(vararg ingredients: ItemStack): ArmorMaterialCreation = ingredient { Ingredient.of(*ingredients) }
@@ -119,11 +120,6 @@ class ArmorMaterialCreation(private val id: ResourceLocation) {
 
     fun knockback(kb: Float): ArmorMaterialCreation {
         kbResistance = kb
-        return this
-    }
-
-    fun durability(dur: Int): ArmorMaterialCreation {
-        durMod = dur
         return this
     }
 
