@@ -12,7 +12,7 @@ package team._0mods.aeternus.api.registry
 
 import org.jetbrains.annotations.ApiStatus
 import team._0mods.aeternus.api.magic.research.Research
-import team._0mods.aeternus.api.util.APIResourceLocation
+import team._0mods.aeternus.api.util.mcemulate.MCResourceLocation
 
 interface ResearchRegistry {
     /**
@@ -23,14 +23,14 @@ interface ResearchRegistry {
      */
     val researches: List<Research>
 
-    fun getById(id: APIResourceLocation): Research?
+    fun getById(id: MCResourceLocation): Research?
 
-    fun getId(research: Research): APIResourceLocation
+    fun getId(research: Research): MCResourceLocation
 
     fun <T: Research> register(id: String, research: T): T
 
     @ApiStatus.Experimental
-    fun <T: Research> register(id: APIResourceLocation, research: T): T
+    fun <T: Research> register(id: MCResourceLocation, research: T): T
 
     fun registerAll(vararg researches: Pair<String, Research>) {
         researches.forEach {
@@ -41,7 +41,7 @@ interface ResearchRegistry {
     }
 
     @ApiStatus.Experimental
-    fun registerAllRl(vararg researches: Pair<APIResourceLocation, Research>) {
+    fun registerAllRl(vararg researches: Pair<MCResourceLocation, Research>) {
         researches.forEach {
             val id = it.first
             val research = it.second
@@ -49,5 +49,5 @@ interface ResearchRegistry {
         }
     }
 
-    fun getByIdList(id: List<APIResourceLocation>): List<Research>
+    fun getByIdList(id: List<MCResourceLocation>): List<Research>
 }

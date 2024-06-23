@@ -10,8 +10,8 @@
 
 package team._0mods.aeternus.api.magic.research.book
 
-import team._0mods.aeternus.api.util.APIResourceLocation
 import team._0mods.aeternus.api.util.Text
+import team._0mods.aeternus.api.util.mcemulate.MCResourceLocation
 
 interface ResearchBookMetadata {
     companion object
@@ -33,9 +33,9 @@ interface ResearchBookMetadata {
     /**
      * Research texture.
      *
-     * Returns [APIResourceLocation]
+     * Returns [MCResourceLocation]
      */
-    val icon: APIResourceLocation
+    val icon: MCResourceLocation
 
     /**
      * Research offset on a book

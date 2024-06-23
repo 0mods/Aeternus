@@ -8,22 +8,10 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package team._0mods.aeternus.platformredirect.api.util
+package team._0mods.aeternus.api.magic.block
 
-import net.minecraft.world.entity.player.Player
-import team._0mods.aeternus.api.util.mcemulate.MCPlayer
+interface CursedBlockCondition {
+    companion object;
 
-val Player.isMoving: Boolean
-    get() = this.deltaMovement.x != 0.0 || this.deltaMovement.z != 0.0
-
-val Player.isJumping: Boolean
-    get() = this.deltaMovement.y > 0.0
-
-val Player.isFalling: Boolean
-    get() = this.deltaMovement.y < 0.0
-
-val Player.asMcPlayer: MCPlayer
-    get() = this as MCPlayer
-
-val MCPlayer.asPlayer: Player
-    get() = this as Player
+    fun isSuccess(): Boolean
+}

@@ -13,13 +13,13 @@ package team._0mods.aeternus.api.impl.research
 import team._0mods.aeternus.api.magic.research.book.ResearchAlignment
 import team._0mods.aeternus.api.magic.research.book.ResearchBookMetadata
 import team._0mods.aeternus.api.magic.research.book.ResearchShape
-import team._0mods.aeternus.api.util.APIResourceLocation
 import team._0mods.aeternus.api.util.Text
+import team._0mods.aeternus.api.util.mcemulate.MCResourceLocation
 
 internal class ResearchBookMetadataImpl(
     override val title: Text,
     override val desc: Text,
-    override val icon: APIResourceLocation,
+    override val icon: MCResourceLocation,
     override val offset: Pair<Int, Int>,
     override val alignment: ResearchAlignment,
     override val shape: ResearchShape

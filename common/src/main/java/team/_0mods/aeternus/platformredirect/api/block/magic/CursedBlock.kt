@@ -11,7 +11,10 @@
 package team._0mods.aeternus.platformredirect.api.block.magic
 
 import net.minecraft.world.level.block.Block
+import org.jetbrains.annotations.ApiStatus
+import team._0mods.aeternus.api.magic.block.CursedBlockCondition
 
+@ApiStatus.Internal
 interface CursedBlock {
     val drops: List<Block>
 

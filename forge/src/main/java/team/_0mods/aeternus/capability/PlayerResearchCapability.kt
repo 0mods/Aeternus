@@ -17,13 +17,13 @@ import net.minecraft.nbt.StringTag
 import net.minecraftforge.common.capabilities.Capability
 import net.minecraftforge.common.capabilities.ICapabilitySerializable
 import net.minecraftforge.common.util.LazyOptional
+import team._0mods.aeternus.api.emptyLazyOpt
+import team._0mods.aeternus.api.lazyOptOf
 import team._0mods.aeternus.api.magic.research.Research
 import team._0mods.aeternus.api.magic.research.player.PlayerResearch
 import team._0mods.aeternus.platformredirect.api.util.rl
+import team._0mods.aeternus.platformredirect.api.util.toMC
 import team._0mods.aeternus.platformredirect.common.init.AeternusCorePlugin
-import team._0mods.aeternus.api.emptyLazyOpt
-import team._0mods.aeternus.api.lazyOptOf
-import team._0mods.aeternus.platformredirect.api.util.toAPI
 
 class PlayerResearchCapability: PlayerResearch {
     private val resReg = AeternusCorePlugin.researchRegistry
@@ -54,8 +54,8 @@ class PlayerResearchCapability: PlayerResearch {
             for (i in 0 ..< tag.size) {
                 val founded = tag.getString(i)
 
-                if (!researches.stream().noneMatch { resReg.getId(it) == founded.rl.toAPI }) {
-                    val foundedResearch = resReg.getById(founded.rl.toAPI) ?: continue
+                if (!researches.stream().noneMatch { resReg.getId(it) == founded.rl.toMC }) {
+                    val foundedResearch = resReg.getById(founded.rl.toMC) ?: continue
                     this.addResearch(foundedResearch)
                 } else continue
             }

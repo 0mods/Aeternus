@@ -15,6 +15,8 @@ import net.minecraft.world.entity.player.Player
 import team._0mods.aeternus.api.magic.research.Research
 
 object ResearchHelper {
+
+
     @JvmStatic @ExpectPlatform
     fun getResearches(player: Player): List<Research> = throw AssertionError()
 

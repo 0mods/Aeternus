@@ -13,9 +13,14 @@ package team._0mods.aeternus.api.impl.registry
 import org.jetbrains.annotations.ApiStatus
 import team._0mods.aeternus.api.magic.research.Research
 import team._0mods.aeternus.api.registry.ResearchRegistry
-import team._0mods.aeternus.api.util.*
+import team._0mods.aeternus.api.util.debugIfEnabled
+import team._0mods.aeternus.api.util.fromMapToListByList
+import team._0mods.aeternus.api.util.mcemulate.MCResourceLocation
+import team._0mods.aeternus.api.util.mcemulate.createRL
+import team._0mods.aeternus.api.util.revert
 import team._0mods.aeternus.platformredirect.common.LOGGER
 import team._0mods.aeternus.service.PlatformHelper
+import kotlin.collections.set
 
 @ApiStatus.Internal
 class ResearchRegistryImpl(private val modId: String): ResearchRegistry {
@@ -25,28 +30,28 @@ class ResearchRegistryImpl(private val modId: String): ResearchRegistry {
 
     companion object {
         @JvmStatic
-        private val researchMap: MutableMap<APIResourceLocation, Research> = linkedMapOf()
+        private val researchMap: MutableMap<MCResourceLocation, Research> = linkedMapOf()
     }
 
     override val researches: List<Research>
         get() = researchMap.values.toList()
 
-    override fun getById(id: APIResourceLocation): Research? {
+    override fun getById(id: MCResourceLocation): Research? {
         LOGGER.debugIfEnabled("Trying to get research with id '$id'")
         return researchMap[id]
     }
 
-    override fun getId(research: Research): APIResourceLocation {
+    override fun getId(research: Research): MCResourceLocation {
         LOGGER.debugIfEnabled("Getting research id for: $research")
         return researchMap.revert()[research] ?: throw NullPointerException("Research $research is not have an identifier. Why?")
     }
 
     override fun <T: Research> register(id: String, research: T): T {
-        val resLocId = APIResourceLocation.createRL(modId, id)
+        val resLocId = MCResourceLocation.createRL(modId, id)
         return this.register(resLocId, research)
     }
 
-    override fun <T: Research> register(id: APIResourceLocation, research: T): T {
+    override fun <T: Research> register(id: MCResourceLocation, research: T): T {
         LOGGER.debugIfEnabled("Registering research with id '$id'")
 
         if (researchMap.keys.stream().noneMatch { it == id })
@@ -61,5 +66,5 @@ class ResearchRegistryImpl(private val modId: String): ResearchRegistry {
         return research
     }
 
-    override fun getByIdList(id: List<APIResourceLocation>): List<Research> = researchMap.fromMapToListByList(id)
+    override fun getByIdList(id: List<MCResourceLocation>): List<Research> = researchMap.fromMapToListByList(id)
 }

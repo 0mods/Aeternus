@@ -14,6 +14,8 @@ package team._0mods.aeternus.api.util
 
 import com.google.common.collect.Multimap
 import org.jetbrains.annotations.ApiStatus
+import team._0mods.aeternus.api.util.mcemulate.MCResourceLocation
+import team._0mods.aeternus.api.util.mcemulate.createRL
 
 @ApiStatus.Experimental
 fun <K, V> Map<K, V>.revert(): Map<V, K> {
@@ -30,12 +32,12 @@ fun <K, V> Map<K, V>.revert(): Map<V, K> {
 }
 
 @get:ApiStatus.Experimental
-val List<String>.toAPIRLList: List<APIResourceLocation>
+val List<String>.toAPIRLList: List<MCResourceLocation>
     get() {
-        val rlList = mutableListOf<APIResourceLocation>()
+        val rlList = mutableListOf<MCResourceLocation>()
         for (id in this) {
-            if (rlList.stream().noneMatch { it == APIResourceLocation.createRL(id) })
-                rlList.add(APIResourceLocation.createRL(id))
+            if (rlList.stream().noneMatch { it == MCResourceLocation.createRL(id) })
+                rlList.add(MCResourceLocation.createRL(id))
             else continue
         }
         return rlList.toList()

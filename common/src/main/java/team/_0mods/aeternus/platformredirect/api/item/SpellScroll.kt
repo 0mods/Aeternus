@@ -10,17 +10,24 @@
 
 package team._0mods.aeternus.platformredirect.api.item
 
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.InteractionResult
+import net.minecraft.world.InteractionResultHolder
+import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.Item
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.context.UseOnContext
+import net.minecraft.world.level.Level
 import team._0mods.aeternus.api.magic.spell.Spell
 
-class SpellScroll(val spell: Spell): Item(Properties()) {
-//    override fun use(level: Level, player: Player, usedHand: InteractionHand): InteractionResultHolder<ItemStack> {
-//        if (spell.interact(level, player, usedHand).result != InteractionResult.PASS) return spell.interact(level, player, usedHand)
-//        return super.use(level, player, usedHand)
-//    }
-//
-//    override fun useOn(context: UseOnContext): InteractionResult {
-//        if (spell.interactOn(context) != InteractionResult.PASS) return spell.interactOn(context)
-//        return super.useOn(context)
-//    }
+class SpellScroll(val spell: Spell): Item(spell.properties) {
+    override fun use(level: Level, player: Player, usedHand: InteractionHand): InteractionResultHolder<ItemStack> {
+        if (spell.interact(level, player, usedHand).result != InteractionResult.PASS) return spell.interact(level, player, usedHand)
+        return super.use(level, player, usedHand)
+    }
+
+    override fun useOn(context: UseOnContext): InteractionResult {
+        if (spell.interactOn(context) != InteractionResult.PASS) return spell.interactOn(context)
+        return super.useOn(context)
+    }
 }

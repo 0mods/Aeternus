@@ -10,7 +10,9 @@
 
 package team._0mods.aeternus.api.magic.spell
 
-interface Spell {
+import team._0mods.aeternus.platformredirect.api.magic.spell.ItemSpell
+
+interface Spell: ItemSpell {
     val isHidden: Boolean
         get() = false
 }

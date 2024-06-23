@@ -16,7 +16,7 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.texture.AbstractTexture
 import net.minecraft.resources.ResourceLocation
 import org.jetbrains.annotations.ApiStatus
-import team._0mods.aeternus.api.util.APIResourceLocation
+import team._0mods.aeternus.api.util.mcemulate.MCResourceLocation
 import team._0mods.aeternus.platformredirect.common.ModId
 import java.io.FileNotFoundException
 import java.io.InputStream
@@ -56,6 +56,9 @@ val String.aRl: ResourceLocation
 val String.rl: ResourceLocation
     get() = ResourceLocation.bySeparator(this, ':')
 
+val String.mcRl: MCResourceLocation
+    get() = this.rl.toMC
+
 val ResourceLocation.stream: InputStream
     get() = try {
         Minecraft.getInstance().resourceManager.getResource(this).orElseThrow().open()
@@ -81,6 +84,6 @@ val List<String>.toRLList: List<ResourceLocation>
         return rlList.toList()
     }
 
-val APIResourceLocation.toRl get() = this as ResourceLocation
+val MCResourceLocation.toRl get() = this as ResourceLocation
 
-val ResourceLocation.toAPI get() = this as APIResourceLocation
+val ResourceLocation.toMC get() = this as MCResourceLocation

@@ -11,7 +11,7 @@
 package team._0mods.aeternus.api.magic.research
 
 import team._0mods.aeternus.api.registry.ResearchRegistry
-import team._0mods.aeternus.api.util.APIResourceLocation
+import team._0mods.aeternus.api.util.mcemulate.MCResourceLocation
 import team._0mods.aeternus.platformredirect.common.LOGGER
 import team._0mods.aeternus.platformredirect.common.ModId
 import team._0mods.aeternus.platformredirect.common.init.AeternusCorePlugin
@@ -40,7 +40,7 @@ object SimpleResearchRegistry {
         return this.register(cId, research)
     }
 
-    fun <T: Research> register(id: APIResourceLocation, research: () -> T): ResearchDelegate<T> {
+    fun <T: Research> register(id: MCResourceLocation, research: () -> T): ResearchDelegate<T> {
         val lazyfied by lazy {
             AeternusCorePlugin.researchRegistry.register(id, research())
         }

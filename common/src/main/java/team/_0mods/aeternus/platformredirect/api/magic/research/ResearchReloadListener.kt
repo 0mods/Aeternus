@@ -8,7 +8,7 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package team._0mods.aeternus.platformredirect.api.research
+package team._0mods.aeternus.platformredirect.api.magic.research
 
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
@@ -17,10 +17,10 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.packs.resources.PreparableReloadListener
 import net.minecraft.server.packs.resources.ResourceManager
 import net.minecraft.util.profiling.ProfilerFiller
-import team._0mods.aeternus.api.impl.research.json.*
+import team._0mods.aeternus.api.impl.research.json.JSONResearch
 import team._0mods.aeternus.api.registry.ResearchRegistry
+import team._0mods.aeternus.platformredirect.api.util.toMC
 import team._0mods.aeternus.platformredirect.common.LOGGER
-import team._0mods.aeternus.platformredirect.api.util.toAPI
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 
@@ -42,7 +42,7 @@ class ResearchReloadListener(private val registry: ResearchRegistry): Preparable
         @Suppress("UNCHECKED_CAST")
         return CompletableFuture.supplyAsync({
             resourceManager.listResources("researches", ::endWithSuf).forEach {
-                val id = it.key.toAPI
+                val id = it.key.toMC
                 val resource = it.value
                 val research = json.decodeFromStream(JSONResearch.serializer(), resource.open())
                 registry.register(id, research.asResearch)

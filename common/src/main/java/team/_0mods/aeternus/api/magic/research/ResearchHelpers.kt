@@ -10,17 +10,17 @@
 
 package team._0mods.aeternus.api.magic.research
 
-import team._0mods.aeternus.api.magic.research.book.ResearchAlignment
-import team._0mods.aeternus.api.magic.research.book.ResearchBookMetadata
-import team._0mods.aeternus.api.magic.research.book.ResearchShape
 import team._0mods.aeternus.api.impl.research.ResearchBookMetadataImpl
 import team._0mods.aeternus.api.impl.research.ResearchImpl
 import team._0mods.aeternus.api.impl.research.ResearchSettingsImpl
+import team._0mods.aeternus.api.magic.research.book.ResearchAlignment
+import team._0mods.aeternus.api.magic.research.book.ResearchBookMetadata
+import team._0mods.aeternus.api.magic.research.book.ResearchShape
 import team._0mods.aeternus.api.magic.research.trigger.ResearchTrigger
-import team._0mods.aeternus.api.util.APIResourceLocation
 import team._0mods.aeternus.api.util.Text
+import team._0mods.aeternus.api.util.mcemulate.MCResourceLocation
 import team._0mods.aeternus.platformredirect.api.util.rl
-import team._0mods.aeternus.platformredirect.api.util.toAPI
+import team._0mods.aeternus.platformredirect.api.util.toMC
 
 // Research Settings
 fun ResearchSettings.Companion.of(vararg researchSettings: Pair<ResearchTrigger, Research>): ResearchSettings {
@@ -50,7 +50,7 @@ fun ResearchSettings.Companion.of(triggers: List<ResearchTrigger>) = this.of(tri
 fun ResearchBookMetadata.Companion.of(
     title: Text,
     desc: Text,
-    icon: APIResourceLocation,
+    icon: MCResourceLocation,
     pos: Pair<Int, Int>,
     align: ResearchAlignment,
     shape: ResearchShape
@@ -63,12 +63,12 @@ fun ResearchBookMetadata.Companion.of(
     pos: Pair<Int, Int>,
     align: ResearchAlignment,
     shape: ResearchShape
-): ResearchBookMetadata = this.of(title, desc, icon.rl.toAPI, pos, align, shape)
+): ResearchBookMetadata = this.of(title, desc, icon.rl.toMC, pos, align, shape)
 
 fun ResearchBookMetadata.Companion.of(
     title: Text,
     desc: Text,
-    icon: APIResourceLocation,
+    icon: MCResourceLocation,
     pos: Pair<Int, Int>,
     align: ResearchAlignment
 ): ResearchBookMetadata = this.of(title, desc, icon, pos, align, ResearchShape.SQUARE)
@@ -79,12 +79,12 @@ fun ResearchBookMetadata.Companion.of(
     icon: String,
     pos: Pair<Int, Int>,
     align: ResearchAlignment
-): ResearchBookMetadata = this.of(title, desc, icon.rl.toAPI, pos, align)
+): ResearchBookMetadata = this.of(title, desc, icon.rl.toMC, pos, align)
 
 fun ResearchBookMetadata.Companion.of(
     title: Text,
     desc: Text,
-    icon: APIResourceLocation,
+    icon: MCResourceLocation,
     x: Int,
     y: Int,
     align: ResearchAlignment,
@@ -94,7 +94,7 @@ fun ResearchBookMetadata.Companion.of(
 fun ResearchBookMetadata.Companion.of(
     title: Text,
     desc: Text,
-    icon: APIResourceLocation,
+    icon: MCResourceLocation,
     x: Int,
     y: Int,
     align: ResearchAlignment
@@ -107,12 +107,12 @@ fun ResearchBookMetadata.Companion.of(
     x: Int,
     y: Int,
     align: ResearchAlignment
-): ResearchBookMetadata = this.of(title, desc, icon.rl.toAPI, x, y, align)
+): ResearchBookMetadata = this.of(title, desc, icon.rl.toMC, x, y, align)
 
 fun ResearchBookMetadata.Companion.of(
     title: Text,
     desc: Text,
-    icon: APIResourceLocation,
+    icon: MCResourceLocation,
     align: ResearchAlignment,
     shape: ResearchShape
 ): ResearchBookMetadata = this.of(title, desc, icon, 0 to 0, align, shape)
@@ -128,7 +128,7 @@ fun ResearchBookMetadata.Companion.of(
 fun ResearchBookMetadata.Companion.of(
     title: Text,
     desc: Text,
-    icon: APIResourceLocation,
+    icon: MCResourceLocation,
     align: ResearchAlignment,
 ): ResearchBookMetadata = this.of(title, desc, icon, 0 to 0, align, ResearchShape.SQUARE)
 
